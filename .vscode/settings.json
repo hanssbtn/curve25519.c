@@ -1,0 +1,15 @@
+{
+	"files.associations": {
+		".htaccess": "plaintext",
+		"opmapi.h": "c",
+		"bignum.h": "c",
+		"assert.h": "c",
+		"curve25519_key.h": "c",
+		"windows.h": "c",
+		"xmmintrin.h": "c",
+		"string.h": "c",
+		"immintrin.h": "c",
+		"intrin.h": "c",
+		"arm_neon.h": "c"
+	}
+}
