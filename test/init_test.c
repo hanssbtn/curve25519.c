@@ -1,7 +1,7 @@
 #include "tests.h"
 
 int32_t curve25519_priv_key_init_test(void) {
-	printf("Private Key Initialization Test\n\n");
+	printf("Private Key Initialization Test\n");
 	curve25519_key_t key = {.key64 = {0, 0, 0, 0}};
 	curve25519_key_t prev_key = {.key64 = {0, 0, 0, 0}};
 	printf("Test Case 1\n");

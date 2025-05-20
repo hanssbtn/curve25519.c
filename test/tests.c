@@ -13,6 +13,14 @@ int32_t main(void) {
 		fprintf(stderr, "Failed to compute key\n");
 		return -1;
 	}
+	if (curve25519_key_add_test()) {
+		fprintf(stderr, "Failed to add key\n");
+		return -1;
+	}
+	if (curve25519_key_add_inplace_test()) {
+		fprintf(stderr, "Failed to add key inplace\n");
+		return -1;
+	}
 	printf("DONE\n");
 	return 0;
 }

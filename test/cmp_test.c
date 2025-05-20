@@ -1,7 +1,7 @@
 #include "tests.h"
 
 int32_t curve25519_key_cmp_test(void) {
-	printf("Comparison Test\n\n");
+	printf("Comparison Test\n");
 	curve25519_key_t k1 = {.key64 = {0,0,0,0}};
 	curve25519_key_t k2 = {.key64 = {0,0,0,0}};
 	int64_t res = curve25519_key_cmp(&k1, &k2);

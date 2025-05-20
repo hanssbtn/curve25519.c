@@ -10,6 +10,7 @@
 		"string.h": "c",
 		"immintrin.h": "c",
 		"intrin.h": "c",
-		"arm_neon.h": "c"
+		"arm_neon.h": "c",
+		"tests.h": "c"
 	}
 }

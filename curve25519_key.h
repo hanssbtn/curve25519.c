@@ -15,7 +15,7 @@
 
 #include <windows.h>
 #include <bcrypt.h>
-#pragma comment(lib, "bcrypt.lib")
+// #pragma comment(lib, "bcrypt.lib")
 
 typedef union curve25519_key {
 	uint64_t key64[4];

@@ -1,5 +1,4 @@
 #include "curve25519_key.h"
-#include "tests/tests.h"
 
 const curve25519_key_t __c25519 = {
 	.key64 = {
@@ -88,7 +87,6 @@ int32_t curve25519_key_add_inplace(curve25519_key_t *const restrict dst, const c
 		key1[i] += key2[i] + carry;
 		carry = (val > UINT64_MAX - key2[i]) || (val + key2[i] > UINT64_MAX - carry);
 	}
-	curve25519_key_printf(dst, STR);
 	compute_modulo_25519(dst);
 	return 0;
 }
@@ -117,7 +115,6 @@ int32_t curve25519_key_add(const curve25519_key_t *const restrict k1, const curv
 		key_res[i] = key1[i] + key2[i] + carry;
 		carry = (key1[i] > UINT64_MAX - key2[i]) || (key1[i] + key2[i] > UINT64_MAX - carry);
 	}
-	curve25519_key_printf(r, STR);
 	compute_modulo_25519(r);
 	return 0;
 }  
@@ -188,4 +185,5 @@ int32_t curve25519_key_printf(const curve25519_key_t *const key, const curve2551
 				key->key8[7], key->key8[6], key->key8[5], key->key8[4], key->key8[3], key->key8[2], key->key8[1], key->key8[0]);
 		}
 	}
+	return 0;
 }

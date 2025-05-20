@@ -8,4 +8,5 @@ int32_t curve25519_add(curve25519_key_t *x1, curve25519_key_t *x2, curve25519_ke
 	curve25519_key_mul(&lambda, &lambda, &lambda2);
 	curve25519_key_add(x2, x1, &x1x2);
 	curve25519_key_sub(&lambda2, &x1x2, r);
+	return 0;
 }

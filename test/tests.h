@@ -5,6 +5,8 @@
 
 int32_t curve25519_priv_key_init_test(void);
 int32_t curve25519_key_cmp_test(void);
+int32_t curve25519_key_add_test(void);
+int32_t curve25519_key_add_inplace_test(void);
 int32_t curve25519_key_modulo_test(void);
 
 #endif // CURVE25519_TESTS_H__
