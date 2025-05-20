@@ -10,5 +10,8 @@ int32_t curve25519_key_add_test(void);
 int32_t curve25519_key_add_inplace_test(void);
 int32_t curve25519_key_sub_test(void);
 int32_t curve25519_key_sub_inplace_test(void);
+int32_t curve25519_key_x2_test(void);
+int32_t curve25519_key_add_self_test(void);
+int32_t curve25519_key_x2_inplace_test(void);
 
 #endif // CURVE25519_TESTS_H__

@@ -29,6 +29,18 @@ int32_t main(void) {
 		fprintf(stderr, "Failed to subtract key inplace\n");
 		return -1;
 	}
+	if (curve25519_key_add_self_test()) {
+		fprintf(stderr, "Failed to add key to self\n");
+		return -1;	
+	}
+	if (curve25519_key_x2_test()) {
+		fprintf(stderr, "Failed to double key\n");
+		return -1;
+	}
+	if (curve25519_key_x2_inplace_test()) {
+		fprintf(stderr, "Failed to double key inplace\n");
+		return -1;
+	}
 	printf("DONE\n");
 	return 0;
 }

@@ -38,8 +38,6 @@ void compute_modulo_25519(curve25519_key_t *const n) {
 				n->key64[i] -= c25519->key64[i];
 			}
 		}
-		printf("Current iteration:\n");
-		curve25519_key_printf(n, B64);
 	}
 }
 
@@ -81,7 +79,7 @@ int32_t curve25519_key_add_inplace(curve25519_key_t *const restrict dst, const c
 		carry = (val > UINT64_MAX - key2[i]) || (val + key2[i] > UINT64_MAX - carry);
 	}
 	compute_modulo_25519(dst);
-	return 0;
+	return carry;
 }
 
 int32_t curve25519_key_add(const curve25519_key_t *const restrict k1, const curve25519_key_t *const restrict k2, curve25519_key_t *const restrict r) {
@@ -108,8 +106,9 @@ int32_t curve25519_key_add(const curve25519_key_t *const restrict k1, const curv
 		key_res[i] = key1[i] + key2[i] + carry;
 		carry = (key1[i] > UINT64_MAX - key2[i]) || (key1[i] + key2[i] > UINT64_MAX - carry);
 	}
+
 	compute_modulo_25519(r);
-	return 0;
+	return carry;
 }  
 
 
@@ -123,8 +122,8 @@ int32_t curve25519_key_sub_inplace(curve25519_key_t *const restrict dst, const c
 		borrow = (key1[i] < key2[i]) || (key1[i] - key2[i] < borrow);
 		key1[i] = temp_res;
 	}
-
-	if (borrow) curve25519_key_add_inplace(dst, c25519); 
+	
+	if (borrow) return curve25519_key_add_inplace(dst, c25519); 
 	else compute_modulo_25519(dst);
 	return 0;
 }
@@ -139,18 +138,35 @@ int32_t curve25519_key_sub(const curve25519_key_t *const restrict k1, const curv
 		borrow = (key1[i] < key2[i]) || (key1[i] - key2[i] < borrow);
 		res[i] = temp_res;
 	}
-	
-	if (borrow) curve25519_key_add_inplace(r, c25519); 
+	if (borrow) return curve25519_key_add_inplace(r, c25519); 
 	else compute_modulo_25519(r);
 	return 0;
 }  
 
+int32_t curve25519_key_x2_inplace(curve25519_key_t *const k) {
+	uint64_t *const key = k->key64;
+	uint64_t carry = (key[0] > UINT64_MAX / 2);
+	key[0] <<= 1;
+	for (int i = 1; i < 4; ++i) {
+		uint64_t tmp = (key[i] << 1) + carry;
+		carry = (key[i] > UINT64_MAX / 2 - carry);
+		key[i] = tmp;
+	}
+	compute_modulo_25519(k);
+	return carry;
+}
+
 int32_t curve25519_key_x2(const curve25519_key_t *const restrict k, curve25519_key_t *const restrict r) {
-	const uint64_t *key = k->key64;
+	const uint64_t *const key = k->key64;
 	uint64_t *key_res = r->key64;
-	
+	uint64_t carry = (key[0] > UINT64_MAX / 2);
+	key_res[0] = (key[0] << 1);
+	for (int i = 1; i < 4; ++i) {
+		key_res[i] = (key[i] << 1) + carry;
+		carry = (key[i] > UINT64_MAX / 2 - carry);
+	}
 	compute_modulo_25519(r);
-	return 0;
+	return carry;
 } 
 
 int32_t curve25519_key_div(const curve25519_key_t *const k1, const curve25519_key_t *const k2, curve25519_key_t *const restrict r) {
@@ -167,31 +183,31 @@ int32_t curve25519_key_mul(const curve25519_key_t *const k1, const curve25519_ke
 	return 0;
 }
 
-int32_t curve25519_key_printf(const curve25519_key_t *const key, const curve25519_key_fmt_t size) {
+int32_t curve25519_key_printf(const curve25519_key_t *const k, const curve25519_key_fmt_t size) {
 	switch (size) {
 		case STR: {
 			return printf("%016llX%016llX%016llX%016llX\n", 
-				key->key64[3], key->key64[2], key->key64[1], key->key64[0]);
+				k->key64[3], k->key64[2], k->key64[1], k->key64[0]);
 		}
 		case B64: {
 			return printf("%016llX:%016llX:\n%016llX:%016llX\n", 
-				key->key64[3], key->key64[2], key->key64[1], key->key64[0]);
+				k->key64[3], k->key64[2], k->key64[1], k->key64[0]);
 		}
 		case B32: {
 			return printf("%08X:%08X:%08X:%08X:\n%08X:%08X:%08X:%08X\n", 
-				key->key32[7], key->key32[6], key->key32[5], key->key32[4], key->key32[3], key->key32[2], key->key32[1], key->key32[0]);
+				k->key32[7], k->key32[6], k->key32[5], k->key32[4], k->key32[3], k->key32[2], k->key32[1], k->key32[0]);
 		}
 		case B16: {
 			return printf("%04X:%04X:%04X:%04X:%04X:%04X:%04X:%04X:\n%04X:%04X:%04X:%04X:%04X:%04X:%04X:%04X\n", 
-				key->key16[15], key->key16[14], key->key16[13], key->key16[12], key->key16[11], key->key16[10], key->key16[9], key->key16[8], 
-				key->key16[7], key->key16[6], key->key16[5], key->key16[4], key->key16[3], key->key16[2], key->key16[1], key->key16[0]);
+				k->key16[15], k->key16[14], k->key16[13], k->key16[12], k->key16[11], k->key16[10], k->key16[9], k->key16[8], 
+				k->key16[7], k->key16[6], k->key16[5], k->key16[4], k->key16[3], k->key16[2], k->key16[1], k->key16[0]);
 		}
 		case B8: {
 			return printf("%02X:%02X:%02X:%02X:%02X:%02X:%02X:%02X:%02X:%02X:%02X:%02X:%02X:%02X:%02X:%02X:\n%02X:%02X:%02X:%02X:%02X:%02X:%02X:%02X:%02X:%02X:%02X:%02X:%02X:%02X:%02X:%02X\n", 
-				key->key8[31], key->key8[30], key->key8[29], key->key8[28], key->key8[27], key->key8[26], key->key8[25], key->key8[24], 
-				key->key8[23], key->key8[22], key->key8[21], key->key8[20], key->key8[19], key->key8[18], key->key8[17], key->key8[16],
-				key->key8[15], key->key8[14], key->key8[13], key->key8[12], key->key8[11], key->key8[10], key->key8[9], key->key8[8], 
-				key->key8[7], key->key8[6], key->key8[5], key->key8[4], key->key8[3], key->key8[2], key->key8[1], key->key8[0]);
+				k->key8[31], k->key8[30], k->key8[29], k->key8[28], k->key8[27], k->key8[26], k->key8[25], k->key8[24], 
+				k->key8[23], k->key8[22], k->key8[21], k->key8[20], k->key8[19], k->key8[18], k->key8[17], k->key8[16],
+				k->key8[15], k->key8[14], k->key8[13], k->key8[12], k->key8[11], k->key8[10], k->key8[9], k->key8[8], 
+				k->key8[7], k->key8[6], k->key8[5], k->key8[4], k->key8[3], k->key8[2], k->key8[1], k->key8[0]);
 		}
 	}
 	return 0;
