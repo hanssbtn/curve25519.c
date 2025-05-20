@@ -3,15 +3,15 @@
 #define CURVE25519_KEY_H__
 #include <stdint.h>
 #include <stdlib.h>
-#include <stdint.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <assert.h>
 #include <string.h>
 #include <immintrin.h>
 
-#ifndef BASE_POINT
-#define BASE_POINT 9
-#endif // BASE_POINT
+#ifndef BASE_X
+#define BASE_X 9
+#endif // BASE_X
 
 #include <windows.h>
 #include <bcrypt.h>
@@ -32,14 +32,17 @@ typedef enum curve25519_key_fmt {
 	STR
 } curve25519_key_fmt_t;
 
-int32_t curve25519_key_init(curve25519_key_t *key);
-int64_t curve25519_key_cmp(const curve25519_key_t *const restrict k1, const curve25519_key_t *const restrict k2);
+int32_t curve25519_priv_key_init(curve25519_key_t *key);
+int64_t curve25519_key_cmp(const curve25519_key_t *const k1, const curve25519_key_t *const k2);
+void compute_modulo_25519(curve25519_key_t *const n);
 int32_t curve25519_key_add(const curve25519_key_t *const restrict k1, const curve25519_key_t *const restrict k2, curve25519_key_t *const restrict r);  
 int32_t curve25519_key_sub(const curve25519_key_t *const restrict k1, const curve25519_key_t *const restrict k2, curve25519_key_t *const restrict r);  
 int32_t curve25519_key_add_inplace(curve25519_key_t *const restrict dst, const curve25519_key_t *const restrict src);  
 int32_t curve25519_key_sub_inplace(curve25519_key_t *const restrict dst, const curve25519_key_t *const restrict src);  
-int32_t curve25519_key_double(const curve25519_key_t *const restrict key, curve25519_key_t *const restrict r);
-int32_t curve25519_key_multiply(curve25519_key_t *const restrict  k1, curve25519_key_t *const restrict k2, curve25519_key_t *const restrict r);
+int32_t curve25519_key_x2(const curve25519_key_t *const key, curve25519_key_t *const restrict r);
+int32_t curve25519_key_mul(const curve25519_key_t *const k1, const curve25519_key_t *const k2, curve25519_key_t *const restrict r);
+int32_t curve25519_key_div(const curve25519_key_t *const k1, const curve25519_key_t *const k2, curve25519_key_t *const restrict r);
+int32_t curve25519_key_exp(curve25519_key_t *const k1, uint64_t n);
 int32_t curve25519_key_printf(const curve25519_key_t *const key, const curve25519_key_fmt_t size);
 
 #endif // CURVE25519_KEY_H__
