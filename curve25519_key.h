@@ -22,19 +22,24 @@ typedef union curve25519_key {
 	uint32_t key32[8];
 	uint16_t key16[16];
 	uint8_t key8[32];
-} __attribute__((aligned(64))) curve25519_key_t;
+} curve25519_key_t __attribute__((aligned(64)));
 
-typedef enum byte_size {
+typedef enum curve25519_key_fmt {
 	B8,
 	B16,
 	B32,
 	B64,
-} byte_size_t;
+	STR
+} curve25519_key_fmt_t;
 
-int curve25519_key_init(curve25519_key_t *key);
-int curve25519_key_add(curve25519_key_t *const restrict k1, curve25519_key_t *const restrict k2, curve25519_key_t *restrict r);  
-int curve25519_key_double(curve25519_key_t *const restrict key, curve25519_key_t *restrict r); 
-int curve25519_key_multiply(curve25519_key_t *const restrict  k1, curve25519_key_t *const restrict k2, curve25519_key_t *restrict r);
-int curve25519_key_printf(const curve25519_key_t *const key, const byte_size_t size);
+int32_t curve25519_key_init(curve25519_key_t *key);
+int64_t curve25519_key_cmp(const curve25519_key_t *const restrict k1, const curve25519_key_t *const restrict k2);
+int32_t curve25519_key_add(const curve25519_key_t *const restrict k1, const curve25519_key_t *const restrict k2, curve25519_key_t *const restrict r);  
+int32_t curve25519_key_sub(const curve25519_key_t *const restrict k1, const curve25519_key_t *const restrict k2, curve25519_key_t *const restrict r);  
+int32_t curve25519_key_add_inplace(curve25519_key_t *const restrict dst, const curve25519_key_t *const restrict src);  
+int32_t curve25519_key_sub_inplace(curve25519_key_t *const restrict dst, const curve25519_key_t *const restrict src);  
+int32_t curve25519_key_double(const curve25519_key_t *const restrict key, curve25519_key_t *const restrict r);
+int32_t curve25519_key_multiply(curve25519_key_t *const restrict  k1, curve25519_key_t *const restrict k2, curve25519_key_t *const restrict r);
+int32_t curve25519_key_printf(const curve25519_key_t *const key, const curve25519_key_fmt_t size);
 
 #endif // CURVE25519_KEY_H__
