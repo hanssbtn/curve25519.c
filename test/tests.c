@@ -21,6 +21,14 @@ int32_t main(void) {
 		fprintf(stderr, "Failed to add key inplace\n");
 		return -1;
 	}
+	if (curve25519_key_sub_test()) {
+		fprintf(stderr, "Failed to subtract key\n");
+		return -1;
+	}
+	if (curve25519_key_sub_inplace_test()) {
+		fprintf(stderr, "Failed to subtract key inplace\n");
+		return -1;
+	}
 	printf("DONE\n");
 	return 0;
 }

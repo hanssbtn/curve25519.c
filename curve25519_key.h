@@ -32,7 +32,7 @@ typedef enum curve25519_key_fmt {
 	STR
 } curve25519_key_fmt_t;
 
-int32_t curve25519_priv_key_init(curve25519_key_t *key);
+int32_t curve25519_priv_key_init(curve25519_key_t *const key);
 int64_t curve25519_key_cmp(const curve25519_key_t *const k1, const curve25519_key_t *const k2);
 void compute_modulo_25519(curve25519_key_t *const n);
 int32_t curve25519_key_add(const curve25519_key_t *const restrict k1, const curve25519_key_t *const restrict k2, curve25519_key_t *const restrict r);  

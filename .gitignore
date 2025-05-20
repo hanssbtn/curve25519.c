@@ -1,3 +1,4 @@
 objs/
 *.exe
 .vscode
+out.txt

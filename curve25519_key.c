@@ -43,24 +43,24 @@ void compute_modulo_25519(curve25519_key_t *const n) {
 	}
 }
 
-int32_t curve25519_priv_key_init(curve25519_key_t *key) {
+int32_t curve25519_priv_key_init(curve25519_key_t *const key) {
 	NTSTATUS status;
-    BCRYPT_ALG_HANDLE hAlgorithm = NULL;
-    status = BCryptOpenAlgorithmProvider(&hAlgorithm, BCRYPT_RNG_ALGORITHM, NULL, 0);
-    if (!BCRYPT_SUCCESS(status)) {
-        fprintf(stderr, "Error opening crypto algorithm provider\n");
-        return -1;
-    }
+	BCRYPT_ALG_HANDLE hAlgorithm = NULL;
+	status = BCryptOpenAlgorithmProvider(&hAlgorithm, BCRYPT_RNG_ALGORITHM, NULL, 0);
+	if (!BCRYPT_SUCCESS(status)) {
+		fprintf(stderr, "Error opening crypto algorithm provider\n");
+		return -1;
+	}
 	uint8_t *key8 = key->key8;
-    status = BCryptGenRandom(hAlgorithm, key8, (uint32_t)sizeof(curve25519_key_t), 0);
-    BCryptCloseAlgorithmProvider(hAlgorithm, 0);
-    if (!BCRYPT_SUCCESS(status)) {
-        fprintf(stderr, "Error generating random bytes\n");
-        return -2;
-    }
+	status = BCryptGenRandom(hAlgorithm, key8, (uint32_t)sizeof(curve25519_key_t), 0);
+	BCryptCloseAlgorithmProvider(hAlgorithm, 0);
+	if (!BCRYPT_SUCCESS(status)) {
+		fprintf(stderr, "Error generating random bytes\n");
+		return -2;
+	}
 	key8[0] &= ~(uint8_t)(0b111);
 	key8[31] = (key8[31] | 0x40) & 0x7F;
-    return 0;
+	return 0;
 }
 
 int64_t curve25519_key_cmp(const curve25519_key_t *const restrict k1, const curve25519_key_t *const restrict k2) {
@@ -68,13 +68,6 @@ int64_t curve25519_key_cmp(const curve25519_key_t *const restrict k1, const curv
 	__mmask8 lt_mask = _mm256_cmplt_epu64_mask(key1, key2);
 	__mmask8 gt_mask = _mm256_cmpgt_epu64_mask(key1, key2);
 	return gt_mask - lt_mask;
-}
-
-int32_t curve25519_key_sub_inplace(curve25519_key_t *const restrict dst, const curve25519_key_t *const restrict src) {
-	uint64_t *const key1 = dst->key64;
-	const uint64_t *const key2 = src->key64;
-	
-	return 0;
 }
 
 int32_t curve25519_key_add_inplace(curve25519_key_t *const restrict dst, const curve25519_key_t *const restrict src) {
@@ -119,28 +112,44 @@ int32_t curve25519_key_add(const curve25519_key_t *const restrict k1, const curv
 	return 0;
 }  
 
+
+int32_t curve25519_key_sub_inplace(curve25519_key_t *const restrict dst, const curve25519_key_t *const restrict src) {
+	uint64_t *const key1 = dst->key64;
+	const uint64_t *const key2 = src->key64;
+	
+	uint64_t borrow = 0;
+	for (int i = 0; i < 4; ++i) {
+		uint64_t temp_res = key1[i] - key2[i] - borrow;
+		borrow = (key1[i] < key2[i]) || (key1[i] - key2[i] < borrow);
+		key1[i] = temp_res;
+	}
+
+	if (borrow) curve25519_key_add_inplace(dst, c25519); 
+	else compute_modulo_25519(dst);
+	return 0;
+}
+
 int32_t curve25519_key_sub(const curve25519_key_t *const restrict k1, const curve25519_key_t *const restrict k2, curve25519_key_t *const restrict r) {
 	const uint64_t *const key1 = k1->key64, *key2 = k2->key64;
 	uint64_t *const res = r->key64;
 
 	uint64_t borrow = 0;
-
-    for (int i = 0; i < 4; ++i) {
-        uint64_t temp_res = key1[i] - key2[i] - borrow;
+	for (int i = 0; i < 4; ++i) {
+		uint64_t temp_res = key1[i] - key2[i] - borrow;
 		borrow = (key1[i] < key2[i]) || (key1[i] - key2[i] < borrow);
-        res[i] = temp_res;
-    }
+		res[i] = temp_res;
+	}
 	
-    if (borrow) {
-        curve25519_key_add_inplace(r, c25519); 
-    }
+	if (borrow) curve25519_key_add_inplace(r, c25519); 
+	else compute_modulo_25519(r);
 	return 0;
 }  
 
 int32_t curve25519_key_x2(const curve25519_key_t *const restrict k, curve25519_key_t *const restrict r) {
 	const uint64_t *key = k->key64;
 	uint64_t *key_res = r->key64;
-
+	
+	compute_modulo_25519(r);
 	return 0;
 } 
 
