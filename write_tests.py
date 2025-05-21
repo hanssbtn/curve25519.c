@@ -3,6 +3,97 @@ import random
 TEST_COUNT = 50
 BITMASK = 2 ** 64 - 1
 
+def write_init_test():
+# 	int32_t curve25519_priv_key_init_test(void) {
+# 	printf("Private Key Initialization Test\n");
+# 	curve25519_key_t key = {.key64 = {0, 0, 0, 0}};
+# 	curve25519_key_t prev_key = {.key64 = {0, 0, 0, 0}};
+# 	printf("Test Case 1\n");
+# 	if (curve25519_priv_key_init(&key)) {
+# 		return -1;
+# 		printf("Test Case 1 FAILED\n");
+# 	}
+# 	curve25519_key_printf(&key, STR);
+# 	for (int32_t i = 0; i < 4; ++i) {
+# 		if (prev_key.key64[i] == key.key64[i]) {
+# 			printf("Test Case 1 FAILED\n");
+# 			return -2;
+# 		}
+# 		prev_key.key64[i] = key.key64[i];
+# 	}
+# 	printf("Test Case 1 PASSED\n---\n\n");
+# 	printf("Test Case 2\n");
+# 	if (curve25519_priv_key_init(&key)) {
+# 		printf("Test Case 2 FAILED\n");
+# 		return -3;
+# 	}
+# 	curve25519_key_printf(&key, STR);
+# 	for (int32_t i = 0; i < 4; ++i) {
+# 		if (prev_key.key64[i] == key.key64[i]) {
+# 			printf("Test Case 2 FAILED\n");
+# 			return -4;
+# 		}
+# 		prev_key.key64[i] = key.key64[i];
+# 	}
+# 	printf("Test Case 2 PASSED\n---\n\n");
+# 	printf("Test Case 3\n");
+# 	if (curve25519_priv_key_init(&key)) {
+# 		printf("Test Case 3 FAILED\n");
+# 		return -5;
+# 	}
+# 	curve25519_key_printf(&key, STR);
+# 	for (int32_t i = 0; i < 4; ++i) {
+# 		if (prev_key.key64[i] == key.key64[i]) {
+# 			printf("Test Case 3 FAILED\n");
+# 			return -6;
+# 		}
+# 		prev_key.key64[i] = key.key64[i];
+# 	}
+# 	printf("Test Case 3 PASSED\n---\n\n");
+# 	printf("Test Case 4\n");
+# 	if (curve25519_priv_key_init(&key)) {
+# 		printf("Test Case 4 FAILED\n");
+# 		return -7;
+# 	}
+# 	curve25519_key_printf(&key, STR);
+# 	for (int32_t i = 0; i < 4; ++i) {
+# 		if (prev_key.key64[i] == key.key64[i]) {
+# 			printf("Test Case 4 FAILED\n");
+# 			return -8;
+# 		}
+# 		prev_key.key64[i] = key.key64[i];
+# 	}
+# 	printf("Test Case 4 PASSED\n---\n\n");
+# 	printf("Test Case 5\n");
+# 	if (curve25519_priv_key_init(&key)) {
+# 		printf("Test Case 5 FAILED\n");
+# 		return -9;
+# 	}
+# 	curve25519_key_printf(&key, STR);
+# 	for (int32_t i = 0; i < 4; ++i) {
+# 		if (prev_key.key64[i] == key.key64[i]) {
+# 			printf("Test Case 5 FAILED\n");
+# 			return -10;
+# 		}
+# 		prev_key.key64[i] = key.key64[i];
+# 	}
+# 	printf("Test Case 5 PASSED\n---\n\n");
+# 	return 0;
+# }
+	i = 0
+	with open("tests/init_tests/priv_key_init_test.c", "w") as f:
+		f.write("#include \"../tests.h\"\n\nint32_t curve25519_priv_key_init_test(void) {\n")
+		f.write('\tprintf("Private Key Initialization Test\\n");\n')
+		f.write("\tcurve25519_key_t key = {.key64 = { }};\n")
+		f.write("\tcurve25519_key_t prev_key = {.key64 = { }};\n")
+		f.write(f'\tprintf("Test Case {i+1}\\n");\n\tif (curve25519_priv_key_init(&key)) {{\n\t	printf("Test Case {i+1} FAILED\\n");\n\t\treturn -1;\n\t}}\n')
+		f.write(f'\tfor (size_t i = 0; i < 8; ++i) {{\n\t\tif (prev_key.key64[i] == key.key64[i]) {{\n\t\t\tprintf("Test Case {i + 1} FAILED\\n");\n\t\t\treturn -{i + 2};\n\t\t}}\n\t\tprev_key.key64[i] = key.key64[i];\n\t}}\n\tprintf("Test Case {i+1} PASSED\\n---\\n\\n");\n')
+		for i in range(1, TEST_COUNT * 2, 2):
+			f.write(f'\tprintf("Test Case {i+1}\\n");\n\tif (curve25519_priv_key_init(&key)) {{\n\t	printf("Test Case {i+1} FAILED\\n");\n\t\treturn -{i + 1};\n\t}}\n')
+			f.write(f'\tfor (size_t i = 0; i < 8; ++i) {{\n\t\tif (prev_key.key64[i] == key.key64[i]) {{\n\t\t\tprintf("Test Case {i + 1} FAILED\\n");\n\t\t\treturn -{i + 2};\n\t\t}}\n\t\tprev_key.key64[i] = key.key64[i];\n\t}}\n\tprintf("Test Case {i+1} PASSED\\n---\\n\\n");\n')
+		f.write("\treturn 0;\n")
+		f.write("}")
+
 def write_cmp_test():
 	n = random.getrandbits(512)
 	m = random.getrandbits(512)
@@ -15,7 +106,7 @@ def write_cmp_test():
 		r = "> 0"
 		t = 1
 	i = 0
-	with open("tests/init_test/cmp_test.c", "w") as f:
+	with open("tests/init_tests/cmp_test.c", "w") as f:
 		f.write("#include \"../tests.h\"\n\nint32_t curve25519_key_cmp_test(void) {\n")
 		f.write('\tprintf("Key Comparison Test\\n");\n')
 		f.write(f"\tcurve25519_key_t k1 = {{.key64 = {{\n\t\t0x{(n) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 1)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 2)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 3)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 4)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 5)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 6)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 7)) & BITMASK:016X}ULL\n\t}}}};\n")
@@ -54,7 +145,7 @@ def write_cmp_high_test():
 		r = "> 0"
 		t = 1
 	i = 0
-	with open("tests/init_test/cmp_high_test.c", "w") as f:
+	with open("tests/init_tests/cmp_high_test.c", "w") as f:
 		f.write("#include \"../tests.h\"\n\nint32_t curve25519_key_cmp_high_test(void) {\n")
 		f.write('\tprintf("Key High Bytes Comparison Test\\n");\n')
 		f.write(f"\tcurve25519_key_t k1 = {{.key64 = {{\n\t\t0x{(n) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 1)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 2)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 3)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 4)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 5)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 6)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 7)) & BITMASK:016X}ULL\n\t}}}};\n")
@@ -93,7 +184,7 @@ def write_cmp_low_test():
 		r = "> 0"
 		t = 1
 	i = 0
-	with open("tests/init_test/cmp_low_test.c", "w") as f:
+	with open("tests/init_tests/cmp_low_test.c", "w") as f:
 		f.write("#include \"../tests.h\"\n\nint32_t curve25519_key_cmp_low_test(void) {\n")
 		f.write('\tprintf("Key Low Bytes Comparison Test\\n");\n')
 		f.write(f"\tcurve25519_key_t k1 = {{.key64 = {{\n\t\t0x{(n) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 1)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 2)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 3)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 4)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 5)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 6)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 7)) & BITMASK:016X}ULL\n\t}}}};\n")
@@ -125,7 +216,7 @@ def write_add_modulo_test():
 	m = random.getrandbits(256) % ((2 ** 255) - 19)
 	r = (n + m) % ((2 ** 255) - 19)
 	i = 0
-	with open("tests/add_test/add_modulo_test.c", "w") as f:
+	with open("tests/add_tests/add_modulo_test.c", "w") as f:
 		f.write("#include \"../tests.h\"\n\nint32_t curve25519_key_add_modulo_test(void) {\n")
 		f.write('\tprintf("Modular Key Addition Test\\n");\n')
 		f.write("\tcurve25519_key_t r = {.key64 = {0, 0, 0, 0}};\n")
@@ -149,7 +240,7 @@ def write_add_test():
 	m = random.getrandbits(510)
 	r = (n + m)
 	i = 0
-	with open("tests/add_test/add_test.c", "w") as f:
+	with open("tests/add_tests/add_test.c", "w") as f:
 		f.write("#include \"../tests.h\"\n\nint32_t curve25519_key_add_test(void) {\n")
 		f.write('\tprintf("Key Addition Test\\n");\n')
 		f.write("\tcurve25519_key_t r = {.key64 = {0, 0, 0, 0, 0, 0, 0, 0}};\n")
@@ -173,7 +264,7 @@ def write_add_modulo_self_test():
 	m = n
 	r = (n * 2) % ((2 ** 255) - 19)
 	i = 0
-	with open("tests/add_test/add_modulo_self_test.c", "w") as f:
+	with open("tests/add_tests/add_modulo_self_test.c", "w") as f:
 		f.write("#include \"../tests.h\"\n\nint32_t curve25519_key_add_modulo_self_test(void) {\n")
 		f.write('\tprintf("Self Modular Key Addition Test\\n");\n')
 		f.write("\tcurve25519_key_t r = {.key64 = {0, 0, 0, 0}};\n")
@@ -197,7 +288,7 @@ def write_add_self_test():
 	m = n
 	r = (n * 2) 
 	i = 0
-	with open("tests/add_test/add_self_test.c", "w") as f:
+	with open("tests/add_tests/add_self_test.c", "w") as f:
 		f.write("#include \"../tests.h\"\n\nint32_t curve25519_key_add_self_test(void) {\n")
 		f.write('\tprintf("Self Key Addition Test\\n");\n')
 		f.write("\tcurve25519_key_t r = {.key64 = {0, 0, 0, 0}};\n")
@@ -221,7 +312,7 @@ def write_add_self_modulo_test():
 	m = n
 	r = (n * 2) % ((2 ** 255) - 19)
 	i = 0
-	with open("tests/add_test/add_self_modulo_test.c", "w") as f:
+	with open("tests/add_tests/add_self_modulo_test.c", "w") as f:
 		f.write("#include \"../tests.h\"\n\nint32_t curve25519_key_add_self_modulo_test(void) {\n")
 		f.write('\tprintf("Self Key Addition Test\\n");\n')
 		f.write("\tcurve25519_key_t r = {.key64 = {0, 0, 0, 0}};\n")
@@ -245,7 +336,7 @@ def write_add_modulo_inplace_test():
 	m = random.getrandbits(256) % ((2 ** 255) - 19)
 	r = (n + m) % ((2 ** 255) - 19)
 	i = 0
-	with open("tests/add_test/add_modulo_inplace_test.c", "w") as f:
+	with open("tests/add_tests/add_modulo_inplace_test.c", "w") as f:
 		f.write("#include \"../tests.h\"\n\nint32_t curve25519_key_add_modulo_inplace_test(void) {\n")
 		f.write('\tprintf("Modular Inplace Key Addition Test\\n");\n')
 		f.write(f"\tcurve25519_key_t k1 = {{.key64 = {{\n\t\t0x{(n) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 1)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 2)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 3)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 4)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 5)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 6)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 7)) & BITMASK:016X}ULL\n\t}}}};\n")
@@ -268,7 +359,7 @@ def write_add_inplace_test():
 	m = random.getrandbits(510)
 	r = (n + m)
 	i = 0
-	with open("tests/add_test/add_inplace_test.c", "w") as f:
+	with open("tests/add_tests/add_inplace_test.c", "w") as f:
 		f.write("#include \"../tests.h\"\n\nint32_t curve25519_key_add_inplace_test(void) {\n")
 		f.write('\tprintf("Inplace Key Addition Test\\n");\n')
 		f.write(f"\tcurve25519_key_t k1 = {{.key64 = {{\n\t\t0x{(n) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 1)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 2)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 3)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 4)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 5)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 6)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 7)) & BITMASK:016X}ULL\n\t}}}};\n")
@@ -291,7 +382,7 @@ def write_sub_test():
 	m = random.getrandbits(256) % ((2 ** 255) - 19)
 	r = (n - m) % ((2 ** 255) - 19)
 	i = 0
-	with open("tests/sub_test/sub_test.c", "w") as f:
+	with open("tests/sub_tests/sub_test.c", "w") as f:
 		f.write("#include \"../tests.h\"\n\nint32_t curve25519_key_sub_test(void) {\n")
 		f.write('\tprintf("Key Subtraction Test\\n");\n')
 		f.write("\tcurve25519_key_t r = {.key64 = {0, 0, 0, 0}};\n")
@@ -315,7 +406,7 @@ def write_sub_inplace_test():
 	m = random.getrandbits(256) % ((2 ** 255) - 19)
 	r = (n - m) % ((2 ** 255) - 19)
 	i = 0
-	with open("tests/sub_test/sub_inplace_test.c", "w") as f:
+	with open("tests/sub_tests/sub_inplace_test.c", "w") as f:
 		f.write("#include \"../tests.h\"\n\nint32_t curve25519_key_sub_inplace_test(void) {\n")
 		f.write('\tprintf("Inplace Key Subtraction Test\\n");\n')
 		f.write(f"\tcurve25519_key_t k1 = {{.key64 = {{\n\t\t0x{(n) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 1)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 2)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 3)) & BITMASK:016X}ULL\n\t}}}};\n")
@@ -337,7 +428,7 @@ def write_modulo_test():
 	n = random.getrandbits(512)
 	m = n % ((2 ** 255) - 19)
 	i = 0
-	with open("tests/init_test/modulo_test.c", "w") as f:
+	with open("tests/init_tests/modulo_test.c", "w") as f:
 		f.write("#include \"../tests.h\"\n\nint32_t curve25519_key_modulo_test(void) {\n")
 		f.write('\tprintf("Modulo Test\\n");\n')
 		f.write(f"\tcurve25519_key_t k1 = {{.key64 = {{\n\t\t0x{(n) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 1)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 2)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 3)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 4)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 5)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 6)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 7)) & BITMASK:016X}ULL\n\t}}}};\n")
@@ -356,7 +447,7 @@ def write_double_test():
 	n = random.getrandbits(256) % ((2 ** 255) - 19)
 	n_mul = (n * 2) % ((2 ** 255) - 19)
 	i = 0
-	with open("tests/shift_test/double_test.c", "w") as f:
+	with open("tests/shift_tests/double_test.c", "w") as f:
 		f.write("#include \"../tests.h\"\n\nint32_t curve25519_key_x2_test(void) {\n")
 		f.write('\tprintf("Key Doubling Test\\n");\n')
 		f.write(f"\tcurve25519_key_t k1 = {{.key64 = {{\n\t\t0x{(n) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 1)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 2)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 3)) & BITMASK:016X}ULL\n\t}}}};\n")
@@ -376,7 +467,7 @@ def write_double_inplace_test():
 	n = random.getrandbits(256) % ((2 ** 255) - 19)
 	n_mul = (n * 2) % ((2 ** 255) - 19)
 	i = 0
-	with open("tests/shift_test/double_inplace_test.c", "w") as f:
+	with open("tests/shift_tests/double_inplace_test.c", "w") as f:
 		f.write("#include \"../tests.h\"\n\nint32_t curve25519_key_x2_inplace_test(void) {\n")
 		f.write('\tprintf("Inplace Key Doubling Test\\n");\n')
 		f.write(f"\tcurve25519_key_t k1 = {{.key64 = {{\n\t\t0x{(n) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 1)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 2)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 3)) & BITMASK:016X}ULL\n\t}}}};\n")
@@ -396,7 +487,7 @@ def write_lshift_inplace_test():
 	s = random.randint(0, 63)
 	m = n << s
 	i = 0
-	with open("tests/shift_test/lshift_inplace_test.c", "w") as f:
+	with open("tests/shift_tests/lshift_inplace_test.c", "w") as f:
 		f.write("#include \"../tests.h\"\n\nint32_t curve25519_key_lshift_inplace_test(void) {\n")
 		f.write('\tprintf("Key Left Shift Test\\n");\n')
 		f.write(f"\tcurve25519_key_t k1 = {{.key64 = {{\n\t\t0x{(n) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 1)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 2)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 3)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 4)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 5)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 6)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 7)) & BITMASK:016X}ULL\n\t}}}};\n")
@@ -419,7 +510,7 @@ def write_rshift_inplace_test():
 	s = random.randint(0, 63)
 	m = n >> s
 	i = 0
-	with open("tests/shift_test/rshift_inplace_test.c", "w") as f:
+	with open("tests/shift_tests/rshift_inplace_test.c", "w") as f:
 		f.write("#include \"../tests.h\"\n\nint32_t curve25519_key_rshift_inplace_test(void) {\n")
 		f.write('\tprintf("Key Right Shift Test\\n");\n')
 		f.write(f"\tcurve25519_key_t k1 = {{.key64 = {{\n\t\t0x{(n) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 1)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 2)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 3)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 4)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 5)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 6)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 7)) & BITMASK:016X}ULL\n\t}}}};\n")
@@ -438,10 +529,11 @@ def write_rshift_inplace_test():
 		f.write("}")
 
 def main():
-	write_modulo_test()
+	write_init_test()
 	write_cmp_test()
 	write_cmp_high_test()
 	write_cmp_low_test()
+	write_modulo_test()
 	write_add_modulo_test()
 	write_add_modulo_self_test()
 	write_add_modulo_inplace_test()
