@@ -5,6 +5,10 @@ int32_t main(void) {
 		fprintf(stderr, "Failed to initialize key\n");
 		return -1;
 	}
+	if (curve25519_key_cmp_low_test()) {
+		fprintf(stderr, "Failed to compare low bytes of key\n");
+		return -1;
+	}
 	if (curve25519_key_cmp_test()) {
 		fprintf(stderr, "Failed to compare key\n");
 		return -1;

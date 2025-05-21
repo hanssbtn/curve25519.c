@@ -4,6 +4,7 @@
 #include "../curve25519_key.h"
 
 int32_t curve25519_priv_key_init_test(void);
+int32_t curve25519_key_cmp_low_test(void);
 int32_t curve25519_key_cmp_test(void);
 int32_t curve25519_key_modulo_test(void);
 int32_t curve25519_key_add_test(void);

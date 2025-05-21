@@ -3,7 +3,7 @@ CC = gcc
 
 # Define compiler flags
 # -mavx512f, -mavx512dq -mavx512vl enable specific AVX-512 instruction sets
-CFLAGS = -Wall -Wextra -std=c99 -mavx512f -mavx512dq -mavx512vl
+CFLAGS = -Wall -Wextra -mavx512f -mavx512dq -mavx512vl
 
 # Define linker flags (libraries to link against)
 # Added -mconsole for Windows to ensure it links as a console application
