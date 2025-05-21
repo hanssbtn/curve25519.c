@@ -18,7 +18,6 @@
 #include <bcrypt.h>
 // #pragma comment(lib, "bcrypt.lib")
 
-
 typedef union curve25519_key {
 	__uint128_t key128[4];
 	uint64_t key64[8];
@@ -59,6 +58,7 @@ int32_t curve25519_key_mul(const curve25519_key_t *const k1, const curve25519_ke
 int32_t curve25519_key_mul_modulo(const curve25519_key_t *const k1, const curve25519_key_t *const k2, curve25519_key_t *const restrict r);
 int32_t curve25519_key_mul_inplace(curve25519_key_t *const k, const curve25519_key_t *const k2);
 int32_t curve25519_key_mul_inplace_modulo(curve25519_key_t *const k, const curve25519_key_t *const k2);
+int32_t curve25519_key_inv(const curve25519_key_t *const k, curve25519_key_t *const restrict r);
 int32_t curve25519_key_exp(curve25519_key_t *const k1, uint64_t n);
 int32_t curve25519_key_printf(const curve25519_key_t *const k, const curve25519_key_fmt_t size);
 

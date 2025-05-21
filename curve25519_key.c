@@ -13,8 +13,6 @@ const curve25519_key_t __c25519 = {
 	}
 };
 const curve25519_key_t *const c25519 = &__c25519;
-const curve25519_key_t __p = {.key64 = {0x9}};
-const curve25519_key_t *const p = &__p;
 const curve25519_key_t __ZERO = {};
 const curve25519_key_t *const ZERO = &__ZERO;
 
@@ -280,7 +278,15 @@ int32_t curve25519_key_sub(const curve25519_key_t *const restrict k1, const curv
 	if (borrow) return curve25519_key_add_inplace(r, c25519); 
 	else compute_modulo_25519(r);
 	return 0;
-}  
+}
+
+int32_t curve25519_key_div(const curve25519_key_t *const restrict k1, const curve25519_key_t *const restrict k2, curve25519_key_t *const restrict r) {
+	(void)k1;
+	(void)k2;
+	(void)r;
+
+	return 0;
+}
 
 int32_t curve25519_key_x2(const curve25519_key_t *const restrict k, curve25519_key_t *const restrict r) {
 	const uint64_t *const key = k->key64;
@@ -318,9 +324,8 @@ int32_t curve25519_key_x2_modulo_inplace(curve25519_key_t *const k) {
 	return carry;
 }
 
-int32_t curve25519_key_div(const curve25519_key_t *const k1, const curve25519_key_t *const k2, curve25519_key_t *const restrict r) {
+int32_t curve25519_key_inv(curve25519_key_t *const k, curve25519_key_t *const restrict r) {
 	
-	compute_modulo_25519(r);
 	return 0;
 }
 
