@@ -19,7 +19,10 @@ int32_t curve25519_key_x2_modulo_test(void);
 int32_t curve25519_key_add_self_test(void);
 int32_t curve25519_key_add_self_modulo_test(void);
 int32_t curve25519_key_x2_inplace_test(void);
+int32_t curve25519_key_lshift_test(void);
+int32_t curve25519_key_rshift_test(void);
 int32_t curve25519_key_lshift_inplace_test(void);
 int32_t curve25519_key_rshift_inplace_test(void);
+int32_t curve25519_key_mul_test(void);
 
 #endif // CURVE25519_TESTS_H__

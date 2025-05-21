@@ -72,8 +72,11 @@ void curve25519_key_rshift_inplace(curve25519_key_t *const k, int64_t shift) {
 	}
 }
 
-void curve25519_key_lshift(curve25519_key_t *const k, int64_t shift, curve25519_key_t *const r) {
-	if (!shift) return;
+void curve25519_key_lshift(const curve25519_key_t *const k, int64_t shift, curve25519_key_t *const restrict r) {
+	if (!shift) {
+		memcpy(r->key64, k->key64, sizeof(curve25519_key_t));
+		return;
+	}
 	const uint64_t *const key = k->key64;
 	uint64_t *const res = r->key64;
 	// printf("Before:\n");
@@ -97,8 +100,11 @@ void curve25519_key_lshift(curve25519_key_t *const k, int64_t shift, curve25519_
 	// print_bits(res[0]);
 }
 
-void curve25519_key_rshift(curve25519_key_t *const k, int64_t shift, curve25519_key_t *const r) {
-	if (!shift) return;
+void curve25519_key_rshift(const curve25519_key_t *const restrict k, int64_t shift, curve25519_key_t *const restrict r) {
+	if (!shift) {
+		memcpy(r->key64, k->key64, sizeof(curve25519_key_t));
+		return;
+	}
 	const uint64_t *const key = k->key64;
 	uint64_t *const res = r->key64;
 	printf("Before:\n");
@@ -322,7 +328,7 @@ int32_t curve25519_key_mul(const curve25519_key_t *const k1, const curve25519_ke
 	const uint64_t *const key1 = k1->key64, *const key2 = k2->key64;
 	uint64_t *const res = r->key64;
 
-	memset(res, 0ULL, sizeof(r));
+	memset(res, 0ULL, sizeof(curve25519_key_t));
 
 	for (size_t i = 0; i < 4; i++) {
 		uint64_t carry_out = 0;
