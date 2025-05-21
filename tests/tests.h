@@ -24,5 +24,6 @@ int32_t curve25519_key_rshift_test(void);
 int32_t curve25519_key_lshift_inplace_test(void);
 int32_t curve25519_key_rshift_inplace_test(void);
 int32_t curve25519_key_mul_test(void);
+int32_t curve25519_key_mul_modulo_test(void);
 
 #endif // CURVE25519_TESTS_H__
