@@ -6,10 +6,6 @@ int main(void) {
 		fprintf(stderr, "Failed private key initialization test\n");
 		return -1;
 	}
-	if (curve25519_key_modulo_test()) {
-		fprintf(stderr, "Failed key modulo test\n");
-		return -1;
-	}
 	if (curve25519_key_cmp_low_test()) {
 		fprintf(stderr, "Failed key low bytes comparison test\n");
 		return -1;
@@ -20,6 +16,10 @@ int main(void) {
 	}
 	if (curve25519_key_cmp_test()) {
 		fprintf(stderr, "Failed key comparison test\n");
+		return -1;
+	}
+	if (curve25519_key_modulo_test()) {
+		fprintf(stderr, "Failed key modulo test\n");
 		return -1;
 	}
 	printf("DONE\n");

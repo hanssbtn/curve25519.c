@@ -56,13 +56,13 @@ define GENERATE_TEST_RULES
 # Double-escape $ to defer evaluation of wildcard until eval is called
 TEST_$(1)_SRCS = $$(wildcard tests/$(1)/*.c)
 # Use $(value ...) to force immediate expansion for debug output
-# $$(info For $(1), TEST_$(1)_SRCS is: $$(TEST_$(1)_SRCS)) # Debug line - Corrected expansion
+$$(info For $(1), TEST_$(1)_SRCS is: $$(TEST_$(1)_SRCS)) # Debug line - Corrected expansion
 
 # Object files for this test group, with mangled names
 # Double-escape $ for patsubst and for the TEST_$(1)_SRCS variable itself
 TEST_$(1)_OBJS = $$(patsubst tests/$(1)/%.c,$(OBJDIR)/$(1)_%.o,$$(TEST_$(1)_SRCS))
 # Use $(alue ...) to force immediate expansion for debug output
-# $$(info For $(1), TEST_$(1)_OBJS is: $$(TEST_$(1)_OBJS)) # Debug line - Corrected expansion
+$$(info For $(1), TEST_$(1)_OBJS is: $$(TEST_$(1)_OBJS)) # Debug line - Corrected expansion
 
 # Rule to compile sources from 'tests/$(1)/'
 $(OBJDIR)/$(1)_%.o: tests/$(1)/%.c | $$(OBJDIR)
@@ -79,10 +79,6 @@ ALL_TEST_SPECIFIC_OBJS += $(TEST_$(1)_OBJS)
 endef
 
 $(foreach exec_name,$(TEST_EXEC_NAMES),$(eval $(call GENERATE_TEST_RULES,$(exec_name))))
-
-# --- DEBUG LINE ---
-$(info ALL_TEST_SPECIFIC_OBJS (after loop) is: $(ALL_TEST_SPECIFIC_OBJS))
-# ------------------
 
 ALL_TEST_CLEAN_SRCS = $(foreach test_dir,$(TEST_EXEC_NAMES), \
     $(wildcard tests/$(test_dir)/*.c) \
