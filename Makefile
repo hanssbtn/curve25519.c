@@ -1,69 +1,108 @@
+# Explicitly set the shell for make to use (important for MSYS/MinGW environments)
+# This helps ensure GNU utilities like 'find' are used instead of Windows built-ins.
+SHELL = sh
+
 # Define the C compiler
 CC = gcc
 
 # Define compiler flags
-# -mavx512f, -mavx512dq -mavx512vl enable specific AVX-512 instruction sets
-CFLAGS = -Wall -Wextra -mavx512f -mavx512dq -mavx512vl
+CFLAGS = -Wall -Wextra -mavx512f -mavx512dq -mavx512vl -I.
 
-# Define linker flags (libraries to link against)
-# Added -mconsole for Windows to ensure it links as a console application
+# Define linker flags
 LDFLAGS = -lbcrypt
-
-# Define the name of the executable
-TARGET = curve25519
 
 # Define the directory for object files
 OBJDIR = objs
 
-# VPATH tells make where to look for source files (e.g., tests.c, curve25519_key.c)
-# It searches the current directory (.) and then the tests/ directory.
-VPATH = . test
+VPATH = . tests
 
-# Define all source files with their full paths
-SRCS = \
-	$(wildcard test/*.c) \
-	curve25519_key.c \
-	curve25519.c
+# Common source files (assumed to be in the root directory)
+COMMON_SRCS = curve25519_key.c curve25519.c
+COMMON_OBJS = $(addprefix $(OBJDIR)/, $(notdir $(COMMON_SRCS:.c=.o)))
 
-# --- DEBUG LINE ---
-# This will print the value of SRCS when make is run
-$(info SRCS is: $(SRCS))
-# ------------------
+# Find all run.c files in test subdirectories to determine executable groups
+TEST_RUN_FILES = $(wildcard tests/*/run.c)
+# Extract the pure directory names (e.g., add_test, init_test) to be used as executable names
+TEST_EXEC_NAMES = $(patsubst tests/%/run.c,%,$(TEST_RUN_FILES))
 
-# Automatically generate object file names, placing them in OBJDIR
-# and removing the original directory path from the object file name.
-# Example: tests/tests.c -> objs/tests.o
-# Example: curve25519_key.c -> objs/curve25519_key.o
-OBJS = $(addprefix $(OBJDIR)/, $(notdir $(SRCS:.c=.o)))
+# All executables that will be built
+TARGET_EXECS = $(TEST_EXEC_NAMES)
 
-# Default target: builds the executable
-all: $(TARGET)
+# Initialize ALL_TEST_SPECIFIC_OBJS to ensure it's empty before appending
+ALL_TEST_SPECIFIC_OBJS =
 
-# Rule to link the executable
-# Make the target depend on the object directory being created first
-$(TARGET): $(OBJDIR) $(OBJS)
-	$(CC) $(OBJS) -o $(TARGET) $(LDFLAGS)
+# --- DEBUG LINES ---
+$(info COMMON_SRCS is: $(COMMON_SRCS))
+$(info COMMON_OBJS is: $(COMMON_OBJS))
+$(info TEST_RUN_FILES is: $(TEST_RUN_FILES))
+$(info TEST_EXEC_NAMES is: $(TEST_EXEC_NAMES))
+$(info TARGET_EXECS is: $(TARGET_EXECS))
+# -------------------
 
-# Rule to create the object directory if it doesn't exist
-# This rule will be executed before any object files are compiled,
-# ensuring the directory exists.
+# Default target: builds all test executables
+all: $(OBJDIR) $(TARGET_EXECS)
+
 $(OBJDIR):
 	@mkdir -p $(OBJDIR)
 
-# Rule to compile each C source file into an object file
-# The object file is placed in the OBJDIR.
-# The `%.c` prerequisite will be found by `make` using the VPATH variable.
-# Removed $(OBJDIR) as a prerequisite here, as it's now handled by the $(TARGET) rule.
-$(OBJDIR)/%.o: %.c
+$(OBJDIR)/%.o: %.c | $(OBJDIR)
+	@echo "Compiling common source: $< -> $@"
 	$(CC) $(CFLAGS) -c $< -o $@
 
-# Phony targets do not correspond to actual files
-.PHONY: all clean test
+define GENERATE_TEST_RULES
+# $(1) is the test executable name (e.g., add_test)
+
+# Source files specific to the '$(1)' test group
+# Double-escape $ to defer evaluation of wildcard until eval is called
+TEST_$(1)_SRCS = $$(wildcard tests/$(1)/*.c)
+# Use $(value ...) to force immediate expansion for debug output
+$$(info For $(1), TEST_$(1)_SRCS is: $$(TEST_$(1)_SRCS)) # Debug line - Corrected expansion
+
+# Object files for this test group, with mangled names
+# Double-escape $ for patsubst and for the TEST_$(1)_SRCS variable itself
+TEST_$(1)_OBJS = $$(patsubst tests/$(1)/%.c,$(OBJDIR)/$(1)_%.o,$$(TEST_$(1)_SRCS))
+# Use $(alue ...) to force immediate expansion for debug output
+$$(info For $(1), TEST_$(1)_OBJS is: $$(TEST_$(1)_OBJS)) # Debug line - Corrected expansion
+
+# Rule to compile sources from 'tests/$(1)/'
+$(OBJDIR)/$(1)_%.o: tests/$(1)/%.c | $$(OBJDIR)
+	@echo "Compiling test-specific source: $$< for $(1) -> $$@"
+	$$(CC) $$(CFLAGS) -c $$< -o $$@
+
+# Rule to link the executable '$(1)'
+$(1): $$(TEST_$(1)_OBJS) $$(COMMON_OBJS) | $$(OBJDIR)
+	@echo "Linking executable: $(1) (Prerequisites: $$^)"
+	$$(CC) $$(CFLAGS) $$^ -o $$@ $$(LDFLAGS)
+
+# Append this group's object files to the global list
+ALL_TEST_SPECIFIC_OBJS += $(TEST_$(1)_OBJS)
+endef
+
+$(foreach exec_name,$(TEST_EXEC_NAMES),$(eval $(call GENERATE_TEST_RULES,$(exec_name))))
+
+# --- DEBUG LINE ---
+$(info ALL_TEST_SPECIFIC_OBJS (after loop) is: $(ALL_TEST_SPECIFIC_OBJS))
+# ------------------
+
+run: $(TARGET_EXECS)
+	@echo "Running tests..."
+	$(foreach exec,$(TARGET_EXECS), \
+		echo ""; \
+		echo "--- Running ./$(exec) ---"; \
+		./$(exec); \
+	)
+	@echo "--- All tests finished ---"
+
+clean:
+	@echo "Cleaning up..."
+	rm -f $(TARGET_EXECS)
+	rm -f $(COMMON_OBJS) $(ALL_TEST_SPECIFIC_OBJS)
+	rm -rf $(OBJDIR)
+	@echo "Cleaning specified test source files (excluding run.c files)..."
+	$(foreach test_dir_with_run_c,$(sort $(dir $(TEST_RUN_FILES))), \
+		find $(test_dir_with_run_c) -maxdepth 1 -type f -name '*.c' ! -name 'run.c' -print -delete ;)
+
+.PHONY: all clean run test
 
 test:
 	python write_tests.py
-
-# Clean target: removes compiled files and the object directory
-clean:
-	rm -f $(OBJS) $(TARGET)
-	@rmdir $(OBJDIR) 2>/dev/null || true # Remove directory, suppress error if not empty or doesn't exist
