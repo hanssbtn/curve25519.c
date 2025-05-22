@@ -26,46 +26,72 @@ void print_bits(uint64_t n) {
 }
 
 uint64_t curve25519_key_lshift_inplace(curve25519_key_t *const k, int64_t shift) {
-	if (!shift) return 0;
 	uint64_t *key = k->key64;
 	// printf("Left shifting\n");
 	// printf("Before:\n");
-	// for (uint64_t i = 7; i > 0; --i) {
-	// 	print_bits(key[i]);
+	// for (uint64_t k = 7; k > 0; --k) {
+	// 	print_bits(key[k]);
 	// }
 	// print_bits(key[0]);
-	uint64_t nshift = (64ULL - shift) & (63ULL);
-	uint64_t carry = key[0] >> nshift;
-	key[0] <<= shift;
-	for (uint64_t offset = 1; offset < 8; offset++) {
+	// printf("\n\n");
+	int64_t parts = shift/64;
+	shift &= 63LL;
+
+	// k->key[i] -> k->key[i + parts]
+	// shift by 64 bytes, then shift the rest normally
+	int64_t i;
+	for (i = 7; i - parts >= 0; --i) {
+		key[i] = key[i - parts];
+	}
+	int64_t offset = i >= 0 ? i : 0;
+	for (; i >= 0; --i){
+		key[i] = 0;
+	}
+	if (!shift) return 0;
+	int64_t nshift = 64ULL - shift;
+	uint64_t carry = 0;
+	for (; offset < 8; offset++) {
 		uint64_t temp = key[offset] >> nshift;
 		key[offset] = (key[offset] << shift) | carry;
 		carry = temp;
 	}
 	// printf("After:\n");
-	// for (uint64_t i = 7; i > 0; --i) {
-	// 	print_bits(key[i]);
+	// for (uint64_t k = 7; k > 0; --k) {
+	// 	print_bits(key[k]);
 	// }
 	// print_bits(key[0]);
+	// printf("\n\n\n");
+
 	return carry;
 }
 
 uint64_t curve25519_key_rshift_inplace(curve25519_key_t *const k, int64_t shift) {
-	if (!shift) return 0;
-	uint64_t *key = k->key64;
 	// printf("Right shifting\n");
 	// printf("Before:\n");
 	// for (ssize_t i = 7; i >= 0; --i) {
 	// 	print_bits(key[i]);
 	// }
-	uint64_t mask = ((1ULL << shift) - 1);
-	size_t carry = key[0] & mask, nshift = (64ULL - shift) & (63ULL);
-	uint64_t carry_from_higher_word = 0; // No carry into the highest word
+	// curve25519_key_printf(k, COMPLETE);
+	uint64_t *key = k->key64;
+	int64_t parts = shift / 64;
+	int64_t i;
+	for (i = 0; i + parts < 8; ++i) {
+		key[i] = key[i + parts];
+	}		
+	int64_t offset = i < 8 ? i : 7;
+	for (; i < 8; ++i){
+		key[i] = 0;
+	}
+	// printf("After:\n");
+	// curve25519_key_printf(k, COMPLETE);
+	shift &= 63LL;
+	if (!shift) return 0;
+	uint64_t mask = ((1ULL << shift) - 1), nshift = 64ULL - shift, carry_from_higher_word = 0; // No carry into the highest word
 
-    for (int i = 7; i >= 0; --i) {
-        uint64_t bits_to_carry_down = (key[i] & mask);
-        key[i] >>= shift;
-        key[i] |= (carry_from_higher_word << nshift);
+    for (; offset >= 0; --offset) {
+        uint64_t bits_to_carry_down = (key[offset] & mask);
+        key[offset] >>= shift;
+        key[offset] |= (carry_from_higher_word << nshift);
         carry_from_higher_word = bits_to_carry_down;
     }
 
@@ -77,10 +103,6 @@ uint64_t curve25519_key_rshift_inplace(curve25519_key_t *const k, int64_t shift)
 }
 
 uint64_t curve25519_key_lshift(const curve25519_key_t *const k, int64_t shift, curve25519_key_t *const restrict r) {
-	if (!shift) {
-		memcpy(r->key64, k->key64, sizeof(curve25519_key_t));
-		return 0;
-	}
 	const uint64_t *const key = k->key64;
 	uint64_t *const res = r->key64;
 	// printf("Before:\n");
@@ -88,16 +110,42 @@ uint64_t curve25519_key_lshift(const curve25519_key_t *const k, int64_t shift, c
 	// 	print_bits(key[i]);
 	// }
 	// print_bits(key[0]);
-
-	uint64_t nshift = (64ULL - shift) & (63ULL);
-	uint64_t carry = key[0] >> nshift;
-	res[0] = key[0] << shift;
-	for (uint64_t offset = 1; offset < 8; offset++) {
-		uint64_t temp = key[offset] >> nshift;
-		res[offset] = (key[offset] << shift) | carry;
+	int64_t parts = shift/64;
+	// printf("parts: %lld, shift: %lld\n", parts, shift);
+	// printf("Before:\n");
+	// for (uint64_t i = 7; i > 0; --i) {
+	// 	print_bits(res[i]);
+	// }
+	// print_bits(res[0]);
+	// curve25519_key_printf(r, COMPLETE);
+	int64_t i;
+	for (i = 7; i - parts >= 0; --i) {
+		res[i] = key[i - parts];
+	}
+	int64_t offset = i >= 0 ? i : 0;
+	for (; i >= 0; --i){
+		res[i] = 0;
+	}
+	// printf("After:\n");
+	// for (uint64_t i = 7; i > 0; --i) {
+		// 	print_bits(res[i]);
+		// }
+		// print_bits(res[0]);
+	// curve25519_key_printf(r, COMPLETE);
+	shift &= 63LL;
+	if (!shift) {
+		return 0;
+	}
+	uint64_t nshift = 64ULL - shift;
+	// printf("Offset: %lld, shift: %lld, nshift: %lld\n", offset, shift, nshift);
+	uint64_t carry = 0;
+	for (; offset < 8; offset++) {
+		uint64_t temp = res[offset] >> nshift;
+		res[offset] = (res[offset] << shift) | carry;
 		carry = temp;
 	}
 	// printf("After:\n");
+	// curve25519_key_printf(r, COMPLETE);
 	// for (uint64_t i = 7; i > 0; --i) {
 	// 	print_bits(res[i]);
 	// }
@@ -106,23 +154,32 @@ uint64_t curve25519_key_lshift(const curve25519_key_t *const k, int64_t shift, c
 }
 
 uint64_t curve25519_key_rshift(const curve25519_key_t *const restrict k, int64_t shift, curve25519_key_t *const restrict r) {
-	if (!shift) {
-		memcpy(r->key64, k->key64, sizeof(curve25519_key_t));
-		return 0;
-	}
 	const uint64_t *const key = k->key64;
 	uint64_t *const res = r->key64;
+	int64_t parts = shift / 64;
+	int64_t i;
+	for (i = 0; i + parts < 8; ++i) {
+		res[i] = key[i + parts];
+	}		
+	int64_t offset = i < 8 ? i : 7;
+	for (; i < 8; ++i){
+		res[i] = 0;
+	}
+	// printf("After:\n");
+	// curve25519_key_printf(k, COMPLETE);
+	shift &= 63LL;
+	if (!shift) return 0;
 	// printf("Before:\n");
 	// for (ssize_t i = 7; i >= 0; --i) {
 	// 	print_bits(key[i]);
 	// }
-	uint64_t mask = ((1ULL << shift) - 1), nshift = (64ULL - shift) & (63ULL);
+	uint64_t mask = ((1ULL << shift) - 1), nshift = 64ULL - shift;
 	uint64_t carry_from_higher_word = 0; // No carry into the highest word
 
-    for (int i = 7; i >= 0; --i) {
-        uint64_t bits_to_carry_down = (key[i] & mask);
-        res[i] = key[i] >> shift;
-        res[i] |= (carry_from_higher_word << nshift);
+    for (; offset >= 0; --offset) {
+        uint64_t bits_to_carry_down = (res[offset] & mask);
+        res[offset] = res[offset] >> shift;
+        res[offset] |= (carry_from_higher_word << nshift);
         carry_from_higher_word = bits_to_carry_down;
     }
 
@@ -393,22 +450,26 @@ int32_t curve25519_key_mul_modulo(const curve25519_key_t *const k1, const curve2
 	return 0;
 }
 
-int32_t curve25519_key_log2(const curve25519_key_t *const restrict k, curve25519_key_t *const restrict p) {
-	int64_t i;
+int64_t curve25519_key_log2(const curve25519_key_t *const restrict k, curve25519_key_t *const restrict p) {
+	int64_t i, count = 512;
 	for (i = 7; i >= 0; --i) {
 		if (!k->key64[i]) {
-			p->key64[i] = 0;
+			if (p) p->key64[i] = 0;
+			count -= 64;
 			continue;
 		}
 		int exponent = __builtin_clzll(k->key64[i]);
-		p->key64[i] = 1ULL << (63 - exponent);
-		i--;
+		count -= exponent + 1;
+		if (p) p->key64[i] = 1ULL << (63 - exponent);
 		break;
 	}
-	for (; i >= 0; --i) {
-		p->key64[i] = 0;
+	if (p) {
+		i--;
+		for (; i >= 0; --i) {
+			p->key64[i] = 0;
+		}
 	}
-	return 0;
+	return count;
 } 
 
 int32_t curve25519_key_divmod(const curve25519_key_t *const restrict num, const curve25519_key_t *const restrict den, curve25519_key_t *const restrict q, curve25519_key_t *const restrict r) {
@@ -428,67 +489,70 @@ int32_t curve25519_key_divmod(const curve25519_key_t *const restrict num, const 
 	}
 	memset(q->key8, 0, sizeof(curve25519_key_t));
 	memset(r->key8, 0, sizeof(curve25519_key_t));
-	int64_t shift = 32;
-	curve25519_key_t quot, num_cpy, den_cpy;
-	memcpy(num_cpy.key8, num->key8, sizeof(curve25519_key_t));
-	do {
-		printf("shift: %lld\n", shift);
-		quot = (curve25519_key_t){.key64 = {1}};
-		memcpy(den_cpy.key8, den->key8, sizeof(curve25519_key_t));
-		uint64_t carry = 0, carry_quot = 0;
-		int iter = 0;
-		while (curve25519_key_cmp(&num_cpy, &den_cpy) >= 0) {
-			carry = curve25519_key_lshift_inplace(&den_cpy, shift);
-			carry_quot = curve25519_key_lshift_inplace(&quot, shift);
-			// overflow
-			if (carry || carry_quot) {
-				printf("Overflow\ncarry: %llX, carry_quot: %llX\n", carry, carry_quot);
-				break;
-			}
-			printf("num:\n");
-			curve25519_key_printf(&num_cpy, COMPLETE);
-			printf("den:\n");
-			curve25519_key_printf(&den_cpy, COMPLETE);
-			iter++;
-		}
-		printf("Before readding carry:\n");
-		printf("num:\n");
-		curve25519_key_printf(&num_cpy, COMPLETE);
-		printf("den:\n");
-		curve25519_key_printf(&den_cpy, COMPLETE);
-		if (carry) {
-			curve25519_key_rshift_inplace(&den_cpy, shift);
-			den_cpy.key64[7] |= (carry << (64 - shift));
-		}
-		printf("After readding carry:\n");
-		printf("num:\n");
-		curve25519_key_printf(&num_cpy, COMPLETE);
-		printf("den:\n");
-		curve25519_key_printf(&den_cpy, COMPLETE);
-		if (iter) {
-			curve25519_key_rshift_inplace(&quot, shift);
-			quot.key64[7] |= (carry_quot << (64 - shift));
-			curve25519_key_add_inplace(q, &quot);
-			if (!carry) {
-				curve25519_key_rshift_inplace(&den_cpy, shift);
-			}
 
-			curve25519_key_sub_inplace(&num_cpy, &den_cpy);
-			printf("After subtraction:\num:\n");
-			curve25519_key_printf(&num_cpy, COMPLETE);
-		}
-		printf("q:\n");
-		curve25519_key_printf(q, COMPLETE);
-		--shift;
-	} while (shift > 0);
-	while (curve25519_key_cmp(&num_cpy, den) >= 0) {
-		curve25519_key_sub_inplace(&num_cpy, den);
-		curve25519_key_add_inplace(q, ONE);
-		printf("q:\n");
-		curve25519_key_printf(q, COMPLETE);
-	}
-	memcpy(r->key8, num_cpy.key8, sizeof(curve25519_key_t));
+	int64_t shift = curve25519_key_log2(num, NULL) - curve25519_key_log2(den, NULL);
 
+	// int64_t shift = 32;
+	// curve25519_key_t quot, num_cpy, den_cpy;
+	// memcpy(num_cpy.key8, num->key8, sizeof(curve25519_key_t));
+	// do {
+	// 	printf("shift: %lld\n", shift);
+	// 	quot = (curve25519_key_t){.key64 = {1}};
+	// 	memcpy(den_cpy.key8, den->key8, sizeof(curve25519_key_t));
+	// 	uint64_t carry = 0, carry_quot = 0;
+	// 	int iter = 0;
+	// 	while (curve25519_key_cmp(&num_cpy, &den_cpy) >= 0) {
+	// 		carry = curve25519_key_lshift_inplace(&den_cpy, shift);
+	// 		carry_quot = curve25519_key_lshift_inplace(&quot, shift);
+	// 		// overflow
+	// 		if (carry || carry_quot) {
+	// 			printf("Overflow\ncarry: %llX, carry_quot: %llX\n", carry, carry_quot);
+	// 			break;
+	// 		}
+	// 		printf("num:\n");
+	// 		curve25519_key_printf(&num_cpy, COMPLETE);
+	// 		printf("den:\n");
+	// 		curve25519_key_printf(&den_cpy, COMPLETE);
+	// 		iter++;
+	// 	}
+	// 	printf("Before readding carry:\n");
+	// 	printf("num:\n");
+	// 	curve25519_key_printf(&num_cpy, COMPLETE);
+	// 	printf("den:\n");
+	// 	curve25519_key_printf(&den_cpy, COMPLETE);
+	// 	if (carry) {
+	// 		curve25519_key_rshift_inplace(&den_cpy, shift);
+	// 		den_cpy.key64[7] |= (carry << (64 - shift));
+	// 	}
+	// 	printf("After readding carry:\n");
+	// 	printf("num:\n");
+	// 	curve25519_key_printf(&num_cpy, COMPLETE);
+	// 	printf("den:\n");
+	// 	curve25519_key_printf(&den_cpy, COMPLETE);
+	// 	if (iter) {
+	// 		curve25519_key_rshift_inplace(&quot, shift);
+	// 		quot.key64[7] |= (carry_quot << (64 - shift));
+	// 		curve25519_key_add_inplace(q, &quot);
+	// 		if (!carry) {
+	// 			curve25519_key_rshift_inplace(&den_cpy, shift);
+	// 		}
+
+	// 		curve25519_key_sub_inplace(&num_cpy, &den_cpy);
+	// 		printf("After subtraction:\num:\n");
+	// 		curve25519_key_printf(&num_cpy, COMPLETE);
+	// 	}
+	// 	printf("q:\n");
+	// 	curve25519_key_printf(q, COMPLETE);
+	// 	--shift;
+	// } while (shift > 0);
+	// while (curve25519_key_cmp(&num_cpy, den) >= 0) {
+	// 	curve25519_key_sub_inplace(&num_cpy, den);
+	// 	curve25519_key_add_inplace(q, ONE);
+	// 	printf("q:\n");
+	// 	curve25519_key_printf(q, COMPLETE);
+	// }
+	// memcpy(r->key8, num_cpy.key8, sizeof(curve25519_key_t));
+	
 	return 0;
 }
 

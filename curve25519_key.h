@@ -56,7 +56,7 @@ uint64_t curve25519_key_lshift(const curve25519_key_t *const restrict k, int64_t
 uint64_t curve25519_key_rshift(const curve25519_key_t *const restrict k, int64_t shift, curve25519_key_t *const restrict r);
 uint64_t curve25519_key_lshift_inplace(curve25519_key_t *const restrict k, int64_t shift);
 uint64_t curve25519_key_rshift_inplace(curve25519_key_t *const restrict k, int64_t shift);
-int32_t curve25519_key_log2(const curve25519_key_t *const k, curve25519_key_t *const restrict r);
+int64_t curve25519_key_log2(const curve25519_key_t *const k, curve25519_key_t *const restrict r);
 int32_t curve25519_key_mul(const curve25519_key_t *const k1, const curve25519_key_t *const k2, curve25519_key_t *const restrict r);
 int32_t curve25519_key_mul_modulo(const curve25519_key_t *const k1, const curve25519_key_t *const k2, curve25519_key_t *const restrict r);
 int32_t curve25519_key_mul_inplace(curve25519_key_t *const restrict k, const curve25519_key_t *const restrict k2);
