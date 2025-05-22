@@ -26,6 +26,10 @@ int main(void) {
 		fprintf(stderr, "Failed key inplace right shift test\n");
 		return -1;
 	}
+	if (curve25519_key_log2_test()) {
+		fprintf(stderr, "Failed key log2 test\n");
+		return -1;
+	}
 	printf("DONE\n");
 	return 0;
 }

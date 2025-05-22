@@ -400,8 +400,9 @@ int32_t curve25519_key_log2(const curve25519_key_t *const restrict k, curve25519
 			p->key64[i] = 0;
 			continue;
 		}
-		int exponent = (__builtin_ctzll(k->key64[i]));
-		p->key64[i] = 1ULL << (64 - exponent);
+		int exponent = __builtin_clzll(k->key64[i]);
+		p->key64[i] = 1ULL << (63 - exponent);
+		i--;
 		break;
 	}
 	for (; i >= 0; --i) {
