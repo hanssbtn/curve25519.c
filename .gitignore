@@ -2,3 +2,5 @@ objs/
 *.exe
 .vscode
 out.txt
+test.py
+random_test.c
