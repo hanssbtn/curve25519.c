@@ -14,6 +14,10 @@ int main(void) {
 		fprintf(stderr, "Failed key division + modulo test\n");
 		return -1;
 	}
+	if (curve25519_key_inv_test()) {
+		fprintf(stderr, "Failed modular key inverse test\n");
+		return -1;
+	}
 	printf("DONE\n");
 	return 0;
 }

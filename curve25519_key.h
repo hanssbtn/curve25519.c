@@ -26,6 +26,11 @@ typedef union curve25519_key {
 	uint8_t key8[64];
 } curve25519_key_t __attribute__((aligned(64)));
 
+typedef struct curve25519_key_signed {
+	curve25519_key_t key;
+	uint64_t borrow;
+} curve25519_key_signed_t;
+
 typedef enum curve25519_key_fmt {
 	B8,
 	B16,
@@ -41,9 +46,9 @@ int64_t curve25519_key_cmp_high(const curve25519_key_t *const k1, const curve255
 int64_t curve25519_key_cmp(const curve25519_key_t *const k1, const curve25519_key_t *const k2);
 void compute_modulo_25519(curve25519_key_t *const n);
 int32_t curve25519_key_add(const curve25519_key_t *const restrict k1, const curve25519_key_t *const restrict k2, curve25519_key_t *const restrict r);  
-int32_t curve25519_key_sub(const curve25519_key_t *const restrict k1, const curve25519_key_t *const restrict k2, curve25519_key_t *const restrict r);  
+int32_t curve25519_key_sub(const curve25519_key_t *const restrict k1, const curve25519_key_t *const restrict k2, curve25519_key_signed_t *const restrict r);  
 int32_t curve25519_key_add_inplace(curve25519_key_t *const restrict dst, const curve25519_key_t *const restrict src);  
-int32_t curve25519_key_sub_inplace(curve25519_key_t *const restrict dst, const curve25519_key_t *const restrict src);  
+int32_t curve25519_key_sub_inplace(curve25519_key_signed_t *const restrict dst, const curve25519_key_t *const restrict src);  
 int32_t curve25519_key_x2(const curve25519_key_t *const k, curve25519_key_t *const restrict r);
 int32_t curve25519_key_x2_inplace(curve25519_key_t *const k);
 int32_t curve25519_key_add_modulo(const curve25519_key_t *const restrict k1, const curve25519_key_t *const restrict k2, curve25519_key_t *const restrict r);  
@@ -61,7 +66,7 @@ int32_t curve25519_key_mul(const curve25519_key_t *const k1, const curve25519_ke
 int32_t curve25519_key_mul_modulo(const curve25519_key_t *const k1, const curve25519_key_t *const k2, curve25519_key_t *const restrict r);
 int32_t curve25519_key_mul_inplace(curve25519_key_t *const restrict k, const curve25519_key_t *const restrict k2);
 int32_t curve25519_key_mul_inplace_modulo(curve25519_key_t *const restrict k, const curve25519_key_t *const restrict k2);
-int32_t curve25519_key_divmod(const curve25519_key_t *const restrict k1, const curve25519_key_t *const restrict k2, curve25519_key_t *const restrict q, curve25519_key_t *const restrict r);
+int32_t curve25519_key_divmod(const curve25519_key_t *const restrict k1, const curve25519_key_t *const restrict k2, curve25519_key_t *const restrict q, curve25519_key_t *const r);
 int32_t curve25519_key_inv(const curve25519_key_t *const k, curve25519_key_t *const restrict r);
 int32_t curve25519_key_exp(curve25519_key_t *const k1, uint64_t n);
 int32_t curve25519_key_printf(const curve25519_key_t *const k, const curve25519_key_fmt_t size);

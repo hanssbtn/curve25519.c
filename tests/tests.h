@@ -14,6 +14,8 @@ int32_t curve25519_key_add_modulo_test(void);
 int32_t curve25519_key_add_modulo_inplace_test(void);
 int32_t curve25519_key_sub_test(void);
 int32_t curve25519_key_sub_inplace_test(void);
+int32_t curve25519_key_sub_modulo_test(void);
+int32_t curve25519_key_sub_modulo_inplace_test(void);
 int32_t curve25519_key_x2_test(void);
 int32_t curve25519_key_x2_modulo_test(void);
 int32_t curve25519_key_add_self_test(void);
@@ -27,5 +29,6 @@ int32_t curve25519_key_log2_test(void);
 int32_t curve25519_key_mul_test(void);
 int32_t curve25519_key_mul_modulo_test(void);
 int32_t curve25519_key_divmod_test(void);
+int32_t curve25519_key_inv_test(void);
 
 #endif // CURVE25519_TESTS_H__
