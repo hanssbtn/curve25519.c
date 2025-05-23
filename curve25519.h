@@ -9,7 +9,8 @@ typedef struct curve25519_proj_point {
     curve25519_key_t Z;
 } curve25519_proj_point_t;
 
-static const curve25519_key_t A24 = {.key64 = {121665}};
+static const curve25519_key_t __A24 = {.key64 = {121665}};
+static const curve25519_key_t *const A24 = &__A24;
 
 int32_t curve25519_point_add(curve25519_key_t *p1, curve25519_key_t *p2, curve25519_key_t *r);
 int32_t curve25519_point_x2(curve25519_key_t *p1, curve25519_key_t *p2, curve25519_key_t *r);

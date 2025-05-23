@@ -41,6 +41,7 @@ typedef enum curve25519_key_fmt {
 } curve25519_key_fmt_t;
 
 int32_t curve25519_priv_key_init(curve25519_key_t *const key);
+void curve25519_key_copy(curve25519_key_t *const restrict dst, const curve25519_key_t *const restrict src);
 int64_t curve25519_key_cmp_low(const curve25519_key_t *const k1, const curve25519_key_t *const k2);
 int64_t curve25519_key_cmp_high(const curve25519_key_t *const k1, const curve25519_key_t *const k2);
 int64_t curve25519_key_cmp(const curve25519_key_t *const k1, const curve25519_key_t *const k2);
