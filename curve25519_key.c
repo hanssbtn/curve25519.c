@@ -25,81 +25,250 @@ void print_bits(uint64_t n) {
 	printf("%llu\n", (n & 1));
 }
 
-uint64_t curve25519_key_lshift_inplace(curve25519_key_t *const k, int64_t shift) {
-	uint64_t *key = k->key64;
-	// printf("Left shifting\n");
-	// printf("Before:\n");
-	// for (uint64_t k = 7; k > 0; --k) {
-	// 	print_bits(key[k]);
-	// }
-	// print_bits(key[0]);
-	// printf("\n\n");
-	int64_t parts = shift/64;
-	shift &= 63LL;
+int32_t curve25519_priv_key_init(curve25519_key_t *const key) {
+	NTSTATUS status;
+	BCRYPT_ALG_HANDLE hAlgorithm = NULL;
+	status = BCryptOpenAlgorithmProvider(&hAlgorithm, BCRYPT_RNG_ALGORITHM, NULL, 0);
+	if (!BCRYPT_SUCCESS(status)) {
+		fprintf(stderr, "Error opening crypto algorithm provider\n");
+		return -1;
+	}
+	uint8_t *key8 = key->key8;
+	status = BCryptGenRandom(hAlgorithm, key8, 32, 0);
+	key->key64[4] = 0ULL;
+	key->key64[5] = 0ULL;
+	key->key64[6] = 0ULL;
+	key->key64[7] = 0ULL;
+	BCryptCloseAlgorithmProvider(hAlgorithm, 0);
+	if (!BCRYPT_SUCCESS(status)) {
+		fprintf(stderr, "Error generating random bytes\n");
+		return -2;
+	}
+	key8[0] &= ~(uint8_t)(0b111);
+	key8[31] = (key8[31] | 0x40) & 0x7F;
+	return 0;
+}
 
-	// k->key[i] -> k->key[i + parts]
-	// shift by 64 bytes, then shift the rest normally
-	int64_t i;
-	for (i = 7; i - parts >= 0; --i) {
-		key[i] = key[i - parts];
-	}
-	int64_t offset = i >= 0 ? i : 0;
-	for (; i >= 0; --i){
-		key[i] = 0;
-	}
-	if (!shift) return 0;
-	int64_t nshift = 64ULL - shift;
-	uint64_t carry = 0;
-	for (; offset < 8; offset++) {
-		uint64_t temp = key[offset] >> nshift;
-		key[offset] = (key[offset] << shift) | carry;
-		carry = temp;
-	}
-	// printf("After:\n");
-	// for (uint64_t k = 7; k > 0; --k) {
-	// 	print_bits(key[k]);
-	// }
-	// print_bits(key[0]);
-	// printf("\n\n\n");
+void curve25519_key_copy(curve25519_key_t *const restrict dst, const curve25519_key_t *const restrict src) {
+	memcpy(dst->key8, src->key8, sizeof(curve25519_key_t));
+}
 
+int64_t curve25519_key_cmp_low(const curve25519_key_t *const k1, const curve25519_key_t *const k2) {
+	__m256i key1 = _mm256_loadu_epi64(k1->key64), key2 = _mm256_loadu_epi64(k2->key64);
+	__mmask8 lt_mask = _mm256_cmplt_epu64_mask(key1, key2);
+	__mmask8 gt_mask = _mm256_cmpgt_epu64_mask(key1, key2);
+	return gt_mask - lt_mask;
+}
+
+int64_t curve25519_key_cmp_high(const curve25519_key_t *const k1, const curve25519_key_t *const k2) {
+	__m256i key1 = _mm256_loadu_epi64(k1->key64 + 4), key2 = _mm256_loadu_epi64(k2->key64 + 4);
+	__mmask8 lt_mask = _mm256_cmplt_epu64_mask(key1, key2);
+	__mmask8 gt_mask = _mm256_cmpgt_epu64_mask(key1, key2);
+	return gt_mask - lt_mask;
+}
+
+int64_t curve25519_key_cmp(const curve25519_key_t *const k1, const curve25519_key_t *const k2) {
+	int64_t res = curve25519_key_cmp_high(k1, k2);
+	if (!res) return curve25519_key_cmp_low(k1, k2);
+	else return res;
+}
+
+// TODO: make constant time
+void curve25519_key_compute_modulo(curve25519_key_t *const n) {
+	while (curve25519_key_cmp(c25519, n) <= 0) {
+		uint64_t *low = n->key64, *high = n->key64 + 4;
+		// n >= 2^256
+		if (curve25519_key_cmp_high(n, ZERO) > 0) {
+			curve25519_key_t q0_38 = {};
+			do {
+				curve25519_key_t q0 = {.key64 = {high[0], high[1], high[2], high[3]}};
+				curve25519_key_t temp = {};
+				curve25519_key_lshift(&q0, 5, &q0_38);
+				curve25519_key_lshift(&q0, 2, &temp);
+				curve25519_key_add_inplace(&q0_38, &temp);
+				curve25519_key_lshift_inplace(&q0, 1);
+				curve25519_key_add_inplace(&q0_38, &q0);
+			} while (0);
+			high[3] = 0;
+			high[2] = 0;
+			high[1] = 0;
+			high[0] = 0;
+			curve25519_key_add_inplace(n, &q0_38);
+		} 
+		// 2^255 <= n < 2^256
+		else if (n->key8[31] & 0x80) {
+			n->key8[31] &= 0x7F;
+			uint64_t c = (n->key64[0] > UINT64_MAX - 19ULL);
+			n->key64[0] += 19ULL;
+			for (size_t i = 1; i < 4 && c; i++) {
+				uint64_t sum = n->key64[i] + c;
+				c = (n->key64[i] > sum);
+				n->key64[i] = sum;
+			}
+		} 
+		// 2^255 - 19 <= n < 2^255
+		else {
+			for (size_t i = 0; i < 4; i++) {
+				n->key64[i] -= c25519->key64[i];
+			}
+		}
+		// check if n >= 2^255
+	}
+}
+
+int32_t curve25519_key_add(const curve25519_key_t *const restrict k1, const curve25519_key_t *const restrict k2, curve25519_key_t *const restrict r) {
+	const uint64_t *key1 = k1->key64, *key2 = k2->key64;
+	uint64_t *key_res = r->key64;
+	key_res[0] = key1[0] + key2[0]; 
+	uint64_t carry = (key1[0] > UINT64_MAX - key2[0]);
+	for (size_t i = 1; i < 8; i++) {
+		key_res[i] = key1[i] + key2[i] + carry;
+		carry = (key1[i] > UINT64_MAX - key2[i]) || (key1[i] + key2[i] > UINT64_MAX - carry);
+	}
+	return carry;
+}  
+
+int32_t curve25519_key_add_inplace(curve25519_key_t *const restrict dst, const curve25519_key_t *const restrict src) {
+	uint64_t *const key1 = dst->key64;
+	const uint64_t *const key2 = src->key64;
+	uint64_t carry = (key1[0] > UINT64_MAX - key2[0]);
+	key1[0] += key2[0];
+	for (size_t i = 1; i < 8; i++) {
+		uint64_t val = key1[i];
+		key1[i] += key2[i] + carry;
+		carry = (val > UINT64_MAX - key2[i]) || (val + key2[i] > UINT64_MAX - carry);
+	}
 	return carry;
 }
 
-uint64_t curve25519_key_rshift_inplace(curve25519_key_t *const k, int64_t shift) {
-	// printf("Right shifting\n");
-	// printf("Before:\n");
-	// for (ssize_t i = 7; i >= 0; --i) {
-	// 	print_bits(key[i]);
-	// }
-	// curve25519_key_printf(k, COMPLETE);
-	uint64_t *key = k->key64;
-	int64_t parts = shift / 64;
-	int64_t i;
-	for (i = 0; i + parts < 8; ++i) {
-		key[i] = key[i + parts];
-	}		
-	int64_t offset = i < 8 ? i : 7;
-	for (; i < 8; ++i){
-		key[i] = 0;
+int32_t curve25519_key_add_modulo(const curve25519_key_t *const restrict k1, const curve25519_key_t *const restrict k2, curve25519_key_t *const restrict r) {
+	curve25519_key_t t1;
+	curve25519_key_copy(&t1, k1);
+	curve25519_key_compute_modulo(&t1);
+	int32_t carry = curve25519_key_add(&t1, k2, r);
+	curve25519_key_compute_modulo(r);
+	return carry;
+}
+
+int32_t curve25519_key_add_modulo_inplace(curve25519_key_t *const restrict dst, const curve25519_key_t *const restrict src) {
+	curve25519_key_compute_modulo(dst);
+	int32_t carry = curve25519_key_add_inplace(dst, src);
+	curve25519_key_compute_modulo(dst);
+	return carry;
+}
+
+void curve25519_key_compute_modulo_signed(curve25519_key_signed_t *const sk) {
+	curve25519_key_t *const ptr = &sk->key;
+	curve25519_key_compute_modulo(ptr);
+	if (sk->borrow && curve25519_key_cmp(ptr, ZERO) != 0) {
+		curve25519_key_t constant = {.key64 = {1444, 0, 0, 0}};
+		curve25519_key_sub_modulo_inplace(ptr, &constant);
 	}
-	// printf("After:\n");
-	// curve25519_key_printf(k, COMPLETE);
-	shift &= 63LL;
-	if (!shift) return 0;
-	uint64_t mask = ((1ULL << shift) - 1), nshift = 64ULL - shift, carry_from_higher_word = 0; // No carry into the highest word
+}
 
-    for (; offset >= 0; --offset) {
-        uint64_t bits_to_carry_down = (key[offset] & mask);
-        key[offset] >>= shift;
-        key[offset] |= (carry_from_higher_word << nshift);
-        carry_from_higher_word = bits_to_carry_down;
-    }
+int32_t curve25519_key_sub(const curve25519_key_t *const restrict k1, const curve25519_key_t *const restrict k2, curve25519_key_signed_t *const restrict r) {
+	const uint64_t *const key1 = k1->key64, *key2 = k2->key64;
+	uint64_t *const res = r->key.key64;
+	
+	uint64_t borrow = 0;
+	for (int i = 0; i < 8; ++i) {
+		uint64_t temp_res = key1[i] - key2[i] - borrow;
+		borrow = (key1[i] < key2[i]) || (key1[i] - key2[i] < borrow);
+		res[i] = temp_res;
+	}
+	r->borrow = borrow;
+	return borrow;
+}
 
-	// printf("After:\n");
-	// for (ssize_t i = 7; i >= 0; --i) {
-	// 	print_bits(key[i]);
-	// }
-	return carry_from_higher_word;
+int32_t curve25519_key_sub_modulo(const curve25519_key_t *const restrict k1, const curve25519_key_t *const restrict k2, curve25519_key_t *const restrict r) {
+	bool negate = false;
+	curve25519_key_t t1, t2;
+	curve25519_key_copy(&t1, k1);
+	curve25519_key_copy(&t2, k2);
+	curve25519_key_compute_modulo(&t1);
+	curve25519_key_compute_modulo(&t2);
+	curve25519_key_add_inplace(&t1, c25519);
+	
+	const uint64_t *key1 = t1.key64, *key2 = t2.key64;
+	uint64_t *const res = r->key64;
+
+	uint64_t borrow = 0;
+	for (int i = 0; i < 8; ++i) {
+		uint64_t temp_res = key1[i] - key2[i] - borrow;
+		borrow = (key1[i] < key2[i]) || (key1[i] - key2[i] < borrow);
+		res[i] = temp_res;
+	}
+	
+	curve25519_key_compute_modulo(r);
+	return 0;
+}
+
+int32_t curve25519_key_sub_modulo_inplace(curve25519_key_t *const restrict dst, const curve25519_key_t *const restrict src) {
+	uint64_t *const key1 = dst->key64;
+	curve25519_key_t tmp;
+	curve25519_key_copy(&tmp, src);
+	curve25519_key_compute_modulo(&tmp);
+	curve25519_key_compute_modulo(dst);
+	curve25519_key_add_inplace(dst, c25519);
+	const uint64_t *const key2 = tmp.key64;
+	uint64_t borrow = 0;
+	for (int i = 0; i < 8; ++i) {
+		uint64_t temp_res = key1[i] - key2[i] - borrow;
+		borrow = (key1[i] < key2[i]) || (key1[i] - key2[i] < borrow);
+		key1[i] = temp_res;
+	}
+	curve25519_key_compute_modulo(dst);
+	return 0;
+}
+
+int32_t curve25519_key_sub_inplace(curve25519_key_signed_t *const restrict dst, const curve25519_key_t *const restrict src) {
+	uint64_t *const key1 = dst->key.key64;
+	const uint64_t *const key2 = src->key64;
+	uint64_t borrow = 0;
+	for (int i = 0; i < 8; ++i) {
+		uint64_t temp_res = key1[i] - key2[i] - borrow;
+		borrow = (key1[i] < key2[i]) || (key1[i] - key2[i] < borrow);
+		key1[i] = temp_res;
+	}
+	dst->borrow = borrow;
+	
+	return borrow;
+}
+
+int32_t curve25519_key_x2(const curve25519_key_t *const restrict k, curve25519_key_t *const restrict r) {
+	const uint64_t *const key = k->key64;
+	uint64_t *key_res = r->key64;
+	uint64_t carry = (key[0] > UINT64_MAX / 2);
+	key_res[0] = (key[0] << 1);
+	for (int i = 1; i < 8; ++i) {
+		key_res[i] = (key[i] << 1) + carry;
+		carry = (key[i] > UINT64_MAX / 2 - carry);
+	}
+	return carry;
+} 
+
+int32_t curve25519_key_x2_inplace(curve25519_key_t *const k) {
+	uint64_t *const key = k->key64;
+	uint64_t carry = (key[0] > UINT64_MAX / 2);
+	key[0] <<= 1;
+	for (int i = 1; i < 8; ++i) {
+		uint64_t tmp = (key[i] << 1) + carry;
+		carry = (key[i] > UINT64_MAX / 2 - carry);
+		key[i] = tmp;
+	}
+	return carry;
+}
+
+int32_t curve25519_key_x2_modulo(const curve25519_key_t *const restrict k, curve25519_key_t *const restrict r) {
+	int32_t carry = curve25519_key_x2(k, r);
+	curve25519_key_compute_modulo(r);
+	return carry;
+}
+
+int32_t curve25519_key_x2_modulo_inplace(curve25519_key_t *const k) {
+	int32_t carry = curve25519_key_x2_inplace(k);
+	curve25519_key_compute_modulo(k);
+	return carry;
 }
 
 uint64_t curve25519_key_lshift(const curve25519_key_t *const k, int64_t shift, curve25519_key_t *const restrict r) {
@@ -153,6 +322,46 @@ uint64_t curve25519_key_lshift(const curve25519_key_t *const k, int64_t shift, c
 	return carry;
 }
 
+uint64_t curve25519_key_lshift_inplace(curve25519_key_t *const k, int64_t shift) {
+	uint64_t *key = k->key64;
+	// printf("Left shifting\n");
+	// printf("Before:\n");
+	// for (uint64_t k = 7; k > 0; --k) {
+	// 	print_bits(key[k]);
+	// }
+	// print_bits(key[0]);
+	// printf("\n\n");
+	int64_t parts = shift/64;
+	shift &= 63LL;
+
+	// k->key[i] -> k->key[i + parts]
+	// shift by 64 bytes, then shift the rest normally
+	int64_t i;
+	for (i = 7; i - parts >= 0; --i) {
+		key[i] = key[i - parts];
+	}
+	int64_t offset = i >= 0 ? i : 0;
+	for (; i >= 0; --i){
+		key[i] = 0;
+	}
+	if (!shift) return 0;
+	int64_t nshift = 64ULL - shift;
+	uint64_t carry = 0;
+	for (; offset < 8; offset++) {
+		uint64_t temp = key[offset] >> nshift;
+		key[offset] = (key[offset] << shift) | carry;
+		carry = temp;
+	}
+	// printf("After:\n");
+	// for (uint64_t k = 7; k > 0; --k) {
+	// 	print_bits(key[k]);
+	// }
+	// print_bits(key[0]);
+	// printf("\n\n\n");
+
+	return carry;
+}
+
 uint64_t curve25519_key_rshift(const curve25519_key_t *const restrict k, int64_t shift, curve25519_key_t *const restrict r) {
 	const uint64_t *const key = k->key64;
 	uint64_t *const res = r->key64;
@@ -190,287 +399,75 @@ uint64_t curve25519_key_rshift(const curve25519_key_t *const restrict k, int64_t
 	return carry_from_higher_word;
 }
 
-void compute_modulo_25519(curve25519_key_t *const n) {
-	while (curve25519_key_cmp(c25519, n) <= 0) {
-		uint64_t *low = n->key64, *high = n->key64 + 4;
-		// n >= 2^256
-		if (curve25519_key_cmp_high(n, ZERO) > 0) {
-			curve25519_key_t q0_38 = {};
-			do {
-				curve25519_key_t q0 = {.key64 = {high[0], high[1], high[2], high[3]}};
-				curve25519_key_t temp = {};
-				curve25519_key_lshift(&q0, 5, &q0_38);
-				curve25519_key_lshift(&q0, 2, &temp);
-				curve25519_key_add_inplace(&q0_38, &temp);
-				curve25519_key_lshift(&q0, 1, &temp);
-				curve25519_key_add_inplace(&q0_38, &temp);
-			} while (0);
-			high[3] = 0;
-			high[2] = 0;
-			high[1] = 0;
-			high[0] = 0;
-			curve25519_key_add_inplace(n, &q0_38);
-		} 
-		// 2^255 <= n < 2^256
-		else if (n->key8[31] & 0x80) {
-			n->key8[31] &= 0x7F;
-			uint64_t c = (n->key64[0] > UINT64_MAX - 19ULL);
-			n->key64[0] += 19ULL;
-			for (size_t i = 1; i < 4 && c; i++) {
-				uint64_t sum = n->key64[i] + c;
-				c = (n->key64[i] > sum);
-				n->key64[i] = sum;
-			}
-		} 
-		// 2^255 - 19 <= n < 2^255
-		else {
-			for (size_t i = 0; i < 4; i++) {
-				n->key64[i] -= c25519->key64[i];
-			}
+uint64_t curve25519_key_rshift_inplace(curve25519_key_t *const k, int64_t shift) {
+	// printf("Right shifting\n");
+	// printf("Before:\n");
+	// for (ssize_t i = 7; i >= 0; --i) {
+	// 	print_bits(key[i]);
+	// }
+	// curve25519_key_printf(k, COMPLETE);
+	uint64_t *key = k->key64;
+	int64_t parts = shift / 64;
+	int64_t i;
+	for (i = 0; i + parts < 8; ++i) {
+		key[i] = key[i + parts];
+	}		
+	int64_t offset = i < 8 ? i : 7;
+	for (; i < 8; ++i){
+		key[i] = 0;
+	}
+	// printf("After:\n");
+	// curve25519_key_printf(k, COMPLETE);
+	shift &= 63LL;
+	if (!shift) return 0;
+	uint64_t mask = ((1ULL << shift) - 1), nshift = 64ULL - shift, carry_from_higher_word = 0; // No carry into the highest word
+
+    for (; offset >= 0; --offset) {
+        uint64_t bits_to_carry_down = (key[offset] & mask);
+        key[offset] >>= shift;
+        key[offset] |= (carry_from_higher_word << nshift);
+        carry_from_higher_word = bits_to_carry_down;
+    }
+
+	// printf("After:\n");
+	// for (ssize_t i = 7; i >= 0; --i) {
+	// 	print_bits(key[i]);
+	// }
+	return carry_from_higher_word;
+}
+
+void curve25519_key_and(const curve25519_key_t *const restrict k1, const curve25519_key_t *const restrict k2, curve25519_key_t *const restrict r) {
+	for (uint64_t i = 0; i < 8; ++i) {
+		r->key64[i] = k1->key64[i] & k2->key64[i];
+	}
+}
+
+void curve25519_key_xor(const curve25519_key_t *const restrict k1, const curve25519_key_t *const restrict k2, curve25519_key_t *const restrict r) {
+	for (uint64_t i = 0; i < 8; ++i) {
+		r->key64[i] = k1->key64[i] ^ k2->key64[i];
+	}
+}
+
+int64_t curve25519_key_log2(const curve25519_key_t *const restrict k, curve25519_key_t *const restrict p) {
+	int64_t i, count = 512;
+	for (i = 7; i >= 0; --i) {
+		if (!k->key64[i]) {
+			if (p) p->key64[i] = 0;
+			count -= 64;
+			continue;
 		}
-		// check if n >= 2^255
+		int exponent = __builtin_clzll(k->key64[i]);
+		count -= exponent + 1;
+		if (p) p->key64[i] = 1ULL << (63 - exponent);
+		break;
 	}
-}
-
-void compute_modulo_25519_signed(curve25519_key_signed_t *const sk) {
-	curve25519_key_t *const ptr = &sk->key;
-	compute_modulo_25519(ptr);
-	if (sk->borrow && curve25519_key_cmp(ptr, ZERO) != 0) {
-		curve25519_key_t constant = {.key64 = {1444, 0, 0, 0}};
-		curve25519_key_sub_modulo_inplace(ptr, &constant);
+	if (p) {
+		i--;
+		for (; i >= 0; --i) {
+			p->key64[i] = 0;
+		}
 	}
-}
-
-int32_t curve25519_priv_key_init(curve25519_key_t *const key) {
-	NTSTATUS status;
-	BCRYPT_ALG_HANDLE hAlgorithm = NULL;
-	status = BCryptOpenAlgorithmProvider(&hAlgorithm, BCRYPT_RNG_ALGORITHM, NULL, 0);
-	if (!BCRYPT_SUCCESS(status)) {
-		fprintf(stderr, "Error opening crypto algorithm provider\n");
-		return -1;
-	}
-	uint8_t *key8 = key->key8;
-	status = BCryptGenRandom(hAlgorithm, key8, 32, 0);
-	key->key64[4] = 0ULL;
-	key->key64[5] = 0ULL;
-	key->key64[6] = 0ULL;
-	key->key64[7] = 0ULL;
-	BCryptCloseAlgorithmProvider(hAlgorithm, 0);
-	if (!BCRYPT_SUCCESS(status)) {
-		fprintf(stderr, "Error generating random bytes\n");
-		return -2;
-	}
-	key8[0] &= ~(uint8_t)(0b111);
-	key8[31] = (key8[31] | 0x40) & 0x7F;
-	return 0;
-}
-
-void curve25519_key_copy(curve25519_key_t *const restrict dst, const curve25519_key_t *const restrict src) {
-	memcpy(dst->key8, src->key8, sizeof(curve25519_key_t));
-}
-
-int64_t curve25519_key_cmp_low(const curve25519_key_t *const k1, const curve25519_key_t *const k2) {
-	__m256i key1 = _mm256_loadu_epi64(k1->key64), key2 = _mm256_loadu_epi64(k2->key64);
-	__mmask8 lt_mask = _mm256_cmplt_epu64_mask(key1, key2);
-	__mmask8 gt_mask = _mm256_cmpgt_epu64_mask(key1, key2);
-	return gt_mask - lt_mask;
-}
-
-int64_t curve25519_key_cmp_high(const curve25519_key_t *const k1, const curve25519_key_t *const k2) {
-	__m256i key1 = _mm256_loadu_epi64(k1->key64 + 4), key2 = _mm256_loadu_epi64(k2->key64 + 4);
-	__mmask8 lt_mask = _mm256_cmplt_epu64_mask(key1, key2);
-	__mmask8 gt_mask = _mm256_cmpgt_epu64_mask(key1, key2);
-	return gt_mask - lt_mask;
-}
-
-int64_t curve25519_key_cmp(const curve25519_key_t *const k1, const curve25519_key_t *const k2) {
-	int64_t res = curve25519_key_cmp_high(k1, k2);
-	if (!res) return curve25519_key_cmp_low(k1, k2);
-	else return res;
-}
-
-int32_t curve25519_key_add(const curve25519_key_t *const restrict k1, const curve25519_key_t *const restrict k2, curve25519_key_t *const restrict r) {
-	const uint64_t *key1 = k1->key64, *key2 = k2->key64;
-	uint64_t *key_res = r->key64;
-	key_res[0] = key1[0] + key2[0]; 
-	uint64_t carry = (key1[0] > UINT64_MAX - key2[0]);
-	for (size_t i = 1; i < 8; i++) {
-		key_res[i] = key1[i] + key2[i] + carry;
-		carry = (key1[i] > UINT64_MAX - key2[i]) || (key1[i] + key2[i] > UINT64_MAX - carry);
-	}
-	return carry;
-}  
-
-int32_t curve25519_key_add_modulo(const curve25519_key_t *const restrict k1, const curve25519_key_t *const restrict k2, curve25519_key_t *const restrict r) {
-	curve25519_key_t t1;
-	curve25519_key_copy(&t1, k1);
-	compute_modulo_25519(&t1);
-	int32_t carry = curve25519_key_add(&t1, k2, r);
-	compute_modulo_25519(r);
-	return carry;
-}
-
-int32_t curve25519_key_add_inplace(curve25519_key_t *const restrict dst, const curve25519_key_t *const restrict src) {
-	uint64_t *const key1 = dst->key64;
-	const uint64_t *const key2 = src->key64;
-	uint64_t carry = (key1[0] > UINT64_MAX - key2[0]);
-	key1[0] += key2[0];
-	for (size_t i = 1; i < 8; i++) {
-		uint64_t val = key1[i];
-		key1[i] += key2[i] + carry;
-		carry = (val > UINT64_MAX - key2[i]) || (val + key2[i] > UINT64_MAX - carry);
-	}
-	return carry;
-}
-
-int32_t curve25519_key_add_modulo_inplace(curve25519_key_t *const restrict dst, const curve25519_key_t *const restrict src) {
-	compute_modulo_25519(dst);
-	int32_t carry = curve25519_key_add_inplace(dst, src);
-	compute_modulo_25519(dst);
-	return carry;
-}
-
-int32_t curve25519_key_sub_modulo_inplace(curve25519_key_t *const restrict dst, const curve25519_key_t *const restrict src) {
-	uint64_t *const key1 = dst->key64;
-	curve25519_key_t tmp;
-	curve25519_key_copy(&tmp, src);
-	if (curve25519_key_cmp(dst, &tmp) < 0) {
-		compute_modulo_25519(&tmp);
-		compute_modulo_25519(dst);
-		curve25519_key_add_inplace(dst, c25519);
-	}
-	const uint64_t *const key2 = tmp.key64;
-	uint64_t borrow = 0;
-	for (int i = 0; i < 8; ++i) {
-		uint64_t temp_res = key1[i] - key2[i] - borrow;
-		borrow = (key1[i] < key2[i]) || (key1[i] - key2[i] < borrow);
-		key1[i] = temp_res;
-	}
-	compute_modulo_25519(dst);
-	return 0;
-}
-
-int32_t curve25519_key_sub_modulo(const curve25519_key_t *const restrict k1, const curve25519_key_t *const restrict k2, curve25519_key_t *const restrict r) {
-	bool negate = false;
-	curve25519_key_t t1, t2;
-	curve25519_key_copy(&t1, k1);
-	curve25519_key_copy(&t2, k2);
-	if (curve25519_key_cmp(k1, k2) < 0) {
-		compute_modulo_25519(&t1);
-		compute_modulo_25519(&t2);
-		curve25519_key_add_inplace(&t1, c25519);
-	}
-	const uint64_t *key1 = t1.key64, *key2 = t2.key64;
-	uint64_t *const res = r->key64;
-
-	uint64_t borrow = 0;
-	for (int i = 0; i < 8; ++i) {
-		uint64_t temp_res = key1[i] - key2[i] - borrow;
-		borrow = (key1[i] < key2[i]) || (key1[i] - key2[i] < borrow);
-		res[i] = temp_res;
-	}
-	
-	compute_modulo_25519(r);
-	return 0;
-}
-
-int32_t curve25519_key_sub_inplace(curve25519_key_signed_t *const restrict dst, const curve25519_key_t *const restrict src) {
-	uint64_t *const key1 = dst->key.key64;
-	const uint64_t *const key2 = src->key64;
-	uint64_t borrow = 0;
-	for (int i = 0; i < 8; ++i) {
-		uint64_t temp_res = key1[i] - key2[i] - borrow;
-		borrow = (key1[i] < key2[i]) || (key1[i] - key2[i] < borrow);
-		key1[i] = temp_res;
-	}
-	dst->borrow = borrow;
-	
-	return borrow;
-}
-
-int32_t curve25519_key_sub(const curve25519_key_t *const restrict k1, const curve25519_key_t *const restrict k2, curve25519_key_signed_t *const restrict r) {
-	const uint64_t *const key1 = k1->key64, *key2 = k2->key64;
-	uint64_t *const res = r->key.key64;
-	
-	uint64_t borrow = 0;
-	for (int i = 0; i < 8; ++i) {
-		uint64_t temp_res = key1[i] - key2[i] - borrow;
-		borrow = (key1[i] < key2[i]) || (key1[i] - key2[i] < borrow);
-		res[i] = temp_res;
-	}
-	r->borrow = borrow;
-	return borrow;
-}
-
-int32_t curve25519_key_x2(const curve25519_key_t *const restrict k, curve25519_key_t *const restrict r) {
-	const uint64_t *const key = k->key64;
-	uint64_t *key_res = r->key64;
-	uint64_t carry = (key[0] > UINT64_MAX / 2);
-	key_res[0] = (key[0] << 1);
-	for (int i = 1; i < 8; ++i) {
-		key_res[i] = (key[i] << 1) + carry;
-		carry = (key[i] > UINT64_MAX / 2 - carry);
-	}
-	return carry;
-} 
-
-int32_t curve25519_key_x2_inplace(curve25519_key_t *const k) {
-	uint64_t *const key = k->key64;
-	uint64_t carry = (key[0] > UINT64_MAX / 2);
-	key[0] <<= 1;
-	for (int i = 1; i < 8; ++i) {
-		uint64_t tmp = (key[i] << 1) + carry;
-		carry = (key[i] > UINT64_MAX / 2 - carry);
-		key[i] = tmp;
-	}
-	return carry;
-}
-
-int32_t curve25519_key_x2_modulo(const curve25519_key_t *const restrict k, curve25519_key_t *const restrict r) {
-	int32_t carry = curve25519_key_x2(k, r);
-	compute_modulo_25519(r);
-	return carry;
-}
-
-int32_t curve25519_key_x2_modulo_inplace(curve25519_key_t *const k) {
-	int32_t carry = curve25519_key_x2_inplace(k);
-	compute_modulo_25519(k);
-	return carry;
-}
-
-int32_t curve25519_key_inv(const curve25519_key_t *const k, curve25519_key_t *const restrict t) {
-	curve25519_key_t _r, _r_new;
-	curve25519_key_t *r = &_r, *r_new = &_r_new;
-	curve25519_key_copy(r, c25519);
-	curve25519_key_copy(r_new, k);
-	if (curve25519_key_cmp_high(r_new, c25519) >= 0) {
-		compute_modulo_25519(r_new);
-	}
-	memset(t->key8, 0, sizeof(curve25519_key_t));
-	curve25519_key_t _t_new = {.key8 = {1}};
-	curve25519_key_t *t_new = &_t_new;
-
-	curve25519_key_t _q, _old, _t_new_q, _r_new_q;
-	curve25519_key_t *q = &_q, *old = &_old, *t_new_q = &_t_new_q, *r_new_q = &_r_new_q;
-	while (curve25519_key_cmp(r_new, ZERO)) {
-		curve25519_key_divmod(r, r_new, q, NULL);
-		curve25519_key_mul(t_new, q, t_new_q);
-		curve25519_key_mul(r_new, q, r_new_q);
-		curve25519_key_copy(old, r_new);
-		curve25519_key_sub_modulo(r, r_new_q, r_new);
-		curve25519_key_copy(r, old);
-		
-		curve25519_key_copy(old, t_new);
-		curve25519_key_sub_modulo(t, t_new_q, t_new);
-		curve25519_key_copy(t, old);
-	}
-		
-	if (curve25519_key_cmp(r, ONE) > 0) {
-		*t = (curve25519_key_t){.key64 = {-1,-1,-1,-1,-1,-1,-1,-1}};
-		return -1;
-	}
-
-	return 0;
+	return count;
 }
 
 int32_t curve25519_key_mul(const curve25519_key_t *const k1, const curve25519_key_t *const k2, curve25519_key_t *const restrict r) {
@@ -512,17 +509,6 @@ int32_t curve25519_key_mul(const curve25519_key_t *const k1, const curve25519_ke
 	return 0;
 }
 
-int32_t curve25519_key_mul_modulo(const curve25519_key_t *const k1, const curve25519_key_t *const k2, curve25519_key_t *const restrict r) {
-	curve25519_key_t t1, t2;
-	curve25519_key_copy(&t1, k1);
-	compute_modulo_25519(&t1);
-	curve25519_key_copy(&t2, k2);
-	compute_modulo_25519(&t2);
-	curve25519_key_mul(&t1, &t2, r);
-	compute_modulo_25519(r);
-	return 0;
-}
-
 int32_t curve25519_key_mul_inplace(curve25519_key_t *const restrict dst, const curve25519_key_t *const restrict src) {
 	if (!curve25519_key_cmp(ZERO, dst) || !curve25519_key_cmp(ONE, src)) return 0;
 	if (!curve25519_key_cmp(ZERO, src)) {
@@ -560,37 +546,26 @@ int32_t curve25519_key_mul_inplace(curve25519_key_t *const restrict dst, const c
 	return 0;
 }
 
-int32_t curve25519_key_mul_modulo_inplace(curve25519_key_t *const restrict dst, const curve25519_key_t *const restrict src) {
-	curve25519_key_t t;
-	compute_modulo_25519(dst);
-	curve25519_key_copy(&t, src);
-	compute_modulo_25519(&t);
-	curve25519_key_mul_inplace(dst, &t);
-	compute_modulo_25519(dst);
+int32_t curve25519_key_mul_modulo(const curve25519_key_t *const k1, const curve25519_key_t *const k2, curve25519_key_t *const restrict r) {
+	curve25519_key_t t1, t2;
+	curve25519_key_copy(&t1, k1);
+	curve25519_key_compute_modulo(&t1);
+	curve25519_key_copy(&t2, k2);
+	curve25519_key_compute_modulo(&t2);
+	curve25519_key_mul(&t1, &t2, r);
+	curve25519_key_compute_modulo(r);
 	return 0;
 }
 
-int64_t curve25519_key_log2(const curve25519_key_t *const restrict k, curve25519_key_t *const restrict p) {
-	int64_t i, count = 512;
-	for (i = 7; i >= 0; --i) {
-		if (!k->key64[i]) {
-			if (p) p->key64[i] = 0;
-			count -= 64;
-			continue;
-		}
-		int exponent = __builtin_clzll(k->key64[i]);
-		count -= exponent + 1;
-		if (p) p->key64[i] = 1ULL << (63 - exponent);
-		break;
-	}
-	if (p) {
-		i--;
-		for (; i >= 0; --i) {
-			p->key64[i] = 0;
-		}
-	}
-	return count;
-} 
+int32_t curve25519_key_mul_modulo_inplace(curve25519_key_t *const restrict dst, const curve25519_key_t *const restrict src) {
+	curve25519_key_t t;
+	curve25519_key_compute_modulo(dst);
+	curve25519_key_copy(&t, src);
+	curve25519_key_compute_modulo(&t);
+	curve25519_key_mul_inplace(dst, &t);
+	curve25519_key_compute_modulo(dst);
+	return 0;
+}
 
 int32_t curve25519_key_divmod(const curve25519_key_t *const restrict num, const curve25519_key_t *const restrict den, curve25519_key_t *const restrict q, curve25519_key_t *restrict r) {
 	int32_t res = curve25519_key_cmp(num, den);
@@ -629,9 +604,9 @@ int32_t curve25519_key_divmod(const curve25519_key_t *const restrict num, const 
 			curve25519_key_rshift_inplace(&temp, 1);
 		}
 		curve25519_key_signed_t r_signed = {};
-		curve25519_key_copy(&r_signed, r);
+		curve25519_key_copy(&r_signed.key, r);
 		curve25519_key_sub_inplace(&r_signed, &den_cpy);
-		curve25519_key_copy(r, &r_signed);
+		curve25519_key_copy(r, &r_signed.key);
 
 		// printf("r:\n");
 		// curve25519_key_printf(r, COMPLETE);
@@ -639,6 +614,41 @@ int32_t curve25519_key_divmod(const curve25519_key_t *const restrict num, const 
 		// curve25519_key_printf(q, COMPLETE);
 		curve25519_key_add_inplace(q, &temp);
 	} while (curve25519_key_cmp(r, den) >= 0);
+	return 0;
+}
+
+int32_t curve25519_key_inv(const curve25519_key_t *const k, curve25519_key_t *const restrict t) {
+	curve25519_key_t _r, _r_new;
+	curve25519_key_t *r = &_r, *r_new = &_r_new;
+	curve25519_key_copy(r, c25519);
+	curve25519_key_copy(r_new, k);
+	if (curve25519_key_cmp_high(r_new, c25519) >= 0) {
+		curve25519_key_compute_modulo(r_new);
+	}
+	memset(t->key8, 0, sizeof(curve25519_key_t));
+	curve25519_key_t _t_new = {.key8 = {1}};
+	curve25519_key_t *t_new = &_t_new;
+
+	curve25519_key_t _q, _old, _t_new_q, _r_new_q;
+	curve25519_key_t *q = &_q, *old = &_old, *t_new_q = &_t_new_q, *r_new_q = &_r_new_q;
+	while (curve25519_key_cmp(r_new, ZERO)) {
+		curve25519_key_divmod(r, r_new, q, NULL);
+		curve25519_key_mul(t_new, q, t_new_q);
+		curve25519_key_mul(r_new, q, r_new_q);
+		curve25519_key_copy(old, r_new);
+		curve25519_key_sub_modulo(r, r_new_q, r_new);
+		curve25519_key_copy(r, old);
+		
+		curve25519_key_copy(old, t_new);
+		curve25519_key_sub_modulo(t, t_new_q, t_new);
+		curve25519_key_copy(t, old);
+	}
+		
+	if (curve25519_key_cmp(r, ONE) > 0) {
+		*t = (curve25519_key_t){.key64 = {-1,-1,-1,-1,-1,-1,-1,-1}};
+		return -1;
+	}
+
 	return 0;
 }
 

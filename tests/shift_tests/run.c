@@ -10,6 +10,14 @@ int main(void) {
 		fprintf(stderr, "Failed key doubling inplace test\n");
 		return -1;
 	}
+	if (curve25519_key_and_test()) {
+		fprintf(stderr, "Failed key AND test\n");
+		return -1;
+	}
+	if (curve25519_key_xor_test()) {
+		fprintf(stderr, "Failed key XOR test\n");
+		return -1;
+	}
 	if (curve25519_key_lshift_test()) {
 		fprintf(stderr, "Failed key left shift test\n");
 		return -1;

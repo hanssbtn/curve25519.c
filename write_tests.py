@@ -452,7 +452,7 @@ def write_modulo_test():
 		f.write(f"\tcurve25519_key_t k2 = {{.key64 = {{\n\t\t0x{(m) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 1)) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 2)) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 3)) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 4)) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 5)) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 6)) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 7)) & BITMASK:016X}ULL\n\t}}}};\n")
 		if (n < 0):
 			f.write("\tprintf(\"Negative\\n\");\n")
-		f.write(f'\tprintf("Test Case {i+1}\\n");\n\tprintf("Key: \\n");\n\tcurve25519_key_printf(&k1, COMPLETE);\n\tprintf("Expected: \\n");\n\tcurve25519_key_printf(&k2, COMPLETE);\n\tcompute_modulo_25519(&k1);\n\tint32_t res = curve25519_key_cmp(&k1, &k2);\n\tif (res) {{\n\t	printf("Test Case {i+1} FAILED\\n");\n\t\tcurve25519_key_printf(&k1, COMPLETE);\n\t	return -1;\n\t}} else {{\n\t	printf("Test Case {i+1} PASSED\\n");\n\t}}\n\tprintf("---\\n\\n");\n')
+		f.write(f'\tprintf("Test Case {i+1}\\n");\n\tprintf("Key: \\n");\n\tcurve25519_key_printf(&k1, COMPLETE);\n\tprintf("Expected: \\n");\n\tcurve25519_key_printf(&k2, COMPLETE);\n\tcurve25519_key_compute_modulo(&k1);\n\tint32_t res = curve25519_key_cmp(&k1, &k2);\n\tif (res) {{\n\t	printf("Test Case {i+1} FAILED\\n");\n\t\tcurve25519_key_printf(&k1, COMPLETE);\n\t	return -1;\n\t}} else {{\n\t	printf("Test Case {i+1} PASSED\\n");\n\t}}\n\tprintf("---\\n\\n");\n')
 		for i in range(1, TEST_COUNT):
 			n = random.getrandbits(512)
 			m = n % M
@@ -460,7 +460,7 @@ def write_modulo_test():
 			f.write(f"\tk2 = (curve25519_key_t){{.key64 = {{\n\t\t0x{(m) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 1)) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 2)) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 3)) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 4)) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 5)) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 6)) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 7)) & BITMASK:016X}ULL\n\t}}}};\n")
 			if (n < 0):
 				f.write("\tprintf(\"Negative\\n\");\n")
-			f.write(f'\tprintf("Test Case {i+1}\\n");\n\tprintf("Key: \\n");\n\tcurve25519_key_printf(&k1, COMPLETE);\n\tprintf("Expected: \\n");\n\tcurve25519_key_printf(&k2, COMPLETE);\n\tcompute_modulo_25519(&k1);\n\tres = curve25519_key_cmp(&k1, &k2);\n\tif (res) {{\n\t	printf("Test Case {i+1} FAILED\\n");\n\t\tcurve25519_key_printf(&k1, COMPLETE);\n\t	return -{i+1};\n\t}} else {{\n\t	printf("Test Case {i+1} PASSED\\n");\n\t}}\n\tprintf("---\\n\\n");\n')
+			f.write(f'\tprintf("Test Case {i+1}\\n");\n\tprintf("Key: \\n");\n\tcurve25519_key_printf(&k1, COMPLETE);\n\tprintf("Expected: \\n");\n\tcurve25519_key_printf(&k2, COMPLETE);\n\tcurve25519_key_compute_modulo(&k1);\n\tres = curve25519_key_cmp(&k1, &k2);\n\tif (res) {{\n\t	printf("Test Case {i+1} FAILED\\n");\n\t\tcurve25519_key_printf(&k1, COMPLETE);\n\t	return -{i+1};\n\t}} else {{\n\t	printf("Test Case {i+1} PASSED\\n");\n\t}}\n\tprintf("---\\n\\n");\n')
 		f.write("\treturn 0;\n")
 		f.write("}")
 
@@ -606,6 +606,63 @@ def write_rshift_test():
 			f.write(f"\tk2 = (curve25519_key_t){{.key64 = {{\n\t\t0x{(m) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 1)) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 2)) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 3)) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 4)) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 5)) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 6)) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 7)) & BITMASK:016X}ULL\n\t}}}};\n")
 			f.write(f"\tshift = {s};\n")
 			f.write(f'\tprintf("Test Case {i+1}\\n");\n\tprintf("Key: \\n");\n\tcurve25519_key_printf(&k1, COMPLETE);\n\tprintf("Expected: \\n");\n\tcurve25519_key_printf(&k2, COMPLETE);\n\tcurve25519_key_rshift(&k1, shift, &r);\n\tres = curve25519_key_cmp(&r, &k2);\n\tif (res) {{\n\t	printf("Test Case {i+1} FAILED\\n");\n\t\tcurve25519_key_printf(&k1, COMPLETE);\n\t	return -{i+1};\n\t}} else {{\n\t	printf("Test Case {i+1} PASSED\\n");\n\t}}\n\tprintf("---\\n\\n");\n')
+		f.write("\treturn 0;\n")
+		f.write("}")
+
+def write_xor_test():
+	n = random.getrandbits(512)
+	s = random.getrandbits(512)
+	m = n ^ s
+	i = 0
+	with open("tests/shift_tests/xor_test.c", "w") as f:
+		f.write("#include \"../tests.h\"\n\nint32_t curve25519_key_xor_test(void) {\n")
+		f.write('\tprintf("Key XOR Test\\n");\n')
+		f.write(f"\tcurve25519_key_t k1 = {{.key64 = {{\n\t\t0x{(n) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 1)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 2)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 3)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 4)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 5)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 6)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 7)) & BITMASK:016X}ULL\n\t}}}};\n")
+		f.write(f"\tcurve25519_key_t k2 = {{.key64 = {{\n\t\t0x{(s) & BITMASK:016X}ULL,\n\t\t0x{(s >> (64 * 1)) & BITMASK:016X}ULL,\n\t\t0x{(s >> (64 * 2)) & BITMASK:016X}ULL,\n\t\t0x{(s >> (64 * 3)) & BITMASK:016X}ULL,\n\t\t0x{(s >> (64 * 4)) & BITMASK:016X}ULL,\n\t\t0x{(s >> (64 * 5)) & BITMASK:016X}ULL,\n\t\t0x{(s >> (64 * 6)) & BITMASK:016X}ULL,\n\t\t0x{(s >> (64 * 7)) & BITMASK:016X}ULL\n\t}}}};\n")
+		f.write(f"\tcurve25519_key_t k3 = {{.key64 = {{\n\t\t0x{(m) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 1)) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 2)) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 3)) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 4)) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 5)) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 6)) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 7)) & BITMASK:016X}ULL\n\t}}}};\n")
+		f.write("\tcurve25519_key_t r = {};\n")
+		f.write(f'\tprintf("Test Case {i+1}\\n");\n\tprintf("k1: \\n");\n\tcurve25519_key_printf(&k1, COMPLETE);\n\tprintf("k2: \\n");\n\tcurve25519_key_printf(&k2, COMPLETE);\n\tprintf("Expected: \\n");\n\tcurve25519_key_printf(&k2, COMPLETE);\n\tcurve25519_key_xor(&k1, &k2, &r);\n\tint32_t res = curve25519_key_cmp(&r, &k3);\n\tif (res) {{\n\t	printf("Test Case {i+1} FAILED\\n");\n\t\tprintf("k1:\\n");\n\t\tcurve25519_key_printf(&k1, COMPLETE);\n\t\tprintf("k2:\\n");\n\t\tcurve25519_key_printf(&k2, COMPLETE);\n\t	return -1;\n\t}} else {{\n\t	printf("Test Case {i+1} PASSED\\n");\n\t}}\n\tprintf("---\\n\\n");\n')
+		for i in range(1, TEST_COUNT):
+			n = random.getrandbits(512)
+			s = random.getrandbits(512)
+			m = n ^ s
+			f.write(f"\tk1 = (curve25519_key_t){{.key64 = {{\n\t\t0x{(n) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 1)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 2)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 3)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 4)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 5)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 6)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 7)) & BITMASK:016X}ULL\n\t}}}};\n")
+			f.write(f"\tk2 = (curve25519_key_t){{.key64 = {{\n\t\t0x{(s) & BITMASK:016X}ULL,\n\t\t0x{(s >> (64 * 1)) & BITMASK:016X}ULL,\n\t\t0x{(s >> (64 * 2)) & BITMASK:016X}ULL,\n\t\t0x{(s >> (64 * 3)) & BITMASK:016X}ULL,\n\t\t0x{(s >> (64 * 4)) & BITMASK:016X}ULL,\n\t\t0x{(s >> (64 * 5)) & BITMASK:016X}ULL,\n\t\t0x{(s >> (64 * 6)) & BITMASK:016X}ULL,\n\t\t0x{(s >> (64 * 7)) & BITMASK:016X}ULL\n\t}}}};\n")
+			f.write(f"\tk3 = (curve25519_key_t){{.key64 = {{\n\t\t0x{(m) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 1)) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 2)) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 3)) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 4)) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 5)) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 6)) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 7)) & BITMASK:016X}ULL\n\t}}}};\n")
+			f.write(f'\tprintf("Test Case {i+1}\\n");\n\tprintf("k1: \\n");\n\tcurve25519_key_printf(&k1, COMPLETE);\n\tprintf("k2: \\n");\n\tcurve25519_key_printf(&k2, COMPLETE);\n\tprintf("Expected: \\n");\n\tcurve25519_key_printf(&k2, COMPLETE);\n\tcurve25519_key_xor(&k1, &k2, &r);\n\tres = curve25519_key_cmp(&r, &k3);\n\tif (res) {{\n\t	printf("Test Case {i+1} FAILED\\n");\n\t\tprintf("k1:\\n");\n\t\tcurve25519_key_printf(&k1, COMPLETE);\n\t\tprintf("k2:\\n");\n\t\tcurve25519_key_printf(&k2, COMPLETE);\n\t	return -{i+1};\n\t}} else {{\n\t	printf("Test Case {i+1} PASSED\\n");\n\t}}\n\tprintf("---\\n\\n");\n')
+		f.write("\treturn 0;\n")
+		for i in range(TEST_COUNT, TEST_COUNT + 10):
+			n = random.getrandbits(256) << 256
+			s = random.getrandbits(256)
+			m = n ^ s
+			f.write(f"\tk1 = (curve25519_key_t){{.key64 = {{\n\t\t0x{(n) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 1)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 2)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 3)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 4)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 5)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 6)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 7)) & BITMASK:016X}ULL\n\t}}}};\n")
+			f.write(f"\tk2 = (curve25519_key_t){{.key64 = {{\n\t\t0x{(s) & BITMASK:016X}ULL,\n\t\t0x{(s >> (64 * 1)) & BITMASK:016X}ULL,\n\t\t0x{(s >> (64 * 2)) & BITMASK:016X}ULL,\n\t\t0x{(s >> (64 * 3)) & BITMASK:016X}ULL,\n\t\t0x{(s >> (64 * 4)) & BITMASK:016X}ULL,\n\t\t0x{(s >> (64 * 5)) & BITMASK:016X}ULL,\n\t\t0x{(s >> (64 * 6)) & BITMASK:016X}ULL,\n\t\t0x{(s >> (64 * 7)) & BITMASK:016X}ULL\n\t}}}};\n")
+			f.write(f"\tk3 = (curve25519_key_t){{.key64 = {{\n\t\t0x{(m) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 1)) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 2)) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 3)) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 4)) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 5)) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 6)) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 7)) & BITMASK:016X}ULL\n\t}}}};\n")
+			f.write(f'\tprintf("Test Case {i+1}\\n");\n\tprintf("k1: \\n");\n\tcurve25519_key_printf(&k1, COMPLETE);\n\tprintf("k2: \\n");\n\tcurve25519_key_printf(&k2, COMPLETE);\n\tprintf("Expected: \\n");\n\tcurve25519_key_printf(&k2, COMPLETE);\n\tcurve25519_key_xor(&k1, &k2, &r);\n\tres = curve25519_key_cmp(&r, &k3);\n\tif (res) {{\n\t	printf("Test Case {i+1} FAILED\\n");\n\t\tprintf("k1:\\n");\n\t\tcurve25519_key_printf(&k1, COMPLETE);\n\t\tprintf("k2:\\n");\n\t\tcurve25519_key_printf(&k2, COMPLETE);\n\t	return -{i+1};\n\t}} else {{\n\t	printf("Test Case {i+1} PASSED\\n");\n\t}}\n\tprintf("---\\n\\n");\n')
+		f.write("\treturn 0;\n")
+		f.write("}")
+
+def write_and_test():
+	n = random.getrandbits(512)
+	s = random.getrandbits(512)
+	m = n & s
+	i = 0
+	with open("tests/shift_tests/and_test.c", "w") as f:
+		f.write("#include \"../tests.h\"\n\nint32_t curve25519_key_and_test(void) {\n")
+		f.write('\tprintf("Key AND Test\\n");\n')
+		f.write(f"\tcurve25519_key_t k1 = {{.key64 = {{\n\t\t0x{(n) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 1)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 2)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 3)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 4)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 5)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 6)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 7)) & BITMASK:016X}ULL\n\t}}}};\n")
+		f.write(f"\tcurve25519_key_t k2 = {{.key64 = {{\n\t\t0x{(s) & BITMASK:016X}ULL,\n\t\t0x{(s >> (64 * 1)) & BITMASK:016X}ULL,\n\t\t0x{(s >> (64 * 2)) & BITMASK:016X}ULL,\n\t\t0x{(s >> (64 * 3)) & BITMASK:016X}ULL,\n\t\t0x{(s >> (64 * 4)) & BITMASK:016X}ULL,\n\t\t0x{(s >> (64 * 5)) & BITMASK:016X}ULL,\n\t\t0x{(s >> (64 * 6)) & BITMASK:016X}ULL,\n\t\t0x{(s >> (64 * 7)) & BITMASK:016X}ULL\n\t}}}};\n")
+		f.write(f"\tcurve25519_key_t k3 = {{.key64 = {{\n\t\t0x{(m) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 1)) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 2)) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 3)) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 4)) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 5)) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 6)) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 7)) & BITMASK:016X}ULL\n\t}}}};\n")
+		f.write("\tcurve25519_key_t r = {};\n")
+		f.write(f'\tprintf("Test Case {i+1}\\n");\n\tprintf("k1: \\n");\n\tcurve25519_key_printf(&k1, COMPLETE);\n\tprintf("k2: \\n");\n\tcurve25519_key_printf(&k2, COMPLETE);\n\tprintf("Expected: \\n");\n\tcurve25519_key_printf(&k3, COMPLETE);\n\tcurve25519_key_and(&k1, &k2, &r);\n\tint32_t res = curve25519_key_cmp(&r, &k3);\n\tif (res) {{\n\t	printf("Test Case {i+1} FAILED\\n");\n\t\tprintf("k1:\\n");\n\t\tcurve25519_key_printf(&k1, COMPLETE);\n\t\tprintf("k2:\\n");\n\t\tcurve25519_key_printf(&k2, COMPLETE);\n\t	return -1;\n\t}} else {{\n\t	printf("Test Case {i+1} PASSED\\n");\n\t}}\n\tprintf("---\\n\\n");\n')
+		for i in range(1, TEST_COUNT):
+			n = random.getrandbits(512)
+			s = random.getrandbits(512)
+			m = n & s
+			f.write(f"\tk1 = (curve25519_key_t){{.key64 = {{\n\t\t0x{(n) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 1)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 2)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 3)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 4)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 5)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 6)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 7)) & BITMASK:016X}ULL\n\t}}}};\n")
+			f.write(f"\tk2 = (curve25519_key_t){{.key64 = {{\n\t\t0x{(s) & BITMASK:016X}ULL,\n\t\t0x{(s >> (64 * 1)) & BITMASK:016X}ULL,\n\t\t0x{(s >> (64 * 2)) & BITMASK:016X}ULL,\n\t\t0x{(s >> (64 * 3)) & BITMASK:016X}ULL,\n\t\t0x{(s >> (64 * 4)) & BITMASK:016X}ULL,\n\t\t0x{(s >> (64 * 5)) & BITMASK:016X}ULL,\n\t\t0x{(s >> (64 * 6)) & BITMASK:016X}ULL,\n\t\t0x{(s >> (64 * 7)) & BITMASK:016X}ULL\n\t}}}};\n")
+			f.write(f"\tk3 = (curve25519_key_t){{.key64 = {{\n\t\t0x{(m) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 1)) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 2)) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 3)) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 4)) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 5)) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 6)) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 7)) & BITMASK:016X}ULL\n\t}}}};\n")
+			f.write(f'\tprintf("Test Case {i+1}\\n");\n\tprintf("k1: \\n");\n\tcurve25519_key_printf(&k1, COMPLETE);\n\tprintf("k2: \\n");\n\tcurve25519_key_printf(&k2, COMPLETE);\n\tprintf("Expected: \\n");\n\tcurve25519_key_printf(&k3, COMPLETE);\n\tcurve25519_key_and(&k1, &k2, &r);\n\tres = curve25519_key_cmp(&r, &k3);\n\tif (res) {{\n\t	printf("Test Case {i+1} FAILED\\n");\n\t\tprintf("k1:\\n");\n\t\tcurve25519_key_printf(&k1, COMPLETE);\n\t\tprintf("k2:\\n");\n\t\tcurve25519_key_printf(&k2, COMPLETE);\n\t	return -{i+1};\n\t}} else {{\n\t	printf("Test Case {i+1} PASSED\\n");\n\t}}\n\tprintf("---\\n\\n");\n')
 		f.write("\treturn 0;\n")
 		f.write("}")
 
@@ -972,6 +1029,8 @@ def main():
 	write_rshift_test()
 	write_lshift_inplace_test()
 	write_rshift_inplace_test()
+	write_and_test()
+	write_xor_test()
 	write_log2_test()
 	write_mul_test()
 	write_mul_modulo_test()
