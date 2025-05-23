@@ -298,7 +298,10 @@ int32_t curve25519_key_add(const curve25519_key_t *const restrict k1, const curv
 }  
 
 int32_t curve25519_key_add_modulo(const curve25519_key_t *const restrict k1, const curve25519_key_t *const restrict k2, curve25519_key_t *const restrict r) {
-	int32_t carry = curve25519_key_add(k1, k2, r);
+	curve25519_key_t t1;
+	memcpy(t1.key8, k1->key8, sizeof(curve25519_key_t));
+	compute_modulo_25519(&t1);
+	int32_t carry = curve25519_key_add(&t1, k2, r);
 	compute_modulo_25519(r);
 	return carry;
 }
@@ -317,6 +320,7 @@ int32_t curve25519_key_add_inplace(curve25519_key_t *const restrict dst, const c
 }
 
 int32_t curve25519_key_add_modulo_inplace(curve25519_key_t *const restrict dst, const curve25519_key_t *const restrict src) {
+	compute_modulo_25519(dst);
 	int32_t carry = curve25519_key_add_inplace(dst, src);
 	compute_modulo_25519(dst);
 	return carry;
@@ -470,6 +474,14 @@ int32_t curve25519_key_mul(const curve25519_key_t *const k1, const curve25519_ke
 		memset(r->key8, 0, sizeof(curve25519_key_t));
 		return 0;
 	}
+	if (!curve25519_key_cmp(ONE, k1)) {
+		memcpy(r->key8, k2->key8, sizeof(curve25519_key_t));
+		return 0;
+	}
+	if (!curve25519_key_cmp(ONE, k2)) {
+		memcpy(r->key8, k1->key8, sizeof(curve25519_key_t));
+		return 0;
+	}
 	const uint64_t *const key1 = k1->key64, *const key2 = k2->key64;
 	uint64_t *const res = r->key64;
 
@@ -497,11 +509,60 @@ int32_t curve25519_key_mul(const curve25519_key_t *const k1, const curve25519_ke
 }
 
 int32_t curve25519_key_mul_modulo(const curve25519_key_t *const k1, const curve25519_key_t *const k2, curve25519_key_t *const restrict r) {
-	curve25519_key_t t = {};
-	memcpy(t.key8, k1->key8, sizeof(curve25519_key_t));
-	compute_modulo_25519(&t);
-	curve25519_key_mul(&t, k2, r);
+	curve25519_key_t t1, t2;
+	memcpy(t1.key8, k1->key8, sizeof(curve25519_key_t));
+	compute_modulo_25519(&t1);
+	memcpy(t2.key8, k2->key8, sizeof(curve25519_key_t));
+	compute_modulo_25519(&t2);
+	curve25519_key_mul(&t1, &t2, r);
 	compute_modulo_25519(r);
+	return 0;
+}
+
+int32_t curve25519_key_mul_inplace(curve25519_key_t *const restrict dst, const curve25519_key_t *const restrict src) {
+	if (!curve25519_key_cmp(ZERO, dst) || !curve25519_key_cmp(ONE, src)) return 0;
+	if (!curve25519_key_cmp(ZERO, src)) {
+		memset(dst->key8, 0, sizeof(curve25519_key_t));
+		return 0;
+	}
+	if (!curve25519_key_cmp(ONE, dst)) {
+		memcpy(dst->key8, src->key8, sizeof(curve25519_key_t));
+		return 0;
+	}
+	uint64_t *const key1 = dst->key64;
+	uint64_t res[8] = {};
+	const uint64_t *const key2 = src->key64;
+	
+
+	for (size_t i = 0; i < 4; i++) {
+		uint64_t carry_out = 0;
+		for (size_t j = 0; j < 4; ++j) {
+			__uint128_t p = ((__uint128_t)key1[j]) * ((__uint128_t)key2[i]);
+			uint64_t hi = (uint64_t)(p >> 64), lo = (uint64_t)p, carry_in = 0;
+
+			__uint128_t tmp = ((__uint128_t)lo) + ((__uint128_t)res[i + j]) + ((__uint128_t)carry_out);
+			res[i + j] = (uint64_t)tmp;
+			carry_in = (uint64_t)(tmp >> 64);
+			carry_out = carry_in + hi;
+		}
+        for (size_t k = i + 4; k < 8; k++) {
+			__uint128_t tmp = ((__uint128_t)res[k]) + carry_out;
+			res[k] = (uint64_t)tmp;
+			carry_out = (uint64_t)(tmp >> 64);
+			if (!carry_out && k >= i + 4) break;
+        }
+	}
+	memcpy(key1, res, sizeof(curve25519_key_t));
+	return 0;
+}
+
+int32_t curve25519_key_mul_modulo_inplace(curve25519_key_t *const restrict dst, const curve25519_key_t *const restrict src) {
+	curve25519_key_t t;
+	compute_modulo_25519(dst);
+	memcpy(t.key8, src->key8, sizeof(curve25519_key_t));
+	compute_modulo_25519(&t);
+	curve25519_key_mul_inplace(dst, &t);
+	compute_modulo_25519(dst);
 	return 0;
 }
 

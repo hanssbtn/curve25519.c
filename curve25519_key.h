@@ -64,11 +64,22 @@ uint64_t curve25519_key_rshift_inplace(curve25519_key_t *const restrict k, int64
 int64_t curve25519_key_log2(const curve25519_key_t *const k, curve25519_key_t *const restrict r);
 int32_t curve25519_key_mul(const curve25519_key_t *const k1, const curve25519_key_t *const k2, curve25519_key_t *const restrict r);
 int32_t curve25519_key_mul_modulo(const curve25519_key_t *const k1, const curve25519_key_t *const k2, curve25519_key_t *const restrict r);
-int32_t curve25519_key_mul_inplace(curve25519_key_t *const restrict k, const curve25519_key_t *const restrict k2);
-int32_t curve25519_key_mul_inplace_modulo(curve25519_key_t *const restrict k, const curve25519_key_t *const restrict k2);
+int32_t curve25519_key_mul_inplace(curve25519_key_t *const restrict dst, const curve25519_key_t *const restrict src);
+int32_t curve25519_key_mul_modulo_inplace(curve25519_key_t *const restrict dst, const curve25519_key_t *const restrict src);
 int32_t curve25519_key_divmod(const curve25519_key_t *const restrict k1, const curve25519_key_t *const restrict k2, curve25519_key_t *const restrict q, curve25519_key_t *const r);
+/** 
+ * @brief Calculates inverse of key modulo 2 ^ 255 - 19
+ * @param k Key to invert
+ * @param r Out parameter containing the modular inverse of k
+ * @return 0 if the key can be inverted. -1 otherwise.
+ */
 int32_t curve25519_key_inv(const curve25519_key_t *const k, curve25519_key_t *const restrict r);
-int32_t curve25519_key_exp(curve25519_key_t *const k1, uint64_t n);
+/** 
+ * @brief Prints key to stdout
+ * @param k Key to print
+ * @param size Formatting enum
+ * @return Number of bytes printed
+ */
 int32_t curve25519_key_printf(const curve25519_key_t *const k, const curve25519_key_fmt_t size);
 
 #endif // CURVE25519_KEY_H__
