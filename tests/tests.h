@@ -34,5 +34,11 @@ int32_t curve25519_key_mul_inplace_test(void);
 int32_t curve25519_key_mul_modulo_inplace_test(void);
 int32_t curve25519_key_divmod_test(void);
 int32_t curve25519_key_inv_test(void);
+int32_t curve25519_cswap_test(void);
+int32_t curve25519_ladder_step_test(void);
+int32_t curve25519_ladder_test(void);
+int32_t curve25519_pub_key_init_test(void);
+int32_t curve25519_shared_key_gen_test(void);
+int32_t curve25519_share_secret_test(void);
 
 #endif // CURVE25519_TESTS_H__

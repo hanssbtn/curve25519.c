@@ -4,7 +4,7 @@ int32_t curve25519_proj_to_affine(const curve25519_proj_point_t *const p1, curve
 	return curve25519_key_divmod(&p1->X, &p1->Z, out, NULL);
 }
 
-void curve25519_swap(
+void curve25519_cswap(
 	curve25519_proj_point_t *const restrict XZ2, 
 	curve25519_proj_point_t *const restrict XZ3,
 	bool bit
