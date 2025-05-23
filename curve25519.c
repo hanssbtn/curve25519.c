@@ -1,7 +1,7 @@
 #include "curve25519.h" // Assuming this header includes curve25519_key_t and your other functions
 
 int32_t curve25519_proj_to_affine(const curve25519_proj_point_t *const p1, curve25519_key_t *const out) {
-	return curve25519_key_mul_modulo(&p1->X, &p1->Z, out);
+	return curve25519_key_divmod(&p1->X, &p1->Z, out, NULL);
 }
 
 void curve25519_swap(
@@ -9,9 +9,20 @@ void curve25519_swap(
 	curve25519_proj_point_t *const restrict XZ3,
 	bool bit
 ) {
-	curve25519_key_t mask;
-	memset(mask.key8, bit, sizeof(curve25519_key_t));
-
+	curve25519_key_t __mask, *mask = &__mask, __T1, __T2, *T1 = &__T1, *T2 = &__T2, __T3, __T4, *T3 = &__T3, *T4 = &__T4;
+	memset(mask->key8, bit, sizeof(curve25519_key_t));
+	curve25519_key_xor(&XZ2->X, &XZ3->X, T3);
+	curve25519_key_and(mask, T3, T1);
+	curve25519_key_xor(&XZ2->Z, &XZ3->Z, T4);
+	curve25519_key_and(mask, T4, T2);
+	curve25519_key_xor(T1, &XZ2->X, T3);
+	curve25519_key_copy(&XZ2->X, T3);
+	curve25519_key_xor(T2, &XZ2->Z, T4);
+	curve25519_key_copy(&XZ2->Z, T4);
+	curve25519_key_xor(T1, &XZ3->X, T3);
+	curve25519_key_copy(&XZ3->X, T3);
+	curve25519_key_xor(T2, &XZ3->Z, T4);
+	curve25519_key_copy(&XZ3->Z, T4);
 }
 
 int32_t curve25519_ladder_step(
@@ -69,13 +80,13 @@ int32_t curve25519_ladder(const curve25519_key_t *const restrict Xp, const curve
 	curve25519_proj_point_t XZ2 = {.X = {.key8 = {1}}}, XZ3;
 	curve25519_key_copy(&XZ3.X, Xp);
 	XZ3.Z = (curve25519_key_t){.key8 = {1}};
-	uint8_t prev_bit = 0;
+	bool prev_bit = 0;
 
 	for (int64_t idx = 255; idx >= 0; --idx) {
 		bool bit = n->key64[idx / 64] & (1ULL << (idx & 63));
 		bool b = bit ^ prev_bit;
 		prev_bit = bit;
-
+		curve25519_swap(&XZ2, &XZ3, b);
 		curve25519_ladder_step(&XZ2, &XZ3, Xp);
 	}
 
