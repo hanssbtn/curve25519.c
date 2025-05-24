@@ -10,10 +10,6 @@
 #include <string.h>
 #include <immintrin.h>
 
-#ifndef BASE_X
-#define BASE_X 9
-#endif // BASE_X
-
 #include <windows.h>
 #include <bcrypt.h>
 // #pragma comment(lib, "bcrypt.lib")

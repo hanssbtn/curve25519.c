@@ -4,10 +4,17 @@
 
 #include "curve25519_key.h"
 
+#ifndef BASE_X
+#define BASE_X 9
+#endif // BASE_X
+
 typedef struct curve25519_proj_point {
     curve25519_key_t X;
     curve25519_key_t Z;
 } curve25519_proj_point_t;
+
+static const curve25519_key_t __BASE = {.key64 = {BASE_X}};
+static const curve25519_key_t *const BASE = &__BASE;
 
 static const curve25519_key_t __A24 = {.key64 = {121665}};
 static const curve25519_key_t *const A24 = &__A24;

@@ -9,7 +9,9 @@ void curve25519_cswap(
 	curve25519_proj_point_t *const restrict XZ3,
 	bool bit
 ) {
-	curve25519_key_t __mask, *mask = &__mask, __T1, __T2, *T1 = &__T1, *T2 = &__T2, __T3, __T4, *T3 = &__T3, *T4 = &__T4;
+	curve25519_key_t __mask, *mask = &__mask, 
+	__T1, __T2, *T1 = &__T1, *T2 = &__T2, 
+	__T3, __T4, *T3 = &__T3, *T4 = &__T4;
 	for (int64_t i = 0; i < 8; ++i) {
 		mask->key64[i] = -bit;
 	}
@@ -103,6 +105,15 @@ int32_t curve25519_ladder(const curve25519_key_t *const restrict Xp, const curve
 		curve25519_cswap(&XZ2, &XZ3, b);
 		curve25519_ladder_step(&XZ2, &XZ3, Xp);
 	}
-
 	return curve25519_proj_to_affine(&XZ2, nXp);
+}
+
+int32_t curve25519_pub_key_init(const curve25519_key_t *const restrict priv_key, const curve25519_key_t *const restrict pt, curve25519_key_t *const restrict r) {
+	return curve25519_ladder(priv_key, pt, r);
+}
+
+#define curve25519_base_mul(priv_key, r) curve25519_ladder(priv_key, BASE, r)
+
+int32_t curve25519_generate_shared_key(const curve25519_key_t *const restrict priv_key, const curve25519_key_t *const restrict pub_key, curve25519_key_t *const restrict shared_key) {
+	return curve25519_ladder(priv_key, pub_key, shared_key);
 }
