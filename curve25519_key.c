@@ -567,7 +567,7 @@ int32_t curve25519_key_mul_modulo_inplace(curve25519_key_t *const restrict dst, 
 	return 0;
 }
 
-int32_t curve25519_key_divmod(const curve25519_key_t *const restrict num, const curve25519_key_t *const restrict den, curve25519_key_t *const restrict q, curve25519_key_t *restrict r) {
+int32_t curve25519_key_div(const curve25519_key_t *const restrict num, const curve25519_key_t *const restrict den, curve25519_key_t *const restrict q, curve25519_key_t *restrict r) {
 	int32_t res = curve25519_key_cmp(num, den);
 	if (!res) {
 		q->key128[0] = 1;
@@ -632,7 +632,7 @@ int32_t curve25519_key_inv(const curve25519_key_t *const k, curve25519_key_t *co
 	curve25519_key_t _q, _old, _t_new_q, _r_new_q;
 	curve25519_key_t *q = &_q, *old = &_old, *t_new_q = &_t_new_q, *r_new_q = &_r_new_q;
 	while (curve25519_key_cmp(r_new, ZERO)) {
-		curve25519_key_divmod(r, r_new, q, NULL);
+		curve25519_key_div(r, r_new, q, NULL);
 		curve25519_key_mul(t_new, q, t_new_q);
 		curve25519_key_mul(r_new, q, r_new_q);
 		curve25519_key_copy(old, r_new);
@@ -650,6 +650,13 @@ int32_t curve25519_key_inv(const curve25519_key_t *const k, curve25519_key_t *co
 	}
 
 	return 0;
+}
+
+int32_t curve25519_key_divmod(const curve25519_key_t *const restrict num, const curve25519_key_t *const restrict den, curve25519_key_t *const restrict q) {
+	if (curve25519_key_inv(den, q)) {
+		return -1;
+	}
+	return curve25519_key_mul_modulo_inplace(q, num);
 }
 
 int32_t curve25519_key_printf(const curve25519_key_t *const k, const curve25519_key_fmt_t size) {

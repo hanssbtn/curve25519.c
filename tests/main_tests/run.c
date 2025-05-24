@@ -1,4 +1,5 @@
-#include "../curve25519.h"
+#include "../../curve25519.h"
+#include "../tests.h"
 
 int main(void) {
 	printf("Running ladder tests\n");

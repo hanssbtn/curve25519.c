@@ -69,7 +69,8 @@ int32_t curve25519_key_mul(const curve25519_key_t *const k1, const curve25519_ke
 int32_t curve25519_key_mul_modulo(const curve25519_key_t *const k1, const curve25519_key_t *const k2, curve25519_key_t *const restrict r);
 int32_t curve25519_key_mul_inplace(curve25519_key_t *const restrict dst, const curve25519_key_t *const restrict src);
 int32_t curve25519_key_mul_modulo_inplace(curve25519_key_t *const restrict dst, const curve25519_key_t *const restrict src);
-int32_t curve25519_key_divmod(const curve25519_key_t *const restrict k1, const curve25519_key_t *const restrict k2, curve25519_key_t *const restrict q, curve25519_key_t *const r);
+int32_t curve25519_key_div(const curve25519_key_t *const restrict k1, const curve25519_key_t *const restrict k2, curve25519_key_t *const restrict q, curve25519_key_t *const r);
+int32_t curve25519_key_divmod(const curve25519_key_t *const restrict num, const curve25519_key_t *const restrict den, curve25519_key_t *const restrict q);
 /** 
  * @brief Calculates inverse of key modulo 2 ^ 255 - 19
  * @param k Key to invert

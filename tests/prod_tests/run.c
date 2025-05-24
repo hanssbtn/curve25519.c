@@ -18,12 +18,16 @@ int main(void) {
 		fprintf(stderr, "Failed inplace modular key multiplication test\n");
 		return -1;
 	}
-	if (curve25519_key_divmod_test()) {
+	if (curve25519_key_inv_test()) {
+		fprintf(stderr, "Failed modular key inverse test\n");
+		return -1;
+	}
+	if (curve25519_key_div_test()) {
 		fprintf(stderr, "Failed key division + modulo test\n");
 		return -1;
 	}
-	if (curve25519_key_inv_test()) {
-		fprintf(stderr, "Failed modular key inverse test\n");
+	if (curve25519_key_divmod_test()) {
+		fprintf(stderr, "Failed modular key division test\n");
 		return -1;
 	}
 	printf("DONE\n");

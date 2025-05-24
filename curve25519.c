@@ -1,7 +1,7 @@
 #include "curve25519.h" // Assuming this header includes curve25519_key_t and your other functions
 
 int32_t curve25519_proj_to_affine(const curve25519_proj_point_t *const p1, curve25519_key_t *const out) {
-	return curve25519_key_divmod(&p1->X, &p1->Z, out, NULL);
+	return curve25519_key_divmod(&p1->X, &p1->Z, out);
 }
 
 void curve25519_cswap(
@@ -10,7 +10,9 @@ void curve25519_cswap(
 	bool bit
 ) {
 	curve25519_key_t __mask, *mask = &__mask, __T1, __T2, *T1 = &__T1, *T2 = &__T2, __T3, __T4, *T3 = &__T3, *T4 = &__T4;
-	memset(mask->key8, bit, sizeof(curve25519_key_t));
+	for (int64_t i = 0; i < 8; ++i) {
+		mask->key64[i] = -bit;
+	}
 	curve25519_key_xor(&XZ2->X, &XZ3->X, T3);
 	curve25519_key_and(mask, T3, T1);
 	curve25519_key_xor(&XZ2->Z, &XZ3->Z, T4);
@@ -30,49 +32,61 @@ int32_t curve25519_ladder_step(
 	curve25519_proj_point_t *const restrict XZ3, 
 	const curve25519_key_t *const restrict X1
 ) {
-	curve25519_key_t __T1, __T2, __T3, __T4, __T5, __T6, __T1_old, __T2_old;
-	curve25519_key_t *T1 = &__T1, *T2 = &__T2, *T3 = &__T3, *T4 = &__T4, *T5 = &__T5, *T6 = &__T6, *T1_old = &__T1_old, *T2_old = &__T2_old;
-	// T1 <- X2 + Z2
-	curve25519_key_add_modulo(&XZ2->X, &XZ2->Z, T1);
-	// T2 <- X2 - Z2
-	curve25519_key_sub_modulo(&XZ2->X, &XZ2->Z, T2);
-	// T3 <- X3 + Z3
-	curve25519_key_add_modulo(&XZ3->X, &XZ3->Z, T3);
-	// T4 <- X3 - Z3
-	curve25519_key_sub_modulo(&XZ3->X, &XZ3->Z, T4);
-	// T5 <- T1 ^ 2
-	curve25519_key_copy(T1_old, T1);
-	curve25519_key_mul_modulo(T1, T1_old, T5);
-	// T6 <- T2 ^ 2
-	curve25519_key_copy(T2_old, T2);
-	curve25519_key_mul_modulo(T2, T2_old, T6);
-	// T2 <- T2 · T3
-	curve25519_key_mul_modulo_inplace(T2, T3);
-	// T1 <- T1 · T4
-	curve25519_key_mul_modulo_inplace(T1, T4);
-	// T1 <- T1 + T2
-	curve25519_key_add_modulo_inplace(T1, T2);
-	// T2 <- T1 - T2
-	curve25519_key_copy(T2_old, T2);
-	curve25519_key_sub_modulo(T1, T2_old, T2);
-	// X3 <- T1 ^ 2
-	curve25519_key_copy(T1_old, T1);
-	curve25519_key_mul_modulo(T1, T1_old, &XZ3->X);
-	// T2 <- T2 ^ 2
-	curve25519_key_copy(T2_old, T2);
-	curve25519_key_mul_modulo_inplace(T2, T2_old);
-	// Z3 <- T2 · X1
-	curve25519_key_mul_modulo(T2, X1, &XZ3->Z);
-	// X2 <- T5 · T6
-	curve25519_key_mul_modulo(T5, T6, &XZ2->X);
-	// T5 <- T5 - T6
-	curve25519_key_sub_modulo_inplace(T5, T6);
-	// T1 <- A24 · T5
-	curve25519_key_mul_modulo(A24, T5, T1);
-	// T6 <- T6 + T1
-	curve25519_key_add_modulo_inplace(T6, T1);
-	// Z2 <- T5 · T6
-	curve25519_key_add_modulo(T5, T6, &XZ2->Z);
+	curve25519_key_t T1, T1T1, T2, T2T2, T1T4, T2T3, T3, T4, T5;
+	// # Step 2: T1 <- X2 + Z2
+	// T1 = (X2 + Z2) % M
+	curve25519_key_add_modulo(&XZ2->X, &XZ2->Z, &T1);
+	// # Step 6: T5 <- T1 ^ 2
+	// T1T1 = (T1 * T1) % M
+	curve25519_key_t tmp;
+	curve25519_key_copy(&tmp, &T1);
+	curve25519_key_mul_modulo(&T1, &tmp, &T1T1);
+	// # Step 3: T2 <- X2 − Z2
+	// T2 = (X2 - Z2) % M
+	curve25519_key_sub_modulo(&XZ2->X, &XZ2->Z, &T2);
+	// # Step 7: T6 <- T2 ^ 2
+	// T2T2 = (T2 * T2) % M
+	curve25519_key_copy(&tmp, &T2);
+	curve25519_key_mul_modulo(&T2, &tmp, &T2T2);
+	// # Step 16: T5 <- T5 − T6
+	// T5 = (T1T1 - T2T2) % M 
+	curve25519_key_sub_modulo(&T1T1, &T2T2, &T5);
+	// # Step 4: T3 <- X3 + Z3
+	// T3 = (X3 + Z3) % M
+	curve25519_key_add_modulo(&XZ3->X, &XZ3->Z, &T3);
+	// # Step 5: T4 <- X3 - Z3
+	// T4 = (X3 - Z3) % M
+	curve25519_key_sub_modulo(&XZ3->X, &XZ3->Z, &T4);
+	// # Step 9: T1 <- T1 · T4
+	// T1T4 = (T4 * T1) % M
+	curve25519_key_mul_modulo(&T1, &T4, &T1T4);
+	// # Step 8: T2 <- T2 · T3
+	// T2T3 = (T3 * T2) % M
+	curve25519_key_mul_modulo(&T2, &T3, &T2T3);	
+	// # Step 10: T1 <- T1 + T2
+	// # Step 12: X3 <- T1 ^ 2
+	// X3 = (((T1T4 + T2T3) % M) ** 2) % M
+	curve25519_key_add_modulo(&T1T4, &T2T3, &tmp);
+	curve25519_key_copy(&XZ3->X, &tmp);
+	curve25519_key_mul_modulo_inplace(&XZ3->X, &tmp);
+	// # Step 11: T2 <- T1 − T2
+	// # Step 13: T2 <- T2 ^ 2
+	// # Step 14: Z3 <- T2 · X1
+	// Z3 = (X1 * (((T1T4 - T2T3) % M) ** 2)) % M
+	curve25519_key_sub_modulo(&T1T4, &T2T3, &XZ3->Z);
+	curve25519_key_copy(&tmp, &XZ3->Z);
+	curve25519_key_mul_inplace(&XZ3->Z, &tmp);
+	curve25519_key_mul_modulo_inplace(&XZ3->Z, X1);
+	// # Step 15: X2 <- T5 · T6
+	// X2 = (T1T1 * T2T2) % M
+	curve25519_key_mul_modulo(&T1T1, &T2T2, &XZ2->X);
+	// # Step 17: T1 <- ((A + 2)/4) · T5
+	// # Step 18: T6 <- T6 + T1
+	// # Step 19: Z2 <- T5 · T6
+	// Z2 = (T5 * ((T1T1 + (A24 * T5) % M) % M)) % M
+	curve25519_key_mul_modulo(A24, &T5, &XZ2->Z);
+	curve25519_key_add_modulo_inplace(&XZ2->Z, &T1T1);
+	curve25519_key_mul_modulo_inplace(&XZ2->Z, &T5);
 	return 0;
 }
 
@@ -86,7 +100,7 @@ int32_t curve25519_ladder(const curve25519_key_t *const restrict Xp, const curve
 		bool bit = n->key64[idx / 64] & (1ULL << (idx & 63));
 		bool b = bit ^ prev_bit;
 		prev_bit = bit;
-		curve25519_swap(&XZ2, &XZ3, b);
+		curve25519_cswap(&XZ2, &XZ3, b);
 		curve25519_ladder_step(&XZ2, &XZ3, Xp);
 	}
 
