@@ -1,0 +1,24042 @@
+#include "../tests.h"
+
+int32_t curve25519_key_sub_modulo_inplace_test(void) {
+	printf("Inplace Modular Key Subtraction Test\n");
+	curve25519_key_t k1 = {.key64 = {
+		0x3F53E4AEADE212C0ULL,
+		0x8CC97C68AC30B2D0ULL,
+		0x8B9C3CD2CE91723FULL,
+		0x5F96A357A363A3EEULL,
+		0x5BF53FDFBB326067ULL,
+		0x78165852324722AAULL,
+		0x5F16A5182CBBD12CULL,
+		0x6F11B9B15118C557ULL
+	}};
+	curve25519_key_t k2 = {.key64 = {
+		0x160A3D71BD212837ULL,
+		0x254C88C577E2BB79ULL,
+		0x8AE8049CD010E594ULL,
+		0xA573AD0BD3971AC0ULL,
+		0x881AAD3EFAEFD72CULL,
+		0xF06FF103F639191AULL,
+		0x9192823CC7EB8F4DULL,
+		0x48860A2A231E6176ULL
+	}};
+	curve25519_key_t k3 = {.key64 = {
+		0x9BBB6B197AA14A09ULL,
+		0x8A3049401E6362B0ULL,
+		0x825164C6F56A53B3ULL,
+		0x72DF045CA2F75C8CULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 1\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	int32_t res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 1 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -1;
+	} else {
+		printf("Test Case 1 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xF01BEB50E15B9C21ULL,
+		0xED82375F29F28331ULL,
+		0x828C1AC7B62912A3ULL,
+		0x6DB673B3DF1A5EEFULL,
+		0x41697D894C397859ULL,
+		0x4BBFACCAB56CD5C5ULL,
+		0xF2DDB9C1F6B5FA10ULL,
+		0xD81F05D46F1306DCULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xF0DB6E96E1FAC8ABULL,
+		0x1E34E3D549380475ULL,
+		0xD510E88052C5AB72ULL,
+		0x86C829485232A3E4ULL,
+		0xAA3FDA27C1300E2CULL,
+		0x9ADB9AF8A4B597D6ULL,
+		0x2549D60349F6F1E0ULL,
+		0x47BEA8C291D2E454ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x6F6EBD34A2C69942ULL,
+		0x1127F8B85BEDB026ULL,
+		0x316F009507BE9E46ULL,
+		0x553C1B12646CDB59ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 2\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 2 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -2;
+	} else {
+		printf("Test Case 2 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x8E2C55A9E1DAD845ULL,
+		0x82D34AF377DB550CULL,
+		0x81E9FD365E883473ULL,
+		0x4F8DCEBABD29FA87ULL,
+		0x686079B5C75E12ECULL,
+		0x06C4395CE3081507ULL,
+		0xBF2881AD13B351F1ULL,
+		0xDCA4AF5D7C0E78E7ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x5CB6A33B422C9009ULL,
+		0x3B902D557BD84B67ULL,
+		0x5034AC1635004693ULL,
+		0x102A784A4E7D849DULL,
+		0xE89399B1A7D4ABACULL,
+		0xE550F1BED0297181ULL,
+		0x7468CC942B3E6E85ULL,
+		0xC95C6E018448C73BULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x29DEF30B4E139C2EULL,
+		0x3E5FBF14C90F4F76ULL,
+		0x4A2A32D2AAE1AFC7ULL,
+		0x1C1D0A173604D57DULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 3\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 3 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -3;
+	} else {
+		printf("Test Case 3 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xF6DB67C650515835ULL,
+		0x306CFBE39B21012EULL,
+		0xB8422FD5FAB34BAFULL,
+		0x471BDF7AE6E8F3A8ULL,
+		0xA02CCFA950178EFDULL,
+		0xE2D5213881DB35C1ULL,
+		0xCD4175905ADF4E40ULL,
+		0xAFAC52BA11175BA4ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xE0D41E64D7D58A46ULL,
+		0xB231697DFCA5B70EULL,
+		0x48E626ECB0E077E2ULL,
+		0x208E63C61E80C108ULL,
+		0xE149C11FD6BE6225ULL,
+		0x73CF704FD31BA9C7ULL,
+		0x82FAAA0C2EA31143ULL,
+		0xC6A4F7CFF855B6F9ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x6BBB71C97BB8757AULL,
+		0xF913D4EF8EEA1132ULL,
+		0x75DE3E87DAC3E16AULL,
+		0x3DA4FA747526A40DULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 4\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 4 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -4;
+	} else {
+		printf("Test Case 4 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x5CC86674EC6BA3BAULL,
+		0xCAD950D424ABEF16ULL,
+		0xFF0FBF439CB5D7C6ULL,
+		0x0AEE8CB7DF7B012EULL,
+		0xADF14C62B8F81F80ULL,
+		0xEF7C25C6F7019504ULL,
+		0x004016EAA8D822B3ULL,
+		0x301CB95FC932B2CEULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x3999F0ACF8E3743CULL,
+		0x117E2E76F7AAD912ULL,
+		0x24679739CD5C551FULL,
+		0x66E7B3DFCBA1EECFULL,
+		0x28C20F6EB6DD9E45ULL,
+		0x4D0C2837B31355D0ULL,
+		0x117712BEB672F642ULL,
+		0x5E8DF9E512AFD81BULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xE831820043775D23ULL,
+		0xD5FAC5A1425E77CFULL,
+		0x4C7EC68FCA5E1B85ULL,
+		0x3F37450F2B4588EFULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 5\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 5 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -5;
+	} else {
+		printf("Test Case 5 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x3E5D135B4C277923ULL,
+		0xDBF67E0E42AD3F07ULL,
+		0x7C39044C29C023DEULL,
+		0x9B1D319BB3E2721DULL,
+		0x6CFE4D4A5A28F6F5ULL,
+		0x25F4B0F1EC8001B6ULL,
+		0x3E77E0278E0C6446ULL,
+		0x2FA256566FD131A4ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x94CE31A56E6C93F5ULL,
+		0xF58602E6120CB6D6ULL,
+		0x7F4BA0C9F804C245ULL,
+		0xE402C49B7672C5E0ULL,
+		0xD61F3C2B90F99CB1ULL,
+		0xB69F74DDF489054DULL,
+		0x095306904EA06637ULL,
+		0xC9062EAB0210E92BULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x0EAB6C47BAC247C9ULL,
+		0x6D17661EFF49FFB7ULL,
+		0xE065AFF59BC317BDULL,
+		0x7248507287FA6E3AULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 6\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 6 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -6;
+	} else {
+		printf("Test Case 6 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x0FB5F31876857B17ULL,
+		0xF36A4A5456051AC8ULL,
+		0x562B30F7D0658B75ULL,
+		0x55AE83520A73948CULL,
+		0xF5F1EC939135F46EULL,
+		0x1E947F029F48A89EULL,
+		0xCBD71084F0853A17ULL,
+		0x1EE040FB6C29993CULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xC9394EE838E2D1E3ULL,
+		0x1797AD005D172759ULL,
+		0x16511F5E11CED5E8ULL,
+		0x34A6995C3E618F3BULL,
+		0x7A7D66DCCCB8F4EDULL,
+		0xF15AC72CF42020C7ULL,
+		0xB5E88EEB286D256EULL,
+		0xA8A1CB8335EC0A40ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x99C87D516830934FULL,
+		0x9263E70B60F21D6AULL,
+		0x81414E6D7229C684ULL,
+		0x2E4D59CDD9353EBCULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 7\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 7 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -7;
+	} else {
+		printf("Test Case 7 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x810DCBA071608A4DULL,
+		0x7354B9C0A7424EF2ULL,
+		0x06685C806618C25AULL,
+		0x596326F90DE8C551ULL,
+		0x642298F1ABD193C5ULL,
+		0x75769E52726D6EB5ULL,
+		0x63CC69065CD29941ULL,
+		0xBB848FF8C341C123ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x11435DD70F5C723CULL,
+		0xC4202E6455739D5FULL,
+		0xE895404EAA55F337ULL,
+		0xEC32B295A9430750ULL,
+		0xDE9BBB7F2BB584D5ULL,
+		0xD1A8B871EC0E6824ULL,
+		0x85E57C8D2C6B7229ULL,
+		0xE926D7B3F547B8FEULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x41CF4CC8662E4E94ULL,
+		0xFFC4AAB043E9AB07ULL,
+		0x0E1A362EEB129CA4ULL,
+		0x2719CE99F7C2F379ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 8\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 8 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -8;
+	} else {
+		printf("Test Case 8 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xC994609A7552638AULL,
+		0xDC4293139EDE4F82ULL,
+		0xD7AB8956097BEAA3ULL,
+		0xD57C5ACEC1F712B0ULL,
+		0xFE74D4FF48731430ULL,
+		0x3CBAE9C395156FF4ULL,
+		0xA3433D90A1F8FA29ULL,
+		0xFFCAEB4A5711CDFBULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x51E50569BDEBAF22ULL,
+		0x69846EE13356B0F3ULL,
+		0xF59C57FE7C3F39D5ULL,
+		0xB17366D3331A4448ULL,
+		0xCE29EDD13C497812ULL,
+		0xBD132A859692B860ULL,
+		0x5815203C92EAD30AULL,
+		0x9FC153D3D75A7888ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xA2CDAC068593E2F0ULL,
+		0x65A4876632EEDE8EULL,
+		0x0AE78BD1C9567F55ULL,
+		0x65756F9284137D85ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 9\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 9 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -9;
+	} else {
+		printf("Test Case 9 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x3759D2151DA61F84ULL,
+		0x7937D96072545B86ULL,
+		0xC0574A37E4692D5BULL,
+		0x2706EE8E74CFCAA1ULL,
+		0xCC0A43D7A685E745ULL,
+		0xDA2E54E105E5D2FEULL,
+		0xBE04AF34D54E37DFULL,
+		0x5DCFB5112B085D39ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x7B46C6C0E5BB308DULL,
+		0x29E10FFE0BE11065ULL,
+		0x72A8BE48ACD2CF7BULL,
+		0x0722CAE051CF8FF0ULL,
+		0x7AAF0BFFAC48EA75ULL,
+		0x9ABBD99BE1F4EAEAULL,
+		0x1BAA258D7DA82229ULL,
+		0xB00715FA0C74C49AULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xCF9D55635CF873FCULL,
+		0xBA5515A5BC35BE24ULL,
+		0x671EFAC63A3D96EDULL,
+		0x6BABC11CACE8E263ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 10\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 10 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -10;
+	} else {
+		printf("Test Case 10 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x6612A27F85675916ULL,
+		0xEDB0413F078708FAULL,
+		0x9A37B70E8BE0D7D3ULL,
+		0xE5AEC9773D3B0012ULL,
+		0xB2D18E19449D933BULL,
+		0x852A0B98EFF3A74AULL,
+		0x70EDA36F8C7622ACULL,
+		0xF6210162D3625852ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xCA86E8369025FA9FULL,
+		0xE9156DCABD39ADFCULL,
+		0xC22C627DCA110900ULL,
+		0x6C647F258719D2CBULL,
+		0xD2EDB38A636F1A79ULL,
+		0x16E8EA4BC59905D1ULL,
+		0x3E8CFD9DE5875222ULL,
+		0x6064696EF0E3597CULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xD75E2B7E62274E9AULL,
+		0x6245C4E893C152EEULL,
+		0x5263F1AF8942C35FULL,
+		0x3348D88554FB0112ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 11\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 11 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -11;
+	} else {
+		printf("Test Case 11 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xA6A31506139511F6ULL,
+		0xF187D9ED2FAA2396ULL,
+		0xD772EB075B3F14D2ULL,
+		0xEB61592D3C333E27ULL,
+		0x6BD2368DB07958F1ULL,
+		0x8DC02CBA5C9DB4F9ULL,
+		0xCE03B5B85CD9DEEDULL,
+		0xAA004E2273327D07ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xB2B2823E1C5018B9ULL,
+		0x1CA412722FAA4785ULL,
+		0x201B4402DC8150B5ULL,
+		0x2F44039C084B02EAULL,
+		0x10C25C06767C0D4CULL,
+		0x3734D246F7BDB1E3ULL,
+		0xB1B02080C21DB5D6ULL,
+		0xFAA8B48C53543A32ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x784B02DA92DE3206ULL,
+		0xAD93349BF9405162ULL,
+		0xEBBFCD4576ABDD94ULL,
+		0x431E21D9EEE626DFULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 12\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 12 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -12;
+	} else {
+		printf("Test Case 12 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xCFF4F8E7A37EC4C0ULL,
+		0x46B51669A5E02BBAULL,
+		0x76EA8EE92C6C1B51ULL,
+		0x7B4D7FA6AA752D97ULL,
+		0xF3915C80F136235BULL,
+		0x6D6A4BED94F620D6ULL,
+		0x3E0CB53A38BD113BULL,
+		0xF0F12A0EFC294A83ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xF5BD29E5ADE12AEFULL,
+		0x0717A973883CB778ULL,
+		0xD143C82AFE38ED9AULL,
+		0x3FB16525E403A92AULL,
+		0xC2C2FFC4AD50B532ULL,
+		0xAFACCA59D6A66EBAULL,
+		0xF98D60C5A2EF623AULL,
+		0xC95209C6E649A531ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x18D992F409ABF4CBULL,
+		0x69BEA8E45D77E471ULL,
+		0xD08D500C6ABB27D3ULL,
+		0x1D3AE53405A40E7CULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 13\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 13 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -13;
+	} else {
+		printf("Test Case 13 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xC89B0F2C7464441AULL,
+		0x24841AE920ECC3D6ULL,
+		0x355AAB718E74E915ULL,
+		0x6DAB8B8A7D6764B5ULL,
+		0x5D527F0BA1F2FE8DULL,
+		0xB3511782713EE5B0ULL,
+		0x558781D1EDA763AEULL,
+		0x19FF037DB7A20B3EULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x1F878D9E7DFBE7D7ULL,
+		0x6A1D5E422B3D1E3CULL,
+		0xE68EAC61616EB05BULL,
+		0xB2F417B7A57A6C4DULL,
+		0xCDBC96596811FF40ULL,
+		0x68CC9D8778B2A57BULL,
+		0x5031EFE18B0CD639ULL,
+		0xF95146234E5095B5ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xF9540C028DCE3CB8ULL,
+		0xCA10D7E7DA812D67ULL,
+		0x197FA8BECFF73822ULL,
+		0x14818F3E7A046ABEULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 14\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 14 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -14;
+	} else {
+		printf("Test Case 14 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xA7FB03C5B7C338A4ULL,
+		0xA03A3DA58C5DC384ULL,
+		0xC094E349DAE46B9BULL,
+		0x90554E613D60DF80ULL,
+		0x292D6B989A5DDDA9ULL,
+		0xE4818B54D697626DULL,
+		0x2AE8E8B869EC969BULL,
+		0x50DEBDB19BC649BFULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x52D808EBA815972FULL,
+		0x4D3B099A7DA0BB66ULL,
+		0x110B1EA6990B8E63ULL,
+		0x449AF3252C235A99ULL,
+		0xB23E9A7C00A5E9A8ULL,
+		0xB2D90C6709AEC5DDULL,
+		0x406AA30C9D3947FDULL,
+		0xDA80DF0A4C1565BEULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xFC960518E0FBD690ULL,
+		0xB2020B5779444569ULL,
+		0x7E481C23A47688B3ULL,
+		0x5DA96811E57F5D0AULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 15\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 15 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -15;
+	} else {
+		printf("Test Case 15 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x64856C067A1C0CDBULL,
+		0x0747128762FA0441ULL,
+		0x11094B2F169ED3AAULL,
+		0xF8C40CCBBCAC4A02ULL,
+		0x2D5E0D5A9E00E083ULL,
+		0xA2BC46D7965A997AULL,
+		0xF03140DD1BBFFEE1ULL,
+		0x2FB6A60C0CA0BFFDULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x9CD54030947BF11EULL,
+		0x752AE318218D33BBULL,
+		0x2179AA2C49AC4065ULL,
+		0x1750192749EA2872ULL,
+		0xBB769DB0A38B3636ULL,
+		0xEAE47CD78E06C167ULL,
+		0x4EBACD1AD9E5BE3CULL,
+		0x06F5C0474AD23636ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xB00ABF1113176422ULL,
+		0xDC242B707DDEE342ULL,
+		0xE724CFD893582BB7ULL,
+		0x6E160ED9376A9531ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 16\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 16 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -16;
+	} else {
+		printf("Test Case 16 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x86D7F5C0FB49A396ULL,
+		0xA355CEBCB62E0CCBULL,
+		0x41B1619128395448ULL,
+		0xE02F4259AE189759ULL,
+		0xFBE2F0B675B4E4B2ULL,
+		0xFDF35714CFA14DEDULL,
+		0xB7CA5C05DE0B0C85ULL,
+		0xE57CB61855DA4217ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x2B99ECC7AA81DC44ULL,
+		0x1E1734FADBE55428ULL,
+		0xEA79F85A6B59AEC7ULL,
+		0x8BAD369667C4990CULL,
+		0x51321C72FB8DAE72ULL,
+		0x38C26706109A22A9ULL,
+		0x3D82B0396AE4934CULL,
+		0x036455ECEF5604EBULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xB17D8AFD7299D9CBULL,
+		0xCA823BF2355924D4ULL,
+		0x7DDAE98FD495A414ULL,
+		0x642052347DF512E6ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 17\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 17 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -17;
+	} else {
+		printf("Test Case 17 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xC2B753AC9034CA38ULL,
+		0xACCA6E9EE310EFB7ULL,
+		0x8372C252681B0AC5ULL,
+		0x47946ED0CB9AC95AULL,
+		0x3AC5153EDEE188C5ULL,
+		0xB0A7880EC92D1480ULL,
+		0xAECDA5F772A7C0DDULL,
+		0xBCD0C1C64A7291AAULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x5C5081723E3A1EA1ULL,
+		0x677B7360B2A94F63ULL,
+		0xB2D6CE74555D954EULL,
+		0x55064D1D94ADE88EULL,
+		0x2DEAB877CEA2FB32ULL,
+		0x681876529388EF79ULL,
+		0x541E91D91865CF4EULL,
+		0x225871783C20F6F4ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x4ED097C6BB43B2C0ULL,
+		0x0A8B9D2E26C51F60ULL,
+		0x4698F05F788750BCULL,
+		0x606A0D495709D7DDULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 18\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 18 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -18;
+	} else {
+		printf("Test Case 18 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x3346B89F0D9F72DFULL,
+		0xC6577463A08089AFULL,
+		0xA2050D7D6D736992ULL,
+		0xBF16E58B32A97006ULL,
+		0x2889300D209D2ECCULL,
+		0x84C34BD9D417897EULL,
+		0x0CF6FBFC98B2B289ULL,
+		0x6DFBFA6780104183ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x7A1D3D1773D6DBBFULL,
+		0xD5335595389B22DAULL,
+		0x1E5FA08F058E1C90ULL,
+		0xF7441823B7AD021BULL,
+		0x06CC010B9EACF081ULL,
+		0xBF57F6708849F705ULL,
+		0xF4AA6829F722F090ULL,
+		0x12489BDC6592DBDAULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xBB3E75C0E371D830ULL,
+		0x3F12CC6FA86924CFULL,
+		0x1F035E32633C17EFULL,
+		0x6472D60D699984DFULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 19\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 19 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -19;
+	} else {
+		printf("Test Case 19 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x9FCABBE2F6D465DFULL,
+		0xD8C73B3CF076114BULL,
+		0x2500FE2F3B52FB40ULL,
+		0xB4FE375ED13DD3E1ULL,
+		0x19C11349FB0194B4ULL,
+		0x7A58065354FD2135ULL,
+		0xF711DF2E1A6D4B4DULL,
+		0x3E65B5185C474572ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x522658EE015313D0ULL,
+		0x2DD5EEEF18CBEB2DULL,
+		0x6C6A067674642BC9ULL,
+		0x9BC40E3949971943ULL,
+		0xDA61C82602F320D7ULL,
+		0xD46893B426E8A0D1ULL,
+		0x36918F3639CC8D29ULL,
+		0x2BB56B5A6686C120ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xB5C98A4BC7A6853CULL,
+		0x4C7C4FEEAEB534D9ULL,
+		0x4BA2D6841ECB08C2ULL,
+		0x5F651B58023A5EE6ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 20\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 20 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -20;
+	} else {
+		printf("Test Case 20 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xEBA7200359F19D2AULL,
+		0x86F7A13F3EA91173ULL,
+		0x03B47552EF31C91CULL,
+		0x0FD47876E8C0DE13ULL,
+		0x20D111DBED6E43A9ULL,
+		0x8BC0269A742A2F66ULL,
+		0xB098780856373AFEULL,
+		0x4BF7A5C110C813A1ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x257FCF26D77F1F44ULL,
+		0x0CFD0C42EFE11525ULL,
+		0x783A5629A65D7293ULL,
+		0xF63D55E41F2942E0ULL,
+		0xDE1CFE12734C6B38ULL,
+		0xF356770F9990EB3CULL,
+		0x112AA0D8F128D30EULL,
+		0x57FB5967F3277654ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xACE240C4A3789E3AULL,
+		0x19AAA398C1881A6EULL,
+		0x35C8103248F7C41AULL,
+		0x510A77CD2F6EF4B8ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 21\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 21 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -21;
+	} else {
+		printf("Test Case 21 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x110F70F6BEFC5502ULL,
+		0xFCEBA54FE4772746ULL,
+		0x44E4F21EA2781D47ULL,
+		0xC1E1BF23D7B7CDF2ULL,
+		0x46E3D7942594DF14ULL,
+		0x7AAC045289DB87A5ULL,
+		0xE659D3072A3025FEULL,
+		0x97EDF5C228E58D9BULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x045223EE76AECC38ULL,
+		0x777DE55D2EEBF396ULL,
+		0x0A251D217E17BC7EULL,
+		0x8478F46211DB844EULL,
+		0x5413D67E6495AE1EULL,
+		0xC266C39F02D3E781ULL,
+		0x689F422A28D1D234ULL,
+		0xD1E8E141A8338EAEULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x179D7642EE2ECC0BULL,
+		0xDFB55A98C0ACF906ULL,
+		0xE47155CB5860D0BAULL,
+		0x2229D5D4E04820E4ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 22\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 22 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -22;
+	} else {
+		printf("Test Case 22 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xB952E32EE7DCD56AULL,
+		0xB57D9B633F6CBBE9ULL,
+		0xCA33703B45E11C92ULL,
+		0xDF4094B1E457D12AULL,
+		0x33C08BDC1FCDDC14ULL,
+		0x1947E3F72AB9B1E8ULL,
+		0x5D5EF0EFA22327C2ULL,
+		0x4A02B197884D77C0ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x0DD6809AC2C2FD59ULL,
+		0xED7DE057C38C9AFEULL,
+		0xD7876FB016C2E65EULL,
+		0xFE319CFE14283106ULL,
+		0x577D3D8526B865C4ULL,
+		0x1213ABEB0519D033ULL,
+		0x14A8C53501FE2072ULL,
+		0x9C413C4C4F3C1D49ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x5D7A037D1E496616ULL,
+		0xD9C00CD9119BA1C4ULL,
+		0xBDB67E3EF49D4C14ULL,
+		0x2BC660DE48C30DD8ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 23\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 23 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -23;
+	} else {
+		printf("Test Case 23 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xB6FBE4EFEDCCC2AFULL,
+		0x25C8181237D132B6ULL,
+		0x44F1AE61DD9E3971ULL,
+		0x1D11C70E293E55DDULL,
+		0x66270B962BA123BAULL,
+		0xC498880578F02A79ULL,
+		0x820F76B943DE6229ULL,
+		0x913B2E5001D012AFULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xDC3A9E718760EC45ULL,
+		0xA48B3F73FED7CC0AULL,
+		0x34ECC892B919FD6EULL,
+		0x9E50E6DA48C36749ULL,
+		0x495777CA6D43FAD2ULL,
+		0x28CA9FA1559AFF1EULL,
+		0x1A449596DA6E0958ULL,
+		0x130E2934C6E85620ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x219136BCA83FEB86ULL,
+		0xA1CD577B779DD632ULL,
+		0x782250EACB316B1FULL,
+		0x396FA23E9EE0EBDDULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 24\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 24 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -24;
+	} else {
+		printf("Test Case 24 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xED989F6DA10458FDULL,
+		0x8A153ADD28D6B71DULL,
+		0x57AB054AC4269518ULL,
+		0x9221913249529B4BULL,
+		0xD113E33B9649457AULL,
+		0xC78043BB7B8AF424ULL,
+		0x04FCE5AC81097D35ULL,
+		0x35F9B9D6B705BA0CULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x92175965C24FD4F8ULL,
+		0x3E3EB6BECDDDE53CULL,
+		0xB2E37943F599A368ULL,
+		0xD1B32CC3C0F0842CULL,
+		0x7B92EB8A492CE6F0ULL,
+		0x669DA39F5678A54DULL,
+		0x376E47687188E17BULL,
+		0x7230886C192E2940ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x0CA60A5950EA8B18ULL,
+		0xAD7A484BDBB085D8ULL,
+		0x27F30A211BA40F5AULL,
+		0x504BBA41F661955FULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 25\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 25 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -25;
+	} else {
+		printf("Test Case 25 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x8C8463FE9D8C8C76ULL,
+		0x9939ED9D58EFE49FULL,
+		0x150ED5F2088AD868ULL,
+		0xA94C851A221FA235ULL,
+		0xCABEEBF438B1C606ULL,
+		0xEEB062486718F6FCULL,
+		0x01DB5453A099A16BULL,
+		0xD00AEB35FDB26370ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x8608B7E10C311EF7ULL,
+		0x6AC75B4D49AFE9B5ULL,
+		0x53912259CC0A2A25ULL,
+		0xE6E331D345C7C3BDULL,
+		0x022A39DC6369DBBCULL,
+		0xA7A370590EEAC692ULL,
+		0x3838178272B3B16CULL,
+		0x978DD396D867BCDDULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xCC8E1BA73A0835ABULL,
+		0xBA5E7BD7261B2AC3ULL,
+		0xAFB8BAA50CA24E27ULL,
+		0x24FAD4E6656C9841ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 26\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 26 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -26;
+	} else {
+		printf("Test Case 26 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x03945F559F5DE507ULL,
+		0xB2708DB2319F8B52ULL,
+		0xD3990468A007DCBDULL,
+		0xB75EEB62F7BE92D1ULL,
+		0x6BD1773422EBA67DULL,
+		0x63B78D2A28AD3177ULL,
+		0xBC57744295AEF093ULL,
+		0x36E02E240150A084ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x1FA9FBD1295290C6ULL,
+		0x18580D7CBCF2A277ULL,
+		0x9B5F801D73443ABBULL,
+		0x20255B483753AD17ULL,
+		0x806F4EE3A3FF292FULL,
+		0x4BB29DB4D5863DEEULL,
+		0x0B8BDAF964255744ULL,
+		0x72852A87D9097169ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xD47C5F774D25EC92ULL,
+		0x2AD40B9FCC750F2DULL,
+		0x76724528873063C0ULL,
+		0x3CBC1948BAFBE3D6ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 27\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 27 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -27;
+	} else {
+		printf("Test Case 27 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x6752F0DD09CB6DE3ULL,
+		0x0206DACF9B31C484ULL,
+		0x178ACDBB8EAFBCB4ULL,
+		0x4552FDD1FCFF6A78ULL,
+		0x539965DF4AE86060ULL,
+		0xE80247E2A7763093ULL,
+		0x52D77887A29337F8ULL,
+		0x46EEE16EDA9D38B0ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x6BB7C16D1A276618ULL,
+		0x855DE2F23926CBB4ULL,
+		0x352C76F9563D20A8ULL,
+		0xEF7A3F859A755A68ULL,
+		0xAF0212BBE17A5D48ULL,
+		0xADDD007769F11821ULL,
+		0xE077349ACBAAF496ULL,
+		0x8CE6CD1819370BCBULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x6A1186B195F87BA6ULL,
+		0x1E3191C883CC99AEULL,
+		0xDCA86BEA1EEC9CA0ULL,
+		0x730BC32D17B4B9F8ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 28\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 28 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -28;
+	} else {
+		printf("Test Case 28 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xF26F2195B64B90C1ULL,
+		0x6E8813BB56869631ULL,
+		0x3F19145A9C68B7EAULL,
+		0xAAD331A4F0A902D8ULL,
+		0xA76DEE263D9E37ADULL,
+		0x9465E4B0E3C0650BULL,
+		0x8AA1F4541E6AA3A3ULL,
+		0x87D7CEF83D0C876BULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x728BDC49C4A76499ULL,
+		0xD8825DD3E340B776ULL,
+		0x63406FB5E8A3AD43ULL,
+		0xA356555CEE88140EULL,
+		0x5AE7EBCB2A953827ULL,
+		0x0C83945DB9BFD2A6ULL,
+		0x3A239E801A1C88E7ULL,
+		0x1979D726C7FEDE01ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xDBC79ED0C4FA1C6CULL,
+		0xC19DA23FAF5B99C4ULL,
+		0xCE99621D575D02A2ULL,
+		0x696FA55F62281491ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 29\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 29 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -29;
+	} else {
+		printf("Test Case 29 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x1271F979AB0DEFCFULL,
+		0x305CA36DA1611E20ULL,
+		0xB34115E3AAC95B70ULL,
+		0xBBAC3A727AC15051ULL,
+		0xFF676E2498E9BB27ULL,
+		0xC0438596ABBA1B55ULL,
+		0xE34574DD20533202ULL,
+		0x5DCC40970C35F3DFULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xEC508E8AE2060B4DULL,
+		0xAE52F4282D94A19BULL,
+		0x8B018F3A7705162FULL,
+		0xF0A11BC8811F8641ULL,
+		0x9E9925383B7959D0ULL,
+		0x7BB0EB57295288CFULL,
+		0x0AD5104C192CA4BBULL,
+		0x49ABF8AC397107C6ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x84C03E04A7B657CBULL,
+		0xAFCC94B2CF2C3C76ULL,
+		0x48EE7430437D3DD4ULL,
+		0x47D5CB8542DCD5E6ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 30\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 30 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -30;
+	} else {
+		printf("Test Case 30 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xF963084E4FAB6E37ULL,
+		0xF7F738E3CEB2C2F7ULL,
+		0xF3E34E35601710E6ULL,
+		0xEDD19CB3A170D36BULL,
+		0x1397CCEC1EBB172BULL,
+		0xA9A8C6592573E2AEULL,
+		0x5E8F150D21146EC5ULL,
+		0x91DF6DA957EFE9A3ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x6A15D429CDA5D284ULL,
+		0xD4FD89A5FFE67368ULL,
+		0xF381EA432B5DD805ULL,
+		0x48CBB7E41F992844ULL,
+		0x6C4F1F4C2F04315DULL,
+		0x7B794F718E5540F7ULL,
+		0x4DFB9923EFFA917DULL,
+		0xB46D544EC93D6844ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x6416F9E2172BB79CULL,
+		0xFE05559E3D5850ACULL,
+		0x7645C88F7E901197ULL,
+		0x03F5A840B056DF43ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 31\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 31 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -31;
+	} else {
+		printf("Test Case 31 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x8DFE5B129CCBC7FCULL,
+		0xE579BF680F978536ULL,
+		0xA74F2887D499E366ULL,
+		0x8AEB4F4B7A33E6FBULL,
+		0x4F38889E581D273CULL,
+		0x20E40B70547E5AE9ULL,
+		0x944BC167D3F0DCF5ULL,
+		0x23C6D3004120FBC9ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xED859D4D8478E480ULL,
+		0x76A6342E51058742ULL,
+		0x5238D4899396646CULL,
+		0xD352359824957DEEULL,
+		0x1AFC3DD3993ADA87ULL,
+		0x89E2C900096CEA26ULL,
+		0xC55C7B00470D60F8ULL,
+		0x3F82E2BB723EF467ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x616BD7DD6DEA45AFULL,
+		0xD90367E4E328BAEDULL,
+		0x0C9AC75D2AC7E678ULL,
+		0x19AEC3EA0B2B8192ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 32\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 32 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -32;
+	} else {
+		printf("Test Case 32 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x8ADAEF8F275F3CE8ULL,
+		0xB4ADEA34AD644662ULL,
+		0xAB0618F0A6D38BD6ULL,
+		0x47499D2BF84C85ADULL,
+		0x3D82EC9B19D8EC7DULL,
+		0x7B7473F7AB494C8BULL,
+		0x57763C76B413728CULL,
+		0x467E01DA9D70D2B8ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x14DF659DB7C37299ULL,
+		0x209685D302E77323ULL,
+		0xF828D46B005CECA7ULL,
+		0x78F8A5683C156BC0ULL,
+		0xE6101F3E8568C341ULL,
+		0xA1DE83FBCE04F3C1ULL,
+		0xB95118DEC1EA3A3DULL,
+		0xD2D46D61660B577BULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x710605AF7841E606ULL,
+		0xE05903C482A20122ULL,
+		0x2C608D139894FAE3ULL,
+		0x797D01C1F54764ECULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 33\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 33 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -33;
+	} else {
+		printf("Test Case 33 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xD4952958BA0CCFF0ULL,
+		0x35409B8069B25F3BULL,
+		0x07EEC0877794AD7DULL,
+		0xE4366E135448E939ULL,
+		0xAA18ADD3DE22181DULL,
+		0xDDB60A1EE025D066ULL,
+		0x59B546615D4D0B6CULL,
+		0x0C55DC0E22CFC9C6ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xE4BDB83F4FE3243BULL,
+		0x247AF59D111D65CEULL,
+		0xFB46EFF6C3D2FC79ULL,
+		0x131592B090658749ULL,
+		0x082FAC65EEB5794EULL,
+		0xE1849288D448A269ULL,
+		0xB9BE40C7A1F4E24DULL,
+		0x63D215E5F39953B4ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xF86DA76AF4493C94ULL,
+		0x801D66291B69CD12ULL,
+		0xCB52A56282D7CB9DULL,
+		0x54B04559C5F8E88CULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 34\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 34 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -34;
+	} else {
+		printf("Test Case 34 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xAAB83E02426F26A7ULL,
+		0x8CFCB0FE0BA78CA5ULL,
+		0x299C04A7346C5060ULL,
+		0x1C78F9C844344FCBULL,
+		0xE572B709DB59B936ULL,
+		0x0E00CDC36285A545ULL,
+		0x0B08AC11F7D6858EULL,
+		0xD19037166F007A77ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xE7072469E34B52FAULL,
+		0xBF5ED0494617E832ULL,
+		0x61E752195B3813B8ULL,
+		0x97CAC6DDFB4BD88AULL,
+		0x6D5CD59DB11275B0ULL,
+		0xCBC97F2A53A5EEC7ULL,
+		0x8431BD32A8B36C36ULL,
+		0x7BB8E7DBB613DD7DULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x96F08FA6A5B7DB59ULL,
+		0xA1D38B6CFAC4BB38ULL,
+		0xCB9C27B39869FF9BULL,
+		0x42A3F5A1BC07C44AULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 35\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 35 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -35;
+	} else {
+		printf("Test Case 35 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x7EC7FBDBC31CEE82ULL,
+		0x42CC85671B1A5607ULL,
+		0xAAF9B42A0A280774ULL,
+		0x92120E1E2A461031ULL,
+		0xCAFC91F792131FEEULL,
+		0x73C00411EB6FCE35ULL,
+		0x0E516CAE81BFA5C8ULL,
+		0x9EE51C222B5B5702ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x0593C9ECC66F301DULL,
+		0x73772287D055106CULL,
+		0xDC9C2667F56E180EULL,
+		0x8DB14861C4DC2624ULL,
+		0x5253A57A524A1550ULL,
+		0xE843F4D11F3DD672ULL,
+		0xB9DA814F4F605ED8ULL,
+		0x35C2942BBED15BE3ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x62474C8674855426ULL,
+		0x83BFA67D9A300C9FULL,
+		0x58047DE38EDE76F4ULL,
+		0x1F80F45081E5308DULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 36\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 36 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -36;
+	} else {
+		printf("Test Case 36 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x83AFBF748958BC47ULL,
+		0xC49D0A630E38E3C0ULL,
+		0x6011A60B7D4C32D4ULL,
+		0x4003ADCA0708CC8FULL,
+		0xA965763F2188ED87ULL,
+		0x8594A5C2CE1A5E04ULL,
+		0xE3DE5B5381185A57ULL,
+		0x306E6C5722FCFAE3ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xF9460CB3010948C7ULL,
+		0x4AE3B9D5BE0833B0ULL,
+		0xE4D683157028F953ULL,
+		0x14D5796C73979183ULL,
+		0x33E92959F1085DBFULL,
+		0xA60258FDD99C3F1DULL,
+		0x42114B4D17D4D149ULL,
+		0x5F7701334A097989ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xFADD1CC6BB64CA26ULL,
+		0xA970B5C99AE9466AULL,
+		0x7FAB83E9AD299190ULL,
+		0x2FE81BAFC7966E7FULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 37\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 37 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -37;
+	} else {
+		printf("Test Case 37 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xC715D9FBC60BA481ULL,
+		0x713985DF1A6EA1CBULL,
+		0x1E608C180B0F80BCULL,
+		0x0188484C7A74F7E4ULL,
+		0xF27D33ECDCAF7D20ULL,
+		0x4271443B76554C31ULL,
+		0x9964CC555FDA7D59ULL,
+		0x75E07A6D30787013ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xBAEEC3E4EB52A694ULL,
+		0xACFD4235CF11A561ULL,
+		0x6C91C0E331BDF874ULL,
+		0xAB7373BBA81A3772ULL,
+		0x326CC1C42D966911ULL,
+		0xB3D4557BD8183EE4ULL,
+		0x622C0AEAB8AE4654ULL,
+		0xC0767CF2A020ED6BULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x8E980820D871F65FULL,
+		0xEF87B41AC86CF5F4ULL,
+		0xE43B8109A9E1B2F4ULL,
+		0x43D074C23F582569ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 38\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 38 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -38;
+	} else {
+		printf("Test Case 38 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x07C7F0843356A609ULL,
+		0x5C7D70A11940DB29ULL,
+		0x267764B680E21A90ULL,
+		0xEDBFCE3AFBA7D6A6ULL,
+		0x187A7122221D258FULL,
+		0x67ADCF3521D3C017ULL,
+		0x9DE5F119FF323B94ULL,
+		0x61C0C4CC91A33906ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x8BD48A5F4808BC7FULL,
+		0xA554F30144A9F854ULL,
+		0xAB45F6CC74FB6C2CULL,
+		0x55AE48914CDCDA89ULL,
+		0x2C3C3008EDC41DAAULL,
+		0xD6F4CF56A75D35B9ULL,
+		0xEE87422D18AB21FAULL,
+		0x211D91BE18D2304CULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x8D310FE2B0851704ULL,
+		0x329E78A6022F6CC5ULL,
+		0x833F651443F47B2FULL,
+		0x304B19CF9DD247ACULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 39\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 39 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -39;
+	} else {
+		printf("Test Case 39 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x6C2BB5E4B6847805ULL,
+		0x98593C41972C5EDDULL,
+		0x15F3711D46648B16ULL,
+		0xF072368B82EA1688ULL,
+		0xA1D56AF7A6EE1C1CULL,
+		0x87C50B9E642CEF25ULL,
+		0x6007C7110A09D1F9ULL,
+		0x2784C64243D380C5ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x629DA3263B5F9289ULL,
+		0xFAC879FA00DDF0B3ULL,
+		0xBCE70672BB78396BULL,
+		0x589A2F26D90EC6B4ULL,
+		0x05816593402B2F5CULL,
+		0x4EA51ACBD8C7429BULL,
+		0x9E9B7DA6AD052E6CULL,
+		0xE3BBA324441FF95CULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x3E06DFA5BC1405E7ULL,
+		0x184E818847660ABDULL,
+		0x0F1F5074599C98A1ULL,
+		0x27B33DD89E816960ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 40\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 40 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -40;
+	} else {
+		printf("Test Case 40 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x97DCE920A142C1A6ULL,
+		0x8D392EBF152A7329ULL,
+		0x1376AB9FFD4B2EFCULL,
+		0x86DD2753DB142CE0ULL,
+		0x1C211CC6F6600827ULL,
+		0x2B1AD6B818ECD501ULL,
+		0xE496A40D44C635E4ULL,
+		0x1F0C2BE222F597C2ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xB7B5823CD887D137ULL,
+		0xC3649CFF9508DF6AULL,
+		0xE721818E2DAE9228ULL,
+		0xB0AB629644638BBFULL,
+		0x0AD3F2846111F63CULL,
+		0x6074C48E49FA407EULL,
+		0x636224F2A21D77E1ULL,
+		0xF977D8642A5E6422ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x719BACC5F251946BULL,
+		0xDE7B43F438239F33ULL,
+		0x5A200805F4A8D13DULL,
+		0x6A3629707D224AF3ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 41\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 41 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -41;
+	} else {
+		printf("Test Case 41 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x2E5F91D37A635DCDULL,
+		0x0DA0B8693AB90A37ULL,
+		0x2E719C859E90D4DCULL,
+		0x16CD3ADC196A776CULL,
+		0x6DF8DB62FA698D67ULL,
+		0x880B41E268250995ULL,
+		0x96D3B7C8C0BE333CULL,
+		0x592FDD3EC798F9F8ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xD34DD6B47B578A3BULL,
+		0x9556644129940A40ULL,
+		0x834CD5F202E3B18BULL,
+		0x6E85AAE422CEDEDDULL,
+		0x31EBB34835B998D1ULL,
+		0xB656760D20A87056ULL,
+		0x1668D4D47977CF4BULL,
+		0x7348647CBEAA8370ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x4505AF18312A212BULL,
+		0x992095D0ADA3BF59ULL,
+		0xBB0276D6301FF90FULL,
+		0x48A37CC54A0130D1ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 42\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 42 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -42;
+	} else {
+		printf("Test Case 42 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x9EEAA70D528C45E3ULL,
+		0x7BBCC8DD2C345FBCULL,
+		0x58075DC64D826E62ULL,
+		0xB7B1D3EED9B82E83ULL,
+		0x2E70518F50090A3BULL,
+		0x8C7D2933B9E8AA97ULL,
+		0x1E82D58DEF5A0818ULL,
+		0xFEC966B2C1EFF034ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x03F9920BC21D1A1CULL,
+		0xD6F0E3F80C96BD47ULL,
+		0xA62C46BBE9438D7FULL,
+		0xFD670F6C6087D6DEULL,
+		0xEEB507DCD1CD5CB5ULL,
+		0xA540247DC0876F7DULL,
+		0xE826235087803793ULL,
+		0xFACF503D5E8E8CA4ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x10BE05804D4AEDABULL,
+		0xF7DA97E8240C6835ULL,
+		0xC39D8C27CE93D49CULL,
+		0x516A19EF39A51EE6ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 43\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 43 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -43;
+	} else {
+		printf("Test Case 43 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xC1F0257DF138BA08ULL,
+		0xE2E4073CD78CC699ULL,
+		0x4DD535C7D35E5495ULL,
+		0xB72D900D1C53D83EULL,
+		0x41E4614104D89D7FULL,
+		0xEC5591D1C8355487ULL,
+		0xD4020FCFD33E40EAULL,
+		0xA120924E40630ACDULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x0F35E705E4F5FD15ULL,
+		0xD631DE0846FD3C96ULL,
+		0x16C1ED847EBC5854ULL,
+		0xAE2446A48630E9F5ULL,
+		0xCD99FAE3CD2DCA5DULL,
+		0xC8C380B65CC6B3CCULL,
+		0x3C179CD9565C93F4ULL,
+		0xF61323CD37EE8ED2ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xF5C5704E4F9E1211ULL,
+		0x5460B34682FB65B0ULL,
+		0xC3E058D9DE21A8CAULL,
+		0x6D07B08FD76D55A1ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 44\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 44 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -44;
+	} else {
+		printf("Test Case 44 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xE08F88CDEFB0A6D5ULL,
+		0x02338E4168DE3C01ULL,
+		0x1CAD2B3A9F07EC8BULL,
+		0xE3C5CC13B394E5AAULL,
+		0x699B6AFF5650BD23ULL,
+		0x5A4D4654017F4C24ULL,
+		0x111822A7BF3C0925ULL,
+		0xF923642DDDE6C4E7ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x4386BCBE1553DAF7ULL,
+		0x897216F0EEBD38DAULL,
+		0x84C84E4E35FD8438ULL,
+		0xC500FC87B5F6B6DAULL,
+		0x5B7FE5FF3620CE22ULL,
+		0xD3E1E36AB10820D7ULL,
+		0x88C1D495B008620FULL,
+		0xBA4F41982E367058ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xB51E8A14A17A475AULL,
+		0x6CB225F26BD17097ULL,
+		0xD4B4739AAAB53584ULL,
+		0x7241F1C411CABBF7ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 45\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 45 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -45;
+	} else {
+		printf("Test Case 45 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xE33075C0D5C781A8ULL,
+		0x7280D32F49B0837DULL,
+		0x652A1C55B52A4A21ULL,
+		0x67B84E3C8F492DD0ULL,
+		0xA3FD3F6D7A3AEFC7ULL,
+		0xEADEB15F2347C855ULL,
+		0xFBE4D7B1B05D36EDULL,
+		0x6D90CA5407D1C419ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x944643ECBA09BB3AULL,
+		0x6811B66EFD0E2FA1ULL,
+		0xAA060CA905F6C559ULL,
+		0x624DAF2217F964F9ULL,
+		0x411AC41F1110CBF0ULL,
+		0x3108E92C5BBCD036ULL,
+		0xE5E9417CE4470F34ULL,
+		0x774B8682A2B1A689ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xFC887F77B7FF181FULL,
+		0xA02AD449EB432884ULL,
+		0xFE7C5B82FA7D6A59ULL,
+		0x13B2B02F7A142C39ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 46\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 46 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -46;
+	} else {
+		printf("Test Case 46 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xC0CEE567F935951CULL,
+		0x23F183A4157BC192ULL,
+		0x72DA7248A75464DEULL,
+		0x3E2F61EC49D4048BULL,
+		0x475DF72BBCFD056BULL,
+		0x8DFF80BE8592ED16ULL,
+		0x0777E9EFB6F6A7F2ULL,
+		0x335A2C2577C6A50DULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x9F7356C985933FF9ULL,
+		0x1FFF31EE47EB77B7ULL,
+		0xD7631E3F35F6E690ULL,
+		0x4D60090045F22136ULL,
+		0x7176B18DD2B81C70ULL,
+		0xC37A006F49716D2DULL,
+		0x35DEDB16A43CF765ULL,
+		0xEBAA8BCF00D8B137ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xE1AFE40F39DCE650ULL,
+		0x13C35D78BA89466AULL,
+		0xB82F884238EDB334ULL,
+		0x14E125C1AB341511ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 47\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 47 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -47;
+	} else {
+		printf("Test Case 47 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xF011EBE1C9C2E5B0ULL,
+		0xDF9AF80AAA93CCB5ULL,
+		0xCA27E7D0A124B5C7ULL,
+		0xDFB48401635023C8ULL,
+		0x70F1B2772621C6B7ULL,
+		0xC8087983EA39E9EAULL,
+		0xE4840D58A8F1B671ULL,
+		0x128A5F57D95C6030ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xC4B55ED3E86A6835ULL,
+		0xDEAFA4C5A85E267AULL,
+		0x7C2A46DB9E06609EULL,
+		0xA29B9D00E3835D4EULL,
+		0x0FFDEB65F01DEFB6ULL,
+		0xF590AD40321E3FE6ULL,
+		0xA8C1E16D7A19ED81ULL,
+		0x1D754BAAB0ABB336ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x8F8C199BE5EA6768ULL,
+		0x3EB3A5525650E2E1ULL,
+		0x2CD025DDF72628C2ULL,
+		0x1E39D2B48A06739FULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 48\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 48 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -48;
+	} else {
+		printf("Test Case 48 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x423A852153FFD060ULL,
+		0x995D033E8A5778DCULL,
+		0xF1C6463EBFFEF749ULL,
+		0xEA3DA57FE7B1FC69ULL,
+		0xBAB864F5E5FC0C5FULL,
+		0x01DA39F201AE5CB3ULL,
+		0x868AED08774115C8ULL,
+		0x2709A957531C16D2ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xFEB3A5C76AF02F72ULL,
+		0xDA536A1BF267FCD1ULL,
+		0x0FCEBCE6CF2CF4BCULL,
+		0x863FEE3B9AA469B1ULL,
+		0x4AFF90CCFCDDEAE1ULL,
+		0x7C5F1223E075321BULL,
+		0x9D614684C15A2862ULL,
+		0x40527CADE791308EULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xD8F65D6C8388991DULL,
+		0x8F5181BB866BCEAAULL,
+		0x7E2640E4F1193F9EULL,
+		0x232E586A43ABC0CDULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 49\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 49 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -49;
+	} else {
+		printf("Test Case 49 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x3937CA68091DEC46ULL,
+		0x167DA8A8E8799527ULL,
+		0xA35AAEE4EB3C1005ULL,
+		0x0BF040B04F4BFB59ULL,
+		0xB44AA53BF8A9046BULL,
+		0xF11C9A4FE535F152ULL,
+		0x39B1BF851BA91C8CULL,
+		0x10AF0902EF6BF515ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x29CD1318046998F5ULL,
+		0x966B46F94D68581CULL,
+		0x4DD668051726EA53ULL,
+		0x76BF23827ACE9F9DULL,
+		0x3D6F9D94BE4584E5ULL,
+		0xB6F8837176DD775BULL,
+		0x2CC6BE41EB947B0AULL,
+		0x0343BF156ADF13BCULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xB3EDDA22AF79416EULL,
+		0x216DC6B3FC3357C6ULL,
+		0x406676D8F7251F06ULL,
+		0x131E166F8166CEF4ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 50\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 50 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -50;
+	} else {
+		printf("Test Case 50 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xB3CB95FD1E27D086ULL,
+		0x3BDA5559A1706956ULL,
+		0xA1322467F868C88AULL,
+		0x9DE37F74665C8179ULL,
+		0x42B6F3FFE327A994ULL,
+		0x7CE7D6F143779945ULL,
+		0xF9E1D537C5316553ULL,
+		0xCA9A8764EEF38DDBULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x9C6CEA672BE1E008ULL,
+		0x56892AAA3F66AE0DULL,
+		0xEC0BD7D05B80F2CBULL,
+		0x807946F164FA1802ULL,
+		0xE8777D5620E42CECULL,
+		0xD6604D83C6462D58ULL,
+		0xABDB6EC2011106BBULL,
+		0x212D8967E3BEBBD1ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x7CCA48C8C84A7524ULL,
+		0x9D6F90EFF75FC05EULL,
+		0x4A198212B9B5E041ULL,
+		0x4397EC12AB3996FEULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 51\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 51 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -51;
+	} else {
+		printf("Test Case 51 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xC28BCF8340F459F7ULL,
+		0xE2C3858DCF34ADCEULL,
+		0xF8ECB2A865653D3DULL,
+		0x699F6A4028840003ULL,
+		0xCE9A66DE62D07013ULL,
+		0x770DB460438ACDBCULL,
+		0x39E20E773DE5BA42ULL,
+		0xD04EE5A6B36A7E70ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x988D5AA94C44EA65ULL,
+		0xAE45E8CA6D871202ULL,
+		0x855BC735A70E658DULL,
+		0xCDEC3AB0A0D8C6A6ULL,
+		0xA556359E3BDD4CB6ULL,
+		0x0A830ECED3E88728ULL,
+		0x8FB12C8B5F2EB8FEULL,
+		0xBDF463CD2D47E5A1ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x4A1DC45FBCC6AFACULL,
+		0x51123059F3C415CAULL,
+		0xB6D27475CD8107D8ULL,
+		0x552275D970CDE80AULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 52\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 52 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -52;
+	} else {
+		printf("Test Case 52 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x53A1B2701A4E68E3ULL,
+		0xB570169452DB40C6ULL,
+		0x16833793CA0E32FFULL,
+		0xBAFA1C18FD93F8C0ULL,
+		0x3573737EF1C1D3FBULL,
+		0xFF8B2F01E25B8ECBULL,
+		0x246BA7EB3025A05EULL,
+		0xE0A8FBE0410C1708ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x375A4A19DEB96D98ULL,
+		0xE340046DBB2C8093ULL,
+		0xE3DFAB898793AFEEULL,
+		0xEFDF7810EADFF8D2ULL,
+		0xB08080D0EDA0FEE3ULL,
+		0xD4768C3F2A48DF5AULL,
+		0xE57E627CFFD142ABULL,
+		0xDFC91FBF6CDBA05CULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xD8576E2AD8749CC8ULL,
+		0x37403B0DEA74CAE6ULL,
+		0x89DBDA656F006BA9ULL,
+		0x6C5550E791E59D58ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 53\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 53 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -53;
+	} else {
+		printf("Test Case 53 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xC0074EA0B693D12AULL,
+		0x8C47EF4678A4FBF8ULL,
+		0x94FAB113588CC224ULL,
+		0x5B76E2675FD1BF9FULL,
+		0xDE84162209B9776EULL,
+		0xE8317940E378CEC4ULL,
+		0x3397F6F71220FD20ULL,
+		0x35DBC46EF1172805ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xC1298BD97B8D00CEULL,
+		0xCC74AAB4A6BBC5B4ULL,
+		0x6F92634A118F4216ULL,
+		0x8BDFA3A3FC1B96B5ULL,
+		0xC4A3A69084F2ADF8ULL,
+		0x403A8D64570A587BULL,
+		0x528C16C9DF230CF8ULL,
+		0x9903453EC3FE5D77ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xD62E5260F088B5A6ULL,
+		0xAE7A474EAA4EC51DULL,
+		0x8D2B947ED8AF2616ULL,
+		0x17BA1FEA156439F9ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 54\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 54 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -54;
+	} else {
+		printf("Test Case 54 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x3793D8B7B7E71D4CULL,
+		0x0E138B7F715D6274ULL,
+		0xAC15FF710E706949ULL,
+		0xD202F8F43996D9DEULL,
+		0xE96E2099995C71A2ULL,
+		0x25A461DB78E9AA73ULL,
+		0xF6AC0AF3CE118B19ULL,
+		0x115CC6788CF37967ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xDC61595FE3883367ULL,
+		0xEC9CC33E9CF14323ULL,
+		0x4758EDA2A8417AEDULL,
+		0x495A4535C95090F7ULL,
+		0x84F5876415EB8846ULL,
+		0x450349E25659B400ULL,
+		0xA283156220831BA7ULL,
+		0xFED72DF117844CC8ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x45193D495721885BULL,
+		0x7960573BF5CAB471ULL,
+		0xE2D1856E29537942ULL,
+		0x487D57D9DEC6E88DULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 55\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 55 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -55;
+	} else {
+		printf("Test Case 55 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x089533456E8214B9ULL,
+		0xD8D59540F500FA1AULL,
+		0x5F6522D9417CDD50ULL,
+		0xFC2B97DD6386E94EULL,
+		0xCC3A53157D36C475ULL,
+		0xE7566A75C3865831ULL,
+		0xDA83E5932274AC53ULL,
+		0x1A44B0881952D2F4ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x4371736E4E05806DULL,
+		0x7E3D7D425FD3AE8AULL,
+		0x0FC8D45C80C8449EULL,
+		0xFBF1D2398888D0C8ULL,
+		0x16431CC9572F1D6DULL,
+		0xA75FE54997BCA1C8ULL,
+		0x49A9A10B86B9FB0FULL,
+		0xF87256639866DF42ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xC7D5CF24C59F5A96ULL,
+		0xD92FDC8D151E5F40ULL,
+		0xD0027A9DDE6AE8D3ULL,
+		0x0573270EFE044507ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 56\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 56 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -56;
+	} else {
+		printf("Test Case 56 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x074CDF6960325821ULL,
+		0x7EB2220829071F47ULL,
+		0x05CEE43093FEB5CAULL,
+		0x34854A552786FBF3ULL,
+		0xB254496A6C59927CULL,
+		0x214E754C55E3C783ULL,
+		0x3A7B13C481E780BDULL,
+		0x66CB7CDC965E3168ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xAD673777FDDBA249ULL,
+		0x3584BD38A5A27980ULL,
+		0x6FE38D0B3978E7BCULL,
+		0xEAB350F3FC6BA4A7ULL,
+		0x70CD5CCFF0216948ULL,
+		0x0D5394B77D6157AFULL,
+		0x9C7587FEB8E6C8F0ULL,
+		0x059F1EA8E605C184ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x13ECC6DFD2ACD591ULL,
+		0x406ABAE7A6C13F48ULL,
+		0x0ABE168130A1167FULL,
+		0x3667F50D583BF315ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 57\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 57 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -57;
+	} else {
+		printf("Test Case 57 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xD956FD4CAEC948E4ULL,
+		0x2202D40B3A6F455BULL,
+		0xA66DEE62944FF576ULL,
+		0xBF36F5677D3744D8ULL,
+		0x1722A1D7EBFCF0F2ULL,
+		0xA8BFB28D01F5D07FULL,
+		0x53905244422717E2ULL,
+		0xE59AD85E832FD6B4ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xB6EA5C681DAF69DEULL,
+		0x19BD0C82DAC95D2FULL,
+		0xD75651E6DA02F0E0ULL,
+		0x9F13C0222D6C6EF0ULL,
+		0x056609DDF33C73CAULL,
+		0x90F116C5C3755D94ULL,
+		0xD8CB2885912A4578ULL,
+		0x232A644B4A18FC8AULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xC46B2FFF7DAC7731ULL,
+		0x90F0E71BA6B6F710ULL,
+		0x085BCEC9FFD44055ULL,
+		0x7CD4701FC92F3810ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 58\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 58 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -58;
+	} else {
+		printf("Test Case 58 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xC902CD08DFFCDA57ULL,
+		0x6EC27B3ABBB0D7EAULL,
+		0xA4826B35E899DB00ULL,
+		0x2B74FC5DA1FAC73EULL,
+		0xE469A48F02A1F078ULL,
+		0xE4A6632FD7BF207DULL,
+		0xA6F82695567A9D20ULL,
+		0x7D113CE4E412D552ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x7C34E0E5DB2CD833ULL,
+		0x6C35AEFEF9A2827FULL,
+		0x4EA9D819D2F4CA47ULL,
+		0x610FD257D193F7B4ULL,
+		0x8CB7BF2A80D94794ULL,
+		0x79221C3D63CA6887ULL,
+		0xE4B56EA71F7C65D5ULL,
+		0x196672C3858CD755ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x5135F90E48991623ULL,
+		0xF82F5438F861A3FCULL,
+		0x2BBFE0783F6145EAULL,
+		0x15BF2AF9D84A830FULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 59\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 59 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -59;
+	} else {
+		printf("Test Case 59 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xF4200ABAB86269B6ULL,
+		0x5D40EAF35517FF18ULL,
+		0x3F893E2946978611ULL,
+		0xB34B33CCCA28808BULL,
+		0x89107735D03FA885ULL,
+		0x3BCDDFE7CD7D0881ULL,
+		0x11BA72DE953B2325ULL,
+		0xAFD45B90B28C8125ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xE3C6E902B3DAF1ACULL,
+		0xC7ED8A9AA785E5DAULL,
+		0xD6BDBFA5CE0B736CULL,
+		0xED59370A2D1F8D88ULL,
+		0x7C4A2D2313B46BF4ULL,
+		0xF6F12A545832F31DULL,
+		0x3EDABD4859FE6952ULL,
+		0x686FD14F97EAA288ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xF5C820800132770CULL,
+		0xCE16543C16914617ULL,
+		0xB60072D0438FA7DAULL,
+		0x5EDE826C910FFE49ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 60\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 60 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -60;
+	} else {
+		printf("Test Case 60 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x82FA3B893635004FULL,
+		0x4CBED3C020107FDAULL,
+		0x1F5626974E6B75D1ULL,
+		0x02ADEAD956BD53A6ULL,
+		0x0123546A65B0AC10ULL,
+		0x18735066BF12B1F7ULL,
+		0xECE0F73873FF2BE9ULL,
+		0x819C0D25D826AA19ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xB967BC15FC1B1936ULL,
+		0xC3F90B6F5C39E3D6ULL,
+		0x7C4C535BA7253D96ULL,
+		0xF3292B488EDE8920ULL,
+		0xC2A3A09C26CCC15AULL,
+		0xFFE6033DD1EDA996ULL,
+		0xDA26CFF6AEF8BD71ULL,
+		0xEA51F253520A1112ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x108730108FEEBBAAULL,
+		0x2DBF3C63F755DA4DULL,
+		0x6AABA6FEE63A9DE8ULL,
+		0x0484BAD0B01D8192ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 61\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 61 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -61;
+	} else {
+		printf("Test Case 61 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xEABAAB3D3A4BC40BULL,
+		0xC86AB6F64EAAC017ULL,
+		0x9454FCC8191DC1C4ULL,
+		0x65E1F4B2E0F7CC6DULL,
+		0x4742321C8D06642CULL,
+		0x7E8D301446184177ULL,
+		0xB36AFA7E31B4FAC1ULL,
+		0x5E47D7ACFCFC9713ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x59D56A3685838EEAULL,
+		0x0004A0CC39F6ABCBULL,
+		0xD4919144660656ACULL,
+		0x4453E2B516A1D779ULL,
+		0x663235502BB92A1AULL,
+		0x87B7C4B6DE6FECEEULL,
+		0x7C4F6F62A0821B66ULL,
+		0x227C5FDCDF7D83FDULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xF944C75D263ED523ULL,
+		0x6C14060777B0A09DULL,
+		0xEDDA119B40A49299ULL,
+		0x01C1DAE22B32CA3FULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 62\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 62 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -62;
+	} else {
+		printf("Test Case 62 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xEBB2E13D55E529C8ULL,
+		0xE3D285BAA501946FULL,
+		0xF603D52CDB0AA973ULL,
+		0x016E9DFEBDF33953ULL,
+		0x40CDCE7B2E219CF0ULL,
+		0xCE350A05660F0BCBULL,
+		0x483A569D15B71D9AULL,
+		0x5481E34D3F4D1FFDULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x82E0D125486BABE9ULL,
+		0xDAE550BDC11DD8DCULL,
+		0x75080329E8E7E652ULL,
+		0xE401F681D1F8F9D0ULL,
+		0xDA6D82FDFBB94895ULL,
+		0x9FAEE956B75FF039ULL,
+		0xFE2A2387D03EF4B8ULL,
+		0x8C64C6E5C23375D8ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x9B1D44AD88F601F8ULL,
+		0xF0D60EEAD1E1D328ULL,
+		0x7F63672B41F8D4B3ULL,
+		0x51BEDED97DC980E6ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 63\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 63 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -63;
+	} else {
+		printf("Test Case 63 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x3C9DDDE1F0AC9867ULL,
+		0x75102254FE69C327ULL,
+		0xB23161F6051B26E6ULL,
+		0xB180D11792A346DAULL,
+		0x73FF749A3E869A29ULL,
+		0x1A07F41A5E35A83AULL,
+		0x7EACE4846E5517CDULL,
+		0x9009A61A94DDE74CULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xC763EEF5A2720178ULL,
+		0x7135E11E85CE4772ULL,
+		0xC50B74CD2B2FA4ADULL,
+		0x5F1FA7BE112E76E3ULL,
+		0x0D85D768D0921EDBULL,
+		0x0158ABAA247B0FABULL,
+		0x6F574F6DA86161D4ULL,
+		0xC79D703F28490983ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xAB474442A084E353ULL,
+		0xADDF01DF0A4E20FDULL,
+		0x33DA0E8A3C188532ULL,
+		0x127127EB9F8DBBCFULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 64\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 64 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -64;
+	} else {
+		printf("Test Case 64 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x04D1D082BA41ED9CULL,
+		0xB4DB2E4A8C9F0FBEULL,
+		0x44575EC6BD2D8EECULL,
+		0x968829DB97461B30ULL,
+		0x8E0BAE545EF5B49DULL,
+		0xE5F3F537A28A7D41ULL,
+		0x4CCE7ED2F5C4BE35ULL,
+		0xD6DF29B9E4CDA39DULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x395401AB2884FE4EULL,
+		0xCC65C390C61623F3ULL,
+		0xCA27DE95DF35F419ULL,
+		0x2C2810C7FE92BF69ULL,
+		0xED4E9FBAE1D4B30FULL,
+		0x18F32D8D7D711007ULL,
+		0xC51332F2DDA61B49ULL,
+		0x43A5024ED00D2262ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xA78DF9A024A32DA6ULL,
+		0x56930DFB484F2258ULL,
+		0x9FFCC3747283C9F9ULL,
+		0x4501F2F8AD468A76ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 65\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 65 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -65;
+	} else {
+		printf("Test Case 65 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x11F00FC8B8C2CBF0ULL,
+		0xE4216AFB6FDF6C8AULL,
+		0x9A050EC41289E0FEULL,
+		0xC11EDBBB88770046ULL,
+		0x8430B9602534C07DULL,
+		0xE91378C60689DC15ULL,
+		0x01D4FBB55BCE36E5ULL,
+		0x08DE2B61A4A5EA87ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x71262379D7B5D025ULL,
+		0x535B692292C796BDULL,
+		0x933DAE27A9290A14ULL,
+		0x1C8579F163E123F8ULL,
+		0x3433612CBB0A2B0FULL,
+		0xB8CEE83F3AEF9046ULL,
+		0x6121DC0AC7FA5560ULL,
+		0x338531ACDCFCECBAULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x806503F0A35F293BULL,
+		0xBAF375DB15FF1692ULL,
+		0xE15E13EE5AD450AFULL,
+		0x4FCE729FC7AB88ADULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 66\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 66 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -66;
+	} else {
+		printf("Test Case 66 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xA5F05D2C07898BA2ULL,
+		0x95024E58890DE991ULL,
+		0x1AB1311D387AF59FULL,
+		0x7FB4A9B663F6FC72ULL,
+		0xF3019870DB3BF0A4ULL,
+		0xE7CC078520CDD67CULL,
+		0xB1212F5698572014ULL,
+		0x8B5A3F5D5E362202ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x83FE8F7845A3D56AULL,
+		0xD01BC61BA89244B7ULL,
+		0xEE22AF3D80E6BA6FULL,
+		0x2D74C1EC66B15772ULL,
+		0x66322FF1842099AEULL,
+		0xA7606CEE14F8B9ABULL,
+		0x3FD5F8177683DCA4ULL,
+		0x2E02747AA89C983CULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x08BB509AAFF4A0D0ULL,
+		0x54DF7AA8A21DEBF5ULL,
+		0xFDB8B53EBCF03DD9ULL,
+		0x2D480570F2101873ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 67\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 67 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -67;
+	} else {
+		printf("Test Case 67 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xE4C9547F79EF66FAULL,
+		0xB16CB29FE9D96115ULL,
+		0xC0AF49EBEDC68DA7ULL,
+		0x1779C60D99B58098ULL,
+		0x96BDD71F7B793A18ULL,
+		0x9E42DFE6B84C8573ULL,
+		0xBF7FEE2B45FB00FBULL,
+		0xB04A29C20ABEEF6EULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x6818CE3BFA3CF198ULL,
+		0xCDBC81CD7D22D8FEULL,
+		0xCBF865A478D055D6ULL,
+		0x904CB7958EF9ABD7ULL,
+		0x85AF9190F95663F0ULL,
+		0x8B626A3D20E0B731ULL,
+		0x03E96C144524CFA8ULL,
+		0x78F9E396F46FD4D5ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x04CED96AD0DE406FULL,
+		0xB101A7FEE6B725E6ULL,
+		0xCD0E33B194C18A25ULL,
+		0x3D1778DD5A79C792ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 68\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 68 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -68;
+	} else {
+		printf("Test Case 68 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xD91616B8ED8537EBULL,
+		0x5C2F16A0D1835320ULL,
+		0x8E7946E62975744DULL,
+		0x1C365FE5A9FA2448ULL,
+		0x448661F2AEDF0F93ULL,
+		0xFC24797EA9410C00ULL,
+		0x610D41CEBADFC895ULL,
+		0xAF100A28021A152DULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xCC61F5A1C2CFF80CULL,
+		0x276F83B41199AA49ULL,
+		0x408141136403FF93ULL,
+		0x5B48F49FB27A693CULL,
+		0xF75C2EC9E099255BULL,
+		0xD3B155E2F2FD9C1AULL,
+		0xB30901100FE2AF90ULL,
+		0x4CF5B54CEA723113ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x80F7B925C9160643ULL,
+		0x35D6DC09CDEC44E0ULL,
+		0x2299A22027032B7EULL,
+		0x50D603CB7A6B96DCULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 69\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 69 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -69;
+	} else {
+		printf("Test Case 69 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x5692D5A5E96C6B16ULL,
+		0xF1B0139009899C50ULL,
+		0x961844F72BC7B098ULL,
+		0xB0073B0A97162EDDULL,
+		0x6D2154585AEAF3F8ULL,
+		0x759AF329D859ED14ULL,
+		0x9A2D05CFDF953A5CULL,
+		0xD2DA734FA8179D2FULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xB43A886C53BB3873ULL,
+		0xEE53DD2FFF9FAD9DULL,
+		0x43F758D890A3FB60ULL,
+		0x8F569719D687FEA3ULL,
+		0x694AA27923A733ABULL,
+		0x76F33141996FA877ULL,
+		0x94DF1A2AFC69DA52ULL,
+		0xEA5FE611B0A41DBCULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x3436B45BC9BFBD8CULL,
+		0xD042FED960B01E01ULL,
+		0x1BB1E6985393F6B3ULL,
+		0x22E19B237BB31B4DULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 70\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 70 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -70;
+	} else {
+		printf("Test Case 70 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x7A157E3B9B23017BULL,
+		0x389B25F675B5F25CULL,
+		0x410E74290B5612FAULL,
+		0xECDBCEF5DEC2775EULL,
+		0x3A2272DEAAC2B4AFULL,
+		0x276302EFE8610AEBULL,
+		0x890F91EBDA1824B0ULL,
+		0xCDD2BE00AEB050A1ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xB53D80F5A04344EFULL,
+		0x3D5678CA6548FDDDULL,
+		0x2959B48F3B539370ULL,
+		0x013493B8A0AC91E2ULL,
+		0xF083A0EE1BDA35C5ULL,
+		0x301C90A5224CF1B2ULL,
+		0x6E261CE904ADF4E5ULL,
+		0x687C7069E67562B2ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xB26B26FB31629595ULL,
+		0xAFB9A4457768B2D9ULL,
+		0x165C1E057DC597AAULL,
+		0x7676BF9EF6D536FAULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 71\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 71 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -71;
+	} else {
+		printf("Test Case 71 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xF450C2F4EE73F1E1ULL,
+		0x088A23C07ADBCA03ULL,
+		0xBF628540469C0BE0ULL,
+		0x6FCB2B35B94F790AULL,
+		0x5CEE04B31D1E5631ULL,
+		0x1BD59F0F639D5E60ULL,
+		0x5A385D5C62886B07ULL,
+		0x7E7DB7E391B83734ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xBBABD735C49D7EC3ULL,
+		0xC306D99014C2A193ULL,
+		0xA4C164DDC25E5FF9ULL,
+		0x1F8F73325FE1D7A2ULL,
+		0x980A48A19D447CDCULL,
+		0xBBB9467F0905893DULL,
+		0x4D38BA39BCFD40EEULL,
+		0x593A4FBCFD70D0C1ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x7272D658242CB68DULL,
+		0x89B86F9DD8A2CB99ULL,
+		0x0893578716E5EB84ULL,
+		0x583D2DBD5C06D67CULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 72\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 72 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -72;
+	} else {
+		printf("Test Case 72 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x362A8D8E1BD8A22EULL,
+		0xC57EC653BC2A2EB3ULL,
+		0x93198BC96665535BULL,
+		0x8509E71B94A05BA1ULL,
+		0xE05B00A9135346E9ULL,
+		0x0404D61757CFEA1EULL,
+		0xC2066803EEDA33C2ULL,
+		0x0A4CFD422E733931ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x3BEBEBFC93FABD67ULL,
+		0x100D7F413A8D2157ULL,
+		0xD1CABFC2ACEA775CULL,
+		0x55EDCFA5E02C1322ULL,
+		0xE7B6A829011FDAAEULL,
+		0x1E10169D9584AB17ULL,
+		0x49E416A48B916204ULL,
+		0x7927DC81469D7727ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xE2A3C4943B7FF316ULL,
+		0xD7C5B32558C86864ULL,
+		0x9666E02F7649FE2FULL,
+		0x3A9EF4181E2F160CULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 73\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 73 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -73;
+	} else {
+		printf("Test Case 73 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xEDC0C731C46CB919ULL,
+		0x6E5CDAE470BD25F6ULL,
+		0xF659BB145ED27633ULL,
+		0x0D075AEBD7DF1E0CULL,
+		0x10525F4EF5EB785EULL,
+		0x25B3CBD78BD457D2ULL,
+		0x040F5CC11607B884ULL,
+		0xB6966BF7DA98E4EFULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x16457286EC9B7318ULL,
+		0x51A4F0416A0A0AFDULL,
+		0xD28D7D2DCEC96B0FULL,
+		0x0BE23B5D5A3A4AE0ULL,
+		0x8FF58747ACF05721ULL,
+		0x45B0A58D73C8CE9AULL,
+		0x24D0F9053B607709ULL,
+		0xCEFB63712FA70608ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xE54365BFAD183477ULL,
+		0x5D2F99A298697936ULL,
+		0x470F0BC904DCC361ULL,
+		0x6228638BDD8BE971ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 74\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 74 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -74;
+	} else {
+		printf("Test Case 74 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xE9A11FBCAE398FC6ULL,
+		0x0C6D1BED4362376EULL,
+		0x39A6D9D206520FE3ULL,
+		0x559C282FFB01F375ULL,
+		0x9ECC340D14E19B94ULL,
+		0x5DD1FBB1F4127A06ULL,
+		0x448CF697700E00D2ULL,
+		0x94245740C43F8412ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xCB4AE83EDA3537C9ULL,
+		0x07761CC42D15A26FULL,
+		0xE430CFADC235EB79ULL,
+		0x0B62BDEF18F9A07EULL,
+		0xA99CA266CEB6A573ULL,
+		0x6C3D254DD24FE6C5ULL,
+		0x38C9F36B6495F9CEULL,
+		0xA0A093769A741134ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x8365D62C3E64E097ULL,
+		0xE10ED206192E70A3ULL,
+		0x146882ADF7ED2EFFULL,
+		0x6FC87A43163B5FECULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 75\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 75 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -75;
+	} else {
+		printf("Test Case 75 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x696172A99E3D9638ULL,
+		0xB4C03AEC01D65DFBULL,
+		0x6810E9F86DBB39C4ULL,
+		0xD611E647B0CCCABAULL,
+		0xDDCA87DE0359480BULL,
+		0xD406217CE0C9765CULL,
+		0xBE03D4F4B8FD2A55ULL,
+		0x27D833CB3E4D9552ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xF558E3FE897AED47ULL,
+		0x7E85F2C4ADF27D42ULL,
+		0x1FAED44DED6EFF83ULL,
+		0x6E4D6135003874DBULL,
+		0xB9C84B245749FE97ULL,
+		0xE1F3C4631ABF6AE4ULL,
+		0x0FA861B954AFDC18ULL,
+		0x7B6FC4A53B9A5196ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xCC5D923A9F078E4EULL,
+		0x24F419FAB961948DULL,
+		0x29F5307B63C5D74DULL,
+		0x7F4504B7173063E1ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 76\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 76 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -76;
+	} else {
+		printf("Test Case 76 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xCB94FC573079A65BULL,
+		0x7E0D97F6E89C2573ULL,
+		0x57330B601538C7BFULL,
+		0xADCF6BBA5626BA9AULL,
+		0x70D9AE95705BE019ULL,
+		0xAC9E780860F1494FULL,
+		0xB5782B1E9ECC755BULL,
+		0x123338573021E929ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x351DBAC4EBB7CD2CULL,
+		0x5235E962FF9EC3D2ULL,
+		0x1F24A8702387C776ULL,
+		0x58E9587DB0028F6EULL,
+		0x2F92FD2EB904C4E2ULL,
+		0x52F301C249D34269ULL,
+		0x3282913AFC3D593DULL,
+		0x8296AABEFF8A2F83ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x46F596D17BAFE0E6ULL,
+		0x7B4B3CFB577267CFULL,
+		0xA8833ABA12EF2CCAULL,
+		0x262317D3DCA9B9E3ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 77\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 77 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -77;
+	} else {
+		printf("Test Case 77 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xE5FFF864F94E4D27ULL,
+		0x2C9A57A5C535A4B4ULL,
+		0x61EC58169C72597BULL,
+		0x80CB76DFEB444E3BULL,
+		0x20E55B7AB991BA05ULL,
+		0x5C8BF5241D18A2F0ULL,
+		0xEDC9A8CE93A0DA25ULL,
+		0x367BD43543DBF888ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x728C8FE461A3512DULL,
+		0x2876DFF1A35BB567ULL,
+		0x560FD6AC0F667F60ULL,
+		0x009084A133E42026ULL,
+		0xC218B24F386A3B49ULL,
+		0x48A79D8CDF235DF7ULL,
+		0x7925518A293A2C9CULL,
+		0x6E35A53FCE3B83B5ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x85D484F5C387CAB2ULL,
+		0xF808782754422C2BULL,
+		0x5C41759258499C73ULL,
+		0x3AA5EAAE2D318578ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 78\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 78 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -78;
+	} else {
+		printf("Test Case 78 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x17532530B5362DD9ULL,
+		0x6AD8467FAD22C707ULL,
+		0x42098496CAC5B101ULL,
+		0xFA98FFB0D62D212AULL,
+		0x082F50283FC24AABULL,
+		0x666FAC21E550E0A0ULL,
+		0x382E3E17764B1016ULL,
+		0xC9580BA40F8A84D5ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xEC94E81120C3E1F2ULL,
+		0x2ADC36C0AD87B50CULL,
+		0x47791974550724BBULL,
+		0xBF9BAE4DA8640947ULL,
+		0x60BFE553A4D2E768ULL,
+		0x649E2C16DFCB3BE0ULL,
+		0xEE1087BB22ECA409ULL,
+		0x4FE64605AD5242B7ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x054818AE93FB0A85ULL,
+		0x85151161D171866DULL,
+		0xFAF97CD6D5C29634ULL,
+		0x41E0A6E5C222E83BULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 79\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 79 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -79;
+	} else {
+		printf("Test Case 79 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xFBD41BB5FD987761ULL,
+		0x0FABEB8C366924D1ULL,
+		0x3064DF07248999EAULL,
+		0x54B10C22EFDD5FD5ULL,
+		0x788AA32A31A0963FULL,
+		0x2AB8CB0C9341117DULL,
+		0x5841238D7EE343F8ULL,
+		0x89BADC7B5884719DULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xE18191EBCC33DE9CULL,
+		0x730F06BF20C28E56ULL,
+		0xBD4456A8BF175FABULL,
+		0xB91F759F39B249DEULL,
+		0x3C5B47E681830941ULL,
+		0xFDBAEEC5EC9F830DULL,
+		0x03AE11DC10F4F3F9ULL,
+		0xFB10E13C420392F1ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x095A15D655C783E0ULL,
+		0x4A4B9749D1A1BB24ULL,
+		0x00F528B4B6D219F9ULL,
+		0x48CCE1E10D4C238BULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 80\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 80 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -80;
+	} else {
+		printf("Test Case 80 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x511269E1F16135EAULL,
+		0xE13CDAEBF7FD26BFULL,
+		0xFF1D569558F4DC58ULL,
+		0xD0A6299AD92FC930ULL,
+		0x902A984711AD47F3ULL,
+		0x9149EE98CED89037ULL,
+		0xACF2ED9ACAAE688EULL,
+		0x1BB45AE409C8356AULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x5C50E1C3479E402CULL,
+		0x4345FBEE5F322AE8ULL,
+		0xE152134AE17076E5ULL,
+		0x8C54F4172981BD64ULL,
+		0xF5025516149D2C4FULL,
+		0x06B4FAAF30543AE2ULL,
+		0x9495AA5BC0C1D6D8ULL,
+		0x017BCECAAA3E5330ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xFCBB81643A2710AEULL,
+		0x301313AB206FA665ULL,
+		0xBBA33EA5F0A2068CULL,
+		0x28B60147DE25A06BULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 81\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 81 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -81;
+	} else {
+		printf("Test Case 81 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x9A89141870EFB7A2ULL,
+		0xEAB9D0301EF01655ULL,
+		0x8026FA9741C9FF96ULL,
+		0xFB24488D2843763FULL,
+		0xC20EB8855C08E3D7ULL,
+		0x2669DF151E3469E1ULL,
+		0x7E5B5F4C65678E9FULL,
+		0xD0DABAFF25AFBECFULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xBAC42CFBA65422C0ULL,
+		0xBCA1F8BD972658A7ULL,
+		0xE63D32723EC0080AULL,
+		0xFE0973CAA54A33D9ULL,
+		0x677626B90D640ADCULL,
+		0x641DCB2B934A6721ULL,
+		0x253F8FC7897D8CD7ULL,
+		0xE166588BADC3020DULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x526A8B707713C9C5ULL,
+		0x0562CC1D2686263BULL,
+		0xD40A95DDA7C63B33ULL,
+		0x086171E6501D473EULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 82\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 82 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -82;
+	} else {
+		printf("Test Case 82 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x093B1023FE332A12ULL,
+		0x1D33B547FE54E380ULL,
+		0xE7F6BE6D99BF796BULL,
+		0xBFB45FF3D9455344ULL,
+		0x6A37BE3A68D0FF32ULL,
+		0x6C933E6260C674A5ULL,
+		0xFF4D8617A24CB779ULL,
+		0x828267ECE639220DULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x9D664E869393D23AULL,
+		0x09D8E3F60EC1B74CULL,
+		0xF07FC7986E81EA7CULL,
+		0xFE2A04DF5522FB56ULL,
+		0x2BF2397B58459D8CULL,
+		0x7B6567B06B929DCFULL,
+		0x5ABDA719FDFD4E7EULL,
+		0x5CBA66A6E8D30327ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xAA2675F9DF4FD73AULL,
+		0xE028AFBC55451000ULL,
+		0x64D2107B8F07242EULL,
+		0x5D3A8B78214AEE2AULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 83\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 83 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -83;
+	} else {
+		printf("Test Case 83 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x32F5408DF2250D45ULL,
+		0x9B9A9759B39B7CF1ULL,
+		0xD034EF444AE03F0DULL,
+		0x93013BC7ABA993AAULL,
+		0x7C29EB4A7D461EF0ULL,
+		0x26D7F415F1E38106ULL,
+		0xAE6E6A2995DE1188ULL,
+		0x584231379DEB75F0ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x955F87334155934EULL,
+		0x4C607DCAC94C077FULL,
+		0x349FF62269C85ED8ULL,
+		0x494A911C536FD348ULL,
+		0x0FB7D2B261F604AFULL,
+		0xC4501E5CDC657AF2ULL,
+		0x0679601D3947962BULL,
+		0x0689F12E285F90EEULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xB6855FEEBEB36165ULL,
+		0xEF63D3081B045C79ULL,
+		0x89F476F79F6E2FEBULL,
+		0x6B102C12CAFDBEC7ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 84\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 84 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -84;
+	} else {
+		printf("Test Case 84 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x174C0109BDC81DDEULL,
+		0x474E2304002BA75CULL,
+		0x67F5DD2221CCEF2FULL,
+		0x95F642273832DB60ULL,
+		0x913D7681ED54E445ULL,
+		0x275F56EF211C8732ULL,
+		0x0091C3ABCC065950ULL,
+		0xBF49D3FF6C307999ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x50B93AAEBA990089ULL,
+		0xFDD2911F2A1F2615ULL,
+		0x31B434313B9D38C2ULL,
+		0x975DA4BF2B7ED7CDULL,
+		0x2B60505562AB5BFAULL,
+		0x32D7F9240E66D394ULL,
+		0xD5A702484A6748F9ULL,
+		0x987757627C07D18FULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xE56670F798595948ULL,
+		0x95937E099D052AC9ULL,
+		0x951A5DB623CC2354ULL,
+		0x41D71CB3B2BCF4EFULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 85\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 85 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -85;
+	} else {
+		printf("Test Case 85 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xA36695ADD1AFFD79ULL,
+		0x60EF9D0088A88A2BULL,
+		0x63D0293BC3DFED67ULL,
+		0xECE1EB2EE0BCEF8EULL,
+		0x86DDE728F91DC10AULL,
+		0x05D253E09AD950EFULL,
+		0x7F35EABBE0CF98B1ULL,
+		0x003A0DE3DCB66D71ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x634A0E8C1055CF68ULL,
+		0x8564F51B87D0BCC3ULL,
+		0x7E3A272D9FE02354ULL,
+		0xA162E217AFE5AD2AULL,
+		0x4FF63B0D9C7204A7ULL,
+		0xF96953465C3A941EULL,
+		0x8E3174999F621EABULL,
+		0x10CD4A00C5D94A42ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x6680133182D82464ULL,
+		0xB320BECA4C67D476ULL,
+		0xAC3F8B23DA3FE6D2ULL,
+		0x55A41CCC95AA7B5BULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 86\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 86 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -86;
+	} else {
+		printf("Test Case 86 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x0C728C3F85248B75ULL,
+		0xA10438ED82D17C4FULL,
+		0x8F569871DE4855C8ULL,
+		0xBBC2CBEB490F933DULL,
+		0xAEAE1483FE7F1FB6ULL,
+		0xBA5015415DC3B42CULL,
+		0x37EC90D252282AF3ULL,
+		0x9EA6C7E99B57A40AULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xB9B549E9B6B90A9CULL,
+		0x7F059CBA67884CDCULL,
+		0x39154619617C7D34ULL,
+		0x00D2D3B93E707580ULL,
+		0x55B65F6FC5814888ULL,
+		0x79402BBA35C93711ULL,
+		0xF5CD76B0D869E310ULL,
+		0x9985D3EE8923850BULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x87822356441971D3ULL,
+		0xCA5B46430A77C181ULL,
+		0x26DF33508F0A844FULL,
+		0x7DD42F76BE5BB77BULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 87\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 87 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -87;
+	} else {
+		printf("Test Case 87 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x62C841D19C10A424ULL,
+		0x4CFC92B538097562ULL,
+		0x962C17F6E12DEF8AULL,
+		0x94E488CE4C43D9F7ULL,
+		0x89FA37882906A7AEULL,
+		0x41BAF18F0EAC232AULL,
+		0x3DBBFCC1BF2AC939ULL,
+		0x6D1EE7A7A9A0A33FULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x5599C1DED0DCFFAFULL,
+		0x9F32CD0F854BB54EULL,
+		0xD80001BF86EFEC99ULL,
+		0x110904A080FCDF74ULL,
+		0x55B2F00946E5160EULL,
+		0x7E951815559C09D7ULL,
+		0xC6B9454CDE286713ULL,
+		0x727913E998926199ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xCFC31CC85C2F4222ULL,
+		0xA5680DB72B21826DULL,
+		0x68935190C098948BULL,
+		0x3878F2645364B912ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 88\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 88 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -88;
+	} else {
+		printf("Test Case 88 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xAA81ADC89D2E9260ULL,
+		0x48324E1C35A0EA42ULL,
+		0xF7256671721A3F2CULL,
+		0x5D920B7EC03C9AF7ULL,
+		0xA6AB59DE33524F0CULL,
+		0xCD5389B5EFADBCA8ULL,
+		0xCFE61992AEFC41D0ULL,
+		0xFDD8F156D52F0CBCULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x5A9AB7D2FB25EB1AULL,
+		0x189A3D4E9835C23AULL,
+		0x05B4E8C6FD5BA4ADULL,
+		0x4BD2E22638E5E7A0ULL,
+		0xA8149D8F9D2C1A77ULL,
+		0xAD173D1512270E26ULL,
+		0xEBA9EA0C4D61EC9EULL,
+		0x4290F86B085B7ACFULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x1A46E99FEBB47979ULL,
+		0xF88B70AE7F690F54ULL,
+		0xD25F8B9CF1A73FEFULL,
+		0x5E6E1C58EEBE5C81ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 89\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 89 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -89;
+	} else {
+		printf("Test Case 89 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xDAE0CA781BCA8A4BULL,
+		0x724763E2B10C6645ULL,
+		0x5B72BA8110D44E43ULL,
+		0x143142601801DF6DULL,
+		0x0051AB17B33E0AC3ULL,
+		0x0F43913BC46ACA3AULL,
+		0x85B1107261589366ULL,
+		0x5739553DF7E80236ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x24C5896A34B5FC7FULL,
+		0x42E9C7B32F71AD78ULL,
+		0xBA498399ED317826ULL,
+		0xD1887A38F1FAA296ULL,
+		0xD9E98994022605ECULL,
+		0x310C8345E2D33EF3ULL,
+		0x06C1DA5D6F7A4CC4ULL,
+		0x3923D4F6A4234BDBULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x69903A9A30A5463BULL,
+		0x2B89AEAEFE196537ULL,
+		0x78AB3E030AA15224ULL,
+		0x39D9D2BD953A4E6BULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 90\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 90 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -90;
+	} else {
+		printf("Test Case 90 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x7BB18131BB752536ULL,
+		0x74885E75047BDBD0ULL,
+		0x2C5082EEE05FBF0BULL,
+		0x3BD156186405BC04ULL,
+		0xEA32425576AE3905ULL,
+		0xE1CE67FC1D5D7E81ULL,
+		0x590DBA23E4BA96DEULL,
+		0x94DF1CFF94B6F036ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x0E8C637A9BD3B5FFULL,
+		0x2E40B46856688F85ULL,
+		0xBB67C4197EE719D8ULL,
+		0x5E9A263701F33244ULL,
+		0xA1D04D64FE50AD55ULL,
+		0x7E8B73E25561F322ULL,
+		0xBFFD3F398FC5A3C7ULL,
+		0x772A5B42E849DC64ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x2BAF7968FD842BEFULL,
+		0x0237E5E05D69FC70ULL,
+		0x295AFD9DFDD4BAACULL,
+		0x460BF1E2FA437ADCULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 91\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 91 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -91;
+	} else {
+		printf("Test Case 91 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x926131B903EC1D1EULL,
+		0xFD3463D655A4E50DULL,
+		0x5E30913E7F17E4A9ULL,
+		0xD855BDCF8F3DBF30ULL,
+		0x6B0882599C950922ULL,
+		0x43142C7DBB8B2CF9ULL,
+		0x25BBB49554D66E80ULL,
+		0xC4FE3D02A62426C8ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xC5811F69DD2DB5C6ULL,
+		0xEB565452CFD02016ULL,
+		0x10EAC2E5B746B516ULL,
+		0xF3B98695D8E59A77ULL,
+		0x730A6766097EAB9CULL,
+		0xCE4969F8E022976BULL,
+		0x2A619FCA4C89456EULL,
+		0x211C5AAB01E7DE40ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x9C981276FC104CCCULL,
+		0x67F6EF3C175AF809ULL,
+		0x9CA4E47C0345482AULL,
+		0x3823D03C174AE8E8ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 92\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 92 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -92;
+	} else {
+		printf("Test Case 92 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x937600A918345766ULL,
+		0x4C01EDA15AB45FBAULL,
+		0x95A4F0BC968A6447ULL,
+		0xF255C1786FC9936FULL,
+		0x188E5E70150DD827ULL,
+		0xC86A806EBC6A4689ULL,
+		0x0C28335A1295005DULL,
+		0xD493D1270F56556CULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x6D595CEF70607247ULL,
+		0x79527163DC78268AULL,
+		0x8BD176FE1E3EF210ULL,
+		0xFF1305B326051996ULL,
+		0x034ED5539ACD673DULL,
+		0xF9C2A20932672B4BULL,
+		0x16C10A8D611BEED7ULL,
+		0x456754FC7DFE45CAULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x4D8AFDF3CD64AAF9ULL,
+		0x7F9A7F4FFAB24467ULL,
+		0x77238820D0440C13ULL,
+		0x33DD2A16DCD6CBE3ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 93\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 93 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -93;
+	} else {
+		printf("Test Case 93 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xC796AA676856934BULL,
+		0xB67726BFA22F1CACULL,
+		0x0B80BCE506574BF1ULL,
+		0x7AA0B2F50D56466BULL,
+		0x45443452C0F87547ULL,
+		0x12F14C3D091AA56DULL,
+		0x4E2DBB2EF6E256C8ULL,
+		0x061CFDDAFE4368ABULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x961BD9028F968C6FULL,
+		0x52D8DC36AA70AE6EULL,
+		0x05802A8DC3B27075ULL,
+		0x918872160E5E1B01ULL,
+		0x74A9043752063882ULL,
+		0x59B7A0E43F213B67ULL,
+		0x03FC501BE262B909ULL,
+		0x987A22B69FCDCE34ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x2883F57750B508D6ULL,
+		0xE22DB9B6F2C42B1BULL,
+		0x0956772C4D9645CBULL,
+		0x2F44C845046D191FULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 94\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 94 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -94;
+	} else {
+		printf("Test Case 94 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x4A5CFC88F07CF6E3ULL,
+		0xD30D2719D53F7F45ULL,
+		0x18CA6B3BDCC81D41ULL,
+		0x2034746A88254491ULL,
+		0x540EF60680D07609ULL,
+		0x591C531DD82FC114ULL,
+		0x95218314C927781AULL,
+		0x8D7950B60B1A3E41ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xE0372B54183D5D98ULL,
+		0x8166875D1E4B859CULL,
+		0xF9A20C39380B0B0DULL,
+		0x9F745BD15A62457AULL,
+		0xFCCB7ECEBD7469B4ULL,
+		0x3C44475A4F00F115ULL,
+		0xC6B0F03C47938172ULL,
+		0x40AC96378BF9C059ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x5E29837BD7E96F78ULL,
+		0x99B85EC313E6D969ULL,
+		0xC3DE2B25E0B3AF28ULL,
+		0x6723C7600C95AF7EULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 95\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 95 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -95;
+	} else {
+		printf("Test Case 95 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xB72999A19088C2DDULL,
+		0xB715CE82FF18BF43ULL,
+		0x3389C4E2B8087C70ULL,
+		0x800A52039FE83A70ULL,
+		0x5AA13AB53103E59AULL,
+		0xABEBE17B5F1B055AULL,
+		0xB5690CE8CFA4933DULL,
+		0xDB6C6D9F7D13551AULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x75F1AB68AE6A4A28ULL,
+		0xFFAD9700C8E10562ULL,
+		0x5DD0C00A21B80F4CULL,
+		0xF702ACB52A5A5493ULL,
+		0x62D12554C90FDF30ULL,
+		0x0C6A2F52D1C351BCULL,
+		0x4A885794D237456EULL,
+		0x9F2A73ACCE7F7A2BULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x0A1B1A8850576DA1ULL,
+		0x64A8A987313C6354ULL,
+		0xB313EF503489F9F5ULL,
+		0x7AD2BF545F806566ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 96\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 96 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -96;
+	} else {
+		printf("Test Case 96 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x6F33304F486F59FCULL,
+		0x9241DF6B704686A0ULL,
+		0x8EE4618852E326ADULL,
+		0xBC9BCD88EFEF0722ULL,
+		0x39655A7A71E42E88ULL,
+		0x127C9D0AB8126B1EULL,
+		0x4BA80CF3E9C6BB3FULL,
+		0xC6F50B7E4DFEE059ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x2F7EA2AF13A2B1BBULL,
+		0x05D8239EFE1184BFULL,
+		0x0EBBA7FF9832BF21ULL,
+		0x835E448467A2A99EULL,
+		0x3FBC7B1585735536ULL,
+		0x777AA3D4A5349794ULL,
+		0x41C9FF8A0E1018B4ULL,
+		0x26288B725CE33C2BULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x4EC5B69B4D8CEDFDULL,
+		0x8EB4B9D33F22685CULL,
+		0xF71EB73F57CC881FULL,
+		0x17988ACA5266BC59ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 97\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 97 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -97;
+	} else {
+		printf("Test Case 97 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x5008F449E8610CDFULL,
+		0x237831299199ED2EULL,
+		0x9EE6FED85AC0D473ULL,
+		0x8EB6CAD860C91867ULL,
+		0x975B180CD254EC4BULL,
+		0x8850F41A179606D2ULL,
+		0xC92B6A0880457AA0ULL,
+		0x13035B33CC829F76ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x12CC964F941D2015ULL,
+		0x5FAD2938B981298CULL,
+		0x2A5E1298A9A585BAULL,
+		0xCAC262BC2379922DULL,
+		0x32CBFA39922F9AD3ULL,
+		0x5C59B75CC579B692ULL,
+		0x8AC63FD9F34244CEULL,
+		0x90F9F52081CEF903ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x2A7ACB55D9CE01C8ULL,
+		0x4A7E0C0B084CAD31ULL,
+		0xB78D2F289F954BEBULL,
+		0x11598EF953FA3B55ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 98\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 98 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -98;
+	} else {
+		printf("Test Case 98 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x77310DCC3A8A3AFEULL,
+		0x610434900C84B31BULL,
+		0x09446353CF305F71ULL,
+		0xE7C9B0B0D331E042ULL,
+		0x35161333614FE816ULL,
+		0x39228FDF3D19270DULL,
+		0x1ED0699ED27FDFDBULL,
+		0xB95950201A426DD6ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xB5D5131893C60EE3ULL,
+		0x6CE6B499AC4F1FD4ULL,
+		0x4FF96FC4C759E699ULL,
+		0x22E9E89699D250BDULL,
+		0x86F38B2DBA9223B6ULL,
+		0xFD9D2884BC32486FULL,
+		0x1EDA2342C8904347ULL,
+		0x411ED4C35533156CULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x9A7C2B8A66EF551AULL,
+		0xC9EAD765827A9EAEULL,
+		0xB7D965388167B6B2ULL,
+		0x1D8E17DF79A6AF40ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 99\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 99 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -99;
+	} else {
+		printf("Test Case 99 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x31F05DBFDC7CE301ULL,
+		0x9366D4056B8B0D79ULL,
+		0x9816F502FEE27B70ULL,
+		0x3DD9B243FB281987ULL,
+		0x6CF3927DAAB8B24AULL,
+		0x6A76CD1B2B58D72EULL,
+		0x6F485A704613F9C5ULL,
+		0xF1C405999BE48771ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x88A2A931378D9F68ULL,
+		0x2CAEEC4F97934CFCULL,
+		0xC501A3A9581664DCULL,
+		0x8C53C60EDD78CF39ULL,
+		0x11FED0A1437F2BB3ULL,
+		0x29194F9A53622E03ULL,
+		0x7318B1D183F6BFAEULL,
+		0x2E2C853FE312AAF9ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x29A27B45F779423EULL,
+		0x1A9888D5E294DCECULL,
+		0x422858EA7722B608ULL,
+		0x3A02F9868CD6041DULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 100\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 100 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -100;
+	} else {
+		printf("Test Case 100 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x8573F932D6238157ULL,
+		0xC8D09076B335247EULL,
+		0x98CE88968DF0E8F1ULL,
+		0x938C777AEDBACE04ULL,
+		0xEC86ADED98416CF7ULL,
+		0x779093E9391F4A52ULL,
+		0x4B6511A498F64C48ULL,
+		0x671BE33A7D5C40D5ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xE684EB672082C011ULL,
+		0x24EEFD0A7B0F3251ULL,
+		0x8805E46D97CF91B8ULL,
+		0xEBA3155BB85BCCB4ULL,
+		0x2CC0E8D918F3BD1BULL,
+		0xCB64A4B9A97243E6ULL,
+		0x28F059085668986AULL,
+		0x75C839403B58EF7BULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x164A4ED69B28DB7CULL,
+		0x3267147B8BD4E651ULL,
+		0x2E1C0B5AD72A0A21ULL,
+		0x7A549D4501DD14B1ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 101\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 101 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -101;
+	} else {
+		printf("Test Case 101 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x5F124C7D3C419B18ULL,
+		0xCE609639E63F93ADULL,
+		0x47785651BCFACCD6ULL,
+		0x7A597167488C6294ULL,
+		0x41E3DE901FFA2C45ULL,
+		0xF5EB494AC003AC71ULL,
+		0x40CEDB9BEA96EFADULL,
+		0x3D547F00BA436F23ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x0E88A12624B2CA4FULL,
+		0x1AE666E5B68F72C7ULL,
+		0x59E443BD70582887ULL,
+		0x9A8DC5E682E9BA31ULL,
+		0x4A31876DD174D997ULL,
+		0x399FAAB24DFCAC50ULL,
+		0x77E1E7655DE12E2FULL,
+		0xF100B770409C2ACAULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x15029A6EBF59129BULL,
+		0xA6B3B9F51CBA25CBULL,
+		0xC0C052AD2F9D5D1FULL,
+		0x343B4AF2D476CD90ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 102\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 102 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -102;
+	} else {
+		printf("Test Case 102 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x4B841738FBFC9E40ULL,
+		0x7C5AA14E7A40884CULL,
+		0xF5E91A39F3C53499ULL,
+		0x7325CE352B9F814AULL,
+		0xF74EDE45360648CBULL,
+		0x62FD29A5E22D5B37ULL,
+		0x68332590B03D6000ULL,
+		0x3A1892FD928962AEULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x088C10FFA805A1ABULL,
+		0x223D32A72F644582ULL,
+		0xC6805F1322C1A340ULL,
+		0x02249A72557E53F7ULL,
+		0xA444F42BB7F410A3ULL,
+		0xB99A11E3A27CFA73ULL,
+		0x0ADEEEBE42026139ULL,
+		0xC0E9E494DE9261BFULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x9670C6020AAB4F8DULL,
+		0x7ED2F57CBF0A9FEEULL,
+		0x09E8DE632DC562D6ULL,
+		0x6DEF174D8CCB50DBULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 103\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 103 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -103;
+	} else {
+		printf("Test Case 103 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x2E4FC4F8AF117389ULL,
+		0xA9EB6B4894E3A7FEULL,
+		0x56B2FD5D49DFA536ULL,
+		0x9479F8AB73922271ULL,
+		0x3EAFCD478F4D29C4ULL,
+		0xB6A9CFE62EB9AEA4ULL,
+		0x21BB9C487EB66EC6ULL,
+		0x781BAF1EE2AEAD31ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xE90E4F4E4C723BE8ULL,
+		0xD9E670CD9828C52BULL,
+		0x1BB18E6178469587ULL,
+		0x0AA6B00CD368A456ULL,
+		0x191B8CCA70D3F5CBULL,
+		0x35F6787F316F8B94ULL,
+		0x5D199D959EA5F354ULL,
+		0xDF0792265862AA0DULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xD943083CE89CEC5DULL,
+		0xEAA3F3C495BC1737ULL,
+		0x6B0D3D89140B62ADULL,
+		0x42CF95832771F56AULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 104\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 104 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -104;
+	} else {
+		printf("Test Case 104 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x9112BD9EB2AF7413ULL,
+		0xC42160D4F0AC046FULL,
+		0x26D0EAF5374A31FEULL,
+		0x530123AB2E697F90ULL,
+		0xA1536147D965C33EULL,
+		0xBFFD421190D6A681ULL,
+		0xAC5EEEE76E8700E2ULL,
+		0xA6F3064DE2A62BD8ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xC7E4E9EFEE376075ULL,
+		0xB9E374EB1188F5CCULL,
+		0x2ECF2FCFFEDA3124ULL,
+		0xA4000835533712DCULL,
+		0x69110FDB43FA3B37ULL,
+		0x6D9855FF9C867B67ULL,
+		0x482A78A1BA2C7F3BULL,
+		0xECD00E9D1E702D29ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x2305E9CCF26E4306ULL,
+		0x4538F69423097487ULL,
+		0xD7CB497DFDDF3FB0ULL,
+		0x5031DFB2FB363ABCULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 105\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 105 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -105;
+	} else {
+		printf("Test Case 105 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xCFCE1C911A39D000ULL,
+		0xB643329AA3A4561FULL,
+		0xEAAD8871E951EB8CULL,
+		0xD272D07583C98D8DULL,
+		0x5D88C664909EB814ULL,
+		0xA3BF6D9AB3625614ULL,
+		0xF6E2E56978941BD0ULL,
+		0xA3554EC64D9DCC60ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x455CC8ACD18CA051ULL,
+		0x8721FB3EC775BBB4ULL,
+		0xA2258171E47AE6E8ULL,
+		0xE4FE5624DEE38E55ULL,
+		0x7A0939AC49B3EC8BULL,
+		0xD7981B885EEEBF3DULL,
+		0xC1C356F514A05C24ULL,
+		0xB9888018E3764F1EULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x4F60373ECF876580ULL,
+		0x7CF766146556FE51ULL,
+		0x2B372C46DB057824ULL,
+		0x21DB280E66C2970CULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 106\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 106 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -106;
+	} else {
+		printf("Test Case 106 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x97AA42D5D5BE1610ULL,
+		0x088A9C496877B6ADULL,
+		0x38A421BC48FA279AULL,
+		0xF808BE3E5A011B93ULL,
+		0x080155F59C8804EDULL,
+		0xDD63D0F0E401E640ULL,
+		0xB5AE86BB2C677779ULL,
+		0x6E3BFA5F48E57EB8ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x0E6D92EA0FF9C364ULL,
+		0xEE0B12A9F5EA24D7ULL,
+		0xAA69BF317D366563ULL,
+		0x01C1A8D70293ECFBULL,
+		0x4106F8262901EFD2ULL,
+		0xDA3662580816CFAFULL,
+		0xACC5208164F27DF5ULL,
+		0x640952D45D1414E9ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x12669CB6EBAB74FAULL,
+		0x933DF4501772EB54ULL,
+		0xE0DF8F1E6720CBCEULL,
+		0x79CBF4065882E352ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 107\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 107 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -107;
+	} else {
+		printf("Test Case 107 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xC88DBA596247A693ULL,
+		0x35AE17A59AF018E0ULL,
+		0xA8BEF8B0D61EBBF6ULL,
+		0xB178FC8162B3D756ULL,
+		0x1342D3E2BA295E94ULL,
+		0x30696AF1636D71D3ULL,
+		0x90E30EB3332DCDBFULL,
+		0x060E8CEA4B64B3E6ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x9CFC43A871058488ULL,
+		0x9EE84397A80B2FBFULL,
+		0x4C0F56ED3A301D96ULL,
+		0xB1CACDD5F47616E8ULL,
+		0x1A6A82100BC561A7ULL,
+		0xB4514F8D0C88E9A1ULL,
+		0x0D957EADA67632C8ULL,
+		0x42AE237230BAF55EULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x1BAD9BF6D419ABD0ULL,
+		0x0259E4F2D8D1208CULL,
+		0xDA3302967F2F9EF6ULL,
+		0x7FFDD67F637008B1ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 108\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 108 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -108;
+	} else {
+		printf("Test Case 108 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x90B0CF13E7186748ULL,
+		0xEA223FBD6590ADABULL,
+		0xC1532AFACC0581E4ULL,
+		0x65FC7C40BF4DC69BULL,
+		0x68EB335353B5BD6EULL,
+		0xF09E4CB6215EF88EULL,
+		0x169031F9C4E1FB6AULL,
+		0x25FD966B2E67CF47ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x8A0992FB842B718BULL,
+		0xE487C2F91826606CULL,
+		0x02A4CA3BCB112667ULL,
+		0x234E2E446BE78013ULL,
+		0x0B6EADC09A291346ULL,
+		0xD6FED1ED6A73FD25ULL,
+		0x28A40EA9A1A46087ULL,
+		0x32CF99CDDC772F71ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xE7230FDFEDCE3761ULL,
+		0xD346B68F744B9EE2ULL,
+		0x0FBB9EA43C195932ULL,
+		0x5B81CD567D1E004AULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 109\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 109 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -109;
+	} else {
+		printf("Test Case 109 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xDD35F7F27FF7118DULL,
+		0xB2347507B1542CA1ULL,
+		0xB2B8184FD24D5246ULL,
+		0x67D8BF2536575529ULL,
+		0x022739C745D9450BULL,
+		0x1CF8F830F7573C63ULL,
+		0x76C8DBA7C83D652FULL,
+		0x06ED90813CA3FEEDULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x36E0421A537B64A5ULL,
+		0x9210FCE9468E0CFAULL,
+		0x8AC80A62886DDDF3ULL,
+		0xBFF06A9299695C4DULL,
+		0x53204E420DB090BAULL,
+		0xF2372A2BC330C430ULL,
+		0x6654107DF677FBDEULL,
+		0x7C1BC7FAA8D02C1CULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xA15CAB9E82866E42ULL,
+		0x78E80CE4287BF72DULL,
+		0x994636226D2D1639ULL,
+		0x430C188C8E5F43E4ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 110\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 110 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -110;
+	} else {
+		printf("Test Case 110 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x1946EDCCC9ACFA4EULL,
+		0x0FF2E0C10B4820C9ULL,
+		0xF109FED1DDE1E83AULL,
+		0x46682AB2B80233BAULL,
+		0x66C11DD112D14F84ULL,
+		0x235D1A12C2399E52ULL,
+		0xA277B66568206107ULL,
+		0x956B0383F4030941ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x5D45E3F95C9B61D0ULL,
+		0x7CDD463C39604084ULL,
+		0xF86EDBCC6CD5D4A8ULL,
+		0x7A5F23C264053B91ULL,
+		0x31EEEC7346EC04F2ULL,
+		0x2407906474129DFDULL,
+		0x4E67E3B6C19FED9FULL,
+		0x22321C777A8195B5ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x93345DBFB11AAC9DULL,
+		0x79C80A646BB1ECEAULL,
+		0x72F468F2281D3501ULL,
+		0x667B52CA5D341EFDULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 111\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 111 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -111;
+	} else {
+		printf("Test Case 111 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xD7F2F898F3CB0165ULL,
+		0x67C71CEAB257BFF1ULL,
+		0xCDB5CC8EFA2D04B7ULL,
+		0x913F1C427D8BAF43ULL,
+		0x3D8A5419B0FE9BACULL,
+		0xE63076CDFA77BC43ULL,
+		0x6D1C8FE672901ED7ULL,
+		0xE442A76FDBCD9E22ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xF9B36C564EFF0C3CULL,
+		0x4DCB3138F7763075ULL,
+		0x266B393AA423CEB4ULL,
+		0x34F8615735D2F051ULL,
+		0xB0F45A25F84E0286ULL,
+		0xEC1B7BFA6A0FAAC5ULL,
+		0xF70693D2290113F7ULL,
+		0x3ACC88A5A1AE617AULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xBC82A6700F02B496ULL,
+		0x391927192A54281EULL,
+		0x2E8DFE574144D342ULL,
+		0x03CF4CEFE85BBFCEULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 112\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 112 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -112;
+	} else {
+		printf("Test Case 112 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xD67172E3732D4CB5ULL,
+		0x3FFBE67F83219A73ULL,
+		0x4B6C14AF73E94C54ULL,
+		0x925E34084E15AC74ULL,
+		0x7D0E55551E82BFBAULL,
+		0xAE87489A4EB25070ULL,
+		0xDD226D9E5860F889ULL,
+		0x7758090C882A59A4ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xEDC482ECE7FBCC6EULL,
+		0x1C342F0DCEAC98A9ULL,
+		0xDB9C06D8CFAF9452ULL,
+		0x2B028BCA784EA78BULL,
+		0x490145B179DFC5CEULL,
+		0x175C92887CB4D436ULL,
+		0x860B4E59BB8B0197ULL,
+		0xEEB955E743B175ECULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xA29D4240FB6296B6ULL,
+		0x941EBE16E015726DULL,
+		0x5D3EB205EBFC6004ULL,
+		0x2EEA3FC5FFB8D245ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 113\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 113 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -113;
+	} else {
+		printf("Test Case 113 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xFE1236BE83459916ULL,
+		0xF3DB3B85B979112DULL,
+		0x573045FE9DD6D9B5ULL,
+		0xED2B382F1C5BAF47ULL,
+		0x9CF0B9B8A4EFEF60ULL,
+		0x71AAEE64CA5369ACULL,
+		0x99BC5C0C16DE4330ULL,
+		0x71C1ED27D4EEF8C7ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x4B370E80A370048AULL,
+		0xC8540E3F0756C820ULL,
+		0x85437AF8D21D267BULL,
+		0x3A5B72E6AA5A044EULL,
+		0x6AFEBDE605505174ULL,
+		0x975451AED51BEBCCULL,
+		0xAAE72DD948BB3C67ULL,
+		0x7004458AEFAAAECBULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x1CC68981918705A7ULL,
+		0x94627049185EF855ULL,
+		0x4591A69064ECB50AULL,
+		0x74F6A6927A24A65EULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 114\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 114 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -114;
+	} else {
+		printf("Test Case 114 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x7F4709B3CED510A0ULL,
+		0x230480CD278C85FEULL,
+		0x8B214DE5CE5F43CCULL,
+		0xE8035A0CB5070889ULL,
+		0x4326BB19AD76243CULL,
+		0xB7A265741C871652ULL,
+		0x845F65C568811C93ULL,
+		0x383CA1C4541235E1ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x26E9E98772980191ULL,
+		0x355DA027D27AECDDULL,
+		0x791AA0F7A89D7FF9ULL,
+		0x807FB368FCFA971AULL,
+		0xF2D16E46EF48CD72ULL,
+		0x819DF31297AD61CCULL,
+		0xD641BAF52EA2737BULL,
+		0x8FAF64E7F5FC2344ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x4506877496F7EF1DULL,
+		0xF24FDB1F0D6264EBULL,
+		0xEA6E07D6BCCEDD6AULL,
+		0x6C7AAF59AF5334B0ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 115\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 115 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -115;
+	} else {
+		printf("Test Case 115 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x1F19E4D291D752FEULL,
+		0x178C107C16A52F8CULL,
+		0xCFA95C2E6BB212A5ULL,
+		0x9E6C1F07C589D4E4ULL,
+		0x2605232F6F9E32F0ULL,
+		0x5F565E6731436F4BULL,
+		0x4A59FEDCBBFA688CULL,
+		0x9C251168E1DA7B54ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x90C2A1F6A6741D88ULL,
+		0x31CFE0B8DE8B098BULL,
+		0xEC7FD756087FBF3EULL,
+		0x4E50D7464D9CE521ULL,
+		0x443AEDE9DB567E96ULL,
+		0x2CB4FA8F0C7F2C02ULL,
+		0x9DE2259B2CAC8F7CULL,
+		0xB2169F4B33E6650AULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x125B2B2FEE07FA60ULL,
+		0x69B101D8AD3C22D2ULL,
+		0x7CF3C493A8C08BCEULL,
+		0x0E4038294A283EB2ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 116\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 116 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -116;
+	} else {
+		printf("Test Case 116 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x0909AB7309B50E55ULL,
+		0x53553F737113A04EULL,
+		0x00604557A04BDB8CULL,
+		0x2FB31AC5725743F6ULL,
+		0x0B54C40C5395F3B0ULL,
+		0x5B40D67C848FD875ULL,
+		0x9C6F02AD6A5A7D6DULL,
+		0x04FB09F42E6F5CA0ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xB4C2BD18B3337F75ULL,
+		0x1CD4D3A67636CD8CULL,
+		0xAEFF838CAFAEA5F0ULL,
+		0x029F73E925ECD8ECULL,
+		0xC9E0F17D9D0C30B7ULL,
+		0x1BA434274236EA2DULL,
+		0x9C01451E14F8365CULL,
+		0x1D3D0705AEDF1B61ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x0B782F896EF47F51ULL,
+		0xA7C08474D4103155ULL,
+		0x61AAE5119D33C22BULL,
+		0x134816433BD41A63ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 117\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 117 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -117;
+	} else {
+		printf("Test Case 117 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x31BE25F86327655FULL,
+		0x95AFBB2EBF34A9D1ULL,
+		0xD3BAC74C632D0BD8ULL,
+		0xADC7EA5617951A97ULL,
+		0xB1AF8337CB2BDE95ULL,
+		0xE7A74B5685BB0FAAULL,
+		0x6A6084FCDE20655DULL,
+		0x32E0789976C37733ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xFC2D5FD75BEF0003ULL,
+		0x49AB8ACBCD58C2EEULL,
+		0x69264A1BCE28626AULL,
+		0x59D3108BB053E13EULL,
+		0x38D3884192B50688ULL,
+		0xCD6882B150032C5EULL,
+		0x98E8C2E070DCC3AAULL,
+		0x96BAE9DF3DF434A3ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x263806AD68DC7523ULL,
+		0x3155F8E8EB27A43CULL,
+		0x825B4D68CD0EAA04ULL,
+		0x0188096ED6051AB2ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 118\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 118 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -118;
+	} else {
+		printf("Test Case 118 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x17D0D00BFB09BDD2ULL,
+		0x3D0EA8B3C44CCF71ULL,
+		0x539179EDF85841EFULL,
+		0xBA3583F1C51D1803ULL,
+		0xAFC505E885420FBBULL,
+		0x5A6134331499EE1AULL,
+		0x12660E5770526815ULL,
+		0xE44481A4FBA9E7A0ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x59E471A5B50B148BULL,
+		0xE82E37EC7D7CCC4EULL,
+		0x976C9FDC38CE8103ULL,
+		0xEA64A857D48771F8ULL,
+		0xE6E70329173754C4ULL,
+		0xCEE5CB4C72027AAAULL,
+		0x8BEDA27937383387ULL,
+		0xE68FE9910F54F294ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x8EE0C6D09B9669CBULL,
+		0x09320303694B25BAULL,
+		0xB204DD0E396D8DEEULL,
+		0x789F6E8F053205C0ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 119\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 119 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -119;
+	} else {
+		printf("Test Case 119 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x6A66764D11E18BA7ULL,
+		0x9B925BB69D2A8BEEULL,
+		0xD0691E1BA9F1BC37ULL,
+		0xE5DDAD6FECB9B1EBULL,
+		0x274ABF8E99567FCEULL,
+		0x1D10517E51600660ULL,
+		0x0211F24FEDFD4222ULL,
+		0x22BC29916B8E1382ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xFB4118AE97608AB9ULL,
+		0x5110C552F9C7BE43ULL,
+		0xCB81BBD76D28FCC5ULL,
+		0x58F40D37F7C6787DULL,
+		0x4BD3F96F89D9BD66ULL,
+		0xCBB4346794F1C270ULL,
+		0x0CEF522810A6AF26ULL,
+		0x7E6C78B6E4566E34ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x02C6C63AC705DA5DULL,
+		0x5E2DE7C39BC0E345ULL,
+		0x680B282F17A290C0ULL,
+		0x70BDE0A80735C300ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 120\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 120 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -120;
+	} else {
+		printf("Test Case 120 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xE6C8EE7B009FE256ULL,
+		0x1C525436B1621449ULL,
+		0x799CF8C5A421DA04ULL,
+		0x56CB8A68C17B397DULL,
+		0x0A9B27E38CD78FFAULL,
+		0x1A522F7E6B2E9FD7ULL,
+		0x1471B2FBD00A1B55ULL,
+		0x654940982F9D3239ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x1184C1452E14C533ULL,
+		0x4885378382661E17ULL,
+		0xEE6DC7F5656DB258ULL,
+		0xF7067620C64EE601ULL,
+		0xC1E5ECD941AF41FEULL,
+		0x82AB5A0EF6AD228AULL,
+		0x4651F64E018C7FA7ULL,
+		0x1A95E4D44CFB6A2FULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xA02AF0BCFA86B207ULL,
+		0x5690CB3E7A348F85ULL,
+		0x23E5329CE5594370ULL,
+		0x7664B35B9F3004F0ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 121\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 121 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -121;
+	} else {
+		printf("Test Case 121 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x70E1AAE2492DB020ULL,
+		0x8242C8C44575B8B1ULL,
+		0xE2B27934689457A5ULL,
+		0xA9388939E7F4E45AULL,
+		0x1215C253D631C811ULL,
+		0x884611526149BF74ULL,
+		0x5575D55164C14AEEULL,
+		0xE5A5B70C509B806BULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xA42F7780DBB92490ULL,
+		0x9070A51F14BFE1C8ULL,
+		0xC8A9B3B6AA4D29CFULL,
+		0x0F46242AF8559252ULL,
+		0x195EA7E4BB708426ULL,
+		0xE4154862B1D2B647ULL,
+		0x4DF8F55F7A7FB6A3ULL,
+		0x49FAC7F890E785B1ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xB7E01FDF6624A3EFULL,
+		0x510FF7393C613395ULL,
+		0x36920366840330EAULL,
+		0x3551E1FD645689A5ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 122\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 122 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -122;
+	} else {
+		printf("Test Case 122 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x179FDD78F2AD5AE9ULL,
+		0x9B3E2CF5AF2C2C9AULL,
+		0x2CB22A5DCFB03E28ULL,
+		0x81076327374F9CB8ULL,
+		0x8AB6975D3AFD4366ULL,
+		0x212355C3859D9230ULL,
+		0x3159B5C91657AC36ULL,
+		0xB279F78A6863907DULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xE37A8B1F4A03B4F6ULL,
+		0xF323A33DD49B3A17ULL,
+		0x4472E076449A2991ULL,
+		0xE119F0E54AEC5DEAULL,
+		0x35A0692B8536C03BULL,
+		0x2A5AD7E942353479ULL,
+		0x716BC843D60E0AF7ULL,
+		0xF1BD440BFB1553EBULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xD5702DBAA4211CD9ULL,
+		0x49DD381DDC0EDBB8ULL,
+		0x65908BAF160403EFULL,
+		0x3BF0170626003C70ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 123\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 123 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -123;
+	} else {
+		printf("Test Case 123 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xFD4D9A39EF7BB7B2ULL,
+		0xA9D6D34F0F48BE46ULL,
+		0x19B6D321EA4583EFULL,
+		0xACFD719E8B8F5957ULL,
+		0x3EB617A01E7EA696ULL,
+		0x96DA35DDA40F9762ULL,
+		0x8B9E75B2C209F2BBULL,
+		0x76ABFA0D07024A5FULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x2CAD847B6C3006D7ULL,
+		0xF61D792835510D39ULL,
+		0x96CD9A7E47828028ULL,
+		0xA27D25F7EE9BD909ULL,
+		0x2812B7C9A30795F2ULL,
+		0xC495DBB0169D6CD7ULL,
+		0xA66E738AA443F4EDULL,
+		0x4C45F18FA97BD328ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x2CE04F94D6F82A17ULL,
+		0xE9DEBCE9D8EA01B3ULL,
+		0x88098A980E26B053ULL,
+		0x55A58E427EE93273ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 124\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 124 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -124;
+	} else {
+		printf("Test Case 124 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xB3CDD83BBB8C2576ULL,
+		0x632B93DCD4329CCFULL,
+		0xEFA4CFF4CEC34050ULL,
+		0x64724FABD525039FULL,
+		0x3D92FAFCD6570938ULL,
+		0x89865FAFA1A21F0AULL,
+		0x87AC1735A3DF6F77ULL,
+		0xACEA66618678D4FCULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xE17E5027BD45FE04ULL,
+		0x124B8E86DB038DE4ULL,
+		0x805CAF99A5B07114ULL,
+		0xC291039D099D25BBULL,
+		0xC1D62470F79344B5ULL,
+		0xD3DA4969891E2E0BULL,
+		0x06AEB7B65E3CE9D2ULL,
+		0xDD7EAE5B978E03C1ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x305760D70F5551B4ULL,
+		0x486B53BD9CC4D4B1ULL,
+		0x94E44D3F7F32A5AFULL,
+		0x6BDE9CF04262ECB9ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 125\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 125 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -125;
+	} else {
+		printf("Test Case 125 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x7BE30D1B8318F421ULL,
+		0xCE6C77B9DE652B13ULL,
+		0x0FB67839F3DC41F4ULL,
+		0xA7CD65F0DC2016FCULL,
+		0xDA2EBF45C3DC87E9ULL,
+		0xC79EA7C3EB254C4BULL,
+		0x684D4F47ED027212ULL,
+		0xC2C7FD863A54B2CAULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x3993F83F98E9A7E2ULL,
+		0x3FCF45E8EEF3F4FCULL,
+		0x37223C90810EC05CULL,
+		0x81EBEF6D17074538ULL,
+		0xA32206F8BD5963EBULL,
+		0x0196F75CFB5D37CDULL,
+		0x8A42F2BA4CAE0853ULL,
+		0xE180C2E4DD6C6B06ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x6E32704AE1A6A348ULL,
+		0xF3C16118872440D3ULL,
+		0xCE1DF8AF3F55340FULL,
+		0x16742A778F9378D6ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 126\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 126 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -126;
+	} else {
+		printf("Test Case 126 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x570AA11575E72903ULL,
+		0x883E4C0EB9580231ULL,
+		0xCA845DEAE6850229ULL,
+		0xEDA2EE231439A5CFULL,
+		0x8F70A74CE2095F70ULL,
+		0x0400AFF681738B6EULL,
+		0x774CB274EB89B02FULL,
+		0x4634B7518673A7CDULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xF2F13FF3D3AECBD4ULL,
+		0x36D1D9AD659004BDULL,
+		0x2050135BA9C36081ULL,
+		0x6B6140D86C6E62EBULL,
+		0x6962AB50DA434DF7ULL,
+		0xEB7218766B2F7F3DULL,
+		0x8D3EF95CCF404DCEULL,
+		0xC9B9900C6109203CULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x0A2CC88AC99EF240ULL,
+		0xF696EF64A1E1CCBFULL,
+		0x683DC4236FA63BEBULL,
+		0x7C89818E359B6267ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 127\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 127 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -127;
+	} else {
+		printf("Test Case 127 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x07F69942E57B8A8FULL,
+		0xB8CB814EFC11437FULL,
+		0xEBFE4A5492B9FD59ULL,
+		0x3C09CD6CC6F98EC6ULL,
+		0x72F2B557F371B8BBULL,
+		0x9DE42615A948D5CDULL,
+		0x3C527FF9EF7BD07FULL,
+		0x63E539694DA1772EULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x4A1460FCA44E86ABULL,
+		0x991728C18E52C0CDULL,
+		0x7AF284968B499668ULL,
+		0x4A6AF8D1103E7EF2ULL,
+		0xBAEA404DD015F1D6ULL,
+		0x2CA1AB1444F566D4ULL,
+		0xFB5BF618F5271BCEULL,
+		0xC721E60CA67AD9B0ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x0F2397C780CC87A8ULL,
+		0xEF929AC25220FB9DULL,
+		0x15A43D2330033947ULL,
+		0x369D345C8676706CULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 128\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 128 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -128;
+	} else {
+		printf("Test Case 128 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x2DFEAD553CF6D9D2ULL,
+		0x3CCD2FC98D5048C9ULL,
+		0x87CBA8A2B3F5DBEEULL,
+		0x6E2668A6649F32B1ULL,
+		0x91C69303E06C9F87ULL,
+		0x4D88F308B9243EDEULL,
+		0x12F136AC2DE83AA5ULL,
+		0xC3B4F80B175B74E3ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xC10C9974BFBA027DULL,
+		0x993D47521FDDC5D7ULL,
+		0x66A4A959AF53776FULL,
+		0xC1ACA449194F15B0ULL,
+		0x660B589E94E6BCCBULL,
+		0x6C7652776D4902AEULL,
+		0xC91201D5E617DE7CULL,
+		0x560E3942AD900B57ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xEABCBEE9B31C818AULL,
+		0x0C53BE08AFFD7217ULL,
+		0x1848D717AD901290ULL,
+		0x733A161CFF81C7AEULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 129\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 129 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -129;
+	} else {
+		printf("Test Case 129 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x5836CD69DF7D4BE6ULL,
+		0xFB0E0A3C18D986C6ULL,
+		0xD6407F432D5226EAULL,
+		0xCFAAD70C95008104ULL,
+		0x6B45198DC3481C66ULL,
+		0x8C2EBD33537A2022ULL,
+		0xF8625312E8392643ULL,
+		0xE6A2DD5957A1991DULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xF49B828E426D998AULL,
+		0x8F813AB7182DC1C1ULL,
+		0xFE6C52F79BAA70A2ULL,
+		0xECECEA146A15D0E4ULL,
+		0xFFE792C62D0A4058ULL,
+		0x0B6DBFEA47019408ULL,
+		0xC0336BD1159A4710ULL,
+		0x86314D4ADFD4B8EFULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x537D4C7BEA3E5E84ULL,
+		0x8832685CDA9090CAULL,
+		0x2ECA8010D53CD7EDULL,
+		0x33994F1DF353F6FCULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 130\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 130 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -130;
+	} else {
+		printf("Test Case 130 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x071DABCE83C126BDULL,
+		0xEA06146310066569ULL,
+		0xDCE9EAAFCE306484ULL,
+		0xB52BEED01CF9C0A7ULL,
+		0x280A2D8A756E6D5AULL,
+		0x173F363A924DCBC0ULL,
+		0xBA783035D164FD83ULL,
+		0xD0032D32582710DFULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x19170821CBDC5A10ULL,
+		0xA6B67121F79C3C0DULL,
+		0x3FB32A9810BAF906ULL,
+		0xCAA66921F719C42FULL,
+		0x5975001D74CEF383ULL,
+		0xEC846EA2EC6F6193ULL,
+		0xBB758785C99CCDBAULL,
+		0x67D60B09D2DC7994ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x982B61DACF90E4D1ULL,
+		0x9B0943C3B76DEC02ULL,
+		0x779BCA38E52C8334ULL,
+		0x613897B1EEF2719AULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 131\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 131 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -131;
+	} else {
+		printf("Test Case 131 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x8BE560120D63FCD4ULL,
+		0xBE8F6FA103F7B68FULL,
+		0x99EF4D23AA486E0AULL,
+		0x7C4377FA47C241DBULL,
+		0x25C3F605C55D2F0FULL,
+		0xCF2F1B34A7453751ULL,
+		0x05FB76D4C8E7B468ULL,
+		0xC214C2BABF1AC1CAULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xA731D87A05D9E9D7ULL,
+		0x93D07476CC85CAFAULL,
+		0x3098E1F3E55A9A5DULL,
+		0x1C88D29E631E4A15ULL,
+		0x7FFEB98414937F68ULL,
+		0x44B51B7413813FCDULL,
+		0xE7E861E1A6A02546ULL,
+		0xD3455444E70A7AB0ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x7FFA82D8457A2568ULL,
+		0xB8DAF1C02688A91FULL,
+		0xE02B8746DB8D12CDULL,
+		0x52850AD9F70E8580ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 132\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 132 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -132;
+	} else {
+		printf("Test Case 132 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xA02DCE619D4B88C1ULL,
+		0x5E4B5CE925F95133ULL,
+		0xF74BCCDDE4E7CA4CULL,
+		0x3AA5D236BE056BA6ULL,
+		0x911C04FEC10ABC2EULL,
+		0xFD8E6287561667E9ULL,
+		0xB2E5A8BBC7428E7AULL,
+		0xCAE3F6C9A6C038F0ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x2D2181278D15EB45ULL,
+		0x3E17147401F63233ULL,
+		0x8BFFD89E8057F2D7ULL,
+		0xDB9D01159B5C4177ULL,
+		0x10B0A549C0D6BA66ULL,
+		0x5F58ACA1A0C79FA1ULL,
+		0xD03AF3A3F9B615ACULL,
+		0x8E593B45991B5C14ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x82FC821817EDE25CULL,
+		0x9C2D488E0DB4D9C3ULL,
+		0x10A2D5C7E769C620ULL,
+		0x5BA0A6BB2921F2D3ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 133\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 133 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -133;
+	} else {
+		printf("Test Case 133 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x66587C71A042475CULL,
+		0xBA437BDD18E0EA29ULL,
+		0x925CFED55B96B2AFULL,
+		0x1AA2C8791485C918ULL,
+		0x7A7E719B0B4F4A74ULL,
+		0x80C6E0A7A44CFAA5ULL,
+		0xEA896609DF1CBDAEULL,
+		0xB7FE53F8A5EF3EC1ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x1482E03F6BB8F3B1ULL,
+		0xB2455F43A8021C93ULL,
+		0xB5340739496ACFC3ULL,
+		0x7F7DFF975B4973CDULL,
+		0x3766551937553772ULL,
+		0x3A67FA67F21767CBULL,
+		0x1387682536A12A49ULL,
+		0x135B1993BEB9DF68ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x4769D777ABA82987ULL,
+		0x7A144A0DE4D299FCULL,
+		0xC774A78D1483C3F4ULL,
+		0x0B5F73DC0B287CA0ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 134\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 134 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -134;
+	} else {
+		printf("Test Case 134 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xBF419E06956F2216ULL,
+		0x61CFA18425392194ULL,
+		0x9FC70698986238F6ULL,
+		0xFB15B46285013A47ULL,
+		0xA2F1C95E4CF2F66EULL,
+		0x5B496F553B7D8D02ULL,
+		0xFC7F36141C7EC54FULL,
+		0x47F79490ACAAC8C0ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x0CE0DB2C0FEBC79DULL,
+		0x9905BD9D9E4E490CULL,
+		0x7C40BA438AE39623ULL,
+		0x1051C1E56389FA61ULL,
+		0xA75B8666768B3B5FULL,
+		0xBDAB0049AFB05CB7ULL,
+		0x6A57D124D9B4BE3FULL,
+		0x3B08170F1D34D148ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x0AAEB3A458E91F12ULL,
+		0x2E4E5F9D476003AAULL,
+		0xD55F47D8F77BAF24ULL,
+		0x565093B86CF9FBCBULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 135\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 135 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -135;
+	} else {
+		printf("Test Case 135 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x03AD47915FE3EC55ULL,
+		0xFCEC8A4D88141364ULL,
+		0xFAE73F87A2F49DBAULL,
+		0x6C032DBB45A96779ULL,
+		0x65A8157B98921D8EULL,
+		0x05D0044AABA39CDFULL,
+		0x94295DA4AB485158ULL,
+		0x12A36A2218CD1B77ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x9FA75D10794B949AULL,
+		0xD05A85CA3EFAEE42ULL,
+		0x74A3DD30A87DD04FULL,
+		0xCF2B3CD255E341F8ULL,
+		0x97604A59878D3376ULL,
+		0xE8A019AEFB0DE3B7ULL,
+		0x9AB2F80D87C19FB7ULL,
+		0x9C3225691E662F5FULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x02AE118F6D53142DULL,
+		0x81AED79F7F52A10AULL,
+		0x8DD676C640752B2FULL,
+		0x31A8245E1B0D3110ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 136\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 136 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -136;
+	} else {
+		printf("Test Case 136 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x7FB4A2D7FC4C99DFULL,
+		0x495C0DA373AF8BEAULL,
+		0x03E5784BEB28CC3EULL,
+		0xE076B6100A98DE7EULL,
+		0xB891DF3052915EB5ULL,
+		0x41EBA8B62A9E13EFULL,
+		0x87E8B8EDFA108957ULL,
+		0xB145EB57C8F03CA1ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x8E16E97E22CDE1FBULL,
+		0x6A30AB9D24C613A2ULL,
+		0x873EE075491169F4ULL,
+		0xAED0BE13BE83BFA4ULL,
+		0xBB7342DFBD8B15E9ULL,
+		0x0E2774B911C261C0ULL,
+		0x2192382D13FCFFF2ULL,
+		0xF4D9C83C5A1DB9E6ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x8428ED4FF86D84B0ULL,
+		0x8E4B1997FF85EB41ULL,
+		0xAD7DB478C8FDC74FULL,
+		0x29B32E0EBF5486AAULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 137\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 137 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -137;
+	} else {
+		printf("Test Case 137 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x807CBBD9C4973ADFULL,
+		0xB462AEEC8FF95E61ULL,
+		0x6AD5D5C8EE52AD34ULL,
+		0x32EC36A8B59D4873ULL,
+		0x8EA8B8D51C3524E2ULL,
+		0x7E17450A0E481574ULL,
+		0x935F76A2B13A4D2BULL,
+		0x0CC44F63C7CC587EULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xFC7B5E79F052C0C9ULL,
+		0x07C60AAA0387E362ULL,
+		0xC98E236248D5CA95ULL,
+		0x50F9E6A3A41C2F7CULL,
+		0xF9F5AA438DD86007ULL,
+		0x4267E469926133CCULL,
+		0x975E16336722EE26ULL,
+		0xDD24D17914A101B1ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x969586FAF609ADEBULL,
+		0x88A4FC14F0B6F9DEULL,
+		0x097C02EBA4F4FD66ULL,
+		0x739F00DBA9EFFB64ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 138\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 138 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -138;
+	} else {
+		printf("Test Case 138 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x8B4E6238A1A2C7DEULL,
+		0x63AAECFE15BD9DE9ULL,
+		0x6708199C66BFF2CEULL,
+		0x6DC44264C1EC089EULL,
+		0xE11B53F858BD1176ULL,
+		0x9AD3178809268B99ULL,
+		0x43C70691E76D266FULL,
+		0xEE582FE8E99CF601ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x2C149A5BDCF096B5ULL,
+		0x8E5930D2849C6C78ULL,
+		0x9B45DE612E809A1FULL,
+		0x1807CD07898569A6ULL,
+		0xA23DAA088A0F5431ULL,
+		0x3FF569168554D374ULL,
+		0x0AD44568BDAE60B5ULL,
+		0x24BDFF787FAE48ADULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xB4210175727C4DDBULL,
+		0x5239A105224286F8ULL,
+		0x3FCAE7576A90B258ULL,
+		0x429FA60CF1D45978ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 139\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 139 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -139;
+	} else {
+		printf("Test Case 139 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xB4927786B1922F89ULL,
+		0x848EBCB74BB85F70ULL,
+		0x2EBB1025A4926615ULL,
+		0x57256D34457B1720ULL,
+		0x2BD3393CA87C6A1DULL,
+		0xA0A29003F5901777ULL,
+		0x45B520D130A7E0D9ULL,
+		0xEA3E9D142AB90D9CULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xDD70CB1D020E6A6CULL,
+		0x643C6989DA854688ULL,
+		0x2A0E01D562301C7BULL,
+		0x03FF159A053B749BULL,
+		0xCE6E53B516B4C967ULL,
+		0x0D04EB794ED99D78ULL,
+		0x84767FE2845ED708ULL,
+		0x6AFB7BA4AF01999BULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xB41BBE895325A2F3ULL,
+		0x09B8BFC2304934A9ULL,
+		0xB3F8F1BDD539BEB6ULL,
+		0x371D4E269D7ADAA1ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 140\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 140 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -140;
+	} else {
+		printf("Test Case 140 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x6D448A8DEFC9D7CDULL,
+		0x56191AC2AFFC1C34ULL,
+		0xC803D158D615B7D5ULL,
+		0x18F44FFD15EDF8CFULL,
+		0x09C129999C33EE57ULL,
+		0x6BA21CAD945C7F94ULL,
+		0x9728FBFD6E12F3EDULL,
+		0x456DA78EA637F12AULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x9AD149B157ADA6ADULL,
+		0xBBD8816975600275ULL,
+		0x2BA31B68F8E84AA0ULL,
+		0x70F2AF62BA3BA46EULL,
+		0xAD1B0103C9EC1BADULL,
+		0xBC50C9DCCC8EBA0AULL,
+		0xAD7C5E3E637A7451ULL,
+		0x1638B6D006860B2DULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x931D4719CEC57753ULL,
+		0xA052E456E3276C22ULL,
+		0x4C00204B6FD05E50ULL,
+		0x29DD5CE6101A77ECULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 141\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 141 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -141;
+	} else {
+		printf("Test Case 141 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x75370638FAFD28B7ULL,
+		0x42D3161E6B1327C0ULL,
+		0xF7FF278F909FE576ULL,
+		0xBF138D9E7C173C86ULL,
+		0xF48992B5863BC9B7ULL,
+		0xEE6207D4C6C9AF2FULL,
+		0xDF9E04FE4C2DA9B9ULL,
+		0x36706C6D8F755119ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x68B75B668EF81673ULL,
+		0x950896C7F7316475ULL,
+		0xBB19F02C00B26189ULL,
+		0xEAA37C9FA25F4B78ULL,
+		0x78A5858874184BE4ULL,
+		0x5762AF34DCA5C994ULL,
+		0x7EAD41CB51B022D3ULL,
+		0xB85868FFC7A0B641ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x70599F831D49BCB1ULL,
+		0x17B1A7133535D85FULL,
+		0xA0A230F4BE8F8A27ULL,
+		0x0C00934A8346ED2CULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 142\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 142 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -142;
+	} else {
+		printf("Test Case 142 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x50EF29E685F53625ULL,
+		0x9ED618CA83897EDCULL,
+		0x3BF3B93C7EF3ADBAULL,
+		0xD19AAC5A37A58147ULL,
+		0x0B110EE48AE0F42EULL,
+		0x698DB63AAB5EDA5AULL,
+		0xD3EDA8921AB1C4F1ULL,
+		0xC45E95AB15827025ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x0EE9F07DE0701FCEULL,
+		0x7B061536ADBE75F8ULL,
+		0x939A15C069CD5B2CULL,
+		0xDDFAFDEA941E31CBULL,
+		0x015EB3A7AC63C646ULL,
+		0x8B32284CDB960908ULL,
+		0xE0E4500B17BDE1CDULL,
+		0xF7280CE9BF2CB65EULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xB27EC471AC19E597ULL,
+		0x256714E0AD9A1B11ULL,
+		0xBBBCC786855A09E1ULL,
+		0x69B7FB227440E303ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 143\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 143 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -143;
+	} else {
+		printf("Test Case 143 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xDFD7A6459A55BED5ULL,
+		0x5E825CC1234DA121ULL,
+		0x8D334CDA95D916EAULL,
+		0x145541B86168D91AULL,
+		0x0D57E27C5BF0B4A1ULL,
+		0xBE27D626B2BC87E1ULL,
+		0x1BDCBE8453BF39FAULL,
+		0x6D6E394BFD845362ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xE9BCE59ACA0E61F0ULL,
+		0x350C25FB9BA8B4AEULL,
+		0xE1BE595EDB767621ULL,
+		0x6B99F640706B5ED9ULL,
+		0x8A9AF1934EEC1984ULL,
+		0x5BCCEFB809F8D8BEULL,
+		0xCE19A14E9047B3B4ULL,
+		0xE47B5FF98A0BD296ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x5E268342BEF66074ULL,
+		0xC2F46B3294B0EB92ULL,
+		0x366B4976BE208F3BULL,
+		0x7CC78DB514E0986EULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 144\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 144 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -144;
+	} else {
+		printf("Test Case 144 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x20A8E69092BB3CDBULL,
+		0x36CEE33C2C5B3E16ULL,
+		0x41955E5D599E7EAFULL,
+		0xE01D664F80A9834BULL,
+		0xC406967AD9AFD254ULL,
+		0xA004418021FE4963ULL,
+		0xCC4F3E647DDD2F0FULL,
+		0x3AEF1C6D600B4F0FULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x551B074778D14839ULL,
+		0x5B69610FD43D8685ULL,
+		0x673D42FF5B0F3F4EULL,
+		0x69C90994ACFD73ECULL,
+		0x607950ED5B4232B6ULL,
+		0xBE18C997709FACA8ULL,
+		0xE4AB90D81C59B9CBULL,
+		0x02424392BD7C85BDULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x92863249DE2FA759ULL,
+		0x64594EB6AC28FB61ULL,
+		0x3CA3DE347812A774ULL,
+		0x5FFC8D2EF4DDF187ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 145\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 145 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -145;
+	} else {
+		printf("Test Case 145 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xCA6A81A324EC207BULL,
+		0x475F7EE77D92ADD0ULL,
+		0x5682311AB1532013ULL,
+		0x2E244BF63827AD1FULL,
+		0x090CFAAB0580CF6FULL,
+		0x69F399D0ED34A0CDULL,
+		0xD60872751F5DD9B5ULL,
+		0x71CD50336510743AULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x5EFC21633A8F5768ULL,
+		0x5488496FB0CD2F0DULL,
+		0xD880BB5F7C14C93EULL,
+		0xC77FBA503DFFD317ULL,
+		0x70DACEE8DAE1A840ULL,
+		0x1F5770084B50B329ULL,
+		0x18D1037D75D081E0ULL,
+		0xAD9E76E67065C9D5ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x02E0DF123DFC98A4ULL,
+		0x0605693FD49AC50CULL,
+		0x943BEE7E6039607EULL,
+		0x0598D3124B7D2521ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 146\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 146 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -146;
+	} else {
+		printf("Test Case 146 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x0FDFDB540EF5B407ULL,
+		0x38C5B4E43EF137A7ULL,
+		0x33BED4C0A476DA91ULL,
+		0xD2EF6AB0322C3C1FULL,
+		0xE99626291B3DD089ULL,
+		0x07837B6D6D645A71ULL,
+		0xFBC44014BFAA55EBULL,
+		0x1A09B293841E509DULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x86F7A47281895041ULL,
+		0xD89238B904FC2C1AULL,
+		0xCDD7C0E048E00BA5ULL,
+		0xC1F1CF78E749B1E3ULL,
+		0x6FC8542831B50B0EULL,
+		0x1C93767E49938BFEULL,
+		0x3C58227B7F618B89ULL,
+		0x4378085493C23800ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x9D75630437B9B311ULL,
+		0x3FD437AA8AF3B0B0ULL,
+		0xCFF3789FE664D974ULL,
+		0x6A9CE08EF88E31A5ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 147\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 147 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -147;
+	} else {
+		printf("Test Case 147 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xCB84855689E7ACB3ULL,
+		0xA339322CF2CBFBEAULL,
+		0x58C3D48C00D7D47CULL,
+		0x154B312BCB59AD3EULL,
+		0x3D38C407C289F941ULL,
+		0x7F49440AC389A43CULL,
+		0xB60FD3DE14302E4BULL,
+		0x522F5B1C1CA44EC7ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x5EA8BF8323A85801ULL,
+		0x633334C3197F1C77ULL,
+		0x3FD0E092E092C789ULL,
+		0xA0C36A64CA9D1826ULL,
+		0x33C48B9AAE33E87CULL,
+		0xC6EA800A034EDB38ULL,
+		0x2BAE561882F842BAULL,
+		0x7BDEF53897C19ECBULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xD41C26046B05D0E6ULL,
+		0x9E1715866206B60CULL,
+		0xA36B9F4CAE92046EULL,
+		0x4476E68CBA62B494ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 148\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 148 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -148;
+	} else {
+		printf("Test Case 148 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x72CF2A66638554DBULL,
+		0x3BA2BA7D5834A5D4ULL,
+		0x76C324CC2FEEA1BFULL,
+		0xCAAD16CAE5657D62ULL,
+		0x181301303167F3A7ULL,
+		0x15A442EC66FAC7D1ULL,
+		0x22CA7FBF68ACE834ULL,
+		0x900AD9A5AD50C471ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x8D0DADFF71A1CE8AULL,
+		0xCE31A8575B12708AULL,
+		0xF99024FF9CE957D8ULL,
+		0x54B69A9B0C8B2E1DULL,
+		0x8A5766044E21CC85ULL,
+		0x4817FB815785C583ULL,
+		0xD0EDC4F52846E7B5ULL,
+		0x7A2F5DB5A4A7FDFDULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xEF9A84EAAE4D55E2ULL,
+		0xF043AC0A48808CCCULL,
+		0xA3F6B9D222295CB8ULL,
+		0x348AE1D121E7C462ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 149\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 149 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -149;
+	} else {
+		printf("Test Case 149 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xDF61F65D7E72F628ULL,
+		0x11B02810D6CF8A31ULL,
+		0x68A19966CAC260DBULL,
+		0x223F0ECD0EC13D98ULL,
+		0xD7AADEE9C768E80CULL,
+		0x9EF8CD935685EA0CULL,
+		0xF7D2CE74B9200F8FULL,
+		0x824050ABEBFE1145ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xEB1927375B597FFBULL,
+		0xB070604A27A782A4ULL,
+		0xE849164057824DADULL,
+		0x9EFA7EA17AC84541ULL,
+		0x07C9431E42B08707ULL,
+		0x0508293863C816DCULL,
+		0xD2E768F61A00B2E5ULL,
+		0x6628D01BBE6A304AULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xCFC5EF5BD677DD70ULL,
+		0x3AF82D46B75560CBULL,
+		0xFB4993F211E7D480ULL,
+		0x2EC1A59257EC5D9DULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 150\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 150 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -150;
+	} else {
+		printf("Test Case 150 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x820D142A9C7B0457ULL,
+		0x12257F1463D82493ULL,
+		0x0444D91EE08B6628ULL,
+		0x0BAFBF66187300B9ULL,
+		0x3C629655801601FAULL,
+		0xE6BE6415856F0FF7ULL,
+		0x01073017E7CB5877ULL,
+		0x551A73DC4771DC0DULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xD5044BB27AC1CA3FULL,
+		0x8E0E76BC25F18BEDULL,
+		0xF981ACF144D52F6CULL,
+		0x22DED367235079D0ULL,
+		0x9B641E13EE6F0D19ULL,
+		0x7523E01F617EA80FULL,
+		0xF651441BF78F3D83ULL,
+		0x8BB9495BDA3C4E52ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x92CEA233C081923BULL,
+		0x61069EE193960507ULL,
+		0xA1C4339344A23704ULL,
+		0x4D3D3B0F2B159085ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 151\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 151 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -151;
+	} else {
+		printf("Test Case 151 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x338081904D5BC18CULL,
+		0x1BEE2FCB7FF371DAULL,
+		0xA8A7D789E3642080ULL,
+		0xBBD33F53A31814DEULL,
+		0xA17A7FE9EC9E1AE2ULL,
+		0x548CCEEB8951CD70ULL,
+		0x2CAF370E8B235837ULL,
+		0x1EBEA4DE2C0C02C1ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x04631E3A4821F4CAULL,
+		0x6D0FC9B4C59B2F84ULL,
+		0xA2E9C5AAC757BA93ULL,
+		0x09BEA19D3DF3466FULL,
+		0x17677D3C719F5B4BULL,
+		0x2AAECCD1BDA56B7DULL,
+		0x236035BED6FC6A84ULL,
+		0xF476B28917CD3D9AULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xADEFC916470A387FULL,
+		0xE5D2B5EAF5EECC7CULL,
+		0x677843B3D9D3AE84ULL,
+		0x78C296576676123AULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 152\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 152 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -152;
+	} else {
+		printf("Test Case 152 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x51D9637A78404B15ULL,
+		0xBB0FDE62997061AFULL,
+		0x0D14EA2173A0BFE8ULL,
+		0xF15194B3A572745CULL,
+		0x05D01DAA4674C99CULL,
+		0x336E523DCE6886D7ULL,
+		0xC8F8D55E8480F35EULL,
+		0xAFE7933DE1B12369ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x58D1FC4BABC2D37DULL,
+		0x97AC3E85076D967DULL,
+		0x6BA1D38ADFA07C95ULL,
+		0xAD4050F868D0E018ULL,
+		0xDA9CEE94CB2CC936ULL,
+		0x385DED9B94D9EB72ULL,
+		0x395B48F6B9738F5EULL,
+		0x346B90E1B2F490EAULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x62A0645F192D897BULL,
+		0x67D28FF21D2DDC10ULL,
+		0xF2D5EDFEB7FD1B52ULL,
+		0x18799D6A2C9F5332ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 153\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 153 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -153;
+	} else {
+		printf("Test Case 153 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x7880D46557EAD2B5ULL,
+		0x5CDE8A0105D0919CULL,
+		0xFE10D0D06FDD1E27ULL,
+		0xF3B75BF27FDC904FULL,
+		0x0A6B1B60CC382208ULL,
+		0x324D1165D911AFB0ULL,
+		0xC8EE6FB9A0FEB311ULL,
+		0x4F8C9B04CD22636EULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xC6FCE0C88439F280ULL,
+		0xFFDCAC6A4E2126A2ULL,
+		0xE127F92FFF8C52D8ULL,
+		0xF2F2D6410DCC1434ULL,
+		0x6C65D2CF6EEF605FULL,
+		0x0CA1A42A9126264EULL,
+		0x4499548058BA68F8ULL,
+		0x347542BF05D1CBD8ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x264CB930AC7D9FE3ULL,
+		0xF474146364A5CF77ULL,
+		0xC18AE2212A73CB09ULL,
+		0x063BA00D0806FC72ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 154\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 154 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -154;
+	} else {
+		printf("Test Case 154 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xC1121E3BBF176BA2ULL,
+		0xFBCDBBFDB2E58CDDULL,
+		0x0D5F358E03D0912AULL,
+		0x2837507AE9924B77ULL,
+		0x535A111A5E6FBBB6ULL,
+		0x5EAA5BA92644C2B9ULL,
+		0x60A513FC788D7CF2ULL,
+		0xC352AF05E071EB2BULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x8321DC9F898D2303ULL,
+		0x89AB49C2E3ABA50FULL,
+		0x1B7856766989AA1DULL,
+		0x10218EF04ADEA925ULL,
+		0x2B2E03D8CC12FE2AULL,
+		0xF96275A469F9C27CULL,
+		0x33230881B7BB3F52ULL,
+		0xCE5071BD035926A3ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x347A3957EF4E6B1BULL,
+		0x7ACE96EEC25BF0E2ULL,
+		0xB3349350397C0CB6ULL,
+		0x766ADA5B7060CE88ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 155\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 155 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -155;
+	} else {
+		printf("Test Case 155 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x7B39A80B995C0ED1ULL,
+		0x7585B8737466DB38ULL,
+		0x246D3082DF22E511ULL,
+		0x3F0D298D4226B2D9ULL,
+		0x9E4B055A04494FEEULL,
+		0x5F6BD38EBC1BAE6DULL,
+		0x53AD3A2E2E4FBEFEULL,
+		0x509B845FEBBB9050ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xCFA8A2468CE99363ULL,
+		0x7AA75F78620C4297ULL,
+		0x54582934AC06E02DULL,
+		0x66A7E803912E0C9FULL,
+		0x8ED1876619EDA16AULL,
+		0x4365C0FD8E479408ULL,
+		0x31DADE1A404BA881ULL,
+		0x9A1A6F868F53BD1AULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xF799B7F9D60E6151ULL,
+		0x23C51A87DFD683A0ULL,
+		0xD54EB24387B75B76ULL,
+		0x6F8E59CD68620042ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 156\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 156 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -156;
+	} else {
+		printf("Test Case 156 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x722AC1D764A74513ULL,
+		0x31DC341B199CACD8ULL,
+		0x4F27654944AD09BAULL,
+		0xF672273B5C0EED25ULL,
+		0x3A8C6E53064DC155ULL,
+		0x592A0613DEB8C674ULL,
+		0x1FB157B1FE6429B7ULL,
+		0x669DC11DB37BA9BFULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x5275C428A52033E2ULL,
+		0xECE83147B4E461F8ULL,
+		0x007C7CD88DC37136ULL,
+		0xEFF1AB86C9C792A7ULL,
+		0xB79544E5836A3CF7ULL,
+		0x90332F1C9C9507F4ULL,
+		0x7F1D646FC3E3E66EULL,
+		0xB6BEF2E4CD34299EULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x906523F02D4CB55DULL,
+		0x1997EB87360691CDULL,
+		0x24A1044565F39551ULL,
+		0x21931826C0E45F56ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 157\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 157 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -157;
+	} else {
+		printf("Test Case 157 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xD6719B4DCC1BA63AULL,
+		0x528426F1A4824495ULL,
+		0x451DC796B9CDA753ULL,
+		0x886321EA1BDB542CULL,
+		0x17D108B2D444FFC8ULL,
+		0x68D9ECF7FD1044B1ULL,
+		0x1C1BAFA6947CDCA0ULL,
+		0x1AD57D6B151027E6ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xDDFC176DA6C7F41BULL,
+		0x7D3446323E72160CULL,
+		0x8724A66AABCD41AFULL,
+		0x7E08037EA274E121ULL,
+		0x9D5566B9A7E36336ULL,
+		0xC37131CD2EADD0ACULL,
+		0xB35C367DDD9849D5ULL,
+		0x0A60C73565D526D4ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x26CF8EDCBBD0F017ULL,
+		0x62DBA91A08AD6733ULL,
+		0x4A651D3733EE2FB8ULL,
+		0x7BAE2A637C289BA0ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 158\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 158 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -158;
+	} else {
+		printf("Test Case 158 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xA53D02FD083E66AFULL,
+		0x6956CD900A0364DEULL,
+		0x2DD544395EBB9FCFULL,
+		0xD5186F8FDD816F1AULL,
+		0xA892476CEAF8079DULL,
+		0x1BAE75414CC67C6AULL,
+		0x8F57B6D2A4BADD7EULL,
+		0xEC4B195BEF20FBA2ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xEDBF71E2F3040535ULL,
+		0x2FEEA6E1AA66A222ULL,
+		0x86747489DD4B303CULL,
+		0x6EAE6525BF35894DULL,
+		0x086D7AC190B020D8ULL,
+		0x2D428604D11DE360ULL,
+		0x8AB5A9A0311F5435ULL,
+		0xEC979DE0A375F9AAULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x7CF3F2897BE6A2B8ULL,
+		0x9D6DA9A8BAA37A4FULL,
+		0x576EC52CAA86D066ULL,
+		0x5B0E5EB759AE309DULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 159\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 159 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -159;
+	} else {
+		printf("Test Case 159 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x18107B70346DAB54ULL,
+		0x953D6FF1B59E6E79ULL,
+		0x3D58A70F528EE6CDULL,
+		0x71B8E98BC561320BULL,
+		0xF6DA43185C6512A3ULL,
+		0x8ABEA461547A10ACULL,
+		0xE603B469981C0866ULL,
+		0x839CFC0F91585BF4ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x2CB88E47564FCF1DULL,
+		0x0BEC2E5ED17F8F70ULL,
+		0x8B0BF3F7CB647D0AULL,
+		0x2F57D0C5196B9C9DULL,
+		0x3684DA0C496B168CULL,
+		0xEE878C286E978726ULL,
+		0xBD86D1FF00679AF1ULL,
+		0xF3CC15D2A771D133ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x780584F3AF39452EULL,
+		0xB97EDA0503BF4909ULL,
+		0xB4D64EEA0BF2A912ULL,
+		0x1B6345D1642E2E19ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 160\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 160 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -160;
+	} else {
+		printf("Test Case 160 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x46C81E7A23AF4DC0ULL,
+		0xF4FAE4BCC5C0BE84ULL,
+		0x01576DCDA176DF91ULL,
+		0x55C3A482AFD56FA5ULL,
+		0xFC299C66EF0E70F5ULL,
+		0xE3761E5C7C973B5EULL,
+		0x4FE9AE48FFD564FFULL,
+		0x371FC8A45E340654ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x29BF5082DCE29A40ULL,
+		0xCB45A0FEAD1D0875ULL,
+		0xC9C2D65BE185782EULL,
+		0xE23F8DE8E3B96EDEULL,
+		0xECAFE66218B38008ULL,
+		0x50AF9E16D340D10BULL,
+		0xC1BDBA0A97A144BBULL,
+		0x0078E027193A18BDULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x6919D2AF184C77CBULL,
+		0xF32C4E153B777E63ULL,
+		0x521AD8B537AE3190ULL,
+		0x104A99320935451FULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 161\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 161 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -161;
+	} else {
+		printf("Test Case 161 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x22E0F7C176955D2FULL,
+		0x91F71988C2F0679CULL,
+		0xADACB67192DCDD3DULL,
+		0x092B552C24CED7AFULL,
+		0x76484BD6FF9059E4ULL,
+		0x6DD2A1C6798AF52AULL,
+		0x369CCD1B88814595ULL,
+		0x7CE4770D6529BB34ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x8B75863CAF75EBA6ULL,
+		0x928A2808417938B9ULL,
+		0x2B2278FA7C4048A7ULL,
+		0xF8B4C0991F5EF828ULL,
+		0x397F1982E36D332AULL,
+		0x60F0D435E5D951E2ULL,
+		0x6F265D60E37D12F1ULL,
+		0x61F76DA815D031D6ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x9D48EA00F4573197ULL,
+		0xE8F174F66DD56B9BULL,
+		0x1E1ED32B953C18EFULL,
+		0x0FA5F99CCCBA4373ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 162\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 162 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -162;
+	} else {
+		printf("Test Case 162 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x29E6D3CEBE915687ULL,
+		0x41F7ED94F5ABF231ULL,
+		0x1C472F1F9835C1DBULL,
+		0x6FE46A0FF4680D0BULL,
+		0xE4D1089B85563D34ULL,
+		0x52EFA0D66F2E18C5ULL,
+		0x2F1D566FA66F33CAULL,
+		0xF947571C70387D42ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xE2D4EF3B1BD28CE9ULL,
+		0x693056DB4058DD9FULL,
+		0x82179F7866D65A52ULL,
+		0x96CB8AF09C231886ULL,
+		0x158CFCD9FC5B9BE0ULL,
+		0x58AD42F02EF09A48ULL,
+		0x6CC7BA69EDDE2A15ULL,
+		0xE61F012416C115D5ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x0B2BA34DF7F2BC75ULL,
+		0xFEA186E73E73DB3EULL,
+		0x72E4B88096E6D865ULL,
+		0x3115A1FC9FFE4EA9ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 163\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 163 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -163;
+	} else {
+		printf("Test Case 163 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x8AA6E445938C117CULL,
+		0x91B165289BAA57B6ULL,
+		0x45CEDF2407E65535ULL,
+		0xCE13D683895BC5E9ULL,
+		0xBF675DD60058A705ULL,
+		0x557882438061E393ULL,
+		0x45081D927A07525CULL,
+		0x7EA6B8FD45717EFFULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x6741937885A32AE8ULL,
+		0x4E4D0D5D6229B6B7ULL,
+		0x6E1F2BFF5D36B9ADULL,
+		0xC16E688BBB634EC8ULL,
+		0x473A01DFB814A8F6ULL,
+		0x5317599D695E2BE4ULL,
+		0xA38617BF91F2634EULL,
+		0xB88272F046B1A657ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xFA20F75BC8009B78ULL,
+		0x9DD06072A40DE50AULL,
+		0xD0FC90731DCB179CULL,
+		0x7607D3E59E72A002ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 164\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 164 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -164;
+	} else {
+		printf("Test Case 164 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x65ED6FA42F9F0C46ULL,
+		0xE4A0ACDBD3A8D042ULL,
+		0xAC82FE3CEB66A0D9ULL,
+		0x783A49D48811E027ULL,
+		0x3B5D858A6A5774FDULL,
+		0x9C6F27EC35DC8C84ULL,
+		0x5963D515925A81A9ULL,
+		0xB400901FF3B77E64ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x8FDBA047009A9D5AULL,
+		0x9D229848D7E4B5BFULL,
+		0x0D848EFAD5D6FEF3ULL,
+		0xF96E13C08CFCB2F6ULL,
+		0xE6FCDDC3C4A8F2FDULL,
+		0xA63F94F06D60AF72ULL,
+		0x92E541C8582429DEULL,
+		0x57BA42313185BB50ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x5C6AB6D9C6EBBCDAULL,
+		0xD28DE5F2BE26EB15ULL,
+		0x15C84CB8B9A0AA06ULL,
+		0x313BC784CE782221ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 165\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 165 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -165;
+	} else {
+		printf("Test Case 165 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x75613BAF1E1F3343ULL,
+		0x1EC7F1853C2FD5C0ULL,
+		0x5F4687BBE102288DULL,
+		0xC7429F84ED22688AULL,
+		0x67BB99634E7D003CULL,
+		0x6B9899C65091750AULL,
+		0x4AFDE60259E289D4ULL,
+		0x89946168D74CFDB0ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x9691884ADA62470EULL,
+		0x9FBE06DD7026F66AULL,
+		0x16DA650E678B16B8ULL,
+		0x09A4FFA47DC4E8E7ULL,
+		0x55080E1FC7ABAE91ULL,
+		0xD2E72D0D19431191ULL,
+		0x87697FF9A1B47685ULL,
+		0xD10429AB90E5826CULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xA5765F6A46CF0A1BULL,
+		0x29600E2601ABA34EULL,
+		0x507347F8D04DEF7FULL,
+		0x2305E5F8E2B9CBB2ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 166\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 166 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -166;
+	} else {
+		printf("Test Case 166 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x678F620F5B90DB87ULL,
+		0xB432C2CDE8E64BBBULL,
+		0xAB9354EBFDF92BC9ULL,
+		0x1B93DAB29EFED383ULL,
+		0x1576AE4388450C6CULL,
+		0x3BE1F52ACA252B41ULL,
+		0x6CBAF9AD2672CD8DULL,
+		0x6BAA162795E75A3BULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xBF1E3280388495D3ULL,
+		0x1C8407CB4D727A45ULL,
+		0x6456C087555C5C60ULL,
+		0xBDED09D050DD9EEEULL,
+		0x1D6DB73AAFB5EF3CULL,
+		0xA620493D104AD3A7ULL,
+		0x8FA6E21D7A24034AULL,
+		0x9ACB8CEF1DF887B5ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x79C5DADF484A99A4ULL,
+		0xD26E404C31DCD250ULL,
+		0x183813B83C4ED54BULL,
+		0x5EAF2F441B947474ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 167\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 167 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -167;
+	} else {
+		printf("Test Case 167 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x7C4C62E85AE09472ULL,
+		0x41EAB68E8A8EBC45ULL,
+		0x8433EEB1FA531F6FULL,
+		0x6074A7601099BCC7ULL,
+		0x95A8540F26C55F5CULL,
+		0x1EF4A9C01E2282A2ULL,
+		0x779E5D88DF977379ULL,
+		0x65D63DAB6D4219F6ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x462A0DFFCBB4D43CULL,
+		0x1DB6EE37724386F9ULL,
+		0x1BEBAB15E059A345ULL,
+		0xF4662A601194E973ULL,
+		0x24B8DCA0654633E0ULL,
+		0x0C170CA789DCF592ULL,
+		0x505C3A57D04BB39DULL,
+		0x5DA672820DEE6B1CULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xF9AE0F59480C34B1ULL,
+		0xF11919FD1A9E25BCULL,
+		0x3C197CE45F37F6D4ULL,
+		0x2326A5242570C7B6ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 168\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 168 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -168;
+	} else {
+		printf("Test Case 168 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x6162240CD02C5430ULL,
+		0x6A81DADB25B9A533ULL,
+		0x6A6AB6E5F4D11E89ULL,
+		0x07EF76B74F7B0470ULL,
+		0x96740BB0C5A4DF32ULL,
+		0xEFA7977241A3D2CCULL,
+		0x18C3E75B8A7FBD3CULL,
+		0xF4A0960EA6107F29ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x5803DE7697AA919DULL,
+		0x83DCF1798EA495EAULL,
+		0x5E1BA87516443157ULL,
+		0xDA24AD1C4C5D8C1CULL,
+		0x239894C67F1578B6ULL,
+		0x0F944937457466F6ULL,
+		0x014FC4D37C161118ULL,
+		0x1C4D25A2EA94E271ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x15F1EC5CB1CAFD95ULL,
+		0x29828623061F111EULL,
+		0x878C2EA3023C7AABULL,
+		0x4A2D7998D776BBA7ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 169\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 169 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -169;
+	} else {
+		printf("Test Case 169 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xAFB0ABA8991B671EULL,
+		0x0BDB66B336904BDAULL,
+		0x71B1A20E8884793FULL,
+		0xCC2DD7C852DA7559ULL,
+		0x55C72BF7068AB1DAULL,
+		0xB2F886E4D5B9996CULL,
+		0x2132A5E33CFE743EULL,
+		0x5BCAED477A725F30ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x285899617033D3B0ULL,
+		0xC1DAC0A763F55C77ULL,
+		0x305F9EC5990A6942ULL,
+		0x56381B56EBFB3CA6ULL,
+		0xADB87FFF1C0A5050ULL,
+		0xCF98B3DB0072ED03ULL,
+		0x765E3ECB10CA7023ULL,
+		0xB97001F08153B60BULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x79859913F7F60BE9ULL,
+		0x0A39F9817B1886ECULL,
+		0x9CD950DF7F32ABFAULL,
+		0x0F74AB5A616C5424ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 170\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 170 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -170;
+	} else {
+		printf("Test Case 170 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xF8AA3E0E3AA45901ULL,
+		0xDA677D236B4AB067ULL,
+		0x5E8CCA34E662327CULL,
+		0xF929D14744CF9CD6ULL,
+		0xD4DF4BE935913A9FULL,
+		0x761F22A4056D6F37ULL,
+		0x14DF3ADBFA3CB187ULL,
+		0xC366A1E9C5048B8FULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x7553CC648B71E1FDULL,
+		0xD390D24109D7FDB9ULL,
+		0xC33451B51B901A9CULL,
+		0x18D0E9764DDA19E2ULL,
+		0x90F0FABE74C09E1AULL,
+		0xC1E5C37C822A65BEULL,
+		0x0122459A9BFE81BCULL,
+		0x8B3D7355856394B1ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x98B67E024E29B418ULL,
+		0xC75ACABFDD661AAEULL,
+		0x8964E033C80D2FF6ULL,
+		0x3675D1D268DA27EAULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 171\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 171 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -171;
+	} else {
+		printf("Test Case 171 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x7B8E1EE9D07DCC50ULL,
+		0xB0DFBFB583D0889FULL,
+		0xD408C4AA1DA7C33EULL,
+		0x67386958E934578EULL,
+		0xC5D6545C37827DCEULL,
+		0x9AF8DEC2F3991481ULL,
+		0x17B7F5239FA6EB87ULL,
+		0x8873CCE1FA54C9E1ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xB9E4C680A209C400ULL,
+		0x9162A8A4A217658AULL,
+		0xE2C7D677C1FD4B35ULL,
+		0x8A59701926C97B01ULL,
+		0x1AF1BC93F98C5D5EULL,
+		0x5D95A00D00ADEE0AULL,
+		0xBAA37640DC272D8CULL,
+		0xB3562E84CDC0B624ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x1F97E02260FCD7E6ULL,
+		0x3C386612F0A0D8D8ULL,
+		0xC24BC3DB60A0AB54ULL,
+		0x7F447B146065CA82ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 172\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 172 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -172;
+	} else {
+		printf("Test Case 172 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x916A3138807D58D8ULL,
+		0x0DC86F488DB8F5CFULL,
+		0x847C8FC241545FDAULL,
+		0x5B14F3FFCED2451DULL,
+		0xE8759FFDE266E82AULL,
+		0x10B352C7256D37C9ULL,
+		0x2703D64C2FB60030ULL,
+		0x59F69BB61D6B1647ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xDCBC8F38EF9E9B38ULL,
+		0x84B8A650571455D3ULL,
+		0xD2412066E0396203ULL,
+		0xE1D67E2C223F2ABBULL,
+		0xAE5B6DFA818E65EFULL,
+		0xE037A3610262DB67ULL,
+		0x2B033C92BF0AAF97ULL,
+		0xBC7E2CF917F594B3ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x54910E7FF1021015ULL,
+		0xBB6BD2216A2E5690ULL,
+		0x1A5240E21A88F46DULL,
+		0x591EE5E27C045659ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 173\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 173 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -173;
+	} else {
+		printf("Test Case 173 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xDEB543ED89726904ULL,
+		0x5B1881F87670D9B1ULL,
+		0x97512E352CE5C9E6ULL,
+		0xC2B235A05DDC9088ULL,
+		0x6D231AFE99711C71ULL,
+		0x23FF2C69B1A3633FULL,
+		0xE05938C1E9C48F75ULL,
+		0x9CA7AD82292EEB81ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x652B7A7388ECEA47ULL,
+		0x1039A2931EB25D2FULL,
+		0x3BE8EEE3058A4640ULL,
+		0xDD4F547B12509485ULL,
+		0xA4CD8E7E264AA3E6ULL,
+		0x96C74448417A3034ULL,
+		0x821F73692D87BEE3ULL,
+		0x17EAC0892E0F709EULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x363CA48B183B6644ULL,
+		0x412B545BFDDC101CULL,
+		0x57FB8A7E18627941ULL,
+		0x196E0E1A923839C3ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 174\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 174 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -174;
+	} else {
+		printf("Test Case 174 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xA931E87C1B510CCBULL,
+		0x15CEB70F32B47B24ULL,
+		0x3FA07D0EA6D0541BULL,
+		0x9036FFA815EC5AF3ULL,
+		0x65174D25F57A92AAULL,
+		0x523233769AFD1475ULL,
+		0x8D9B0836BF363985ULL,
+		0xA3DD8CE1BEDC889EULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x50D15DC2DE03BDCDULL,
+		0xEDB1A091B4789FC9ULL,
+		0x14F4DA7C3B3ACA37ULL,
+		0x46C5C5D5C0795BE3ULL,
+		0x18F68617137E0854ULL,
+		0x00D0897329F93F64ULL,
+		0x62DE378D65DA9F93ULL,
+		0x85034AA317792B49ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xA53E16EEC8C9D86DULL,
+		0x3C9C530044CD7BECULL,
+		0x82B29BB5AF2E63DBULL,
+		0x5DD70F1F2E32D9B4ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 175\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 175 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -175;
+	} else {
+		printf("Test Case 175 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x9460B03CBA06F45EULL,
+		0x0F0B9A260B419393ULL,
+		0x3D918253D4041FC4ULL,
+		0x05139531CB8DB784ULL,
+		0x5E434AFB6B565043ULL,
+		0x6A472C4399F3656BULL,
+		0xF24ED5997FBF94BDULL,
+		0x116DEC2C2FAF16B9ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xCF0EE8B81B71FC59ULL,
+		0x1D45EE673F4DA1C3ULL,
+		0x44C706A80EA785D6ULL,
+		0x4E23F6AD790ECB5EULL,
+		0x3AD2489B3AE6687BULL,
+		0x2EF9BB13C7BA435EULL,
+		0xE471F447CBD2E6F3ULL,
+		0x3AF42575FD94B56AULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x081821CBCF315EBEULL,
+		0xBF4478D8006EFFC3ULL,
+		0x0793EDCC7A7E65F2ULL,
+		0x0D031D8FC2695DE2ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 176\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 176 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -176;
+	} else {
+		printf("Test Case 176 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x6CDCF5C3C5FFC5ACULL,
+		0x6FB4375F0AB9CD28ULL,
+		0x11AEA7FEBBFD8118ULL,
+		0x253DA04E5DD072C5ULL,
+		0x4BB4F72A68FE8594ULL,
+		0x77BE635CD925C64BULL,
+		0x55D27596816BCB08ULL,
+		0xBB5ED2485045A12EULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x7B1BF1B94D0C7DC4ULL,
+		0x58F75511B384DA7CULL,
+		0x71F4C51A81C24C2FULL,
+		0xA83E1423291F07EFULL,
+		0xC8D3819FC6FC744EULL,
+		0xAB6B4C974CDB2387ULL,
+		0xEA153B027E2FB74AULL,
+		0x48FC353249028F5BULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x5F38769E8541DAACULL,
+		0x6B1243A02A491BB1ULL,
+		0x9DD094DCB5262315ULL,
+		0x77A2DD7048A61011ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 177\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 177 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -177;
+	} else {
+		printf("Test Case 177 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x45433A8EFB73DC40ULL,
+		0x4A55A5937CA561FAULL,
+		0xF5E84B588C78282BULL,
+		0x97EF6FB17D5C6793ULL,
+		0x27F2085AAE072FE0ULL,
+		0x28B4DB066A851164ULL,
+		0x9BAD9F17F494B367ULL,
+		0x4D1C53567AA9DF56ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x93D838973C37C9B8ULL,
+		0xE99E0536B2CB5269ULL,
+		0x83DEBACF0AAA253CULL,
+		0xAF2194A84FB91D26ULL,
+		0xB6E0B1085D78C5CBULL,
+		0x3029E108C1705B02ULL,
+		0x6EC22631E0A24DE9ULL,
+		0x904BE2AB24585B77ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x79FDF82FB45FD017ULL,
+		0x4558BC03E2ED2207ULL,
+		0x1CFD82B077C913A1ULL,
+		0x6FBE9477FDBCDD8EULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 178\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 178 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -178;
+	} else {
+		printf("Test Case 178 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x9596D811CED10729ULL,
+		0xFD8EC85225244ADEULL,
+		0x3BC580932736B304ULL,
+		0xB35502B18A6BAFDFULL,
+		0x084C38CA79CFB27FULL,
+		0x4D4C068D8A3E41B3ULL,
+		0x8D469E4DE5B7F882ULL,
+		0x97E90B7379322412ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x904EB768923762B0ULL,
+		0x5DB79B58058A6740ULL,
+		0xBEFB97D809E15FA4ULL,
+		0x0FB396FB8FA78CA7ULL,
+		0x2E0817687DDE322FULL,
+		0x7198502B2F48FEF3ULL,
+		0x09FC6E462DEDFAA9ULL,
+		0xD854351E1751E4C8ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x6B651534A272AF03ULL,
+		0x3C843F93A001CC18ULL,
+		0xF9CD09E065510191ULL,
+		0x13B93C62820D8846ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 179\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 179 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -179;
+	} else {
+		printf("Test Case 179 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x6413FD4EFF588883ULL,
+		0x9BB12D023A8B13E1ULL,
+		0x88CE2831DEDD7246ULL,
+		0xAD14D3213EDDCA05ULL,
+		0xD5CC58123B2F8280ULL,
+		0xD558C5D896DF5B09ULL,
+		0x2686D2843F79F0F1ULL,
+		0x303E18CE6BD8E584ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xA803D4AE90C25911ULL,
+		0x49A4B8502CDE5FF4ULL,
+		0xB57D0E28192EB9D9ULL,
+		0xDFFED0A008852126ULL,
+		0xA63F700F4D748F1DULL,
+		0x5D36BFC4A752A9C4ULL,
+		0x955CA2041A6627E5ULL,
+		0xE1DDB29EFCC7EB65ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xCAFA990FB8564C22ULL,
+		0x27195BA79C8F0431ULL,
+		0x5F944D0F469E9047ULL,
+		0x6F652D8BB2DDC968ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 180\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 180 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -180;
+	} else {
+		printf("Test Case 180 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x2A3F46D88AF07591ULL,
+		0xDB6E392DC9A5D158ULL,
+		0x57B076D9F1B412F8ULL,
+		0xE61D314AF369DDDEULL,
+		0xFDBF4BF4DCACA22EULL,
+		0x9A720D91AD52C606ULL,
+		0x1E4F8E34C1CECDB7ULL,
+		0xE871DA9468E762F3ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x96D972A56990CC06ULL,
+		0x865F20E776FB54AFULL,
+		0x65CDDCF76A04A6FCULL,
+		0x625A6CB4AA7D7E31ULL,
+		0x66B07950324203E2ULL,
+		0x0A3F5661DAEFF103ULL,
+		0xF08BD0F743192F9CULL,
+		0xB65944E920A250CBULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xFF9918A46D3329F0ULL,
+		0xBC96495F8D561B30ULL,
+		0xBCF0B10356A4E413ULL,
+		0x7368FC03032D117DULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 181\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 181 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -181;
+	} else {
+		printf("Test Case 181 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x8BD8D4587E3A5319ULL,
+		0xED938229CE55D833ULL,
+		0x4CCC4685A674DE34ULL,
+		0x3D48AB452393E8C2ULL,
+		0x44B00AA7332575C8ULL,
+		0x9D871402DEFB7F16ULL,
+		0x5C6D170094345A79ULL,
+		0x5D34D55429EB1763ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xBCEF1B7FABB720A6ULL,
+		0x0BCBDB9DB6BC2F0DULL,
+		0xD450BB8B0331DCBDULL,
+		0xDF9C1027A926F4CFULL,
+		0x11272FB37562C647ULL,
+		0xE04058BA3D033852ULL,
+		0xA6F47D01685A5CE8ULL,
+		0x401B23E4E36FA133ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x753A3906FD69401EULL,
+		0xFA47735422742A45ULL,
+		0x686266DB259EA4F3ULL,
+		0x2F7CF1A1F0C07F07ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 182\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 182 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -182;
+	} else {
+		printf("Test Case 182 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xC14F3840E5FD1C02ULL,
+		0xCC0344A54C7B8E3FULL,
+		0xBFAB40EE5C73D5CFULL,
+		0x2CF4CE03B38C3226ULL,
+		0xB2E09C251E119AEEULL,
+		0x5CEED8D5A3310214ULL,
+		0xCE82C1C52013048AULL,
+		0x8C14F758FD3D4845ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x91E75485430376F5ULL,
+		0x062BE069E1A421BCULL,
+		0x3AAACBECDF916B3DULL,
+		0xB2FF9D89BC328030ULL,
+		0xF2F19DEDD5B5BA33ULL,
+		0xF2C53C1417AACE01ULL,
+		0x5A789B3FC160441FULL,
+		0x78B12FEB7207AA86ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xACE19FF0609D011BULL,
+		0x8804A8F620C3274BULL,
+		0xBE822CCD8B6AFA5EULL,
+		0x5AC4CABCA14F1C61ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 183\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 183 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -183;
+	} else {
+		printf("Test Case 183 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x42BF60FEAF54DE93ULL,
+		0xBDFEB4DC6A365AEBULL,
+		0xA30386075B577C1DULL,
+		0x7EBBEFF02F3AEA5DULL,
+		0x3A04EA60CE306918ULL,
+		0xFE4C1A680DBF8D8BULL,
+		0xC939457181275AE8ULL,
+		0x6304380362597C4DULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x8A0E18A1CBCE29F7ULL,
+		0x2E1528023342E676ULL,
+		0x5F7BFDDBD8E7F6C8ULL,
+		0x777BDEB5F591F46CULL,
+		0xE62AFD52AFF2973CULL,
+		0xF42447A753736202ULL,
+		0x75B08CD9CDC3103DULL,
+		0x2C526522DD1C6A45ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x2B0A787560B3DC74ULL,
+		0x11D2D575DE41EAB1ULL,
+		0xA9D2EEB023529AB9ULL,
+		0x25A55E8E00B9A32DULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 184\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 184 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -184;
+	} else {
+		printf("Test Case 184 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xC50628B071E3452EULL,
+		0x1BC43567D758D812ULL,
+		0xEC4C882D4E50EF0EULL,
+		0x46792E801F0CE2C8ULL,
+		0x2C1BF41EFA34F2D8ULL,
+		0x4CED8838A507C074ULL,
+		0x67E470AD4B8CDDBDULL,
+		0x50BDE4466C94B421ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x57F3FCEC5FEFF5F5ULL,
+		0x1717DA56B75D4E95ULL,
+		0xD02DC6F85E0C8E1EULL,
+		0x706B2FD4DD984A1DULL,
+		0x98A8D1F5638243DEULL,
+		0x2B8D2BE93ECDB943ULL,
+		0x9823C4EEB11492A2ULL,
+		0x717634D77A756610ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x50293DF070794784ULL,
+		0xF8FA0EDA4C989AB3ULL,
+		0xF2B83F7FDE1F86F6ULL,
+		0x7AB20923321A2F29ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 185\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 185 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -185;
+	} else {
+		printf("Test Case 185 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xCEA92C3AD3D1A602ULL,
+		0xAF4D192AB450B7B4ULL,
+		0x628B457E855FC07FULL,
+		0xEC1D32B360D815E8ULL,
+		0x56F59611FB56C859ULL,
+		0xE03F837782063A76ULL,
+		0xD171B10AF62555C8ULL,
+		0xF315E35BD8BC5584ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xB2A14EB7192A7FA0ULL,
+		0x5231006356F5C9DDULL,
+		0xFCD7FB40DF4C3A6FULL,
+		0xA64B0B79B3168E12ULL,
+		0x518747CB8FAF8B82ULL,
+		0xAC4340001992CF53ULL,
+		0x43690ADAD68558CAULL,
+		0x4FF9D355E079B63CULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xEA677BF7B57A31DCULL,
+		0x148E1C80DE7CD509ULL,
+		0x7AFBF56257D313CCULL,
+		0x7BFC881C87A52C9AULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 186\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 186 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -186;
+	} else {
+		printf("Test Case 186 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x65F17DE57AA80DF0ULL,
+		0x8D26080E36F1E30BULL,
+		0x1FEBCB951C613E52ULL,
+		0x861B925FB7B868DCULL,
+		0x78F2285D9548CF20ULL,
+		0xC2C83791F631F8F2ULL,
+		0x69FCE12D810D8591ULL,
+		0xDB59B81CB615E82CULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x704C9592E9D6836DULL,
+		0x329868F396565F2EULL,
+		0xCD0F76F9F01ABD7FULL,
+		0x2CE2D3D5F43E6081ULL,
+		0xE074110FB7379A01ULL,
+		0xDA85F8E6FF2467A1ULL,
+		0xD30A9C01BFA6BAD7ULL,
+		0x7CA0597CE928B52CULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x985C5DE1875F6F31ULL,
+		0xD462EC7B4C9F15D3ULL,
+		0xBAD29919E188986BULL,
+		0x68BCCA422EAF9A4AULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 187\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 187 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -187;
+	} else {
+		printf("Test Case 187 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x63CBEC9BFFD68BDCULL,
+		0x3B3535C0E6674614ULL,
+		0x058704120709C2A2ULL,
+		0x0FB93463DBC14EFAULL,
+		0x72091A7DDA3A8BB5ULL,
+		0xA9DFE83C92ECC327ULL,
+		0x11F93196079B725DULL,
+		0x0D0B3712D65174ACULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x7A048525FF71BD51ULL,
+		0x044ADEA7BEC2C68CULL,
+		0x32BFA7E94B84FB44ULL,
+		0x9BB8D97E5BA62876ULL,
+		0x72BA551B4F7B3D45ULL,
+		0xD1BFBC0C34D87ED0ULL,
+		0x48DEF7998D39CBC7ULL,
+		0xF6AEB043219395D0ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xCF78B41698CA6DE6ULL,
+		0x4BB0E6471EA6A471ULL,
+		0xACABF7A2E603819CULL,
+		0x45BC5DBA544A3B23ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 188\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 188 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -188;
+	} else {
+		printf("Test Case 188 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x9E17C1CE7BE2DEDFULL,
+		0xB6614AEC83FE40C7ULL,
+		0xA396B94FEF8C9B3DULL,
+		0x5225F9100A196608ULL,
+		0x07CE4789E4B5FFC2ULL,
+		0x8AB179E3B0E499C7ULL,
+		0xA7BE382D5797CC2EULL,
+		0x612D9393221A73B4ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xEBFE1959479C40DEULL,
+		0xE43D8E021A5047EFULL,
+		0x90B79AF1FFCA194EULL,
+		0x01D09839EE85006FULL,
+		0xF607E0CF8ADFC7A2ULL,
+		0x3D005CD6128662CCULL,
+		0xF393422045EAF0DEULL,
+		0xB4C4E111703A4C3EULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x558CE81E8A12F0E6ULL,
+		0x5A6E0CEFEBAA21F6ULL,
+		0xD13FA44E8F6B0FDAULL,
+		0x67DFE01682DA4111ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 189\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 189 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -189;
+	} else {
+		printf("Test Case 189 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x82F53B900EAD636CULL,
+		0x60758FA908F588BEULL,
+		0x1E95D8E116BCF055ULL,
+		0x2CAAB6D0BF296B03ULL,
+		0xE7CDE1302B434BDCULL,
+		0x5CF8941CF692408DULL,
+		0x3E65DBAE87D5008FULL,
+		0xE3FEA2EC90FA404FULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x031F2FD7B656D6E2ULL,
+		0x2116C7CB2A56C2DCULL,
+		0x6F409DB7E669B724ULL,
+		0x7235876900947700ULL,
+		0xBF972EEF7DBD858FULL,
+		0x711641D663225EAFULL,
+		0xA6738E90E1B2AA82ULL,
+		0x66F0E42B1E4DD6E7ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x77F481521A31FEA4ULL,
+		0x42F6FE57C13A4CDCULL,
+		0x3D4CAD8FD96BFF1CULL,
+		0x4A7F801EC42C9963ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 190\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 190 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -190;
+	} else {
+		printf("Test Case 190 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x3BF0E3547CFAE34EULL,
+		0x560527B29B686D0FULL,
+		0xB3FB999B93313821ULL,
+		0xE8C08CA414E4B9BBULL,
+		0x1CB2892582A614E6ULL,
+		0x343F74FAF56055C4ULL,
+		0x9411FC1DEEE65C78ULL,
+		0xD6E557B6E3290435ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x0B5CDFB0B2365B37ULL,
+		0xE06F21BD9ABBAF2DULL,
+		0x1D3D5E81759DE2D8ULL,
+		0x5AF7E7DBE973D159ULL,
+		0xCD0E57B81318B417ULL,
+		0x4145066F7E38BDDBULL,
+		0x33FB89D3D1AFEC1DULL,
+		0xD385C16D648289B0ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x02F359E259C0E6F7ULL,
+		0x86C26EA8B08D4A5EULL,
+		0xDA13321A73A802C8ULL,
+		0x0DF8F3B0F827182EULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 191\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 191 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -191;
+	} else {
+		printf("Test Case 191 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xBDD4B5307C5CE69EULL,
+		0x3047B86256E3D5B9ULL,
+		0xA2DFA5A35E311DD7ULL,
+		0x320C798EB10E621BULL,
+		0x87781B8547D08354ULL,
+		0x38139B1A88939E8EULL,
+		0x07552A033DE86416ULL,
+		0x9FC1450D0ADAACDDULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xAC58E702EF06D5EDULL,
+		0x0E3687849807ECF5ULL,
+		0xB31BA9D914C2AE0EULL,
+		0xC27418D046E1F036ULL,
+		0xFFCF2C08030F58C0ULL,
+		0x7561C38175C29D0BULL,
+		0x07E55AC7EDA24271ULL,
+		0x1616FECD2EB43C82ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x348F5AC5C202658EULL,
+		0x0877319689E22224ULL,
+		0xDA5CBE9833D76E3EULL,
+		0x5EDECE3917E11F66ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 192\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 192 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -192;
+	} else {
+		printf("Test Case 192 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x42AA4DAC3C02942DULL,
+		0x77C60341584720A4ULL,
+		0x2ECA0D082DF4A316ULL,
+		0xD9AE41CC952200DDULL,
+		0x9F3E1A2EC2A80209ULL,
+		0xD6F963110F324B87ULL,
+		0x090254D983B82CEBULL,
+		0x580A0FEF97F9E6F5ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x60AD30D6AD33043AULL,
+		0x6B9A42EA3BFCD77EULL,
+		0xACC13C261223BB27ULL,
+		0xB17840FD12E953D3ULL,
+		0x500064BC042CFD6CULL,
+		0x7AFB781CFE49AAB2ULL,
+		0x1552194F1759169EULL,
+		0x5DC403248B45511DULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xA5260BDDD5123F1BULL,
+		0xB3DCA0919ED228CFULL,
+		0xAE31A76E31EE376AULL,
+		0x4E9BE6F36506EB17ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 193\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 193 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -193;
+	} else {
+		printf("Test Case 193 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x1245727B70E70EACULL,
+		0x0CBD7B641AE0101DULL,
+		0xEBE5B806B1291C9FULL,
+		0xD8EB474AB5862AFBULL,
+		0xFC5AA7D83BBC6066ULL,
+		0x46C494CB035B8AFAULL,
+		0x5EB10A1C298B393DULL,
+		0x2065D84D67D900ACULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x817F9E7229501C1EULL,
+		0x46C5DFBE7F8C005EULL,
+		0x971DC5F1916A7861ULL,
+		0x97A75B23E087ADAFULL,
+		0x7938EA25E214CF0FULL,
+		0x222CA4630A98607FULL,
+		0x987A45A2FDA80299ULL,
+		0x5C1C765FEC91F7A1ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x07C7FC8296768422ULL,
+		0x34854B14884C5E14ULL,
+		0xC0E91C11A378C09BULL,
+		0x642875672189D4E5ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 194\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 194 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -194;
+	} else {
+		printf("Test Case 194 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x8BC63475BC9A8BD7ULL,
+		0x29D7C0600AE80119ULL,
+		0x746C8A28390C3083ULL,
+		0x8D54E6B02BF1178AULL,
+		0x8EEE50F5658381CFULL,
+		0xDEC905F24C3DC4A8ULL,
+		0x503F6118FCA862C8ULL,
+		0x29D0D429B63BD7BDULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x2981F339D17FD76CULL,
+		0xBFC77C17F51DBCE5ULL,
+		0xCCEAB43C41BB2091ULL,
+		0x125F38B036E1F03EULL,
+		0x359AF7B20FCBAB88ULL,
+		0xA2DD424C6B6F4AA2ULL,
+		0x33567053606765A9ULL,
+		0x9F92336FA1F1BCADULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xA4A3813AA464806FULL,
+		0x4F0F4EE774706125ULL,
+		0xF215934128F6A294ULL,
+		0x0041899EF80F2BAFULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 195\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 195 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -195;
+	} else {
+		printf("Test Case 195 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x6213563852BFE07CULL,
+		0x8ADBC927547321EFULL,
+		0xB34B966D264FF51DULL,
+		0x271FAAF8514E3DBCULL,
+		0x9FF78362BD36B430ULL,
+		0xC3BDBDC3F4C7D4F7ULL,
+		0x0F5DD2EE2107091FULL,
+		0x9C2BC521CC6ED8F9ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xC00DCD72794890A3ULL,
+		0xFE29E0800A89B3A3ULL,
+		0x721BF62C9EAC1087ULL,
+		0xEC771AB4D89135E9ULL,
+		0x9D67E416143498F2ULL,
+		0x2B944ED908667C84ULL,
+		0x44D9C0040E0ED63CULL,
+		0x9388268C3B7026C5ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x03572E26EFC75B20ULL,
+		0x22D85F86605C8F5EULL,
+		0x50CA6EFF587B725EULL,
+		0x02F21A76FE8B7B83ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 196\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 196 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -196;
+	} else {
+		printf("Test Case 196 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xA5ED0745F8F1CA87ULL,
+		0x7214AAE400B9F1D1ULL,
+		0x6DC07F27E8FBE129ULL,
+		0xF0696211417E44B4ULL,
+		0xAB7F2F476DAB8072ULL,
+		0xB8497E777A962139ULL,
+		0xB6ED7ADFA7AE302BULL,
+		0x61E1ED4C429FE143ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xD4492F8384A4C038ULL,
+		0xB9EA689EC722E491ULL,
+		0x3E4C1FF10924CB81ULL,
+		0x806DC19C653B6365ULL,
+		0xF3624A169A48C9A6ULL,
+		0x31021448E89074DCULL,
+		0xCFE43D29C75E9123ULL,
+		0x7E346379BC03A392ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x25EDDD01D4F42BFFULL,
+		0xCCC4052EE66EA303ULL,
+		0x7AD388362BA8B0EBULL,
+		0x3BBE15B4D7740991ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 197\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 197 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -197;
+	} else {
+		printf("Test Case 197 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xD5D64FAC4E1A57B3ULL,
+		0xBBCD718170A18A57ULL,
+		0xE28EC4126BB1B658ULL,
+		0xD50790EF9E204742ULL,
+		0xD20BE82F110A0636ULL,
+		0xD4476BFEF131E990ULL,
+		0xA94C53BF8471F195ULL,
+		0xFA3C1309D11177E4ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x56C64D4592FA0B54ULL,
+		0x48B8FDF96F11BB5AULL,
+		0x5EA2FC8008DC00E1ULL,
+		0xD6D91D0F2BC69D65ULL,
+		0x16F992251E3D576DULL,
+		0x4B1A1B2056249B80ULL,
+		0xBCF9508D360A72F7ULL,
+		0x76AE9ECA009B811CULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x43C8C7E0C582411AULL,
+		0xCFCE749305896579ULL,
+		0x983E410A063280FFULL,
+		0x052DB55963DC4B8AULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 198\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 198 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -198;
+	} else {
+		printf("Test Case 198 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x3A9FA5A6C728819AULL,
+		0xFA14C9AB7DE101AEULL,
+		0xCE4CA0FC314A53A4ULL,
+		0x51505CA3A9FCE40EULL,
+		0x8C8A7FAAABA9910BULL,
+		0x226A165354CB7759ULL,
+		0x5691C9C9F617C8CBULL,
+		0xB07969986061EC43ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xFE4D6F9964A4D05AULL,
+		0x05C3C4ADE862A492ULL,
+		0xB02D68A63EF5C628ULL,
+		0x82A77D72321038F6ULL,
+		0xEAFE9CA787683F7CULL,
+		0x4847090C31917DEEULL,
+		0x2158AB145C270020ULL,
+		0x72D6E63570D6D8CCULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x3715E884C435CDBDULL,
+		0x5584FD8CD01962EFULL,
+		0x0499C74ACC1256D9ULL,
+		0x74C85FE106918ECAULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 199\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 199 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -199;
+	} else {
+		printf("Test Case 199 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x9FBCFF28DB27BB20ULL,
+		0x0E43A3F47BF29CE8ULL,
+		0x0BCB114DEF498AAFULL,
+		0xD16CC21038D416EAULL,
+		0x2AB8BE7A1D77CD27ULL,
+		0x85818B34D420C3E2ULL,
+		0x427B72B628EC00B3ULL,
+		0x27C94721AB15A15EULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x749896BC04DAC444ULL,
+		0x3559E563A1D59EAAULL,
+		0xD2EE89F18DE78217ULL,
+		0xA7DB68D2F9282629ULL,
+		0x23B67DADD8E29FA3ULL,
+		0x6AD73C79BE45E2BDULL,
+		0xA34FE45FBFECD254ULL,
+		0xBFE14F0117CBB314ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x357A06BF0471B51DULL,
+		0xCE316E56189A69BDULL,
+		0xD953A82FF742EAB5ULL,
+		0x16002E131CA54FADULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 200\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 200 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -200;
+	} else {
+		printf("Test Case 200 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x6B217C857872CD4EULL,
+		0x82DA515DDBF02B58ULL,
+		0x99BFB31D13A2F1C0ULL,
+		0x51C67F9D0DDF9CE4ULL,
+		0x2A7D82D9270F530BULL,
+		0xC6E94157698A2DACULL,
+		0x646772CDBF1F816AULL,
+		0xADFEEEE28530B800ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xC02F604BC4147E62ULL,
+		0xBCEDDFAC701F61B5ULL,
+		0xF4B4DB039674DCEBULL,
+		0x72F29C47401CA9C3ULL,
+		0x25CFC5E07DB86714ULL,
+		0x60865858C22B7A78ULL,
+		0xD26C69C7475A4170ULL,
+		0xA5A9A17CA40D15EEULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x5CBC2922D74555BCULL,
+		0xF89B077E43DF635BULL,
+		0x504E2F0F447593FFULL,
+		0x1B7D6075390D01BCULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 201\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 201 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -201;
+	} else {
+		printf("Test Case 201 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x9C281717ED1B0691ULL,
+		0xE2244E00498D3305ULL,
+		0xDCB87A4EA7A17DE3ULL,
+		0x99C5C5B78BB65E51ULL,
+		0x5DBCD51089015C0EULL,
+		0x8E4BA5C2A614F4B5ULL,
+		0xEC8F8D394FB967FEULL,
+		0xFC438D0CF2A33AD0ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x19238FE25ED91721ULL,
+		0x9B05E512E7601517ULL,
+		0x8A6F6852F750E746ULL,
+		0x9C4654927757B465ULL,
+		0xF54761BB660816C3ULL,
+		0x8F312C717B74E9C4ULL,
+		0xADA980163CED60D4ULL,
+		0xE7F40F5E4265F045ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x0473A5D8BF423904ULL,
+		0x250C6AF9B5EEBD9EULL,
+		0xA86F05307A99A6D9ULL,
+		0x014C19133D77BA97ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 202\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 202 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -202;
+	} else {
+		printf("Test Case 202 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x97933DD62D08F2BAULL,
+		0xCFDEA841BC5793AFULL,
+		0x1852FD3001BF7DF0ULL,
+		0x9D6D9CB390DE8FF4ULL,
+		0x8CD6E2A63C071156ULL,
+		0xDFCFA76DE7CBC696ULL,
+		0x78AAD866D3C19EFFULL,
+		0x6F4BE4E60D8C476CULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x66A4CBF8C711B9DCULL,
+		0xFBDEE02B2416EE3FULL,
+		0x35C8887A7ED0F12FULL,
+		0xF893014216813705ULL,
+		0x06D5FC0A2C098B98ULL,
+		0x668AE4044BAAA837ULL,
+		0xD6A138D17A21DED1ULL,
+		0xDB6AAFE735F9BCEAULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x1510AD07C599109FULL,
+		0xD434C9C3C52B279EULL,
+		0xEFF824E0D0A513A6ULL,
+		0x184879457A1DE82CULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 203\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 203 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -203;
+	} else {
+		printf("Test Case 203 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x0785A062F1832D8AULL,
+		0xB781F02AF9E3EC15ULL,
+		0xF4D4BD07FF6C10EEULL,
+		0x860741BF60413704ULL,
+		0x3D22D54C6DCEFC01ULL,
+		0x7EDB644807104B18ULL,
+		0x1ADD826327A209EAULL,
+		0xB280CC4B27B76313ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x64AF3A64D057E680ULL,
+		0x015D6EC2057E8820ULL,
+		0x4C5B0143A49DF2E0ULL,
+		0xEA11A026209994CDULL,
+		0x4B17F134A86054BFULL,
+		0xFC66374B6CF682B2ULL,
+		0x08668F2AA6873EC5ULL,
+		0x9CC7A20BB5EB204FULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x907441856F981B35ULL,
+		0x13892EE7D4392316ULL,
+		0x6621D62784C8457AULL,
+		0x5571E70423F98B52ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 204\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 204 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -204;
+	} else {
+		printf("Test Case 204 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xFE6A8760CFA38DB0ULL,
+		0xA884B2D36BFE184BULL,
+		0xAE2BFF88F89CA147ULL,
+		0x12301D6EE2018F95ULL,
+		0x8052A7A6C98FE0FDULL,
+		0xE35CA9592A897F09ULL,
+		0xD3385C14624CD984ULL,
+		0xE7C41D839B919987ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x74B4EE94BD2EBD6FULL,
+		0x827A62A9D721483BULL,
+		0xC99D34DF092C8151ULL,
+		0x6FFE436FC881342DULL,
+		0x0EBD51C953C9570CULL,
+		0xF525E9CBFDFF4333ULL,
+		0x5602E29CBAB3FB55ULL,
+		0xD87D0D1F97DFA65EULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x65E057AB8DED4A40ULL,
+		0x822ABF1E3161B1E5ULL,
+		0x7A7ED26CD0211AEDULL,
+		0x66BE48D7A5EA7390ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 205\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 205 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -205;
+	} else {
+		printf("Test Case 205 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x63DB6FFC00733E29ULL,
+		0xB526238EC6DF2161ULL,
+		0xF3AF66968D59572DULL,
+		0x7327AF4B1646AE43ULL,
+		0x94DAE21CFCF8B84DULL,
+		0xF7A1487CE8E78346ULL,
+		0xF195919F7834CF85ULL,
+		0x640FB1606A593983ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xA24E265305CABE5AULL,
+		0x58DE1361D6311469ULL,
+		0xC5EAC1E907C45B45ULL,
+		0x3727ADE575425521ULL,
+		0xF075B750DCC450ECULL,
+		0x8C2D4E8DD39B026CULL,
+		0x4C8BC83CB876A12CULL,
+		0xD56A3AFFD12E0DFAULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x2891A3F5C26FD5AFULL,
+		0x4F7F29AA1A092D46ULL,
+		0xAD388955FBCFDD2EULL,
+		0x688F93BC5D6CCF90ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 206\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 206 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -206;
+	} else {
+		printf("Test Case 206 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x600BED667F74B81FULL,
+		0xF60159DC450039E3ULL,
+		0xE406F4522148CB81ULL,
+		0x78DCD0E540A9C578ULL,
+		0x20CBF19005B742DBULL,
+		0x2441C475244D29BBULL,
+		0x77482042EA681FA6ULL,
+		0x8FB75B31A1C4B40FULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xA39D5DFAF4369D51ULL,
+		0xFF66431B1540B745ULL,
+		0x066F0BC1A51889ECULL,
+		0x0C0490328FA4115AULL,
+		0x08530CB930872FD4ULL,
+		0xF2DB603039D49EB4ULL,
+		0x8EEED742CC72A4A8ULL,
+		0x7FC2F7102AD6A251ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x5E60874F3060EE37ULL,
+		0x4BCDF8FBFDA425ABULL,
+		0x5AD8BE94EEA0832AULL,
+		0x4B1F1DAA585C564FULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 207\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 207 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -207;
+	} else {
+		printf("Test Case 207 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xA01DA77FEE56D3CBULL,
+		0xC93409C448535077ULL,
+		0x115BD6346E022CA7ULL,
+		0xB8F9489BA0004223ULL,
+		0xA1DAF796F9C217D1ULL,
+		0x91165FC0B5EBBA67ULL,
+		0x8ED4B7A1F6D3AEA5ULL,
+		0x0007E77F402C5E12ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x70CC6C2A011B7D3EULL,
+		0x1910F985E84CC47DULL,
+		0x04E53A055BA3B3B4ULL,
+		0xAE77285C047E964DULL,
+		0x3A3B903583182C1CULL,
+		0xC73E20D90DE95FE6ULL,
+		0x5467FBBBB1774DE6ULL,
+		0x6E07DAB22D0EFAD6ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x90FA93CD8A7450F8ULL,
+		0xA63C66A1505FFB2FULL,
+		0xB89A805D5E14D545ULL,
+		0x368406B071DE66C6ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 208\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 208 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -208;
+	} else {
+		printf("Test Case 208 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x4069708A0A6A2795ULL,
+		0xD94B35DB0119E7DFULL,
+		0x49BCDF6E05ECDB08ULL,
+		0xCB63F1198668FF3CULL,
+		0x6EE3B83B62DF3FB9ULL,
+		0xD77D524399B75CA9ULL,
+		0x0E95FA8D63D654E8ULL,
+		0x4F9EC654521BFCC6ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xB69BEE5F66719E19ULL,
+		0xCB54E176AF643F1FULL,
+		0xF3C4A21A16C5E7F0ULL,
+		0xB9FFC022F98EDFCDULL,
+		0xB49CD24365D3AF1CULL,
+		0x2F391DFB7CC5B0EAULL,
+		0x7585E40069188177ULL,
+		0x7FBEA53252AFA796ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x3053A4FA33AFFFADULL,
+		0x081617189D95270FULL,
+		0x0E5B9641275455F7ULL,
+		0x6CA91C0276EEC47FULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 209\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 209 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -209;
+	} else {
+		printf("Test Case 209 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xA47348EDBA3F8332ULL,
+		0x26FCCFD112B43449ULL,
+		0x3B8B35C33A4A6C53ULL,
+		0x217380B38EDF0CF3ULL,
+		0x4119743F235133F5ULL,
+		0xEB90810D7B871A49ULL,
+		0x3F47904658D19068ULL,
+		0xA802E23751E0BFEDULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x7D072BE4E5CF34A2ULL,
+		0xEC3DF168758282C4ULL,
+		0x1EA14B1A0DE872D9ULL,
+		0xC3CD20C6C3AB907CULL,
+		0x4C81E5827F2BFD86ULL,
+		0x1455336638A405BCULL,
+		0x50C6F81A38F37B4FULL,
+		0x37494F9F05B16C0DULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x75EB4D0931F6656AULL,
+		0x2D8C653C8AE6BE71ULL,
+		0x84008135E7591B4FULL,
+		0x193222881A39EFB4ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 210\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 210 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -210;
+	} else {
+		printf("Test Case 210 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xB1F9CCA2C7F3FEBFULL,
+		0x5885609D3731A4EBULL,
+		0x1E6E947DE47045F8ULL,
+		0x24EC6A26859C88D7ULL,
+		0xE5FFA74894AF8BA4ULL,
+		0xE371FB5C0E773075ULL,
+		0x5F5AE40B1566748BULL,
+		0x209634A3078F3492ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x4C66B9A7609335DBULL,
+		0x35196E3EFD5F3945ULL,
+		0xFAF851A40567A19CULL,
+		0x476DAB4C5ACDF6A9ULL,
+		0x380A643C2726E738ULL,
+		0x528F06B257FD0052ULL,
+		0x03F623CE905DF2C4ULL,
+		0x3028B0315C24662CULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x37FB06D3A9A9308DULL,
+		0xA51C438F4FF590F2ULL,
+		0xB46ACBD59E4BE7FBULL,
+		0x0DC067B99CA9355EULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 211\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 211 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -211;
+	} else {
+		printf("Test Case 211 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xF167E9165B75F8E4ULL,
+		0xB92D880CA5FB1B49ULL,
+		0x75CF8E803885C4DDULL,
+		0xADD138D566327151ULL,
+		0x011CCBAF43BFC499ULL,
+		0x07D08BA6F49EDFE9ULL,
+		0x6F1DC972A0FF4F92ULL,
+		0x5CF6F2FC257A603DULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x8688DD927921CCD8ULL,
+		0x02392B16A00EFA60ULL,
+		0x671D33BEA02DF46FULL,
+		0xF218AE0D055C3173ULL,
+		0x93D2361C8A37B7CCULL,
+		0xD50E51FF6D643417ULL,
+		0x516BE9534B886F88ULL,
+		0xB772E75719145238ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xA3F13F4B6C861066ULL,
+		0x3FC8EBD418A1A1FFULL,
+		0x77199F6847FD11CCULL,
+		0x4D52454837FC54A0ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 212\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 212 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -212;
+	} else {
+		printf("Test Case 212 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x3E3BA0A74FECB890ULL,
+		0xCF364EA6C3B4F3A2ULL,
+		0xA0ABEB08FB695292ULL,
+		0x9D2C14C330E03C6EULL,
+		0xE5DDC57CEA15A0EFULL,
+		0xB0C3A7AE96BA0DFDULL,
+		0x9B645740343A35A0ULL,
+		0xFF75B716845E6BE9ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x1D9FF329ACDF0538ULL,
+		0x8B7B10DC37132942ULL,
+		0x449982C721660F6FULL,
+		0xABBF92166AA82E0DULL,
+		0xE04CBC74098B5A5FULL,
+		0x51434AAB92BE4FF7ULL,
+		0x5E39F929E81B5393ULL,
+		0xC909739FABBD6F0AULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xF42304CEF7942DE8ULL,
+		0x70C90C3D23FFFF44ULL,
+		0x705C5F912698D11FULL,
+		0x057E8650EE1D9784ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 213\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 213 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -213;
+	} else {
+		printf("Test Case 213 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xA15086326D18E347ULL,
+		0xCD90433289FC3E54ULL,
+		0x790548EC70F014C3ULL,
+		0x80952DFA3A30E535ULL,
+		0x84D9D148B56D77B4ULL,
+		0x709AC8E038D8AE90ULL,
+		0xA9893881135BA1AAULL,
+		0xE2A953AE7E5BB65FULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xBE472FB775120A96ULL,
+		0x3C82801C676C7404ULL,
+		0xBFFF4ED128D75871ULL,
+		0x7985AE15784A8C2BULL,
+		0xCAE3A2185F56A0E1ULL,
+		0xE1B14DE84DFFDC25ULL,
+		0x3B2F4FD365161DEAULL,
+		0x4B211825148BD683ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x7D9457A7BF6ABF5AULL,
+		0xC7B603E2FEBF0627ULL,
+		0x1A5E83E3266A4AC1ULL,
+		0x0548564A76C193C2ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 214\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 214 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -214;
+	} else {
+		printf("Test Case 214 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x9F97F219AE085797ULL,
+		0x9B664B38D9C80EE1ULL,
+		0x56FF1DD6CA1E6AB5ULL,
+		0x7F09E058645F4004ULL,
+		0xDD3BC9114C11890CULL,
+		0x0DC02D403EE9C0A2ULL,
+		0xD380A89C5805036BULL,
+		0x58586BAE4D3F624FULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xD26E2972FB7A2094ULL,
+		0xB1685BAC7CF449CBULL,
+		0xE1088B1BE1AE98EDULL,
+		0x2A8F9F015AF5806AULL,
+		0xF449FA6AFF44062BULL,
+		0xF95EE7A2941D7C19ULL,
+		0x658B9DC6D9B12C0BULL,
+		0x02D53A36AE5C361DULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x610E7556190FA657ULL,
+		0xF06E44F3B725F168ULL,
+		0xC8562E6BA8E1C9E4ULL,
+		0x05F399189F224F15ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 215\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 215 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -215;
+	} else {
+		printf("Test Case 215 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x3AED92A7804F4C49ULL,
+		0xEB354D549FF69C82ULL,
+		0x9078132175AEA02EULL,
+		0x8E263F8CFB473085ULL,
+		0x1FECE3536BE6479FULL,
+		0x410D10520EB4EF72ULL,
+		0xA086B7E0D264E64AULL,
+		0x7E65705097F05AD7ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xF31271BB4724727EULL,
+		0x8F7CF958893341C6ULL,
+		0x6FBCE8D5C63EF59DULL,
+		0x7829A08EC9BDBB40ULL,
+		0xF972A53C06CF7994ULL,
+		0x0EB6C9252BDA75D9ULL,
+		0x409CEB47FA64E606ULL,
+		0xEEF1610CCF63473EULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xFE0058653A8D6CE7ULL,
+		0xD486E4A5C3316750ULL,
+		0x5D6F88FBBF6FB4B0ULL,
+		0x6136E30DF67A5E09ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 216\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 216 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -216;
+	} else {
+		printf("Test Case 216 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x760D651B5C876748ULL,
+		0xD7AF8CB2BFEA8F55ULL,
+		0xFEE39A899E8A83ABULL,
+		0xD8516E4F270CABE7ULL,
+		0x72B9289651D325B2ULL,
+		0x8763778345E740DBULL,
+		0x7650FBF59642A7C8ULL,
+		0xD3C668BE12A5BC3AULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xDC5ABF35841297BFULL,
+		0x0900F4CB9DBA1C60ULL,
+		0x01654A517A418D64ULL,
+		0x4FE07E6186F085C5ULL,
+		0x6CA1F1198FA05D05ULL,
+		0x949CFA263015AA87ULL,
+		0xCC93242815936379ULL,
+		0x6FEBD4B5933065FCULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x8124E26AABFE9B71ULL,
+		0xD82533B85F4CC36DULL,
+		0x2FAC58B93E4D19FFULL,
+		0x5AE2E9308B86F34AULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 217\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 217 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -217;
+	} else {
+		printf("Test Case 217 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x93FB69195F9D3FFFULL,
+		0x4AE8E91288D5971AULL,
+		0x0347873C5E851FA0ULL,
+		0xDE910EF8BDC7C1D1ULL,
+		0xABB4E419CCC9FA90ULL,
+		0xFA25D2FCFC92214AULL,
+		0xADD6948046FD7C91ULL,
+		0xB4DE10CD0B012DF9ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xCA9768762CA74D34ULL,
+		0x7F4EB51EA5ED27EAULL,
+		0xD910BE6751398E87ULL,
+		0x192EF677C4CE6BF0ULL,
+		0xB16845B5FC1F5E59ULL,
+		0x6ED45E639AF2830FULL,
+		0xA2A9F3EACF618E90ULL,
+		0xDA61F83278D2CF66ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xF0C383742C492237ULL,
+		0x79B182B86099EBF0ULL,
+		0xD2D69F04CE70E553ULL,
+		0x33CDBF72ABDB5FB3ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 218\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 218 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -218;
+	} else {
+		printf("Test Case 218 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x9058EFBF02175E7AULL,
+		0x3618423573C3C22CULL,
+		0xFEB70B23A948540BULL,
+		0x06DD38D1AB17A3E6ULL,
+		0xAF0D4E1222831916ULL,
+		0xF3A3DE0306F22F9AULL,
+		0x2AFE4304994739D1ULL,
+		0x8C790F4E9EAE25F0ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x30B9F40E920F5EDCULL,
+		0x7FB0688277E1E442ULL,
+		0x7503D68C9C17CA63ULL,
+		0x27682C03EAE75AC4ULL,
+		0x109BA2BE1AC396EAULL,
+		0x23E46DB5C968B5B2ULL,
+		0x3137774741E06ECDULL,
+		0xD986A07B9B94F1F0ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xE47E6A299675505EULL,
+		0x8CD2852A1E49F671ULL,
+		0x9D3572B20672AC5EULL,
+		0x6F71802035EE0121ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 219\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 219 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -219;
+	} else {
+		printf("Test Case 219 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xF72472521B71DA98ULL,
+		0x8161D74DDC66F181ULL,
+		0xF072CBA2E2AE99A7ULL,
+		0x39DE7232C2D57105ULL,
+		0xCCF9ACFE02E8A938ULL,
+		0x4EB0BED1ACF6BAD3ULL,
+		0x9B86EC41196EE85FULL,
+		0x1A68D654C498C3CDULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xF60AC5E7816A06ECULL,
+		0x18B61AB6737F2168ULL,
+		0x533ABB417CA47D5EULL,
+		0x7B4384826AA4B114ULL,
+		0x11038FC90BC444B3ULL,
+		0xF1106F26256DC5DDULL,
+		0xC09A93915E478655ULL,
+		0xF05A0BF04DB6BF51ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xE7A20247496EBA97ULL,
+		0x4E77900D873C2CB8ULL,
+		0x1C4D3A772DE2A9ADULL,
+		0x7CCCF899FDBD6A54ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 220\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 220 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -220;
+	} else {
+		printf("Test Case 220 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xBB54B969E7BE6F68ULL,
+		0x0455D82FF6BD54B0ULL,
+		0x59E927B3817BF4AFULL,
+		0xE4E5C43247BAE84CULL,
+		0x10CB76727B34AAE9ULL,
+		0x40214B34D6CDF159ULL,
+		0x876AD30342F09B6CULL,
+		0x2CA6B03719B6C669ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xBBDC4E0D961FDF63ULL,
+		0xCF1D7B999D8B7762ULL,
+		0x291074C5939E8F38ULL,
+		0xC09B198CC5213E17ULL,
+		0xE3E15D10B1D3C4ECULL,
+		0x229601991C9BB533ULL,
+		0xB92A7E2CB64862BFULL,
+		0xB080784D7CA263EBULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xAA382FE03600B0AEULL,
+		0x97E549B3FCA6CAD2ULL,
+		0xCE654AC6CED5CF28ULL,
+		0x11F6F752D3A048E1ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 221\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 221 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -221;
+	} else {
+		printf("Test Case 221 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xE750EDD2C564DC14ULL,
+		0xFE79DF0BE9FF85BBULL,
+		0x7462481A851A419EULL,
+		0x92080B50902AE5A3ULL,
+		0x71C95AAD8B21691DULL,
+		0x671C6DF87629FDC7ULL,
+		0x09DE08019357877DULL,
+		0x2A8F1F35C9CDDA9BULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xE6556F012510C0E8ULL,
+		0xAAC51ABD65F791D7ULL,
+		0x96517643F7F41486ULL,
+		0x377A17B3625B1FDDULL,
+		0x0EAB33CFAA206891ULL,
+		0x30481466C3B54880ULL,
+		0x3A05811113ADB1B5ULL,
+		0x86882E80A74C42BCULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xB77543C1067A2DF3ULL,
+		0x773A0FEF015ADC7CULL,
+		0xB834D989805BE8D0ULL,
+		0x3395AE804D0C50D8ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 222\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 222 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -222;
+	} else {
+		printf("Test Case 222 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xC4A313BF716A10DFULL,
+		0xE5792689DE22822CULL,
+		0x889F094A2DBE40BEULL,
+		0x8C69AFDB8C2047EBULL,
+		0xB28ABF9128458E31ULL,
+		0x774D419092A82FFCULL,
+		0xFA5D6F821CA2197CULL,
+		0xE9C2CD9F6290EC22ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xE6A096F55A0C1943ULL,
+		0x7C12D3200BEFF357ULL,
+		0x821C91872683DD0FULL,
+		0x2DBA350C14AA6232ULL,
+		0xC41AA847D8017C71ULL,
+		0x15DE7DD10934A9FFULL,
+		0xF9E6C9A93D096348ULL,
+		0x3D4DEE8FD0AE9616ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x42A5F1AC01789DE5ULL,
+		0xDFD761D839587260ULL,
+		0x181F15F437E56F75ULL,
+		0x7808971F1F0EAB81ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 223\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 223 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -223;
+	} else {
+		printf("Test Case 223 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x08B49AFDAA8DE4EDULL,
+		0x580D0F00F268D420ULL,
+		0x8B7B818D0AB5C65FULL,
+		0xD7C1A76A77F54175ULL,
+		0x32B4A38EFAFC3636ULL,
+		0x2B19E9B27CA457DBULL,
+		0x16126AB5FCEBF412ULL,
+		0xCFAAAFD743731DD3ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xA0EFBCF2F7246E1CULL,
+		0xACE15F7ADDDA1BC0ULL,
+		0xFE186F0B1FB7654FULL,
+		0xE2D4B2C7BD6AADA0ULL,
+		0xBCCC795F21906D35ULL,
+		0xDFE34C5E1E1F4359ULL,
+		0x58A717DA815BCA8AULL,
+		0x08AD24244CA517D8ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xE83B2124F9695145ULL,
+		0xD5470A0C1C4FC396ULL,
+		0xAB515F1642648B24ULL,
+		0x7E8FB1335D1F770CULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 224\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 224 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -224;
+	} else {
+		printf("Test Case 224 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x61496E1298D504A5ULL,
+		0x7B6F33CEAC1BE892ULL,
+		0x1313C6E49F961017ULL,
+		0x0804D67F912602E0ULL,
+		0x02A3412E5F40208EULL,
+		0x7E04609F99D400A1ULL,
+		0x2D6A49E9F908CE38ULL,
+		0x23C402CCEE110A71ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xE39BAA348B74B364ULL,
+		0xAF47EB31CC31CD1CULL,
+		0x7287E6106ACFD01EULL,
+		0xD13191FCC392F621ULL,
+		0x3DDD21820C12757BULL,
+		0x1C92BBF73444F7AEULL,
+		0x97C3748978F4DDAFULL,
+		0xF7269715DC219E2FULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xB31677726627B140ULL,
+		0x4305B99BF3256F7EULL,
+		0xD74F8D2737BBF45DULL,
+		0x563141AF771D1E7AULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 225\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 225 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -225;
+	} else {
+		printf("Test Case 225 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x65E3019887AB1883ULL,
+		0xED4DB0BFF554719DULL,
+		0x7E7B0C7396E647D0ULL,
+		0x4F88DE5CE322AE6DULL,
+		0xA1BDCFC085217469ULL,
+		0xB499C2012AA0E48DULL,
+		0x6854B1E2412008DFULL,
+		0xC3AD0C0A3CB5A354ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x1DD3CCF7E84AD01BULL,
+		0x00609A2724648267ULL,
+		0xA9C96DE1385CE45EULL,
+		0x45BEE51B650FE88DULL,
+		0xB0F1F415203382D8ULL,
+		0x6E6D0116E0F4575FULL,
+		0x86EDF5ECFA9E37BEULL,
+		0x395635CEA590C546ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x0651D0119AB226F9ULL,
+		0x5791B95FC08CE408ULL,
+		0x49F184FAD5CE6E63ULL,
+		0x12ADC619ED8BBBEFULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 226\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 226 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -226;
+	} else {
+		printf("Test Case 226 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x0D01A81F606B6997ULL,
+		0xAE3A5A56CA487F20ULL,
+		0x04D8D237A9DDF441ULL,
+		0xCB485F641E8000A5ULL,
+		0x2FA0C73132F87516ULL,
+		0x8244AFC9EBCF1C3CULL,
+		0xC19119B1A18504D4ULL,
+		0xA9B2A5C7984C1257ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x6E717086DA39B2DBULL,
+		0x242588A5BB4F76D0ULL,
+		0x7C353F6B8AC8FE2FULL,
+		0xEBE7041EA6645A59ULL,
+		0x83E4258AC6CA5C84ULL,
+		0x0411EA8EA3EC1B62ULL,
+		0x9075EBD779DB0FBCULL,
+		0xD0CB920341E6ED24ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x1C90364C95095B84ULL,
+		0x459E187DBAAB289FULL,
+		0xD2AC612E024F57B5ULL,
+		0x11AE4A6A4B1F2BE4ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 227\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 227 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -227;
+	} else {
+		printf("Test Case 227 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x7AE3D433B6F89245ULL,
+		0xA9C2FB59E557F45AULL,
+		0x75F9BE01422157AAULL,
+		0x9881C03C8459FCC5ULL,
+		0xADFE8CDA6AAD3DB6ULL,
+		0x61E4850920B7B82DULL,
+		0xABD7D3959EAD5F73ULL,
+		0x7C1CE790B8592C3AULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xB0265B81FB7A584FULL,
+		0x221076D05D34B89EULL,
+		0xB76BEE4029286C70ULL,
+		0x62A7B4382CAB279DULL,
+		0xCF59B0EB8C3619C4ULL,
+		0x3D2831D51700FAA4ULL,
+		0xDCB3B450A7062DF4ULL,
+		0x9FEE3F1DA08D0706ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xD7361E26C12D8F11ULL,
+		0xFBA6DE42F9435E0CULL,
+		0x7DEA73FDDBCA4419ULL,
+		0x64C70D19DFFC5AD8ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 228\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 228 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -228;
+	} else {
+		printf("Test Case 228 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xE4697E3A89FBCFA4ULL,
+		0x4B263EE49EED878EULL,
+		0x436E6301D7F8B64DULL,
+		0x1CCC7196DDBEC0DDULL,
+		0x090E40C7A2888E5BULL,
+		0x9A9B4CABBF167304ULL,
+		0x4D54928F3F21CDE7ULL,
+		0x0F50EEAB35DBE42EULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x6B39061D15C436F6ULL,
+		0xD41A08C30F1FB9AFULL,
+		0x141B4B0E940A8646ULL,
+		0xE1D93194B0B7C196ULL,
+		0x73B764BBDB4E3E31ULL,
+		0x63FA5980082FC89BULL,
+		0x004A68F531CFB61DULL,
+		0x0DE4648F71AE4DC4ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xA41521DD06DF7EC4ULL,
+		0x92F04E9EB60B1965ULL,
+		0x9ED544D13E1DB80AULL,
+		0x710FC0214BCB530EULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 229\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 229 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -229;
+	} else {
+		printf("Test Case 229 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x281E47BAD92F2AC9ULL,
+		0xB37985036CF5C8ECULL,
+		0x99BDB349CE959BEBULL,
+		0xC59A9A91D5828FEDULL,
+		0xDCC2C610D8081BF7ULL,
+		0x52F056E5511F3F7FULL,
+		0x2372CD7A6F9C0348ULL,
+		0x2C26577527E8C5DFULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x127B4D4B77A48992ULL,
+		0xC780EC1B353AB9B6ULL,
+		0x7337D5B9424E8FBDULL,
+		0x0D80D401C669A970ULL,
+		0x73219A24DE8BB130ULL,
+		0x635E1ECFA80A95A0ULL,
+		0x15F09D7FA6BD4909ULL,
+		0x033072B0DB6671BCULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xC38F7F766A027BB8ULL,
+		0x7BACEC1F50CC465FULL,
+		0x27D8FCCA5D56B185ULL,
+		0x4C99BBB36A7163B1ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 230\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 230 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -230;
+	} else {
+		printf("Test Case 230 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x0152F0A96C9D4161ULL,
+		0x5328CEEF10DD0857ULL,
+		0xEDEDF2051D96ECB8ULL,
+		0x6727634A75FCDCF7ULL,
+		0x04BD4B7837364348ULL,
+		0x971107AD0385EA7AULL,
+		0x5128D8234E93C1DEULL,
+		0x66E0DC85FB7BAF77ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x495BAB828440D546ULL,
+		0x666192336ADAB121ULL,
+		0x92EBFC6BCD53E7EDULL,
+		0x639D8DFE20BE68B4ULL,
+		0x7B7B098AD394799CULL,
+		0x37C9477C7A5AC54DULL,
+		0x57FFC8198A5F90E1ULL,
+		0x4358E20B3A9F82E8ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x17CD0E63B2605C61ULL,
+		0x116DC3F00269DBD2ULL,
+		0x571A570C70024A67ULL,
+		0x49B90384F5ED117CULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 231\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 231 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -231;
+	} else {
+		printf("Test Case 231 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x7DD59F3CF84A98B0ULL,
+		0x2C6F0BF0B587FAA2ULL,
+		0x8B232507D5D9EA4AULL,
+		0x8BA27AB3D3235058ULL,
+		0x92D7443B5342E784ULL,
+		0xB641A9B216B11BC5ULL,
+		0x31C4E892FC2B3501ULL,
+		0x95132D02756F07C0ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x4D35E796DAC5CBD6ULL,
+		0xB4DA1AABB59D612FULL,
+		0xBE93095643362B0EULL,
+		0x2C30C15D277E65B2ULL,
+		0x8D19C56A3794FCD8ULL,
+		0x4CFC50975118C4F0ULL,
+		0xD71B02CF76C49A81ULL,
+		0x0BD7A2E9EE6253EEULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x0AC08AB03955A56DULL,
+		0x17E02B3E54877D12ULL,
+		0x41C836B75FDEAE4BULL,
+		0x3E4838FAB7879BB9ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 232\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 232 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -232;
+	} else {
+		printf("Test Case 232 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x61C6D7DC0DFDB9A1ULL,
+		0x9842842B50CCF227ULL,
+		0x5A6149C339AF873BULL,
+		0xC6A4D29E17839B79ULL,
+		0x217C2A1F532C7CD5ULL,
+		0x260478637DD76176ULL,
+		0x96473006B965E22CULL,
+		0x6A8E5E74792804C3ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x518E4B862B9FEFA3ULL,
+		0x1C55F4A371300D06ULL,
+		0x6FFD7C54216861CFULL,
+		0xBD997198C5DAAD2FULL,
+		0xB53AA553D04F4376ULL,
+		0xA0A4F80A4FAD6935ULL,
+		0xBD53C492FA55770DULL,
+		0x027CA3A6DAB50DEBULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x21F2428B4F345052ULL,
+		0x48199CC4B9D7BEB1ULL,
+		0x1E85C09D74B70BF4ULL,
+		0x7BAD1B8AD6B99254ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 233\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 233 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -233;
+	} else {
+		printf("Test Case 233 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x275986DBF490B5A9ULL,
+		0x850E3DA5792FFA07ULL,
+		0x27D1211A04B8862FULL,
+		0x03441D3451DDA095ULL,
+		0x1581B14861312B1DULL,
+		0x929A56996F2E78F6ULL,
+		0x471A969902A328FDULL,
+		0x2D8E3C9C4368D6FDULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xFBCE123E5A407DF2ULL,
+		0x517F65DA16B3E4B7ULL,
+		0x9531604FE60B3BA5ULL,
+		0x547DD1CF75E70798ULL,
+		0xD926E6058047CA98ULL,
+		0x0280BFA3700939FDULL,
+		0x3CEBC4239A94A5A1ULL,
+		0xDCA439462E8C67BCULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x2105A08AFCF48786ULL,
+		0x975B404F42036E28ULL,
+		0x1592FE3790D4CA47ULL,
+		0x3182CA2BF4AF1CA4ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 234\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 234 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -234;
+	} else {
+		printf("Test Case 234 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x60F9F39816E09CC6ULL,
+		0x636103A9FC12DF4EULL,
+		0xBFFFE91293C416DFULL,
+		0x246AFB0CF1CA9A43ULL,
+		0xC397D1705A76DF17ULL,
+		0x8F2EB025DCB1E08AULL,
+		0xEC743011F135A5F3ULL,
+		0xDB5CECA2EEEC3B4AULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xFAC2C9AA218E3A0DULL,
+		0x651E503465B21E77ULL,
+		0x7E18227FC5473086ULL,
+		0x70080D0B239859F0ULL,
+		0x16399FDFE495A0EBULL,
+		0xC2C7A298B9AAF3FAULL,
+		0x8E255EF11F074E15ULL,
+		0xADE153563728D4F1ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x2232855F74C19E25ULL,
+		0x558EB668C967DE50ULL,
+		0x419AD172015DF145ULL,
+		0x74BBAF6515337197ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 235\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 235 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -235;
+	} else {
+		printf("Test Case 235 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xB76306F19DF5FF7EULL,
+		0x3B108597CC0B4767ULL,
+		0x5F401AB26FCB69CFULL,
+		0xA4C3EA192A21D8E7ULL,
+		0x180F72AF867D47F5ULL,
+		0x8EEDECCD1A153564ULL,
+		0x8C4EFC21E5E58B04ULL,
+		0x7F7588CFC4520F08ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x1D7862D8B97437CBULL,
+		0x6FAE8F614739545DULL,
+		0x51B0F616ACFC8934ULL,
+		0xDE1A7DA10AEB72DBULL,
+		0x27A424036443C104ULL,
+		0x755C95D06BAC8CE4ULL,
+		0x67A4DEB90EB7308BULL,
+		0x2802E7F3FB45B501ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x49D851A5F90BD154ULL,
+		0x96F4DFB8685AF608ULL,
+		0x7ECF822BB3B04E94ULL,
+		0x41AD4D17F70BC31BULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 236\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 236 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -236;
+	} else {
+		printf("Test Case 236 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xAD27F3A8010AD13DULL,
+		0x8E128BFCC6342DFEULL,
+		0x3AB1B30129BEE2D6ULL,
+		0xF7E166C9EEB7E0FCULL,
+		0xEA47A694F2C370CEULL,
+		0xF3D352067FF6BBCAULL,
+		0xA89B6D86590A2DE4ULL,
+		0x33C3511AF5793C29ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x1FFB788C53742E48ULL,
+		0xD8F4060609CF9E92ULL,
+		0xCBC48C10C3CE36D9ULL,
+		0xABF7ECCB3650CC88ULL,
+		0x8A747989EAEAA9B4ULL,
+		0x54A66CACE0B52436ULL,
+		0x8194641BC74DB585ULL,
+		0x9CFC149EE65088B8ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xC6852ABED7C42E84ULL,
+		0x55C8914460210F72ULL,
+		0x39F88CC207EA8A2EULL,
+		0x2D7C7468F871B73FULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 237\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 237 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -237;
+	} else {
+		printf("Test Case 237 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x09B6C60086DAD555ULL,
+		0xE69C6B8CBF1C199DULL,
+		0xAE401A516EA08784ULL,
+		0x174C0B210302AFFBULL,
+		0x6ED6116D452AB503ULL,
+		0x22ACC88AEF201620ULL,
+		0x298F0998524C362DULL,
+		0xBAF09B3052F42C48ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x608286AE6D16FAB8ULL,
+		0xAC7D016CE40D426EULL,
+		0x19A301AE9666F2C3ULL,
+		0xD078D0B513444A49ULL,
+		0x7C0C610BA451176DULL,
+		0x031277345D946BC9ULL,
+		0xC34E0BAC19F27935ULL,
+		0x549F2FBEA4F3E19AULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xB3246DCFFA1140F5ULL,
+		0xEB077CF975CA2016ULL,
+		0xC242C9B3358BA195ULL,
+		0x76E92D4BC3C97B6FULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 238\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 238 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -238;
+	} else {
+		printf("Test Case 238 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x45BED834AE0ED73CULL,
+		0xBA25F251CDD1A39EULL,
+		0x00715AA12BDF1E58ULL,
+		0x3BC3D828E468AA14ULL,
+		0x1A8759C5206D2DD1ULL,
+		0x6885DB6F80D6CE81ULL,
+		0x54C9D0D8CB097A00ULL,
+		0x3EA8FA839A66ED36ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x09D85FA197B7774AULL,
+		0x013BECAFBD8EB9EFULL,
+		0x61D398E48EC9C136ULL,
+		0x5387CE2AD221D93EULL,
+		0x5DD44A6F8B626E83ULL,
+		0xF590BA5BEF57DA7AULL,
+		0x740CAC0086588AEAULL,
+		0xB88C97C85C810D6FULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x3E7ABF4735EFC2C7ULL,
+		0xC94CEE89A91B22AFULL,
+		0xFAB139D6CF58DA51ULL,
+		0x5072B1C94266085AULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 239\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 239 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -239;
+	} else {
+		printf("Test Case 239 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xFF3A84A33BB57C96ULL,
+		0x1C7D6473ECF544E5ULL,
+		0xA60602428C072FE2ULL,
+		0xCB8A5D5AFC054493ULL,
+		0xADE9A7695CF518ABULL,
+		0xD79EE41B827CB299ULL,
+		0x2C3CFB5B7BF420A6ULL,
+		0x8F43C526FCD82CA7ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x3F31C40A69F02935ULL,
+		0xCD29F57F4FD2F73EULL,
+		0x7D271A52E2C57AB9ULL,
+		0x91DB1EF13BDAB64CULL,
+		0xF6F47B115D9F0CA5ULL,
+		0xE4B6AAE991014F69ULL,
+		0x56CF0E6F1F8C379BULL,
+		0x77D1901E218F1506ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xE86D55A8B88B1CCAULL,
+		0x5DCBEC5E757306BCULL,
+		0xD730130560AE4CC8ULL,
+		0x34A31DBA4D041026ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 240\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 240 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -240;
+	} else {
+		printf("Test Case 240 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x04E0927E72D9FB8DULL,
+		0xB60F70688232E753ULL,
+		0x35E01B5B027465D9ULL,
+		0x7C409D1419B9E6DDULL,
+		0xAFB2B60D6501FB5AULL,
+		0x2489A1EC491F9375ULL,
+		0xA81AB2D353CD9168ULL,
+		0xFBA5C4132D44BF51ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x2D93B6E848542B80ULL,
+		0x67F6A3BAB0303BB0ULL,
+		0xFF3EF6405DB884EBULL,
+		0x72333B48690508ADULL,
+		0xE34D361D4E3F356AULL,
+		0xE37C6B820529070CULL,
+		0xFB7A021C8706E936ULL,
+		0x6A179457DAA5B3A8ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x2E5DD9398B6F34DEULL,
+		0xF60EE073E89B8331ULL,
+		0xD67B603D0A38D83DULL,
+		0x25287799F4509938ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 241\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 241 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -241;
+	} else {
+		printf("Test Case 241 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x213A5DCDDEE472EAULL,
+		0x22DB2CFC2D584976ULL,
+		0x32E71F96ED33F988ULL,
+		0xEB47D8FA5CD0ED7AULL,
+		0xC113130384AC93FDULL,
+		0xF1CD7AD6A541CA7CULL,
+		0x14CB4BAAE88B787FULL,
+		0x4E2B8D3657BF1C59ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x43F3F696D4C8AAB5ULL,
+		0x21709ED3C28730FFULL,
+		0xA5DA04DCDB162D29ULL,
+		0xFCDA21B8EC20A45BULL,
+		0xBD1CFB33FD3EF2A6ULL,
+		0x99DC70DAB97374FDULL,
+		0xBC3C7C150812559FULL,
+		0x48332C38FD685A0DULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x73CDF0052461BB32ULL,
+		0x0F32098D6B71C951ULL,
+		0xB23FEAF96418F9ACULL,
+		0x514C1CDCD991204DULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 242\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 242 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -242;
+	} else {
+		printf("Test Case 242 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x885E6AFA5F4A4844ULL,
+		0xCF6D084FFACCFCC6ULL,
+		0xBBCA2D1B5F452478ULL,
+		0x5ECDFCF6D0986D8DULL,
+		0x12E5EF8F90F715BFULL,
+		0xF83C3BA94A581125ULL,
+		0xC268AA6C15707E18ULL,
+		0x914FB5C0644E538BULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x99B795E59002835AULL,
+		0x4FFD01D97321679BULL,
+		0x957E3BC12839CAE1ULL,
+		0x16A8A3A5851A5801ULL,
+		0x7CD777AD2690D48FULL,
+		0xBE845A21BDABC9F7ULL,
+		0xC45195159123527AULL,
+		0x1C104888563EFE56ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x34CCA0B09A7574A3ULL,
+		0x10BB8095693E25EFULL,
+		0xDDB91C31DA7FD314ULL,
+		0x2F8F8FA361C4BB69ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 243\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 243 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -243;
+	} else {
+		printf("Test Case 243 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xE0C85D70C5CCF94EULL,
+		0xBFAEB20C02BD92B4ULL,
+		0x5755745B931AD521ULL,
+		0x71E56761231EF906ULL,
+		0x17CA9C0594517FC6ULL,
+		0x5C764E449F647DF2ULL,
+		0x80881A2D3BF04EC0ULL,
+		0x5E5C9979034B09AEULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x3D665FADE6B00065ULL,
+		0x15D48DD0CC744874ULL,
+		0x1FF4800840C28652ULL,
+		0xE3B4A5A1C68B7626ULL,
+		0x7D8FF81594E38FD3ULL,
+		0xC312C777D33D5DBFULL,
+		0xE190E1C5F0AA9FEEULL,
+		0xDE6C6218EEC4BF23ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x88165362C96E9416ULL,
+		0x6EA026A1841811C3ULL,
+		0xD01353A87EB041ECULL,
+		0x0BD8FA0268829373ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 244\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 244 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -244;
+	} else {
+		printf("Test Case 244 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xA7E1B695101268DAULL,
+		0x662E017E90D7CFE4ULL,
+		0xD64471E984F4C101ULL,
+		0x41F35FE68C8F1A99ULL,
+		0x867FFE3BB2899759ULL,
+		0x0A14A385F254AD87ULL,
+		0x2A439A2B4EBBCD8AULL,
+		0x730BDA88CAA092E7ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x4BE3E9202C5369D6ULL,
+		0x20EDE0B29BDAFAC5ULL,
+		0xC515083A0A8199D1ULL,
+		0x9A69E65969F63B51ULL,
+		0xDD3727872524B498ULL,
+		0xEB31D877B75F572FULL,
+		0x82F8B66EEC694D29ULL,
+		0x19EAF93ECA791617ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x7CCDAC41E0B8A985ULL,
+		0xDAEA44E8B567A622ULL,
+		0xE64D37A612B23574ULL,
+		0x626AEA892875661AULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 245\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 245 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -245;
+	} else {
+		printf("Test Case 245 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x0BA6D270787D8061ULL,
+		0x4B957E773C4F801CULL,
+		0x6108D4861BB1FDF7ULL,
+		0x2459EDD3094FB9B1ULL,
+		0x7248E0ADA2BC630FULL,
+		0x78BC5B2949DE48A9ULL,
+		0xB7FB6892D69CB528ULL,
+		0x3C126B09D9C8AE31ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x72BB4811F43E588AULL,
+		0xC32680F5B08640ADULL,
+		0xA8400B176B944EF2ULL,
+		0x930047D9616F7AA8ULL,
+		0x1FB0BDB4868A0657ULL,
+		0x39180C4E6983D307ULL,
+		0x0CEF3CFF70A455D0ULL,
+		0x99EEAF24291C5724ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xDB80BB58B3B8E900ULL,
+		0xFAD2B1FED936B586ULL,
+		0x1C97414FD2FBD61DULL,
+		0x22A78A11E1752B10ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 246\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 246 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -246;
+	} else {
+		printf("Test Case 246 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xFF737C1BED627B56ULL,
+		0xACC63244A218EDF2ULL,
+		0x4CEF250306693344ULL,
+		0x84B556D56D65FE86ULL,
+		0xBD40DC07DEA86210ULL,
+		0x8DE0D48BE5C0C38DULL,
+		0xBDB763CCE206F6BEULL,
+		0x44C62C57E54F17F7ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x910765DE459704B4ULL,
+		0x7AB8C6F67E02F9A2ULL,
+		0xB6A87349F2B05B15ULL,
+		0xC51150CB9A5416AEULL,
+		0xA42149B278C6D4F1ULL,
+		0xD5EFA6D51B072EFEULL,
+		0xA6BB1FD887A5C3F5ULL,
+		0x0012D23DAA781598ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x291BCEEAC7466AA5ULL,
+		0x7FDA34703BA2018EULL,
+		0xFFB8C7FE7E2661FAULL,
+		0x724365EE8EFC41F4ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 247\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 247 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -247;
+	} else {
+		printf("Test Case 247 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x07C4CAF49EEBB2EBULL,
+		0xF911E6E2095170DDULL,
+		0xF51FB44A6A990CADULL,
+		0x6D5AA67FE74D6379ULL,
+		0x1995152D2579B3A3ULL,
+		0xC9882A6BC62C7C49ULL,
+		0x714A63B2E8463B4EULL,
+		0xD969E4E55B1A5EB2ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x3D0F461984A18724ULL,
+		0x7B7BFF1B91ADE1C7ULL,
+		0x09BCD7C37EC8EF53ULL,
+		0x5BF0CA45883E7F13ULL,
+		0x06A3F82D068F1D27ULL,
+		0xBC51146FE5F58AFFULL,
+		0xBF7A8934EBBB004DULL,
+		0xDC1272B9FA24B3E2ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x9A7FD2DFB11C821CULL,
+		0x73C32B29BFCB6014ULL,
+		0x503D4B3A687ADF82ULL,
+		0x2C64CEAAC3863F3BULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 248\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 248 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -248;
+	} else {
+		printf("Test Case 248 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x64178C792F1F78E5ULL,
+		0xB24069610B2E16F2ULL,
+		0xE64A14E6833A0700ULL,
+		0x72F137C0C1D23D06ULL,
+		0x9C491C14617C7792ULL,
+		0x8BA05489CBF878A3ULL,
+		0xBF6FADE090C52AC5ULL,
+		0xD0E6D8A58252284AULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xE64658C659E4E636ULL,
+		0x48769D74379812F4ULL,
+		0x08528B056C447E68ULL,
+		0x7AA29BB78AE56944ULL,
+		0xD5B6A6EBD994FE16ULL,
+		0x670C04F45AAE1D49ULL,
+		0x953BE5F49E6CF8BCULL,
+		0xC72BC5E5EECF8B69ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xF78E97B701969B3DULL,
+		0xD7CD9C1BA49F9350ULL,
+		0x21A736E7100CF5F3ULL,
+		0x6A1364791C501D2FULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 249\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 249 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -249;
+	} else {
+		printf("Test Case 249 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x48F6C45F0CB6A19DULL,
+		0x4D864AE0BB32F78CULL,
+		0xE93DD986F7ED19E5ULL,
+		0x5E4316B98B1ADFEBULL,
+		0xFF4F5129A3DC0421ULL,
+		0x7057610D4171295CULL,
+		0x086A5B5BB5F87FC0ULL,
+		0x45FA03D0AEB90A36ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xF022E8A06BCB3073ULL,
+		0x07C9534FEFF8EE3FULL,
+		0x7FD7646240361ABAULL,
+		0xCD8600C58C0B59ECULL,
+		0xF11161C74B6F9CAEULL,
+		0x5A253E1F60A7C21BULL,
+		0x5D09A402886114F4ULL,
+		0x29E1C6A82CD97168ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x76056457C102CCC1ULL,
+		0x912E26E0291F5CF4ULL,
+		0xD9C1AC617C30D976ULL,
+		0x3C5629F746403486ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 250\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 250 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -250;
+	} else {
+		printf("Test Case 250 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xCE94C8777DF4C7DFULL,
+		0x4A66E9F18D6AE1C3ULL,
+		0xDA1E9011B623B0E2ULL,
+		0x87D68AEE56CBF3D0ULL,
+		0x60EDD0D7EAF250D1ULL,
+		0xBE0C64A3C6F51B2BULL,
+		0xCDD09EB8F869E5D7ULL,
+		0x4B0D292ED050D42AULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x7650AFC9A25AE2FDULL,
+		0xAC63B04F3E14CC97ULL,
+		0xD1DE0C1F051E8394ULL,
+		0x734173510CCB937AULL,
+		0x81C1D080CE7625AFULL,
+		0x682415275063968CULL,
+		0x6E64FB6408AA5AA4ULL,
+		0x8734D0337AC7A9E8ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x78CC259C16084A98ULL,
+		0x5E7F061BE8EFC4C1ULL,
+		0x323AC28E4773D6ECULL,
+		0x26B24CEBFC5CA630ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 251\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 251 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -251;
+	} else {
+		printf("Test Case 251 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xD587D29E435E27DBULL,
+		0xF9FCCAC9D533EB08ULL,
+		0x7C7C2EF1D6CBD06FULL,
+		0x1B8C26482B104359ULL,
+		0x9AD98F9E89F99C10ULL,
+		0x025861BC57A513A7ULL,
+		0x00BAB887FAFDCF96ULL,
+		0x758DFEE16FCDBAB4ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x156C0657AD339561ULL,
+		0x66B53E8EE6DE8220ULL,
+		0xBE0AEDF4B40AD8FEULL,
+		0x80D75F82C44D1088ULL,
+		0xE34053743834E31BULL,
+		0x8B26912BD294615EULL,
+		0x657EBBEA496618D1ULL,
+		0x8A1FF716D783E0F0ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x00DABA8EB95E0653ULL,
+		0x44AC81AEAECFDFB4ULL,
+		0xC958C0657F46189BULL,
+		0x0D09EED801B985D9ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 252\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 252 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -252;
+	} else {
+		printf("Test Case 252 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xDDA94BC6FA1B0BADULL,
+		0x95FECA8BA88D413CULL,
+		0xBA830E8ABABFD06AULL,
+		0x941F1CEE593EE822ULL,
+		0x6DF628703F2AA240ULL,
+		0xD62F6BAEDBF447A0ULL,
+		0xF8587DA2E3BD95FAULL,
+		0xC6482152C3B64837ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x37E6769CA8F31CDFULL,
+		0xAECDB8BFA0667BE7ULL,
+		0x1B3888B399BF0A6EULL,
+		0xC18F5CD56EA7FC27ULL,
+		0x16E2EEDC2BA0F9FBULL,
+		0x404C968CF9179CCAULL,
+		0xC85EB1A3AF5772ABULL,
+		0xFED61B7DDF3A73F9ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x929D61253796E7B6ULL,
+		0x26DCB4D3B4E82126ULL,
+		0xBE5ECDB8E82A03CCULL,
+		0x6D7C9DB2D4F86D36ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 253\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 253 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -253;
+	} else {
+		printf("Test Case 253 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xA73E35A876AB2548ULL,
+		0xE029059E367FA80BULL,
+		0x10415454BB3C7A00ULL,
+		0x9BD8E12C5BF4D9E0ULL,
+		0x220C22637ACD51ADULL,
+		0xB2C37988AA876218ULL,
+		0x2BC9E3C0FD049893ULL,
+		0x9711FAC4ECE1F23CULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x0EB64DACCE17363EULL,
+		0xEAA3EAA770FF05E8ULL,
+		0x585B8F6C2CFE65DFULL,
+		0x50DEA28298EF57A1ULL,
+		0x6AD27D953CFEE456ULL,
+		0xF303575F86C8A503ULL,
+		0x1DC2E63E27102DF8ULL,
+		0x91ABC6C14EF90523ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xCB165E98D5382A1AULL,
+		0x6C0A2D1213D0B336ULL,
+		0xCCEF66545085E719ULL,
+		0x1825F7333398B3F6ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 254\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 254 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -254;
+	} else {
+		printf("Test Case 254 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x05E28C7AC8B9EE1CULL,
+		0x2D329E7FC853B854ULL,
+		0x2AC81530B679716EULL,
+		0xA788828E1E92628FULL,
+		0xDC166767713D6C2AULL,
+		0xC05D5B005C814B5DULL,
+		0x6DD656EA970E017EULL,
+		0x5E410F47572BB854ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x11091A0DAAF67DC0ULL,
+		0x7AC12CE26F97F833ULL,
+		0x674BD9C06DED0C10ULL,
+		0xC331BED1CAB25ABDULL,
+		0x341491A975858ED2ULL,
+		0xE648C168B2F14A3EULL,
+		0x1B5BAF5A6472C380ULL,
+		0xE9E1BCD90810633FULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xE51F2CA07B0E484EULL,
+		0x11803E20841BEAD3ULL,
+		0x01B11AD7CB97990CULL,
+		0x2A7D001C11EEA8FCULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 255\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 255 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -255;
+	} else {
+		printf("Test Case 255 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xB9CC4511CFA7C640ULL,
+		0x23190A218582DB51ULL,
+		0x48D3867D59B3EEADULL,
+		0xF4A4F3ED088E4B01ULL,
+		0xCAE2804482E263B9ULL,
+		0x8BEE9D258E144D7AULL,
+		0xE2DB164A94AF2985ULL,
+		0x1332CA0E40E09929ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xAB1610E2DFF194BEULL,
+		0x3C32521669DE6B9EULL,
+		0x786598E3F9821DE8ULL,
+		0x19F2D8BA6A17817DULL,
+		0xACEB1F1C9155974FULL,
+		0x8EE29F982832D1A3ULL,
+		0x9E47D1085BCC9BECULL,
+		0xFFF9F8D37890002FULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x816EA01CCA9C841FULL,
+		0x76AE5B083B1CD1A1ULL,
+		0xFE4A356DD1D2D57AULL,
+		0x352129EC5A6D7EA9ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 256\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 256 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -256;
+	} else {
+		printf("Test Case 256 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xA0A24EC23B102D47ULL,
+		0x030E7CAFB50DEDB1ULL,
+		0x3DB826E96D168A17ULL,
+		0x8DEEDA2BA7174B96ULL,
+		0x3E1E5867C818B945ULL,
+		0xA78807D6A03C81EDULL,
+		0xF5EFC0A4E7D868B3ULL,
+		0xDEDAD2F0AF96D224ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xF37B12EB688FCD5DULL,
+		0x2227B0575A6BD0A8ULL,
+		0x0287EE3DFBBD77AEULL,
+		0x9F8C9A79B886922CULL,
+		0x8DA13772BD9DB0D5ULL,
+		0x6C34A9A7B7678364ULL,
+		0x4BFAC9F61B328672ULL,
+		0x9E7F3CCDA84C3943ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xDFBA203660C3A1E0ULL,
+		0xAF46C74EEA3FE552ULL,
+		0x758CD69DD1F8A817ULL,
+		0x7BFA88E503A36AE9ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 257\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 257 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -257;
+	} else {
+		printf("Test Case 257 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xADDC95DFBF9BF261ULL,
+		0x60A42AEF931E94A7ULL,
+		0x2D711FC08423FDF0ULL,
+		0xCC82D87F059D55D3ULL,
+		0x3122FD7CC3957C3EULL,
+		0x7A16EE45DA6C0F31ULL,
+		0x39D03C784A026F5AULL,
+		0x5C266A12B5722A39ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xBFE03F3312E1B919ULL,
+		0x0FC39F455B11F745ULL,
+		0x03D61EA9A4573B56ULL,
+		0xF3585C602C0E4F38ULL,
+		0x6EB804F51A911D37ULL,
+		0x24988BF5BF72F17AULL,
+		0xAE8B852116E56F3CULL,
+		0xC680C9BDB6CFE500ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xC9DD3ACFC36051F2ULL,
+		0x01A3238E39070682ULL,
+		0xD5CE3808761AC71BULL,
+		0x0FC048BCA5A54CFFULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 258\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 258 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -258;
+	} else {
+		printf("Test Case 258 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x0E0E0BD551FF8FA9ULL,
+		0x5A3BF1C07CA4D5AEULL,
+		0x516C514423F20B4BULL,
+		0xA3230AB12172D406ULL,
+		0x5CF532FEB3C07713ULL,
+		0xB8F298ECBEAEF416ULL,
+		0xB7BE9746333848EEULL,
+		0x8FFC826297C395A6ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x160EBA61D99CAA38ULL,
+		0x4B45E704213DD632ULL,
+		0xF0B25EF28812B160ULL,
+		0x0298C258A9D6568AULL,
+		0x6A85A6F0C71FC431ULL,
+		0xEA072933BD029040ULL,
+		0x7443D02A626B1E14ULL,
+		0x4E8670CDD84A4B0BULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xF48E1B84983D7479ULL,
+		0xC5E8A0329AFDD13DULL,
+		0x64F380729A53B63FULL,
+		0x5810E46CE39D9087ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 259\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 259 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -259;
+	} else {
+		printf("Test Case 259 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x61A28F9D13A5323FULL,
+		0xB5FE6C190031CE8EULL,
+		0x0321CE433F794076ULL,
+		0x6C821884D4F84649ULL,
+		0x6BBC395613D02E88ULL,
+		0xB0E8858C6342CC92ULL,
+		0x25A08FC717B91B44ULL,
+		0xB5BD1F277D022A59ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xE97A74ABBEDEA169ULL,
+		0xB647AD99C82201B4ULL,
+		0xE2E697DEFD4E67E7ULL,
+		0xF44BE49EFE5B39D1ULL,
+		0xEDCC50E40FF44E79ULL,
+		0x9C95877245989837ULL,
+		0xCA0A1F44E3F75FFAULL,
+		0x275A0922FED878D4ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x29C49BDDE769D61BULL,
+		0x0408765F9F539248ULL,
+		0xB88FE9B7F0ECA58EULL,
+		0x1AEB789090CD661CULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 260\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 260 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -260;
+	} else {
+		printf("Test Case 260 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x0A88F50260042473ULL,
+		0xEC7E0B7FE549A430ULL,
+		0x205BC8BD81EDCC52ULL,
+		0xC98AEC9F571E1FF8ULL,
+		0x57294874100B37E8ULL,
+		0x0B0EE12F8063BB2CULL,
+		0x5C7A282E64D4C87DULL,
+		0xB932DFF75916B094ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x00CA356F5FAC94D8ULL,
+		0x4E981336AB23A224ULL,
+		0xDCEC424BE3149693ULL,
+		0x0362D79A95E02CA2ULL,
+		0x9FE93BBFA29484F5ULL,
+		0xEFA991A4839EE909ULL,
+		0x1FE86A108E861285ULL,
+		0x283F20308081A9E1ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x3D40A25B3FF622F1ULL,
+		0xAEEFC6EABF5D3333ULL,
+		0x4111BEDF6E88386DULL,
+		0x4A568C88E75CF1F0ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 261\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 261 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -261;
+	} else {
+		printf("Test Case 261 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xA57FAA6D415CCFE5ULL,
+		0x1881AEE478CD6356ULL,
+		0x133DB5E685620746ULL,
+		0x5FEBA0F76D3B75F3ULL,
+		0x9799E5DD697372E4ULL,
+		0x54C00A5807C85DC1ULL,
+		0x46700A8AF05C0178ULL,
+		0x75DBA6C991540811ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x2568F8BE70426CB9ULL,
+		0xD7EB665AAD5F1E03ULL,
+		0x9B3674479BD3B446ULL,
+		0xCE6EDCB1891B41BFULL,
+		0xF76DCD9A42466898ULL,
+		0xD82EC91A70C12C37ULL,
+		0xABEF987CA6E010A6ULL,
+		0x4B97CF54F3BC9D55ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x46A24BA6A1C9EB45ULL,
+		0xBE25F7AE367F9FC1ULL,
+		0x67182FBDD1F41217ULL,
+		0x578EBF95489A0C0CULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 262\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 262 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -262;
+	} else {
+		printf("Test Case 262 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x80CE8861538FD1E2ULL,
+		0x16EA09A423C1DB8BULL,
+		0xF2CC8BE1CA1BA662ULL,
+		0x7E99E1325DA3B201ULL,
+		0xDFC688DD5381C5ACULL,
+		0x94AFD1B33A514FD9ULL,
+		0x7A02849A74FA5D82ULL,
+		0xCBF1A245A5C5D069ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x3955BFC0CE70AA08ULL,
+		0x70A59E58CCB13F94ULL,
+		0x1DC15E39FCDDD457ULL,
+		0x145B6A3E69D6BEE3ULL,
+		0x5E705CF89E47B050ULL,
+		0x3327478420D85B55ULL,
+		0x931826D720FC00DEULL,
+		0x20211CFAD208231CULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x7A434C936BBE574BULL,
+		0x2088EE491F04E7A2ULL,
+		0x1BD518A644FF9271ULL,
+		0x6B32400F61F4AC89ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 263\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 263 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -263;
+	} else {
+		printf("Test Case 263 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xC13FBEF9DF51D437ULL,
+		0xF9069B3A731096FBULL,
+		0x4A7EC5E6F8C29329ULL,
+		0xE5A5658E2760BF5BULL,
+		0xC6006E22F08ABB9EULL,
+		0x3C4371F846B3DFE5ULL,
+		0x9002EB2BD553936DULL,
+		0x293658E7075990AAULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x116B5C33E0B3A64CULL,
+		0x185F793E8FFD02CAULL,
+		0xE1D20E1B2ED2CEF4ULL,
+		0xEC28263FCAA79C73ULL,
+		0x8E5F46DAC9AC8F6CULL,
+		0x33E4A01077A6B0F3ULL,
+		0x6DD9016521D30DBAULL,
+		0xD9FB37218E41629FULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xF1C0377BC398B968ULL,
+		0x1EBA4A649F088C25ULL,
+		0x7AE56B4A6F039CC9ULL,
+		0x3C44429E564FF88EULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 264\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 264 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -264;
+	} else {
+		printf("Test Case 264 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xDAD8B276A41AAEABULL,
+		0x11E568069513CA12ULL,
+		0x63F32443680945D5ULL,
+		0xDC2034110D5F1479ULL,
+		0xB1032CC1638561D1ULL,
+		0x3DE5D47B704E0AD1ULL,
+		0x4AEF6C5C7E4291CCULL,
+		0x2F53A4B1D758EBB4ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xA6315DE7789F4027ULL,
+		0xE35F1C3B3382E332ULL,
+		0x47FB8047C06F77B2ULL,
+		0x112B5BD9B1618686ULL,
+		0xA999A3FB4C028BCAULL,
+		0x679643F1F85F3DA2ULL,
+		0x307B7B10E24B0936ULL,
+		0x834B39D55D8F53BFULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x4E51A1F6A8E731C6ULL,
+		0xFE55C0332F035BDBULL,
+		0x092D7534CE58145FULL,
+		0x5434B4F16FEA1C55ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 265\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 265 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -265;
+	} else {
+		printf("Test Case 265 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x6727C63C92232D94ULL,
+		0x0BE743AD2DB6A66EULL,
+		0x6578AB29A2775188ULL,
+		0x5212598912286341ULL,
+		0x6A505BBD200DD179ULL,
+		0x5833E01ABCAF0C56ULL,
+		0x106A89D644AE0F43ULL,
+		0xFACF8E5D376D5F2DULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x38FA81D28E61BC5BULL,
+		0xD9D506C55D97124BULL,
+		0xDB459ACAD262C92FULL,
+		0x3CB50F5D11A4E309ULL,
+		0x0D291F8B0A776C28ULL,
+		0xA7F396D548AB22A4ULL,
+		0xBD89FB79CC7BF416ULL,
+		0x3D0CD7657CAF4BAAULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x020033D938147F67ULL,
+		0x5B9D1D3708B4449DULL,
+		0xD7883218A78490FAULL,
+		0x404472F1B8BA658FULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 266\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 266 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -266;
+	} else {
+		printf("Test Case 266 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x3DBB09E65E353FB8ULL,
+		0x07C148BA177BCBD7ULL,
+		0x974FDF8C8B1357C9ULL,
+		0x650FD6C23A07BEE0ULL,
+		0x14A4CF81A2CAAFADULL,
+		0x4E37CDFF20A4ABDAULL,
+		0x8F35A98C7C2CBA09ULL,
+		0xE67099DE9DDA1ED5ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x9C057E55B8F67919ULL,
+		0x3455FD47087EF584ULL,
+		0x967946BEB44EC620ULL,
+		0x2BFD927540C773A4ULL,
+		0xB72F7DED802456CAULL,
+		0x050A39A99495D0EDULL,
+		0x491577675C54EE3BULL,
+		0xEC868E20DBE3A779ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x811FA78DC9EFF82BULL,
+		0xB02F5025D9315568ULL,
+		0x699E0A5090CCD247ULL,
+		0x51D00277C3D602EEULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 267\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 267 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -267;
+	} else {
+		printf("Test Case 267 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x289013D9D7C43D53ULL,
+		0x37EF84F016E971A5ULL,
+		0xA85E09B2D6C0148FULL,
+		0x921967ED97907798ULL,
+		0x4AB4A1D37606B5E1ULL,
+		0xC4AB42185B63FC11ULL,
+		0x960B80C38944141AULL,
+		0x488B327BC0B2BC5EULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x628A4D6684DC89B9ULL,
+		0xD35F00CA66B943E4ULL,
+		0xF60CEF5644606FFFULL,
+		0xA091E0D443EFD8D5ULL,
+		0x468CDD5E6F8BB291ULL,
+		0x5C5ED474E8253B72ULL,
+		0xB6D700FDD2A2C530ULL,
+		0x641561C6E2C214F9ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x63ECEFD2492A30CFULL,
+		0xDFE8CA68CB80C55BULL,
+		0xD41C11B5AE515B5AULL,
+		0x5B0481F2455977BBULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 268\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 268 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -268;
+	} else {
+		printf("Test Case 268 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x029417248B0E0A42ULL,
+		0xD372A592CD21F3CAULL,
+		0x448094FBE87F4CACULL,
+		0xB5CE5394F8B264EEULL,
+		0x38961DE9F0A87009ULL,
+		0x3AB9B50CC83AE658ULL,
+		0x767BAD40E05FE1B8ULL,
+		0xD104A13F962B3C7CULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x4DE0D6D5916C99B5ULL,
+		0x6D6E29344B3510BBULL,
+		0x9679071C73EE4CBBULL,
+		0xF0DD58278F5A98A2ULL,
+		0x96A19AD1CDE83F44ULL,
+		0xCDDF4FA19FDB3250ULL,
+		0x243E188DA04551F9ULL,
+		0xD8AF9A35FD22E08EULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xBEFEB5E42228AD92ULL,
+		0x8E6F8A4680219C30ULL,
+		0xE32BA07AF8825635ULL,
+		0x219006DA209571ABULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 269\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 269 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -269;
+	} else {
+		printf("Test Case 269 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x02C74EE268E93FA0ULL,
+		0x9DEC3FA8E3D19412ULL,
+		0x232F5F4707DA51AFULL,
+		0x0F8CB834B3078544ULL,
+		0x059190DD97A1A9F2ULL,
+		0x128877984DFC5C20ULL,
+		0xAE62C27A956213D4ULL,
+		0xA4DDF813E1C6CBC8ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xCC737A41B90EBD30ULL,
+		0xC31CEA2FCB7887D3ULL,
+		0xD9B3042CB7183FD1ULL,
+		0xB1B81E31F22F5AFEULL,
+		0xFE44FE850E2352FEULL,
+		0x5A603DFF41D8C787ULL,
+		0x3F12F471A21C914CULL,
+		0xC7ACB1B69F1D7D75ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x4BB18DC5189B69C4ULL,
+		0x30C7E230E5A11ACFULL,
+		0xCF54F06E6D137203ULL,
+		0x33250BDAA5F9CAA7ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 270\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 270 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -270;
+	} else {
+		printf("Test Case 270 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x7A7E2C08FD05513EULL,
+		0x041AB74CF170458CULL,
+		0x164A82C03E5A8514ULL,
+		0xF6AA4263BD947D9EULL,
+		0x09CC50BA5C920425ULL,
+		0xF43CB7740863C5A1ULL,
+		0xCB6C537E1FB0E039ULL,
+		0x76EA344CA703871EULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x08E4B82E5E1C7693ULL,
+		0x00D4ECB20C8D0652ULL,
+		0x02DD95458D241A57ULL,
+		0x3C450CE68DF944C2ULL,
+		0x29343630549CBFDCULL,
+		0x1AFA2B6DBECB9FDBULL,
+		0x733910B7EA17DE95ULL,
+		0xBFF9DC66DCFDDFDEULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xC82D6457CD50FBF2ULL,
+		0x43269389D178DA99ULL,
+		0x2B08D6E6A5ECA935ULL,
+		0x621241992C720C69ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 271\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 271 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -271;
+	} else {
+		printf("Test Case 271 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x53E94DFE2FF18420ULL,
+		0xE10D6D597B6E319CULL,
+		0x21CEE6611F20FFB3ULL,
+		0xF0FB85ABEB79A4BAULL,
+		0x0E696289D7E780DDULL,
+		0x3C1B863B56F4E29CULL,
+		0xAB3B928436AE8479ULL,
+		0x1200ADC0DF764257ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x3A5100B96E18F237ULL,
+		0x9BCC439869BC6AB9ULL,
+		0xCCBE9A8BB4B8C1D0ULL,
+		0x212879A6E4650C08ULL,
+		0xB89EC9174B99FB99ULL,
+		0xD1EB1F7A2CBFD2EEULL,
+		0x986A2D422798CCA1ULL,
+		0x0845654D8C824154ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xD5AB1445955A5A4DULL,
+		0x08706A6D55921A9DULL,
+		0x202553A3A7A187DDULL,
+		0x419FCD23574CBF26ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 272\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 272 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -272;
+	} else {
+		printf("Test Case 272 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x73590C757194FAD0ULL,
+		0xD4668A451A9B426EULL,
+		0xC8B3D821E0849DAAULL,
+		0xB5549C40E1C7E2FEULL,
+		0x3262BBD4CDBAADABULL,
+		0xDC791F5B8CE6FDF2ULL,
+		0x7B60E7372DE2668BULL,
+		0x2801B099E7E0ED8AULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x41C7F54D0D26B976ULL,
+		0x5B8EB287F1E4775DULL,
+		0x29D5D8DC4054F392ULL,
+		0x4E530C2CAD7D0C82ULL,
+		0xFFC6A5C41E7986F5ULL,
+		0x393E92DA7CD72C90ULL,
+		0x9BE0B3F4B3BB8836ULL,
+		0x1B9C0FF265D6DC95ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xB4BC5DA2681A00AAULL,
+		0xB388B2E58B0FDF7EULL,
+		0xCBE59B23C1F4AACEULL,
+		0x3E1768F181C95AD5ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 273\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 273 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -273;
+	} else {
+		printf("Test Case 273 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x2A3F87256E58C8CDULL,
+		0xA277DA916123DCE0ULL,
+		0xE5E82B3EED70ADE9ULL,
+		0x8A598F261CB4CD34ULL,
+		0xC5F81A4E0CAEA2A4ULL,
+		0x3C4F97120CEEE9FCULL,
+		0x7A6AE62EC1230E8EULL,
+		0x37999F34CB3A1529ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x6051F497BC26A349ULL,
+		0x007B100B288A5970ULL,
+		0x0668791D528CF7FFULL,
+		0xA1469759B92507E4ULL,
+		0x3080FCCB61AA4BFBULL,
+		0x950E4C9E1D0B9ACAULL,
+		0x83D76672363B3EA7ULL,
+		0x67AAB63A634DB993ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xF99BF3F314D7017DULL,
+		0x75ADD7BBD45744F1ULL,
+		0x7964A81E394C9227ULL,
+		0x46898CF7D0A55D93ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 274\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 274 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -274;
+	} else {
+		printf("Test Case 274 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xF57AFDFD09C2D9B5ULL,
+		0x1B6AFD0DBB35C32CULL,
+		0x6C367F5AE5561168ULL,
+		0xDB4692F7D0485F57ULL,
+		0x9680E41DE7477D22ULL,
+		0xEA2F0FEC8BE4F426ULL,
+		0x9CB044F1171DD636ULL,
+		0x420F945CC8CC5F58ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x19D5DB5FAABFE2DFULL,
+		0x9100B5A70566B9B3ULL,
+		0x2CB3E83E595BB9F6ULL,
+		0x25913643A10E4A3CULL,
+		0x3B05391910E8B291ULL,
+		0xF4273BAD382E39DDULL,
+		0x41FCE485CBC1813AULL,
+		0xB7AD881BD80DA281ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x70008555311505D6ULL,
+		0x0F93C8CD22EEB05DULL,
+		0xB622E709BBAEF4D8ULL,
+		0x40432E57EB8A1D12ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 275\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 275 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -275;
+	} else {
+		printf("Test Case 275 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xDA0AAF362B8F1378ULL,
+		0xB4E8A136B045EB96ULL,
+		0x83B45193F2F2D4C0ULL,
+		0x662E277CFED72551ULL,
+		0x32E7A72572ABDFABULL,
+		0x92AE9E8E6B1D3230ULL,
+		0x7228E71911BE3DE6ULL,
+		0x01B788C3A064196DULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x7D7E0F199B5D48B5ULL,
+		0x4A0BB345798F7962ULL,
+		0xF1ED6EAD16C04057ULL,
+		0x38986B078927388EULL,
+		0xAF16BCC0D841922BULL,
+		0xD20D615FD6899EE1ULL,
+		0x141DE9481F8913B4ULL,
+		0x2CFFC4E87EDC950BULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xED8F6B0B7BF94ACCULL,
+		0x02CC02DB449E4FDBULL,
+		0x87688FEAD016D7CCULL,
+		0x40DCCEFC6FCD935CULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 276\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 276 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -276;
+	} else {
+		printf("Test Case 276 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xEC7CDE09BC8B51B3ULL,
+		0xEF35CAB7586353E9ULL,
+		0x7021CFA80C039F1DULL,
+		0xED42C850ED7C19C1ULL,
+		0xA1335BD7E0B3E12DULL,
+		0xB17A18D2DF51289FULL,
+		0xD841F1AE40DEAC0AULL,
+		0x11E348BE6771B3CFULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xAFE19871890169BFULL,
+		0xF1917D6BBD6903D4ULL,
+		0x3204EB9FDBFED0ECULL,
+		0x273B7C3D93BAFE69ULL,
+		0xCEF4F4D4BF9F283DULL,
+		0xCBCC29E831ACA31DULL,
+		0xA5F0847FC7323D97ULL,
+		0x86660EC20DBD7245ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x71DE900F1C9D590EULL,
+		0x1575C4216166215AULL,
+		0xB63318EE3F9D333FULL,
+		0x7A9DE788AA82D5DBULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 277\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 277 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -277;
+	} else {
+		printf("Test Case 277 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x5A8DFC91111D321EULL,
+		0x34FEDAA187CA62B5ULL,
+		0x0B2CA08F6212303DULL,
+		0x78EB88F863DBB367ULL,
+		0x0979C33F0F48FFEDULL,
+		0x4FDBB4F5BCA20548ULL,
+		0x41DA3F567FDC4FF6ULL,
+		0xA707A3368B5BF1E3ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xE79526F1FE339ACBULL,
+		0x1597FD23280E81D2ULL,
+		0x14C27AEC0017FD5DULL,
+		0x69B65642AE46BF23ULL,
+		0x8DA6B10273589E4CULL,
+		0x191086AF24A865B5ULL,
+		0x9F588F5D97FE99DFULL,
+		0x8DAEBC948B9ECFF3ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xD44D8A9E389815BEULL,
+		0x418FBBF8EEC990A0ULL,
+		0x15AA4495CCE33A52ULL,
+		0x52676EC1ABA7FDD6ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 278\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 278 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -278;
+	} else {
+		printf("Test Case 278 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x91441ECE8AEC09B3ULL,
+		0x43518FBA91D9AD0DULL,
+		0xF87A32E696CAAD10ULL,
+		0xA3FD82B61193D8C8ULL,
+		0x64CD4D9E14B20156ULL,
+		0xA5233EAB4C9B9AA3ULL,
+		0xAEC8531650BEDF21ULL,
+		0x549EE757A9C9CBF9ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x1E2CB5C0256FA7ABULL,
+		0xFF19CCEADBB933D4ULL,
+		0xA78D1D4EC5040DA0ULL,
+		0xE95FDE9725ABD19AULL,
+		0xA1A3B2910344F4E9ULL,
+		0x123F4A25689487DBULL,
+		0x813D520BFD0F92E4ULL,
+		0xCFB7510C8B3D80EBULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x6B446CFEFBAC3764ULL,
+		0x120E0EAF8F2D42E0ULL,
+		0x138F3D203DCBF093ULL,
+		0x74FDF34574BB2B49ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 279\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 279 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -279;
+	} else {
+		printf("Test Case 279 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x2DB1C88F37683CB8ULL,
+		0xE10B0AE4B9595C47ULL,
+		0x7B6FE8F08A46C908ULL,
+		0xA9CA1D72245FEEC4ULL,
+		0xEE35D1EA462A8B8CULL,
+		0xD18078E6C6F4B00AULL,
+		0x254579E22094D80AULL,
+		0x2131B24F45690465ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x6A2658CAAAB315DAULL,
+		0x3A65BFBB3329632AULL,
+		0x5DBC74943EA5D749ULL,
+		0x013ED7F409430143ULL,
+		0x9AEB81FDA626387FULL,
+		0xF8B452AB55C2D777ULL,
+		0x47D8657BEC75F2B0ULL,
+		0x81867CA9CA7B9A16ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x20934CE44D5978B8ULL,
+		0xD4F2F7FC53961EFBULL,
+		0xFBE47B880836FD15ULL,
+		0x5BF53C0E5A5AB535ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 280\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 280 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -280;
+	} else {
+		printf("Test Case 280 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xAADC12212818F0E4ULL,
+		0x232A4C73167BFD8AULL,
+		0xFB3A5F425BCA28A9ULL,
+		0x408311F4F3A9208EULL,
+		0xB0B8FB4089905A0BULL,
+		0xE664C9840579BD00ULL,
+		0xCF3398E240F1A030ULL,
+		0xAB5CC201678F393DULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x2BC83FAE65AEB98FULL,
+		0xDFC57877EAC24D00ULL,
+		0x2A3736883D688644ULL,
+		0x040CAF4A1637AF5EULL,
+		0x0110FE7964577806ULL,
+		0xD440D4BF7724F575ULL,
+		0x01A29AC222FFB05FULL,
+		0x2D35DD39832CD909ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x9203580248DBC6D2ULL,
+		0xF4BB29284C4F4F46ULL,
+		0x5488E17E904B3B6CULL,
+		0x763C5856C40BB907ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 281\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 281 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -281;
+	} else {
+		printf("Test Case 281 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x7CF0A49F63625FADULL,
+		0x02FF3EA37AFF70BFULL,
+		0x5C0C175E409E0C08ULL,
+		0x7168FD6AD1A7F0ABULL,
+		0x7679CF18D6A8999DULL,
+		0x88703FE0C9F78D93ULL,
+		0xF2F10377B429E17DULL,
+		0x73ED9883D3ED764DULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x3240F48648313178ULL,
+		0x2FB4E5A61DB5803DULL,
+		0xB690EAF3ED483C18ULL,
+		0x4BAA04EC254342FDULL,
+		0x912F97D27EFBEA3AULL,
+		0x7938A5BB9FD513D7ULL,
+		0x47FA9EA4F8759501ULL,
+		0x77715295A84C3DE2ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x53B3E48A1ED336D4ULL,
+		0x158B3A819E680266ULL,
+		0x060E23B230192A5AULL,
+		0x203159D926530DA9ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 282\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 282 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -282;
+	} else {
+		printf("Test Case 282 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x6E6B25444EC4AF88ULL,
+		0x75D3A95F3C5C82D6ULL,
+		0x0B7BB29204779104ULL,
+		0xACCE8DA6925F570FULL,
+		0xC4F37AA9839F2D2BULL,
+		0x2AFFD58EC63EDB9EULL,
+		0x4FFB800F41E04BE5ULL,
+		0x72D15945E25DE102ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x99937FCF84603050ULL,
+		0x271D8020A75F5A4DULL,
+		0x9EE0CE71F4E53A83ULL,
+		0x6787A791CA3DF1B2ULL,
+		0x76D4D016F78F2864ULL,
+		0xEF5460B2CC84043DULL,
+		0x1697EE11D1F5AC2DULL,
+		0xD8ED2014FCE1BE78ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x6D64F73594C53288ULL,
+		0x2A2981E5A6B920FAULL,
+		0xF1628FBEAC660BB4ULL,
+		0x1D276356D88E85E0ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 283\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 283 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -283;
+	} else {
+		printf("Test Case 283 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x423767EB28B5A75FULL,
+		0xBDC5B609B5C5E03BULL,
+		0xEAE69CA5094CC5B2ULL,
+		0x04A6A277FC36ADADULL,
+		0x83D6C52F518F0425ULL,
+		0x5DA33D0EF7B280D8ULL,
+		0xF930E0403E16009EULL,
+		0xA35A9E7DA452E8F7ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x2498D457FB358B13ULL,
+		0x68E57EA4A6C13BC0ULL,
+		0xB798163694FF0529ULL,
+		0xEAB5F96F460AE008ULL,
+		0xA26DC9FDFA255997ULL,
+		0xDA1963725FB3CF1EULL,
+		0x117ADC99F9705F86ULL,
+		0x1578734C154965F2ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x9333DCE6272F7058ULL,
+		0xDB5684A39ED30612ULL,
+		0x9853111CA4E3AA06ULL,
+		0x29831263F1954085ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 284\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 284 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -284;
+	} else {
+		printf("Test Case 284 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xB3BA5EAD593FECF0ULL,
+		0xFF053745B370A8F1ULL,
+		0xE3B24E0DE66B827DULL,
+		0xDAC962EEE502D09EULL,
+		0xC2CE82F15578E3DDULL,
+		0xD0D439D8612873CBULL,
+		0xA4574152060AEFADULL,
+		0x2ED54F7345328E45ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xF172D928E6417143ULL,
+		0xF9109780B7F687E9ULL,
+		0x4262F86C455C6AB8ULL,
+		0x97F8BDD24815AD85ULL,
+		0x2C13A601C2E207B0ULL,
+		0xA01A68E1D95A84F2ULL,
+		0x627BE0FAD19744A1ULL,
+		0xFF841CE0E2AE59B7ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x22045114356325C1ULL,
+		0x4189A45D240B9554ULL,
+		0x67DFA2936A3A7B94ULL,
+		0x48DE26D73C8CF037ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 285\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 285 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -285;
+	} else {
+		printf("Test Case 285 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x079C27E49121677CULL,
+		0xDC022F13EA70113BULL,
+		0x6A3BB845590F0B58ULL,
+		0x8B46106914070657ULL,
+		0x96A0958AD95B71C7ULL,
+		0xEBA0485FF229F45EULL,
+		0x77743E5853F25BD5ULL,
+		0x33BB7EBAD34193E9ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x9E41D4161D3209E5ULL,
+		0xA1F08803BF2C299EULL,
+		0x7D952F666CFBB4D3ULL,
+		0xE59423CB519B9583ULL,
+		0x40B5C5E4AED5524CULL,
+		0xD232D2B5AE25E9B9ULL,
+		0xCD9BFA896E0B741BULL,
+		0xFE7A25E20FF8D8BCULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x2A352678C3D80552ULL,
+		0x00511E5643DD7C27ULL,
+		0x22C099950C59BC25ULL,
+		0x0D651CCABF373975ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 286\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 286 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -286;
+	} else {
+		printf("Test Case 286 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x0F414BB08DB77DCAULL,
+		0x3D36F23F6E7E409EULL,
+		0x581845D47402F23AULL,
+		0x092CC273CB3039E6ULL,
+		0x7682A5DEB3217B70ULL,
+		0xC1739F4DC332D630ULL,
+		0x7712C1BA71EF0C0DULL,
+		0x7393355332ECAFB4ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xC158BAA675B5E929ULL,
+		0xF8867C08B3ABE7E5ULL,
+		0x27F45223AD37E4D5ULL,
+		0xBD9B6EFF34B6B033ULL,
+		0x7468FB2D1A836164ULL,
+		0x34D43726DFB7154FULL,
+		0xC2E27D4FCDC1E39EULL,
+		0x9BD74FD6E3FA255DULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x9DB7E766BF79715FULL,
+		0x2459EBFC7F30FA1EULL,
+		0xEF4E1B85257F0DF3ULL,
+		0x517563E84E7A1291ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 287\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 287 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -287;
+	} else {
+		printf("Test Case 287 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xDFE2F79CA0ABD20CULL,
+		0x5B5BCA87F6BCDE29ULL,
+		0xB677381E9EC7630DULL,
+		0x0FF995DC7E648358ULL,
+		0x1170310CE9FCF584ULL,
+		0x77DAAC1CC34C2876ULL,
+		0x1E1D48F45E51065EULL,
+		0xE14B49176C8B92D7ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xBFC81AA4BD59CFF8ULL,
+		0xF2FAFE8A839B045EULL,
+		0x59717C0DB2CC0FC2ULL,
+		0xD07EB3D013D96DC3ULL,
+		0xE8DFEF4FB25ABD3CULL,
+		0x23ABCCEEA2023398ULL,
+		0xC5CE28B4FDF82CACULL,
+		0xB385663FD6AFC33BULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x25849F0E25665DA8ULL,
+		0xE755ECD6641C329FULL,
+		0x78C48579392BA3C2ULL,
+		0x0ADA8E0CA92BE6A4ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 288\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 288 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -288;
+	} else {
+		printf("Test Case 288 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xEBF35F85AADC4EC2ULL,
+		0xAD9281780D5BF5D5ULL,
+		0x88FD4C85B9BC240DULL,
+		0x74250AB949124F19ULL,
+		0xF8BB19BF7162BFF9ULL,
+		0x093FBFC53BFFB16DULL,
+		0x1CA5A6A42F09644CULL,
+		0x6D292170D7572EEFULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x9FC15FFC87C3589BULL,
+		0x40582F0E777D810EULL,
+		0x422AD711B9E9C9E3ULL,
+		0x1A691614A4AA1A03ULL,
+		0xD065F8928754621EULL,
+		0xBFF3E03EBFB24CF7ULL,
+		0xEF3DEF380B4B6873ULL,
+		0xF39977CA76F8D290ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x48D4EC33E13AE1B1ULL,
+		0x4E7D8060095B5E51ULL,
+		0x0437AF814E05BC45ULL,
+		0x650F2356F269EB11ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 289\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 289 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -289;
+	} else {
+		printf("Test Case 289 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x30C12007F5D3B689ULL,
+		0xED827EDB99FD3C42ULL,
+		0xEC51EDE6843296F2ULL,
+		0xF9BB5B4C54CD58BEULL,
+		0xF030AD65ADF36BF3ULL,
+		0xD944E2F148320DA3ULL,
+		0x0DD668BDCE7A9DD8ULL,
+		0x6A2DCBE9FB8341F6ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x5154506147BE4BDCULL,
+		0x6608B84271341219ULL,
+		0xB3E96ADDD4C5AEFAULL,
+		0xC2A38B9B02653393ULL,
+		0x4107A9A97CA11A8CULL,
+		0x5E4224BD16E7C234ULL,
+		0xC9D2E787D0CC554BULL,
+		0xC3EEDD218D49C407ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xDF835D96004D7DF6ULL,
+		0xC9E2025879D05CBCULL,
+		0x50EDB10C574BACF8ULL,
+		0x646F4171AEF0D689ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 290\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 290 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -290;
+	} else {
+		printf("Test Case 290 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xEF2C913A30054A37ULL,
+		0x39FF2F4B80DC419BULL,
+		0x8C1430916E0DDA9CULL,
+		0x8ADB79A3F015AC0FULL,
+		0xB0E35EECBD6BAA38ULL,
+		0xFF38D980E835DB7AULL,
+		0x8DD67271B05473B3ULL,
+		0x3D6E67E7B95399FEULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x11A176A1B5DF1EF9ULL,
+		0x22CBFD91658041C6ULL,
+		0x0C5EC7557C81B1D8ULL,
+		0x383A68C37F1FE2D0ULL,
+		0x0058E24C18E0E9A1ULL,
+		0x99A4711ED20F5E9FULL,
+		0xCEE8B10D4D85EBEBULL,
+		0x9FF5ABF6C8ACB636ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x12199A70E6BEBF81ULL,
+		0x2B3AB04965128872ULL,
+		0xD7001E229C345083ULL,
+		0x328CF6A429BB98E5ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 291\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 291 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -291;
+	} else {
+		printf("Test Case 291 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x1865BE1B20DEABEFULL,
+		0x452CA00B3CD63352ULL,
+		0x3C5675F0AD7664CCULL,
+		0xB1C01EE8B62FB1B0ULL,
+		0xA150A86380416969ULL,
+		0x464A213B0DBE82B3ULL,
+		0x37FC4A447275FF73ULL,
+		0x73DD8CC24C742D17ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x7D48C776E10405DEULL,
+		0x6A434046B549633AULL,
+		0x90CE62A0CD800252ULL,
+		0x4495E1A15E8F83ADULL,
+		0x15B4C548D66D0280ULL,
+		0xA5E57448D448DD15ULL,
+		0x1A4917C625F8814CULL,
+		0xD8FB362512834802ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x5440AC997561EA6DULL,
+		0xA9DB0BB90F0365A0ULL,
+		0x1421920F3A971C35ULL,
+		0x6AC3189DF1622F25ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 292\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 292 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -292;
+	} else {
+		printf("Test Case 292 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x7C4F129D50B2869FULL,
+		0xB2CD8ACDD3E25CCBULL,
+		0x227430DDBDF93D20ULL,
+		0xEB439FBEA30A0644ULL,
+		0xFD5A39DB7DF808A6ULL,
+		0xAB855E55FFC1930BULL,
+		0xBB4AFCF6D2EE5A56ULL,
+		0xCBB260A8C67922E3ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x5ECFAF97D3B1B93CULL,
+		0x9710B83E56AE4AB0ULL,
+		0xA6586E8FCA230C65ULL,
+		0x5065AAF3715DD3B9ULL,
+		0x0537E40B646F7080ULL,
+		0x5DBFC075919E07C0ULL,
+		0xBB59A6D51E98567CULL,
+		0xC225DC79AD3DE5D6ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xF2981FE947476353ULL,
+		0xA71241DFD67ABF61ULL,
+		0x79EE8B4EB89AC322ULL,
+		0x05B993C8F0774278ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 293\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 293 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -293;
+	} else {
+		printf("Test Case 293 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xE5619F3320E13756ULL,
+		0xD0C44E38A8DA9D00ULL,
+		0x37585E08110671A2ULL,
+		0xE26BBA28163FE779ULL,
+		0xB12F89A501083325ULL,
+		0x3D3B7C6B988B52FDULL,
+		0xFF2B8CDF9C07E8B5ULL,
+		0x0A952E7147309D35ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xF7FBE50823E0695EULL,
+		0xA416315689F123E0ULL,
+		0xC21B6A229A197ED4ULL,
+		0xBDF78B157053D0E7ULL,
+		0x5786031909A17428ULL,
+		0xF811EC7811C273D3ULL,
+		0xE00C819D990DA4DAULL,
+		0x38BFF3B00D16EEF9ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x3C8FB2F1B641267CULL,
+		0x70D97B0820BA9969ULL,
+		0x13D89FB1E8130534ULL,
+		0x4A1AE7C145BBF37EULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 294\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 294 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -294;
+	} else {
+		printf("Test Case 294 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x9A048A9E6F72F03EULL,
+		0x5B03867F2B1E72D7ULL,
+		0x4E6129A8374F78BEULL,
+		0xE364FAB960C03232ULL,
+		0x6F193C25655E3671ULL,
+		0x6B4C7C4D5CCCFE0AULL,
+		0x8485060CA1CA5BDFULL,
+		0x86E72D37E18FF238ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xBF67D166C68F5F0AULL,
+		0x049788B5E91C0C04ULL,
+		0xCED47636C84F627AULL,
+		0x47AE66136B950F23ULL,
+		0x8AA7176E11020B96ULL,
+		0xFDB82709139AF77BULL,
+		0xBFA2A403800A193AULL,
+		0xB40C916074A334FBULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xC38E2C6E2E91ECBFULL,
+		0x9A70A5EC1F6F6008ULL,
+		0xB92740CC7189FAACULL,
+		0x6829B6A0204F3A13ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 295\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 295 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -295;
+	} else {
+		printf("Test Case 295 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x2B7FFAC6182FD326ULL,
+		0xA15AE2596041D3EDULL,
+		0xE9B485044860EB8AULL,
+		0x48E0E687F3411955ULL,
+		0xC12CC877465880A7ULL,
+		0xF4E3013209911F73ULL,
+		0xFD113DC1E5D6D903ULL,
+		0x846520D6E7973644ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x79452E9AFD717C93ULL,
+		0x01759278A8C7B436ULL,
+		0xC9BE9A71794E32C6ULL,
+		0x7E1A74DF22D6DB64ULL,
+		0x4BCF0BF6FB4F0445ULL,
+		0xC413D4D88B6D0913ULL,
+		0xADEB6CE189006094ULL,
+		0x1923419FD47EB877ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x1E24C7363E26CF6CULL,
+		0xDEA5E52970D57208ULL,
+		0xDF92EBE096E89945ULL,
+		0x368D93D5A60CEA6AULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 296\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 296 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -296;
+	} else {
+		printf("Test Case 296 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xDCA09A88A95AB26CULL,
+		0x51C0C844C4876E03ULL,
+		0xEB6C992C93BE3ED7ULL,
+		0xDD9EA2BD5AE3B53AULL,
+		0x90EBB6C5A103E546ULL,
+		0x44BC634DD19CED41ULL,
+		0x30B4E397E12D4A2AULL,
+		0xBA7FFAFC93364649ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x56AF3ADE44715604ULL,
+		0xD48EA2458297FF88ULL,
+		0x6D5F848B17EB01ECULL,
+		0xE591243916A55F88ULL,
+		0x6121F33BDB75E80AULL,
+		0xC6473C755BBE1E9DULL,
+		0xB3E76FAE1C60E160ULL,
+		0x71BB0B3C6F91253BULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x9DE4661DB7FCF4DFULL,
+		0x4295EA20C1021ADAULL,
+		0x048C4954B22ACAD3ULL,
+		0x454915098EC13DB3ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 297\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 297 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -297;
+	} else {
+		printf("Test Case 297 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x9B570561E080F210ULL,
+		0xBF27161A6549CC62ULL,
+		0x5423127DAF7D1E89ULL,
+		0x92FD806D9EEF0958ULL,
+		0x10A172E4F8A08900ULL,
+		0x683EC97DD91335E4ULL,
+		0x2BD20D40710D3A12ULL,
+		0x4A2018AABEB70E95ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x3556D7CB0C1B4A8DULL,
+		0x45FF9B69A4ADD7A0ULL,
+		0xA9CAB582DDBDAA93ULL,
+		0x7F14AF801E98C2A8ULL,
+		0xD04E99CFD29686B8ULL,
+		0xBDDB31A1164BB06EULL,
+		0x472C1E9BB2880EE3ULL,
+		0xE73BFF75625F2AD8ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xF24C66BA79E1FAB6ULL,
+		0xC3F00575AA39C429ULL,
+		0x9AF9C96F1983DCE3ULL,
+		0x41C48ED9356214B9ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 298\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 298 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -298;
+	} else {
+		printf("Test Case 298 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xC2347A8DBB1910DDULL,
+		0x2CE97B9B9F401B4DULL,
+		0xE78DD5FCD58A1E76ULL,
+		0x5877FAD966036AA0ULL,
+		0xFD3290084C966DB5ULL,
+		0xFC9A3C053D3DB202ULL,
+		0x0509588C30D72420ULL,
+		0x611E6ED166298013ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x5EDCB4F50F74FD57ULL,
+		0xDBB13AFFE336CD62ULL,
+		0x2C253701CA1F3976ULL,
+		0x95E98D82FCB1EB33ULL,
+		0xA62765D5B5B7A70DULL,
+		0xECD198B1693EED08ULL,
+		0x87A12EB0E2F59948ULL,
+		0xE9F9A53EBE078F71ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x4F00091B10B58D58ULL,
+		0xA9007F0D33DA8B14ULL,
+		0x58DED5889AE58111ULL,
+		0x7204591B5E5B3766ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 299\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 299 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -299;
+	} else {
+		printf("Test Case 299 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x6A3599DF8C05F6FDULL,
+		0xC3E2763B863664CEULL,
+		0x2597841F30E56C8AULL,
+		0xAF88998E928EA5C0ULL,
+		0xCD025D051DF89D5DULL,
+		0xB8D99478DF728571ULL,
+		0x6AF99748FD10D786ULL,
+		0x81A80B76E0E452E9ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x02F3EACB1EC43917ULL,
+		0x961556F1199B7A3EULL,
+		0x5EEE0ADB72642032ULL,
+		0x1AA03DB2377BB087ULL,
+		0x618E1C22C1754573ULL,
+		0x61A97DBE2F72E878ULL,
+		0x8C33700D32D2A0ACULL,
+		0x8741CC31A2C16B08ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x5A8350AE28C0CA8FULL,
+		0x1EF07F008C8C3796ULL,
+		0xD8134C23C3BD70C1ULL,
+		0x4015C02394416099ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 300\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 300 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -300;
+	} else {
+		printf("Test Case 300 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x22F891FFA72F3B2FULL,
+		0xCA3A0CEFA333D736ULL,
+		0x4F98B030BEE93693ULL,
+		0x8CE9829011F81913ULL,
+		0x64AAA2822DF70AFDULL,
+		0xA87A284089854C8DULL,
+		0x7D5F67E92124C872ULL,
+		0x8133B1027494983AULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xF0D507CCE8119C00ULL,
+		0x847C676E146DB3C1ULL,
+		0x527D12ABAB77120CULL,
+		0x7A3A3D074801E382ULL,
+		0x0BECBD36AD6EB93CULL,
+		0x48DABF8D696F1884ULL,
+		0x2F51F0AC4C94CAF8ULL,
+		0x5D105967255CD05EULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x5E539367D359C293ULL,
+		0x776730185211DCD7ULL,
+		0x931B508CA0D1C4B1ULL,
+		0x6FEE46968C3DE044ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 301\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 301 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -301;
+	} else {
+		printf("Test Case 301 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xA8E8502EB053EC01ULL,
+		0x18096B8C7A07A4FBULL,
+		0x0F0C974585BE4E52ULL,
+		0x74B3F3833A1F94BBULL,
+		0x8CF54EE7FC7A98A2ULL,
+		0xE6438638D460228BULL,
+		0x5F517C1CF00A08CCULL,
+		0x2309DC7AC26954A9ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x55A3C9930FD85B7DULL,
+		0x500896E7E5FEC724ULL,
+		0x9A9FCD2895E4C7A9ULL,
+		0xB63B8A0165EA13A9ULL,
+		0x10244087DF1A92CFULL,
+		0xC1C5572908E02351ULL,
+		0x54AB4F3D7B416BE6ULL,
+		0x07ADB53E0673320AULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xDA4CA8DFFCBC6E5BULL,
+		0x32BBD0FCC908C085ULL,
+		0x0917734845A0D0D2ULL,
+		0x4E263C85BABEA4ADULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 302\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 302 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -302;
+	} else {
+		printf("Test Case 302 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x19E8F2E4ED0681F6ULL,
+		0x86291BFA6556ED4CULL,
+		0x89E5B013D415E1B8ULL,
+		0x064E3302AAA0F6D6ULL,
+		0xF906454AA084B959ULL,
+		0x328C45BAE9964FE0ULL,
+		0xB15674AB62E0785EULL,
+		0xEF7D84D98EC4BD6CULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x100FBD87EDDBDBC0ULL,
+		0xFE5892A0A5A1B81BULL,
+		0xF9D3146AA80C998FULL,
+		0x5C40A22661CB8E78ULL,
+		0x8C3F360D7E91B1D7ULL,
+		0x039A593DED9F09C4ULL,
+		0xD903F0F09BF384B6ULL,
+		0xBA501666A4E14A38ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x2F657870093DC49FULL,
+		0x7FB9A3E726699D69ULL,
+		0xAC522962B335731FULL,
+		0x0ECBF5EB0098820FULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 303\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 303 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -303;
+	} else {
+		printf("Test Case 303 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xE385F5F8028155C3ULL,
+		0x047FD9E7CDF316ECULL,
+		0x70DD8E19705AD85EULL,
+		0x10F9E809334D94CFULL,
+		0x7AFC6DC465BCC6E2ULL,
+		0xEADFB3DCA220BFE1ULL,
+		0xC31871B0858DCE3FULL,
+		0x7AF2490B3ACB9610ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x19B70FBF833E13DDULL,
+		0x9487E60A91C65550ULL,
+		0x92D9FAF4A7C625B4ULL,
+		0x1F90AD3AC860CF19ULL,
+		0xB794D70DA74F2AE7ULL,
+		0xC093B024E2D87A5DULL,
+		0x5F9D3051895E998EULL,
+		0xF4366BDC4C448D16ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xCB2F4558C3886669ULL,
+		0xB7408123A0E7132BULL,
+		0xA24F473E379684F5ULL,
+		0x714C0FC5D2F81AE0ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 304\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 304 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -304;
+	} else {
+		printf("Test Case 304 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xEACD5466D1748DF9ULL,
+		0x3555A352BC281DBAULL,
+		0xBB59442695769ADAULL,
+		0x8B13995FA6F05579ULL,
+		0xFCDB6187EB918A53ULL,
+		0x2D55E056CE01AEE1ULL,
+		0x10D97218A627BA77ULL,
+		0xCD88F9A9407367E7ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xA0EC551099DBC74AULL,
+		0x4742B216A1FF0A94ULL,
+		0x81630AF813831FDBULL,
+		0x7B3BB1F34EE0ACF2ULL,
+		0x2E8B1FC66EF2D4DDULL,
+		0xA772015C00B184F2ULL,
+		0x06DF0B977C4A3705ULL,
+		0x1424FD157293AE59ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xE9CAC20EB727BA48ULL,
+		0xCDE60A76940F4CBEULL,
+		0xB521705AB8D4FDD8ULL,
+		0x14AF655CE745339CULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 305\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 305 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -305;
+	} else {
+		printf("Test Case 305 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x0A4BD3FE764D8A80ULL,
+		0x2DE7BBD466B6B2E9ULL,
+		0xCB0C97EC493135C4ULL,
+		0x35DEC6DF8B5076A2ULL,
+		0xE425A73129CF5CC8ULL,
+		0x2DBA533B52557244ULL,
+		0xD7BBB58209BBC554ULL,
+		0x0C6858D55F2004D5ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x8F0322D0CDBBD690ULL,
+		0xF71C2D19B7ECAC1DULL,
+		0xDE7B5A6DA22B03E8ULL,
+		0x0E341AE98913424BULL,
+		0x223A47A66F1CB339ULL,
+		0x6A1AD0147079D267ULL,
+		0x0E39C48E79C6F4DBULL,
+		0x8F1E6910D6609A4FULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x4438DFC55F16DC45ULL,
+		0x407906803563C1B6ULL,
+		0xD5DB01A6055D23C8ULL,
+		0x40A443224EA70458ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 306\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 306 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -306;
+	} else {
+		printf("Test Case 306 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x113920F9168CA6CAULL,
+		0xB9187876B9A56D34ULL,
+		0x8F1DA8C2FE3F31FBULL,
+		0xA39A5FFE3C9BAD69ULL,
+		0x1832EBF711CED7D2ULL,
+		0xA2516340132B5A26ULL,
+		0x096DF6E7D58C201DULL,
+		0x4821DB106167AB0FULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x0A6CAD4171263DC4ULL,
+		0x010AB1BAD9341270ULL,
+		0x68A3385000B7F512ULL,
+		0xB9CC29E53D166AE9ULL,
+		0x50FEAC7458CD90B2ULL,
+		0x01258D02429D0BC8ULL,
+		0x9C2F885C54CECA0BULL,
+		0xB53F58807185B057ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x988DE11F1B96F553ULL,
+		0xA48F93E8D590FCAFULL,
+		0x5DBED92819A203ADULL,
+		0x376D97769B1079BAULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 307\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 307 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -307;
+	} else {
+		printf("Test Case 307 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xC62F1926DB05FFA2ULL,
+		0x09557D49C61E6535ULL,
+		0x7B47EDB8B7D1E094ULL,
+		0x80141979F25BC599ULL,
+		0x9EE8A612EDDCFB54ULL,
+		0x3D7773B48B856049ULL,
+		0x97C9411F2AA6EC22ULL,
+		0xF74FF292FED7AD04ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xD4769ECAAD2A9D08ULL,
+		0x461A7F7A67CA0DFBULL,
+		0xC863DF2C95525039ULL,
+		0xC7D1C5FCF3C54811ULL,
+		0x41B78FEF5284C51DULL,
+		0x1489410203779D11ULL,
+		0x310ACF80FDB71126ULL,
+		0x9120ECA98C97CA4AULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xC701C3A53CF370EBULL,
+		0xD696844F905F5197ULL,
+		0xF328EC06CE1A11C8ULL,
+		0x633D3423F4122532ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 308\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 308 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -308;
+	} else {
+		printf("Test Case 308 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x54E416186AAA5CD4ULL,
+		0xEF249919C33A2561ULL,
+		0x3D5511B228295713ULL,
+		0xC4FBFA6F1044C058ULL,
+		0xE09D221FB2645E9AULL,
+		0xE06D22B76817B682ULL,
+		0x4B6F2B5F763E87EEULL,
+		0xE26C94EB51039237ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xE11F2963E4F93C64ULL,
+		0x0083AB9D703CA6AAULL,
+		0xF8A327F5B9C72573ULL,
+		0x28739C02100D7CF7ULL,
+		0x4B878B6C3120027AULL,
+		0xEBCCD9594B91F73BULL,
+		0xF66133B35DFAC35DULL,
+		0x0C5877F90FABD483ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x94F94B59B5D6D1F0ULL,
+		0x3E6BD1748ED7E356ULL,
+		0xE4C4AD4808715F25ULL,
+		0x6384AA62B33D6BFEULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 309\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 309 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -309;
+	} else {
+		printf("Test Case 309 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xCE71C769C38B90A6ULL,
+		0xA82E0D993C2E4E77ULL,
+		0x24B3F179845D5F5AULL,
+		0x62E3F29EC886B908ULL,
+		0x6BDDB14658F420A3ULL,
+		0x10692C9790FE6678ULL,
+		0xCF1FC0A85DAC8F10ULL,
+		0x6FB7D5901C229935ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x768BDAA9AE59EF19ULL,
+		0x542FA5BB7298AB73ULL,
+		0x9BC37F065DAF176CULL,
+		0x70C6E0C5E22D883EULL,
+		0x1E2BC9B2B5078B35ULL,
+		0xA8471778B4ADFABAULL,
+		0x98E6A7CF13DAAD3FULL,
+		0xADED7176BC15BAC9ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xE04E4CAA6A4FCE78ULL,
+		0xC90D8A727D85A143ULL,
+		0x956A22B41BD5CCDDULL,
+		0x3627ED9D284234D9ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 310\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 310 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -310;
+	} else {
+		printf("Test Case 310 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x574A730196E34A2CULL,
+		0xE8DF842845DDBBD4ULL,
+		0xCC9B8DFD14C56FC0ULL,
+		0x8634D6499FD3DD2AULL,
+		0x7D42E20BCF1A110CULL,
+		0x0834014599F14979ULL,
+		0x3CDC2A59A152C2FDULL,
+		0x7176D6ED4EC8A955ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x0AE468A19148B9A5ULL,
+		0xE33B68547D444046ULL,
+		0x0F279035172F282BULL,
+		0x717F1DAFC55BCF31ULL,
+		0x48BD0F89120CB71AULL,
+		0xA83CA14C8D8A4CE1ULL,
+		0x5BA04B862081489CULL,
+		0x3E243A16EC485E48ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x184349C81595EB90ULL,
+		0x445C5ACB9FE2FA26ULL,
+		0x2C57112D1CAE71E3ULL,
+		0x32F9006C798331E3ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 311\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 311 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -311;
+	} else {
+		printf("Test Case 311 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x9AF2078FA2026A24ULL,
+		0xD9F8DBC3E66722EAULL,
+		0x938EDDD409C19E65ULL,
+		0xC01470CF6689BBAEULL,
+		0xF928C2059C3DD1E4ULL,
+		0xAE0BD3AC85788D54ULL,
+		0x00A2139831655A0BULL,
+		0x5CB2C14BD4F47AF3ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xDADB8CDD379249C4ULL,
+		0xA6FD8165B81CFF3AULL,
+		0xAF893FCA67D468FEULL,
+		0xC2435447BB9DD35FULL,
+		0x754E68A4C6F0CC53ULL,
+		0x523EF5D81B4BEBFCULL,
+		0x1A9076844F00B2FFULL,
+		0x6E84815E1C3217AEULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x527FBF1213DEF374ULL,
+		0xD36447E5F0EA16D3ULL,
+		0x0AA2EEFD3CDE013CULL,
+		0x58AE99D117C6A489ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 312\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 312 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -312;
+	} else {
+		printf("Test Case 312 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xAE0AD232B713F2F6ULL,
+		0xFD68FB3621FAC21FULL,
+		0xDDCCD7097C6B89BAULL,
+		0x82F8F73B3E188D97ULL,
+		0xBA7E22FA386E0817ULL,
+		0x7370C3432DFD6FDAULL,
+		0x3F425F44D0649BA9ULL,
+		0x69881B6F48A68004ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x0937D202767B7607ULL,
+		0xE0C0BFFFD197A7A7ULL,
+		0xC1A1A83CABC2778FULL,
+		0xFE69A1C280FDDD38ULL,
+		0x02A3CF088CA230E5ULL,
+		0xC598134294BF39D0ULL,
+		0xB5786C524D8D35C8ULL,
+		0x565FA66EF96757A1ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xEF3B760FC0DA6EA7ULL,
+		0xEAD25B4D0F9F200FULL,
+		0x90253ECC3CA23184ULL,
+		0x5C90B384807AAEFFULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 313\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 313 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -313;
+	} else {
+		printf("Test Case 313 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x75A55770129CC715ULL,
+		0x3E41C11915C3774EULL,
+		0x98529FF0F39F9C02ULL,
+		0x2CFFAE6B0FDC4ABAULL,
+		0xB615299284FD480FULL,
+		0x4D4C05FE04AF820DULL,
+		0xBC276A3B936BF06EULL,
+		0x6B68D79CEB461F43ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x90E17A2FCB18B5B5ULL,
+		0x0C08E179B265201EULL,
+		0xF4160CB9F2520256ULL,
+		0xCADB999A011F1DC6ULL,
+		0x86C189892F4FE29AULL,
+		0xC906111F100F155AULL,
+		0xAFB4E16F863AB65AULL,
+		0x44A4A44CF93AC18BULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xEB2D9EA2FF41217CULL,
+		0xD49B38B7B32E79C8ULL,
+		0x7D3CE180F69C3891ULL,
+		0x2343B2AEFC6D1645ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 314\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 314 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -314;
+	} else {
+		printf("Test Case 314 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x3ECC5D2DDC436AD8ULL,
+		0x35AA547D01EAD57DULL,
+		0xB63257146EA2844DULL,
+		0x40AFAF2030B9E187ULL,
+		0x500BD1830DFD3B35ULL,
+		0xFBC87B04359301EBULL,
+		0xBCAD78E3416C598FULL,
+		0x6E87ABB5A5033358ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x72E036B788DA9A97ULL,
+		0x0ACB79F05B96482AULL,
+		0x0CDC11F5419E9C44ULL,
+		0x4642402587A8EDC0ULL,
+		0xD65AAA3D8F556AB6ULL,
+		0xDF0D5E8DE76A5357ULL,
+		0x78899937AB163545ULL,
+		0x84E92A1F404D505DULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xDC37FAC72051C296ULL,
+		0x6EA5141C405E7736ULL,
+		0xC6A978977DCD4B09ULL,
+		0x27F4AB4D9C10A513ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 315\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 315 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -315;
+	} else {
+		printf("Test Case 315 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xB098FEC3F55FA379ULL,
+		0xDAAA63DE00A3289BULL,
+		0x1552F81AC34BB735ULL,
+		0x21E638E2E0A7DB15ULL,
+		0x085FF6F316B623C1ULL,
+		0xC25683B5FBE8A70CULL,
+		0x3B82BCD37D03373CULL,
+		0xB675F7610201EC07ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xBD0D9B6C9A2521DDULL,
+		0x1637D482CDBBFC04ULL,
+		0x319D07830D73CB0AULL,
+		0xE62240C0AA0F6A1AULL,
+		0x302784A7038418CAULL,
+		0xEC2161035D75A0F2ULL,
+		0x75343D99FA9BBC76ULL,
+		0x2649EF7479132F1FULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x0BEC5AA234A82551ULL,
+		0x9055B5DEB7FA146DULL,
+		0x535CD32111342589ULL,
+		0x224D253E8A087B62ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 316\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 316 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -316;
+	} else {
+		printf("Test Case 316 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x7F4B4E6DBBA9CA3BULL,
+		0x662CEB0DCDF655A1ULL,
+		0xA776EDF1E9D6A127ULL,
+		0x75B89988F2F1E0C0ULL,
+		0x51005299214D797FULL,
+		0x296786B2D1E4F4E4ULL,
+		0x89CE3FD2DDE348A2ULL,
+		0x864D05B94270E738ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x3425E0E52F090477ULL,
+		0xB43DF3E2FE5DEC8AULL,
+		0xB90516254E98FF1EULL,
+		0xCCD720A61C0D515AULL,
+		0x8683AD8C2A250C50ULL,
+		0xB602F9D5BD25E684ULL,
+		0xC3723BD16B7FBA3DULL,
+		0x4DBA8BEBB482C891ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x59A5ED753CA0FBEEULL,
+		0xD2DBDFFBE3F48B4FULL,
+		0x601A70039604C4F1ULL,
+		0x0E9F8D65E83D1C27ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 317\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 317 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -317;
+	} else {
+		printf("Test Case 317 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x9D8698616D1D0737ULL,
+		0x8122FC229FF5BD7BULL,
+		0xFDE8B6DE90AEA449ULL,
+		0x4BA4D11F6EF31988ULL,
+		0xB16B717ABFBC6793ULL,
+		0xAAD1FC57173668A2ULL,
+		0x7807D9E3884559ABULL,
+		0xB2887DC6F875D2C8ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xCD4F92BA7343C9F7ULL,
+		0x2C95131187AD8E02ULL,
+		0x36D5A332A44590C6ULL,
+		0x7DC229D8A11C6AF6ULL,
+		0xFAFE6F3E6A8A5AB5ULL,
+		0xEE6FEC015575A8B5ULL,
+		0xF20F0EC5E25AF857ULL,
+		0xC2E6FA89A9C16AB1ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xE4655A9B9F4725C2ULL,
+		0x4B1C55CBDAE4AC9BULL,
+		0xAA013A128D3385F1ULL,
+		0x5FDC22607C9E21EAULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 318\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 318 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -318;
+	} else {
+		printf("Test Case 318 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xB5027B0D3D398648ULL,
+		0x43345E9854A2827EULL,
+		0x37CD0C06BD754523ULL,
+		0x632F8CA72B85DA69ULL,
+		0x1D687A7C61958735ULL,
+		0x32D5A2ADE0E23D39ULL,
+		0x357898652A61F032ULL,
+		0xA3FD3C1A27DD6E79ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x90B8ECC89AD4A02CULL,
+		0x88030FF01B243646ULL,
+		0x263435881B61F3C7ULL,
+		0x80CDE1A0B610C568ULL,
+		0xA73A51291C8B1568ULL,
+		0xF93287424A4CBAE3ULL,
+		0xC78008EF51F20FB9ULL,
+		0x328E4E060472658CULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xAF23B0A0E1F1CCFDULL,
+		0x496760A093AFA4E7ULL,
+		0x647E21FCC2AEA334ULL,
+		0x38D90203B7586819ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 319\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 319 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -319;
+	} else {
+		printf("Test Case 319 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xB8FE41F8209165B6ULL,
+		0x834BE975569B6BE3ULL,
+		0x766EA85F3BF7A1FDULL,
+		0x8A17927BE6E17190ULL,
+		0x9728BF09180C0150ULL,
+		0xFBA96AEA289ECF01ULL,
+		0xCDB19A15F4782DF2ULL,
+		0xA6DDE33C47CA60DDULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xBBF93FAE699BA35BULL,
+		0x258253648B0F04BEULL,
+		0x5DE72604E4391863ULL,
+		0x5881AB9F8BEC1D61ULL,
+		0xC71C42B60966AFD9ULL,
+		0x72CB96EB490E4DFDULL,
+		0x761FF37EDB7CBDE9ULL,
+		0x75A4E9C0EEE080BBULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xDEDF769DE37FDB22ULL,
+		0xAEB70DE5FAFF8DB5ULL,
+		0x18263CC80D112B04ULL,
+		0x000AEF2B8DAC9948ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 320\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 320 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -320;
+	} else {
+		printf("Test Case 320 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x75059B54EE34BB3DULL,
+		0x47895A78DB659A58ULL,
+		0xE51C067171010D0AULL,
+		0xFED1EFA27CFC8032ULL,
+		0xCD193BED7CAFA869ULL,
+		0xB537A89A665CA6DEULL,
+		0x89B478C60783A44BULL,
+		0xC9E72387B08E355FULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x2F3C3AA9274474E9ULL,
+		0x7240C13D490F0842ULL,
+		0x945A3CC6BCA9CFB7ULL,
+		0x63F218E0061DC822ULL,
+		0x75DC9AB6FF95197DULL,
+		0x7C2C08ECEBF7F34CULL,
+		0x3B7F815FE7D48161ULL,
+		0x15ACBE3A6311288FULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x38C94EC258E1815EULL,
+		0x4D024CFBBD4939CFULL,
+		0xEC9E82D368566C17ULL,
+		0x5B8AE03BF76E9EFBULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 321\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 321 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -321;
+	} else {
+		printf("Test Case 321 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x72B47DCC7524F03FULL,
+		0xC1B528CDF0A1D17FULL,
+		0xFAF9FA1066CF2A63ULL,
+		0x54006D68157ECE4FULL,
+		0x47D994AB00D6AC23ULL,
+		0x249F133F7CC692DFULL,
+		0xDE57C7516D91562EULL,
+		0xD7B7F9EB2F1B811AULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x9F046395EF1C33C0ULL,
+		0xA4C5768E5202F0E5ULL,
+		0x2E26F3B090ED0AC8ULL,
+		0x7BF08663FCD78C36ULL,
+		0x18DAB19ECF9D7C60ULL,
+		0xAC446B81EE022AF9ULL,
+		0x6D072BE26B8941FFULL,
+		0x8336E29650D8E37BULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xCD85CE05D485D539ULL,
+		0xFA649862CFC64CC4ULL,
+		0x9ECA18DA23151E80ULL,
+		0x63395D9D168AA7C4ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 322\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 322 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -322;
+	} else {
+		printf("Test Case 322 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x827E01E1481528D2ULL,
+		0xA3DF5B5640A20016ULL,
+		0x9F3111B392B666C7ULL,
+		0xFD75534330789B38ULL,
+		0x498060CD76852AEEULL,
+		0xB0381E8EB042B1EFULL,
+		0x3F17B2FADECDD946ULL,
+		0xBE9400E1E6977F35ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x0A4C18DC39663EA6ULL,
+		0x5327B4F0975BFA1FULL,
+		0xC73A37AAED959A94ULL,
+		0xE4210A91EBBBE573ULL,
+		0x2CB0AD08E8AF74B2ULL,
+		0xCEEA5C765420057CULL,
+		0xBD5DA9606FFEEE6AULL,
+		0x94C0FAE91D32EE15ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xBF0698321C67F7F8ULL,
+		0xC2427603566B9F0DULL,
+		0x199446F517D7A8D6ULL,
+		0x4EA72B9F29AA4072ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 323\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 323 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -323;
+	} else {
+		printf("Test Case 323 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x9C7846958711F179ULL,
+		0x4E4E15696075A2E7ULL,
+		0xFC7B924B3B5DA0C9ULL,
+		0xB76BAF5B3BBB9C87ULL,
+		0xE472099C3DBE8E37ULL,
+		0xC2644819915960B0ULL,
+		0x1B227DDF7F247202ULL,
+		0xE7D5A6B41EC0B473ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xBECF3806289FB5ACULL,
+		0x8B71336A3A0B0922ULL,
+		0x7E1EE3B84438A0D3ULL,
+		0x6115216633E59E50ULL,
+		0x563FF526D2DEAFCBULL,
+		0x797479B2488841B9ULL,
+		0x5477EEA47F21F43AULL,
+		0xB6B8E59B24037DB9ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xF91817FD3BAD40F2ULL,
+		0x96758553F5753283ULL,
+		0xFBADF154F783ABB0ULL,
+		0x209B37AA3FEC1DCAULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 324\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 324 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -324;
+	} else {
+		printf("Test Case 324 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xDE028ECDC2D9B8A7ULL,
+		0x020AFDAF8ACA9A54ULL,
+		0xCAEFA718A812FD1DULL,
+		0xB2EA666192004234ULL,
+		0x8F61034AA024329FULL,
+		0x22D9A448AB380831ULL,
+		0xBDFA862FE28EE893ULL,
+		0x841FF5F4C3634A7CULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xD512087A680CB91EULL,
+		0x547CE6B5526D41A0ULL,
+		0xB2C761AAFA27717EULL,
+		0x5EC9DCB13D6FCFF2ULL,
+		0x619528B5397EB68DULL,
+		0x5DABF860749032E6ULL,
+		0xE5673D36188A8E95ULL,
+		0xD9D5AC821420AEB5ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xD532F880975D685AULL,
+		0xF2559B72554701DCULL,
+		0x3E051A81AA90E749ULL,
+		0x1B2770B6587391C6ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 325\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 325 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -325;
+	} else {
+		printf("Test Case 325 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x9B6E5F69D302C20EULL,
+		0xF379ADA05D8A35F4ULL,
+		0xB775FE0569C9A606ULL,
+		0xD9AC35EAD6BAFB00ULL,
+		0x2308D67F6CD5A01DULL,
+		0x382319C457E4C05CULL,
+		0x6C951C0F2C4CD5B5ULL,
+		0x3B8808F5033A4B34ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x7F9D79CE23890242ULL,
+		0x55DBDC9C6B652924ULL,
+		0xFC0F3A22B5054165ULL,
+		0x5E89166422525AE8ULL,
+		0xB12652D3B064EF68ULL,
+		0x1E0042F5505DD027ULL,
+		0xB585DC73BF818059ULL,
+		0x11C84E311183C8ABULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x03707119A833FBA1ULL,
+		0x7EC9B3BF102CB499ULL,
+		0xE7AA34F4DAF3104DULL,
+		0x2D98D89C95800062ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 326\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 326 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -326;
+	} else {
+		printf("Test Case 326 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x9A62A81F5D7FD874ULL,
+		0x24B826AA3D08BC52ULL,
+		0x582EE6D10923E0B3ULL,
+		0x2A06B3C8FAD09158ULL,
+		0xE8FC866035740135ULL,
+		0x17DD213827FF0F64ULL,
+		0xE2A4F35D7DC827DAULL,
+		0x6798957B41CFAF54ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x1FB6A5528992C342ULL,
+		0x194901DFCB6802DFULL,
+		0xA45E4764A6FAB91AULL,
+		0xD7B75C517C10D1F7ULL,
+		0xF2915F23F38B254BULL,
+		0xD0E5EA3C17881E69ULL,
+		0xCF767C32E75634DBULL,
+		0x8909E2D55951DEA4ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x0E93D5BE9C7DB90AULL,
+		0x94214E34E3487EB4ULL,
+		0x8CB64FBEB7133957ULL,
+		0x5B7DDC18016CB983ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 327\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 327 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -327;
+	} else {
+		printf("Test Case 327 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x4C9582627EEBF168ULL,
+		0x051CC201540EEBD4ULL,
+		0xB3A70218BC8B12ADULL,
+		0xC0D1F1E991CE40A4ULL,
+		0xE843CFB2F31DACB0ULL,
+		0x43AE004C248D7325ULL,
+		0x53F426C3C1CBFCF1ULL,
+		0x290B91564C223FA6ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xE2FA62D5D4D6064EULL,
+		0x815697A197F68422ULL,
+		0xC90D7A2639FDA9AAULL,
+		0x2ED3F2E8470C88CFULL,
+		0x544ADE7D1B8D4B66ULL,
+		0xCA3861662E687A99ULL,
+		0xF51CDF444647BEDBULL,
+		0x96739E6C1B345B12ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x608EED8AA98459B6ULL,
+		0x8B3BC08245954C8FULL,
+		0xFE8E24DED82EA032ULL,
+		0x548C0DC48E11A5B4ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 328\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 328 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -328;
+	} else {
+		printf("Test Case 328 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x7F9BAEF66879540CULL,
+		0x9D0D0F3497F5D37BULL,
+		0x3C88630F8CDD4EB1ULL,
+		0x058EEC63FAFE3DD9ULL,
+		0xD7E359C7D22EA8EAULL,
+		0x6CC3F5F79DAE4656ULL,
+		0x3E2CC4D8D024CBC8ULL,
+		0xCEFDBFD7CF55DF33ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x4B91E58691E5E6CEULL,
+		0x16A6568100C36E36ULL,
+		0x91F3EDCDD8FABB00ULL,
+		0xB4EA3D061E47A4BDULL,
+		0xBB618D38F1CE5DD2ULL,
+		0xE8350577B9EF23E2ULL,
+		0x62AC6B8C7323FE5EULL,
+		0x1163698B8638BB60ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x6F4E26A524DE96D0ULL,
+		0x339E6BAF65918281ULL,
+		0x3FA1B6978201115BULL,
+		0x758D7EB0B709EA68ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 329\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 329 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -329;
+	} else {
+		printf("Test Case 329 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x9F91DE031B356062ULL,
+		0xDB8478BC8A2AC1C0ULL,
+		0x6CB9DE0A8AE707F5ULL,
+		0x4D989F36B7ACC879ULL,
+		0x893A1AE0BC0D2729ULL,
+		0x19EA3591225B5735ULL,
+		0x6ACEE9E36C2E54DDULL,
+		0x1084ED57D95A5DD9ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xC833A90D3AD94169ULL,
+		0x2332910BEF933B26ULL,
+		0xB6EAEFD5805824BDULL,
+		0x637F4D8209AB7DF8ULL,
+		0x74D7C12327E2D0B8ULL,
+		0x22943B28883B4033ULL,
+		0x300758C6FC080758ULL,
+		0x0A1DE4299848D5CFULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xDDF78719DEA4F3D2ULL,
+		0x6F1513377B5AF0E8ULL,
+		0x6F6E786DB03E64F5ULL,
+		0x5D64AE92569B7C05ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 330\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 330 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -330;
+	} else {
+		printf("Test Case 330 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xBD40590B7331ABF7ULL,
+		0x7C3421405C269154ULL,
+		0x3FACA6ABDBE936C6ULL,
+		0xC85781879D4DDD51ULL,
+		0xE8130A25EA5E7091ULL,
+		0x164CDCDC890795A1ULL,
+		0xFCBEC8AD8B66B027ULL,
+		0x521BA456251B2EC9ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xADB2BC9F2A870DEFULL,
+		0xC3DFB17FF13E9890ULL,
+		0x466EC63D4FEF1515ULL,
+		0xCC7E61771D8CD379ULL,
+		0xEF3BFFE212E1B760ULL,
+		0xF9A7CFF5567C0C62ULL,
+		0xA10EF8F65A4546A9ULL,
+		0xB670EC7E755BFD03ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xFF79227E452E1914ULL,
+		0xF8D45A11EB9E581CULL,
+		0x9556B59FD6EFCA42ULL,
+		0x17306A1496226D49ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 331\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 331 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -331;
+	} else {
+		printf("Test Case 331 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x72BFB881D177FF58ULL,
+		0x5F73C7889A0FDB12ULL,
+		0xBA0A04B8CEC608E8ULL,
+		0x3F31FFE2CB49BD1DULL,
+		0xB756F476BF2A081BULL,
+		0x544EE793D48FAFDAULL,
+		0xCB4EE5B41E31170EULL,
+		0xF46E9B7BB0430518ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xA4A3DBB5C3798957ULL,
+		0x50A95467090D78CFULL,
+		0x37CAE8C84717950FULL,
+		0xCA06AA395B861A80ULL,
+		0xC83F9CFD0DFCA45FULL,
+		0x07CD57B09726C4C5ULL,
+		0xEAE5A064EA99073CULL,
+		0x5F016EFB70E147BDULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x4B92D8DC5ABB471AULL,
+		0x6A05CEDCAE95475EULL,
+		0xD1DF65B23040CD10ULL,
+		0x235FF0B2D845BE1AULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 332\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 332 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -332;
+	} else {
+		printf("Test Case 332 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x3DA4C8FC018208A1ULL,
+		0x52BB64567E634201ULL,
+		0xCF005B5C8C0E56D2ULL,
+		0x1031E0DED66B7FC8ULL,
+		0xBB9DA6BF55AE4963ULL,
+		0x9273042177690649ULL,
+		0x2466C1092432637EULL,
+		0x3CD109828D1F647EULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xF891140845419736ULL,
+		0xCBC7F16330B2ED3FULL,
+		0xFD178C17E8B8ACBCULL,
+		0x9D6DB3E74896892CULL,
+		0x01ECDA14DECF4010ULL,
+		0xAD542F7E8491F7BDULL,
+		0x8E0291F99AE1B63BULL,
+		0x4EE65630C4CF4365ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xD5521641615BD338ULL,
+		0x89870323599C7DA4ULL,
+		0x24C7CB93054F6203ULL,
+		0x439ACB1B49B9E042ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 333\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 333 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -333;
+	} else {
+		printf("Test Case 333 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xCCDA787E462DBF1BULL,
+		0x593B23CDBE37FD7AULL,
+		0xF3B2943520432600ULL,
+		0xC3B983B8BD7E9C4DULL,
+		0xE6D4BFFC3DEFD2B4ULL,
+		0xB663CA532840F776ULL,
+		0x046EFC6B7B6CE745ULL,
+		0x97DC16F2AE21F9FCULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xE5D38D10ABAFEDD0ULL,
+		0x3DD72DA80E8AC674ULL,
+		0x81B97BB64C01A8F3ULL,
+		0xB546315010E4BCF1ULL,
+		0x48AD8E16EECBF741ULL,
+		0xD185A96B503E22C8ULL,
+		0x7B185908FE7852B4ULL,
+		0x28B953306E0B188DULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x60D8537759D066D0ULL,
+		0x145CD88FC018C8F1ULL,
+		0xD4D5591D608F8A8FULL,
+		0x0D9C613E2FFF55C4ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 334\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 334 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -334;
+	} else {
+		printf("Test Case 334 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x81FE036110CAAA53ULL,
+		0x1EDE87B4E9BE17D9ULL,
+		0xF9377B464783B946ULL,
+		0xAFFC1F486E1F6812ULL,
+		0x78C04EE17E483676ULL,
+		0x5424EABE2693F817ULL,
+		0x746503F14EAD958AULL,
+		0x2C8701354A5E3BABULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x2B026BBEC1A17264ULL,
+		0x232D74CA3CC3E39EULL,
+		0x9B183B874EA066E4ULL,
+		0x3027A1EAA3D656C5ULL,
+		0xE93847705AAB9DBDULL,
+		0xDB1C27358CC71EB4ULL,
+		0x5CAC44E2BDE84485ULL,
+		0xA05051F470924AFBULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xA52CB26D9867E0DFULL,
+		0xF2FE1931816278DCULL,
+		0xE38B9BE8762D590BULL,
+		0x4FF280FE1E8ECB70ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 335\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 335 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -335;
+	} else {
+		printf("Test Case 335 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xBB8419425B74D240ULL,
+		0x613FA7F6D11ED3B9ULL,
+		0xC64E63199B666B3BULL,
+		0x0C454A422619981CULL,
+		0x0292449C33488D28ULL,
+		0x0D68BF1A65D479B0ULL,
+		0xBA64768080D3BC28ULL,
+		0xCDEC2A92EBAE1EDFULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x7F0BF54A4EE3E8BDULL,
+		0x1DE8DCE44E3D126DULL,
+		0xF384A1D9A00C613EULL,
+		0xDCDA9ED78AB4DF3FULL,
+		0x5E3F04E4764FE30EULL,
+		0x11467BD4AF9BE56FULL,
+		0x60D6077ED924D339ULL,
+		0x6D17E60049CC62D5ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xA0D3993E197A2B60ULL,
+		0xB06CC76B8F47C2E4ULL,
+		0x1DEE3B7EDF509D76ULL,
+		0x0EECD92EA2E6A266ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 336\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 336 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -336;
+	} else {
+		printf("Test Case 336 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xDB3320EC1FB5FB3CULL,
+		0x3277306EBAF96012ULL,
+		0xA0BF8140B98F87FFULL,
+		0xC5D18314E29C6EBAULL,
+		0xBEBAAAD3D7CCEA88ULL,
+		0x8C6AC3C1B4A32B5BULL,
+		0x508E7518A687A080ULL,
+		0x2C3903A9D42B9EAAULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x6E6C499EB0301595ULL,
+		0xFB6629B7B2706616ULL,
+		0xB6F0742DA94B49C8ULL,
+		0x3E06E75DD13A64BBULL,
+		0x31F33C998DC5078EULL,
+		0xE239E5DA94D05691ULL,
+		0xA61EA8909983B44EULL,
+		0xA148935B41C9524DULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x526133F46CB1943DULL,
+		0x7A51F705C1D4900DULL,
+		0x36676944FED94D95ULL,
+		0x277B4760CBF95FC0ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 337\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 337 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -337;
+	} else {
+		printf("Test Case 337 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x1003AD200CBF0A15ULL,
+		0x85541F4524C7BBCCULL,
+		0x0B9CA9A22E61AB40ULL,
+		0xC4F6E1830F6D0EC2ULL,
+		0xAC7AA2A1CDF427F4ULL,
+		0x3F74E0B20DA43FB6ULL,
+		0x7B40CC5914D5BDB7ULL,
+		0xC80EF0B77389ACB5ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xE7AF004FC3290867ULL,
+		0xB16283A9A98688DBULL,
+		0x9C639ECA67E686F9ULL,
+		0x6D9C5368BCE97D84ULL,
+		0x1D6DB1812389A857ULL,
+		0x250CBA078E3AA2EAULL,
+		0xFBF3F54644FBF34FULL,
+		0xABBCE892D9EF819CULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x644077A99564F3A7ULL,
+		0xBF6758EA64EE794DULL,
+		0x54A0F7A2A0CF2FBAULL,
+		0x0B87C3891F65F6E0ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 338\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 338 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -338;
+	} else {
+		printf("Test Case 338 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x62A0E17A24118442ULL,
+		0x75AA4920C3C71BEBULL,
+		0xC3048026ABBEB183ULL,
+		0x0D4BA1AED0D69521ULL,
+		0x7841D9E794F3FFFCULL,
+		0xBC70546FD7D40D95ULL,
+		0x8C1AAFB7BAC58A55ULL,
+		0xA517EB8E88B8F8BCULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xCA8595CB21C2B934ULL,
+		0x6220368104100A77ULL,
+		0xFC6FE983BE0DF6FCULL,
+		0x18DA20DC7DE86F81ULL,
+		0xBE3008FE1B8B6B30ULL,
+		0xFCF9A968A3CA1A4AULL,
+		0x5B0AA6998ED125BAULL,
+		0xF6E3B1FC87F1923AULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x36C04E5707D4DF7BULL,
+		0x7F2775B179312E8BULL,
+		0x0EF5F11D73F7A97FULL,
+		0x50320C7E70875CF3ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 339\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 339 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -339;
+	} else {
+		printf("Test Case 339 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x896402EBF782AEDCULL,
+		0x2C183F78A0C4A841ULL,
+		0xAA74D90021C22A1BULL,
+		0x5EB081F4BA2B1824ULL,
+		0x13030CCDA31DD0EAULL,
+		0x0A7F568C8B7DE228ULL,
+		0x41FCE3E4BD939949ULL,
+		0x38ABDD4920B15A85ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xECAFAA12E74EC2C0ULL,
+		0x52894AE1BF73E827ULL,
+		0xC1682AC618C7AB4FULL,
+		0xF70720724E45E8C1ULL,
+		0xF4155CA1316EE6D5ULL,
+		0x62C6F5073C330C9BULL,
+		0x0FC6519FBED30507ULL,
+		0xE65DDB88A752D880ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x33FC7F71F02AA74BULL,
+		0xBEED6E60A66C72E6ULL,
+		0x5D266477D990808AULL,
+		0x1F3DA4146FEC7C28ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 340\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 340 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -340;
+	} else {
+		printf("Test Case 340 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x20DAD720FADDCDFDULL,
+		0xD1646FC7C7DD53E8ULL,
+		0x27BDA3C3D7DED31EULL,
+		0xFF2A73DF01D8E5B2ULL,
+		0xFC13248E9CCB4902ULL,
+		0xFC854EEDC2CED1D6ULL,
+		0x240789CBA366DC19ULL,
+		0x8B1625299E8BE981ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xE116695A74AB7DE3ULL,
+		0xBB74040EA334BF98ULL,
+		0xE483DD7E4DEE6CC8ULL,
+		0xD685DDD9B952FDF4ULL,
+		0x3BCB5C045F68FBECULL,
+		0x9ACEC92C9E1067C0ULL,
+		0x9B2CE062B40F785CULL,
+		0x8BA56A00143AAACEULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xCA6C324BA2C9C15EULL,
+		0x9708466498EC53AFULL,
+		0x93AEEBD910E93472ULL,
+		0x13605E2FD095363DULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 341\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 341 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -341;
+	} else {
+		printf("Test Case 341 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xEB3CA7FBAF8F5B07ULL,
+		0xDADA136E4DACA86AULL,
+		0x68258EFEC9434112ULL,
+		0x78A185C42361C154ULL,
+		0x881DF0279ECA516DULL,
+		0x7D83FE4AAEF21B43ULL,
+		0x6BDEE1A297A3E5A8ULL,
+		0x4057CBD6B1CC5360ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x29C226D37D0099DEULL,
+		0x962A5E33B84F00DEULL,
+		0xA80111F45D50059CULL,
+		0x6D24512B56C8DA3CULL,
+		0x5530784372E131EFULL,
+		0xA3D249D98A9C634DULL,
+		0x82BF4F2B994CE832ULL,
+		0x1921BD419EC2A5A9ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x50BA4D06B7296EAEULL,
+		0x95107E05FA16F618ULL,
+		0x5AD43AB42CDCDAF4ULL,
+		0x5D835EB9A008B03EULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 342\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 342 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -342;
+	} else {
+		printf("Test Case 342 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x87A5C892FA4684F6ULL,
+		0x58B25E097BE84E0FULL,
+		0x3CCB970BD49818B7ULL,
+		0x54182EA12E0B69B7ULL,
+		0x8604A521DE3F3F17ULL,
+		0xC5B55A54A304F23DULL,
+		0x9DEB47530B49A831ULL,
+		0xC44E4811BF1EA82BULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x2655191575BFE03AULL,
+		0x8A220B02643F3F1BULL,
+		0xE2C71D6E4E1E8FACULL,
+		0x527F490EBE42E047ULL,
+		0xDE7951FF4B05B7B9ULL,
+		0xD630787D9D5D47BFULL,
+		0xF82C2CEAAE6960BAULL,
+		0x4E3EBCB3E2012DACULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x3FFF069F5F10BF49ULL,
+		0x5C49D8F1EE8C5D9BULL,
+		0xF462651B4FC424B2ULL,
+		0x07E795814228B83BULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 343\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 343 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -343;
+	} else {
+		printf("Test Case 343 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x1EEE4984A48325B8ULL,
+		0x8AACD3D44AD20AAAULL,
+		0x9D947D94BDDB6A89ULL,
+		0x2D47B2732AAFC209ULL,
+		0xE1A40379C73860B5ULL,
+		0x4D1245467185117FULL,
+		0xAD169B2A2B1F3E26ULL,
+		0xA84A963280118985ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xE802211AD93C7A92ULL,
+		0x6F02F8DC579F0A96ULL,
+		0x89CAA3EB124C01CEULL,
+		0x692E511ABAE5087AULL,
+		0x97C379BA3B3CE397ULL,
+		0xA9366AAA17A2D382ULL,
+		0xD255062B642FDC4FULL,
+		0xBF275C60A9EA0197ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x2E409AD8929B3D02ULL,
+		0x6E4C4E2D4AC833ACULL,
+		0x8C85F77B3317EE97ULL,
+		0x5F53F67E39A8E6DDULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 344\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 344 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -344;
+	} else {
+		printf("Test Case 344 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x08B3864EDCCF3072ULL,
+		0xE3CC1EBBF53E9713ULL,
+		0x50779BBD5431AB28ULL,
+		0x4E970EDDF3CD52EBULL,
+		0x80574A6D94FDF75BULL,
+		0x28E182632A46B863ULL,
+		0x0124F1414410234CULL,
+		0x800A072ED9D109A0ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xFF2E6E1EF48E6ABAULL,
+		0xA6EAD22D72409E52ULL,
+		0x8618CDEB4019B44EULL,
+		0x68AE10BFAA9CC4D6ULL,
+		0x98958240F36F325EULL,
+		0xDD7B047174AB7A8AULL,
+		0xA549F14BCD674E96ULL,
+		0xC00D7F22060A4144ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x7048CECFE37201CAULL,
+		0x6E17FE6F780926F2ULL,
+		0x6CE0CC41B12789C3ULL,
+		0x65653005B8B24BA4ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 345\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 345 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -345;
+	} else {
+		printf("Test Case 345 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x30EFAA2B26A28C0FULL,
+		0xDA17D198870CAA82ULL,
+		0xE3ECF296C3A8F6A1ULL,
+		0x9EA8A13E9A0056E0ULL,
+		0xC553AB11D2799FB4ULL,
+		0x4DA2877D00D92879ULL,
+		0x295011D81FF77C03ULL,
+		0x0F0FFD3B0549BA89ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xBC10E81E80E8EA08ULL,
+		0xE08F64DA8C709715ULL,
+		0x21F4F8B19EC1197EULL,
+		0x7BB5D9A6149907CBULL,
+		0x5064362661F17042ULL,
+		0x95C2A9BF2BC27AF4ULL,
+		0xC3416172E3650751ULL,
+		0xB4E11225E5AD397AULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xD06A1CFF59F0A950ULL,
+		0x44C356EB9BF9D53BULL,
+		0xE82628EC22A52F84ULL,
+		0x05E9ACBB36A27738ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 346\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 346 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -346;
+	} else {
+		printf("Test Case 346 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xBE54A511C81CDEC3ULL,
+		0x6666EBF723F99375ULL,
+		0xAD0D05C32312F6C6ULL,
+		0xD43A06B8AA6CC73BULL,
+		0xFF1A9124FB453D4FULL,
+		0xA1759777CA76BFCEULL,
+		0x404CDDD50F4375EAULL,
+		0xA9B78AE0CEAE8233ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x72F6F1F636589227ULL,
+		0xBB7FDF82C154D315ULL,
+		0x9CF61224DB4DF99BULL,
+		0xD6A3B864736B227EULL,
+		0x3ACF9C298D89ABAFULL,
+		0x06510D9B01311C6CULL,
+		0xC0D10C74393DAE3DULL,
+		0x62645757EF7B8BABULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x6E7E106DDB9BEBEBULL,
+		0xB253833A42FB0109ULL,
+		0xFC7807FE0CA0A0EFULL,
+		0x13EFF4A558923CD9ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 347\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 347 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -347;
+	} else {
+		printf("Test Case 347 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xB4FB0C0C8EEEB169ULL,
+		0x3DB1AFC54563D5BDULL,
+		0x3BEFB42BD85F7473ULL,
+		0x86BCF58D22BAFA9EULL,
+		0xFAAC832E9FEC44E9ULL,
+		0x4A0AFB978B81EA48ULL,
+		0xDCBC782C636287DAULL,
+		0x560C42CA6EB51ED0ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x0E38176E756E0119ULL,
+		0xF2315E4F07C7AFE6ULL,
+		0x99153C6AA359669FULL,
+		0xEA4B33517D9ED67DULL,
+		0x339757D27922B480ULL,
+		0x2BF71C22313F0294ULL,
+		0xD56E6FA598B365B3ULL,
+		0x93374840E092098FULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x33E7644BDB6C1E7DULL,
+		0xC2737CE1A38A8AADULL,
+		0xB86FBBC34B051FA1ULL,
+		0x080EF2A6BE514BC7ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 348\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 348 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -348;
+	} else {
+		printf("Test Case 348 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x99883F218A9C473FULL,
+		0x311D77BCB4660464ULL,
+		0x42B1E672525B213AULL,
+		0xF28BE2392FB5FE62ULL,
+		0x5E301C8CD78508E6ULL,
+		0xD301439D516A99C2ULL,
+		0xB7B569E53C9D581DULL,
+		0x10487EC546CC12B0ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x83297EFCFFDAB4D9ULL,
+		0xF66DADEAB29AE50BULL,
+		0x7442F0DD6BAF9DDAULL,
+		0xBC8B6436C35FCC0FULL,
+		0xB41F0598B26722BAULL,
+		0xAC11543878AEC035ULL,
+		0x98C213DDF974ABB3ULL,
+		0x3C57335BA178B501ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x54E828620D31BBF7ULL,
+		0x024D52CA2DAD6A3AULL,
+		0x668DBAA8DEB51B21ULL,
+		0x2BD1AFB0F6B61A51ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 349\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 349 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -349;
+	} else {
+		printf("Test Case 349 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x0F6CE46A011CC203ULL,
+		0xC19D55DC49E4611AULL,
+		0x14D38E885539A4C2ULL,
+		0xECDB2A0703889729ULL,
+		0xCB0C19E1C25F4325ULL,
+		0x18EAD3463B736DFDULL,
+		0xA2AA0BB115F63A7EULL,
+		0xE33AF039B265483EULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xA52F0D8042077F45ULL,
+		0xF1D99974BD477835ULL,
+		0x66EBC22F6136D924ULL,
+		0xF9E286D047D58536ULL,
+		0x71CEA51DE0C978F4ULL,
+		0x8063F19FCEADA614ULL,
+		0x3439BFE17779B5B7ULL,
+		0xD3EBADFD173E711FULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xA95D2BFD3B514650ULL,
+		0x73C93B1BB1F89587ULL,
+		0x12930D2A7A7E8118ULL,
+		0x38BC7835C377009DULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 350\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 350 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -350;
+	} else {
+		printf("Test Case 350 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x4A534017D03131D4ULL,
+		0xCB8D848C0D410CA8ULL,
+		0x9660530B4A185EEAULL,
+		0x11BFEC7C9C943227ULL,
+		0x6CB68231FBB08F0BULL,
+		0x92990488C78EC046ULL,
+		0x0B85CA95B0BE7225ULL,
+		0xD998530CEC62756BULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xD91FF007DCA85CD2ULL,
+		0x355EFD2FF5D9A935ULL,
+		0xD878BF48455EC699ULL,
+		0xF97D7CAA6DE309F3ULL,
+		0xF7BB1F58A2BB8D26ULL,
+		0x1CCB97E2DA8124B1ULL,
+		0xB7092F2CDD857958ULL,
+		0xED9962A6383ED091ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xCE83FC5327E71C68ULL,
+		0x12ACA7FD476C7B7BULL,
+		0x4866A5525F2E86D1ULL,
+		0x201A1F10EBFBA076ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 351\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 351 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -351;
+	} else {
+		printf("Test Case 351 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x204FBFB8C999FCD6ULL,
+		0xDD0B17AFB2E51B3FULL,
+		0x566F81B706356EBBULL,
+		0x117074A1D1597242ULL,
+		0x40E74FA722B66CF4ULL,
+		0x9FC70FD800398697ULL,
+		0xE50D6733FC228D5EULL,
+		0x23E4FBD8BD27774FULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x525EC1CF38EBD9B8ULL,
+		0xD1350D7C126C7282ULL,
+		0x54AB2641D6897539ULL,
+		0xC1C36F759621CDBFULL,
+		0x324E2BEBA86FC313ULL,
+		0x8A3FD0FA16A5476AULL,
+		0xBA3753B80C18C76BULL,
+		0x0B3970FBC766AC2DULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xF8AC4BBDB72B5AE3ULL,
+		0x3DE95F244C7A096CULL,
+		0x5D8B3FDAD11F5B97ULL,
+		0x7923A1F8B5D5CB95ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 352\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 352 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -352;
+	} else {
+		printf("Test Case 352 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x5E20964EA99DBB21ULL,
+		0x3A3531AAD62AFFE2ULL,
+		0x44FDB7BAEB8011D9ULL,
+		0xEDA0DB7B90B4246EULL,
+		0x195C993B96E66E6AULL,
+		0xE3DE8E155A5ABAD7ULL,
+		0xDFF466503F7125ACULL,
+		0x20F7808B64F63AE5ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x95876A01A1A74641ULL,
+		0x8B477BEB1B7A2227ULL,
+		0x93BC58A629D0580BULL,
+		0x3DED8E92A736F91FULL,
+		0x21CA2DAC0AAE8103ULL,
+		0x999F825F2BC3BBD7ULL,
+		0x26EF8D8572E51C3EULL,
+		0xFAC95B2EA735DDC0ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x8855239BD843AD6AULL,
+		0xB44972CAA51AB7B9ULL,
+		0x27F98D2F1E79202CULL,
+		0x5A8CD8AD140AFEE8ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 353\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 353 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -353;
+	} else {
+		printf("Test Case 353 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x70B2DE1F9B96613CULL,
+		0x23CDB04712386AF4ULL,
+		0xD6061727D4AE6643ULL,
+		0x8BA1265394C82C55ULL,
+		0x1792E2E78864EFC7ULL,
+		0xA8235783A10D40B9ULL,
+		0xA43D9152D7601C14ULL,
+		0xEC0BF701B9E9AD16ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x0086CAE282E16C38ULL,
+		0x8E4A41F0B120EC04ULL,
+		0x1DE618B3C03ACA49ULL,
+		0x7FC56802DB730553ULL,
+		0x0EFE8902023DDCF7ULL,
+		0x1178B28A2C796180ULL,
+		0x9B91635A3358FC71ULL,
+		0xCCF43349AC02724CULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xB6316B4F0281C08FULL,
+		0xF2D7EB5DAF0AA167ULL,
+		0x01AED15C6D824E41ULL,
+		0x2962CBA2C9A7E100ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 354\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 354 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -354;
+	} else {
+		printf("Test Case 354 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x91469EBA208D595CULL,
+		0x1EAFFEDF6FF0CA72ULL,
+		0xDA16C178D46D6AC9ULL,
+		0x14FDE710ADFFD0AEULL,
+		0x8A7A0F2CC9B32EEAULL,
+		0x376706F4E8D14F26ULL,
+		0x7A3DE888F8C2FA11ULL,
+		0x665234D1D19F4CCBULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x5E60C9D3F81E2215ULL,
+		0x3CA09852A18239FCULL,
+		0x5908C1517DFF025AULL,
+		0x55A9675E20C26FD3ULL,
+		0x64D224454DC82741ULL,
+		0xEDE45ABF79DD5994ULL,
+		0x4F6D021A553C937DULL,
+		0xAAFE20AB22234AE3ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xC9D2B3428D5258CEULL,
+		0xCB74F67B46A50427ULL,
+		0xDC1034939C61A24BULL,
+		0x0DCF7D7099A5A951ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 355\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 355 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -355;
+	} else {
+		printf("Test Case 355 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xC0632C8BA061A7A2ULL,
+		0x69953623911395CFULL,
+		0x9D7A146A79FBD0E8ULL,
+		0x32E3C31AFEF248F7ULL,
+		0x447DD6DDF9E1EC9AULL,
+		0x4E2B0035049BA13FULL,
+		0xEAE5A6F2AB1E8BEBULL,
+		0x8DCE4B281721FD77ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x350C555F5AA4D1B1ULL,
+		0x9E8A1D43CF9DCB89ULL,
+		0xEB4E2879B285DFE0ULL,
+		0x97B064E93A328A84ULL,
+		0x2F459DB9FA3D39F5ULL,
+		0xC39E9214D5F5CF8DULL,
+		0xEB2959049C03868BULL,
+		0x23DD10DC91F90398ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xB1AF5284382F5CA9ULL,
+		0x5BE371A6AE12EAB5ULL,
+		0xA81F7D470578BD36ULL,
+		0x5502056788D4D58CULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 356\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 356 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -356;
+	} else {
+		printf("Test Case 356 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xD6B5787EEAFD0710ULL,
+		0xAC553C1CC7BA8ADEULL,
+		0x29C44C28E522B671ULL,
+		0xE921D1325D113391ULL,
+		0x4F4621C1B614F242ULL,
+		0xCF7780F8986759CBULL,
+		0x98DAC9C88369FBFAULL,
+		0x4EF031EBCAEB0F4BULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x181C73D7BB964427ULL,
+		0xD62BBE227D96CC9AULL,
+		0x71787CBFC2DA309FULL,
+		0x7F7301F8C16FD086ULL,
+		0xEAF770985219C60CULL,
+		0x1E6E6ED5BBAC4D7DULL,
+		0x4F8BBEFF65E11C5BULL,
+		0xF651D5A2197E4ECBULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xA24750CC06AF4F4AULL,
+		0x1D822F270DE791C1ULL,
+		0x9A0769438499B786ULL,
+		0x11308229F1C5F615ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 357\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 357 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -357;
+	} else {
+		printf("Test Case 357 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x25BED52BFD5D786AULL,
+		0x55681F02EED4A90AULL,
+		0x8258ABB11B2B2969ULL,
+		0x01D991006E00A828ULL,
+		0x7728117A1A8A9FDCULL,
+		0x5F616B47E210D835ULL,
+		0xB62F8B549B1EE3CFULL,
+		0x3542113067F5B0E4ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xB247B3EF9B9BE6FBULL,
+		0x9C4B8D15BE95706AULL,
+		0x588842A2ADD4AC86ULL,
+		0x2E3AD4693466111FULL,
+		0x960B33396292FA80ULL,
+		0x7CC851C83E9CD962ULL,
+		0xDD9B6CBE5CAFAACCULL,
+		0x415A8284C29851D3ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xDDC01ED7B0841CCBULL,
+		0x5BD65ADF73770BECULL,
+		0x4FCCF35BB1D8F350ULL,
+		0x07FDEA11C576B389ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 358\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 358 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -358;
+	} else {
+		printf("Test Case 358 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x5760B23FB423A4D3ULL,
+		0xEBF8653194934BA0ULL,
+		0x63F2DE8E08F47ADAULL,
+		0xEE1696DA90962F3DULL,
+		0xCD0040082933D159ULL,
+		0x0A0831158BFE59E0ULL,
+		0x6590379E9009C238ULL,
+		0x644EAFDBB91DD14CULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x4AFEC3C8A8CB489BULL,
+		0xFFD2C18370A5E8B7ULL,
+		0xEE172A02C1EE0CE4ULL,
+		0xDC24A2C4B7494BCFULL,
+		0x325DCC529DB9B143ULL,
+		0x8588EF750738D002ULL,
+		0x43CDF324D67BFAA2ULL,
+		0xAFCE239E921592C8ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x007F1B69BF791DC7ULL,
+		0x97096181D93FD9F4ULL,
+		0x78B1DE9CD2120E27ULL,
+		0x5D06C529A4862B0AULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 359\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 359 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -359;
+	} else {
+		printf("Test Case 359 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x9B9CD167924B2832ULL,
+		0x54190F7F3F37E219ULL,
+		0x1136678D463C6D4EULL,
+		0x166BAF2D09C72A06ULL,
+		0xB840EA586B41B0CEULL,
+		0xC461E3521E9B29A7ULL,
+		0x17D951546CF961ACULL,
+		0x18F85022989D440AULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x4F55A4C22C6E70BDULL,
+		0xE047E84403BD155FULL,
+		0x299F2D7C35E54B46ULL,
+		0x682BF36DA5557325ULL,
+		0x27F0D0DC5F4786DDULL,
+		0xC895FBED5F118A82ULL,
+		0xF16442AF51861413ULL,
+		0xCF009363583A1D89ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xB82AF50F2CFEED26ULL,
+		0xD415802FA9E86C4DULL,
+		0x9CF766932374A6BCULL,
+		0x2905C022F3296DE6ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 360\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 360 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -360;
+	} else {
+		printf("Test Case 360 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xE10D27EDD8362A35ULL,
+		0xC19F04A761157C70ULL,
+		0xBA11412ED50610DDULL,
+		0x746535EA23268D08ULL,
+		0xC7D909B3130EB29EULL,
+		0x9631E274BF191972ULL,
+		0xDC82783A1A1C8A90ULL,
+		0xB9995391985C32E1ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xF30D826F8B134C4AULL,
+		0xBE075F6960DAB2D9ULL,
+		0x2A0C9A402FD9168EULL,
+		0x663D182E0E09D516ULL,
+		0xF570DE254AD0EC6EULL,
+		0x1554290DFEFCF059ULL,
+		0x644EFD8D67294ED4ULL,
+		0xA01A6B278B812915ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x29761C8A064E4990ULL,
+		0x24812A7E8468E346ULL,
+		0x67A8DC913547D84AULL,
+		0x56FE9D79FDA02C4CULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 361\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 361 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -361;
+	} else {
+		printf("Test Case 361 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x7786C28BC4926A0BULL,
+		0x411D785C55C8B1D3ULL,
+		0x084000907279468FULL,
+		0xE0D551C5C8F823B2ULL,
+		0xFE4E497EC8C5928BULL,
+		0xB3A8BA55EE95805CULL,
+		0xB4043D5FA18ED313ULL,
+		0xEB854F7A11CDB29AULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x4AC18A6F88895C58ULL,
+		0x91E3BFAB5D883775ULL,
+		0x969D7D282E2CE0D5ULL,
+		0x075EBCBE575003F4ULL,
+		0x7A4F290EF38D54E9ULL,
+		0x892EDBC90A7DA977ULL,
+		0xA05C804BE3A79DCCULL,
+		0x9D4C2A8B23111503ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xC4A408B5E2623587ULL,
+		0xFD50C19AD3CA606FULL,
+		0x5C889456749E4E49ULL,
+		0x75F2107EE1A7842AULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 362\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 362 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -362;
+	} else {
+		printf("Test Case 362 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x9DB9F30F9B7F9F5EULL,
+		0x0494E84A97155B94ULL,
+		0xB5E5AED9297204A9ULL,
+		0x38554E3FB21CEA49ULL,
+		0xE474C622F24684D5ULL,
+		0x4BC72D838A5A42C5ULL,
+		0xD49256AB2343DE22ULL,
+		0xABE9299AF80CE26BULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xE687C8915CC254EDULL,
+		0x4123FD264262A8F5ULL,
+		0xDA00023F8B679EB4ULL,
+		0x96C257C570CBB2C2ULL,
+		0xDF20A586090D9C28ULL,
+		0x781A9B4CE3E9527EULL,
+		0x5260AFA187A8033CULL,
+		0x43355721C811C6E7ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x81AF01C8DD2FD659ULL,
+		0x2F0E9F4109765D29ULL,
+		0x2F447806B72CE412ULL,
+		0x2C44347760974D32ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 363\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 363 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -363;
+	} else {
+		printf("Test Case 363 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x12A8D0B4C179CFD4ULL,
+		0x5FC65DB0AFE1075DULL,
+		0x2537E495CD43AF46ULL,
+		0x7715651960445EF0ULL,
+		0xCF3864AEACFFD3C3ULL,
+		0x7BBA728BB643FF59ULL,
+		0xAC3118686C199DC9ULL,
+		0x92960C65FC5C7DA6ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x0B44AA47D26301D7ULL,
+		0x62327115D389C0D8ULL,
+		0x496672AAE8223541ULL,
+		0xF9021B12E071B441ULL,
+		0xD390B1C0B4CDE4EEULL,
+		0x3319D768CBEA097AULL,
+		0x48EC4E0E905D56B6ULL,
+		0x791A74E9F7EA0E22ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x6248B5BFC680420DULL,
+		0xC56AF3C9A5B1C59EULL,
+		0x98077B41831406E1ULL,
+		0x466BC66F28CF3855ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 364\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 364 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -364;
+	} else {
+		printf("Test Case 364 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xAC0612749FA1F75FULL,
+		0x1A7183851AF3D681ULL,
+		0xEDB4E2AAF691AE96ULL,
+		0x2437A0AC75803772ULL,
+		0x866A9CAB33B4B9F1ULL,
+		0xCBCA44AB14B5640CULL,
+		0xD16B1041993D37FAULL,
+		0xFA86F0BA8F6D9094ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x8E41BF690D6BA7C4ULL,
+		0x1FB8415FDC7368FBULL,
+		0x2385771E340D1B42ULL,
+		0x388214C6BD9D3663ULL,
+		0x18C66A999B0D5B68ULL,
+		0x2411FE1672C17954ULL,
+		0x1E7658759E0788B5ULL,
+		0x5BADC295FAC9B334ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x6423C1A83B0E5B5BULL,
+		0xE013BC3548B544E6ULL,
+		0x5A82B3D40C7C97AAULL,
+		0x7FF26553C835DD6AULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 365\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 365 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -365;
+	} else {
+		printf("Test Case 365 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x5B900DD570E760ECULL,
+		0xC3A7C29C823CD528ULL,
+		0x47F6E74FD593DBE5ULL,
+		0xB453EC6C10D51DD6ULL,
+		0xF571DA0F9395DE48ULL,
+		0x8D2CD2D3283CF0F7ULL,
+		0x46AB1BB41CC8B42BULL,
+		0xB60C8CDBD2F828AEULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x08A370268036BFFCULL,
+		0x9C2FEF6A6D131872ULL,
+		0xA30617C6C24A56A5ULL,
+		0x9A31FE5C53AD4B8EULL,
+		0xD613B4B900487E64ULL,
+		0xAB53DE2D31F40EA5ULL,
+		0xA06C1052D2A73646ULL,
+		0xA851E6B0CDD22C65ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xFAE62888CE2CDD14ULL,
+		0xADAC23D4A3FB54E6ULL,
+		0x524C7FFA14423539ULL,
+		0x23D6987280CB4510ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 366\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 366 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -366;
+	} else {
+		printf("Test Case 366 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x2D1049E065CB2989ULL,
+		0x90D79F3110DC81B4ULL,
+		0xB3A6A226AD7BA212ULL,
+		0x646C65B543D3BD6BULL,
+		0x76C2669E4A8D9CAEULL,
+		0x30B36A8B3B87D6D8ULL,
+		0xF993F51F4B2258A0ULL,
+		0x64521E6FF6AF6CCFULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xDE227BDE4DFF4E8DULL,
+		0xB74F3B0E59289842ULL,
+		0x0E5C633FAAA3A19EULL,
+		0x2DD8ED09F0618EDCULL,
+		0x629F8E83165DE847ULL,
+		0xD91CA84AB089D48FULL,
+		0x7AC9A943FFE4A198ULL,
+		0x37FB132D210C4F26ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x4C19E20BD6E0A33DULL,
+		0xD9E939B75968404AULL,
+		0x775181742E012B8AULL,
+		0x4B7F249709A895B8ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 367\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 367 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -367;
+	} else {
+		printf("Test Case 367 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xFBB912EB16DF9C78ULL,
+		0x3907505476601C9AULL,
+		0x54B3845D2CDCB04EULL,
+		0x390D4EBB9B50C635ULL,
+		0xD8C0F515151DAAB6ULL,
+		0x3CA25D7AD3E457ECULL,
+		0x76B07B0D4E1EEE74ULL,
+		0x89E92DE82C8EAE94ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x4D6FBB1ABD1C1C3CULL,
+		0x8D87BE397AFE573CULL,
+		0xDD5926BEAD8F8E69ULL,
+		0xEE40D9ABFF0B71EEULL,
+		0xBCB50E3C5E8917A8ULL,
+		0xE4C220F7442F0B0DULL,
+		0x2ECAA515BAB26FD1ULL,
+		0x16A8ABAACA073672ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xD80D9BFB73D156B0ULL,
+		0xB6C88DA2504B2E7CULL,
+		0x2378205E6167EDFDULL,
+		0x665FCA2C3C61295DULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 368\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 368 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -368;
+	} else {
+		printf("Test Case 368 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x88C8D1180E1A90CAULL,
+		0xE8661BA70210B7DDULL,
+		0x597EADDBFD3CC783ULL,
+		0x07072148D45068CCULL,
+		0x9DC7893BB5376B0BULL,
+		0xDC26A4C4325D42B0ULL,
+		0x7AC94B6DE911DA56ULL,
+		0x7A3195DE3E48168AULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x1077F3853631F703ULL,
+		0xE59B2B93213F83C9ULL,
+		0x650C22719EA0C2E0ULL,
+		0x36E733BE57126ACFULL,
+		0x6069D7EAE5CEE9A4ULL,
+		0x3933CC4E5809499CULL,
+		0x72A1D99AFC51A88DULL,
+		0xA20F4B448DFB760EULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x94392F91A16BCE1AULL,
+		0x32D7119249482D15ULL,
+		0x2A4D70B983236891ULL,
+		0x6537005AA89DD066ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 369\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 369 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -369;
+	} else {
+		printf("Test Case 369 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x2EB43191E02312F1ULL,
+		0xAFDB5FCAA55763C5ULL,
+		0x012871F35D5B6BBDULL,
+		0x8377BFCB4E605BEAULL,
+		0x210F4992FAE9B82DULL,
+		0xE357B9ACF02A006AULL,
+		0xB8F6954F2D2934C2ULL,
+		0x4AF0E7EB695E5D2FULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xAC0DD9DE59D40932ULL,
+		0x5B4ABF70F6C1096EULL,
+		0xEB60C8B44F540825ULL,
+		0xC2F68DE3D11209E3ULL,
+		0xFC95A0477763F5A0ULL,
+		0xBE174B22D6CFDE51ULL,
+		0x6689BD963842B02DULL,
+		0x8FD248DEA586C61EULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xECB578E90C29E91EULL,
+		0xDC2108D971F769EBULL,
+		0x51EFAEB3683F11BBULL,
+		0x070CCDCC8F4EBE98ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 370\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 370 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -370;
+	} else {
+		printf("Test Case 370 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x6A8D14A12157404CULL,
+		0x5B17F32867B9EF77ULL,
+		0xA467597087F3E4C9ULL,
+		0x9911DDDF46D23286ULL,
+		0x778F23037A889AE8ULL,
+		0x573B666EF7ECB94FULL,
+		0x699B82607352260AULL,
+		0xCBDB7F616454A990ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x4A5FAA6528417F28ULL,
+		0x93B13EF1EDB29A9AULL,
+		0x05A78610C8458CD8ULL,
+		0x916AF83647288824ULL,
+		0x3169470B226D776EULL,
+		0x8A31A7FA57EC59B4ULL,
+		0x7D355C07C397D3B0ULL,
+		0xF8E0C7D8CBCBF88CULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x89CC11190D1D0436ULL,
+		0x36D8F9863A1585E9ULL,
+		0xB5E98489D5569145ULL,
+		0x58DE23EFA3F3F0F7ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 371\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 371 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -371;
+	} else {
+		printf("Test Case 371 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xB4D001A075E0AAA8ULL,
+		0x3199785C7F9E8590ULL,
+		0x0C8C0AC59B142B8CULL,
+		0x0D1424F3638C8671ULL,
+		0xB7A2B65BF8807D12ULL,
+		0x960E1EA00E1ABB14ULL,
+		0xE706BE53A1F64696ULL,
+		0x649291B26CCC2C79ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x065D1AA53CB5CF1CULL,
+		0xD4B5E86F4BC72AB9ULL,
+		0x63EEA2B459A18DDAULL,
+		0x01806708899BE557ULL,
+		0xBD9D854A50087D4BULL,
+		0x55B3E1FFCABD4BB8ULL,
+		0xA60E298BBD9AF711ULL,
+		0x6FD9DE9F8A22E908ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xCB382F9A3AFAD2CAULL,
+		0xEA488FB733B5E27EULL,
+		0x4D837DBD27006B78ULL,
+		0x5EFE52B87F10A3E9ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 372\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 372 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -372;
+	} else {
+		printf("Test Case 372 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xCA476462D4B0403DULL,
+		0xEF4253FA39D83A15ULL,
+		0x62FC64B8074C1486ULL,
+		0x1AC314AC0BCEBD7BULL,
+		0xBDC587C1F2E6AD64ULL,
+		0x1511AB23F63022E8ULL,
+		0x5B10E2334A7CEF1AULL,
+		0xFFBFFB5A4D6D350DULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x3725EF2D148197AEULL,
+		0x54F1FB7955629013ULL,
+		0x24B3A22006C69E25ULL,
+		0x47A0B1F9C89374D8ULL,
+		0x4445C689EAB8C3A1ULL,
+		0xB554E38C5A4DE50FULL,
+		0x6EB6548A4732799FULL,
+		0x386A5FFC8EB41195ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x9C182386F6FF5FCFULL,
+		0xD055F902080AD84AULL,
+		0x53B9C9AE7D92E68BULL,
+		0x69D7729C92B68C70ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 373\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 373 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -373;
+	} else {
+		printf("Test Case 373 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x487B7C29D66AAD3BULL,
+		0x10357815153B3512ULL,
+		0x6C1393C9F28ED42BULL,
+		0x4FC4BDC822D681C1ULL,
+		0x3317E4DC735EDA06ULL,
+		0xF7E7172E2ECD1977ULL,
+		0xED8A4BB460F87906ULL,
+		0x59B65C333153A280ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xF21664A674FA93F0ULL,
+		0x23385B1C65256AC1ULL,
+		0xB94109F091BC4E87ULL,
+		0x1D8923973158C25CULL,
+		0xD2C2AD341E00C838ULL,
+		0x6894BDA53B67D139ULL,
+		0x97ED48007C7786B3ULL,
+		0x3FBA4E4F613134EAULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xA30B5A800D66BE77ULL,
+		0x3336674CD11E836CULL,
+		0x6821168D4BF67E0BULL,
+		0x0DA5AA01D69A03B5ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 374\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 374 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -374;
+	} else {
+		printf("Test Case 374 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xBAE7D15BA504141CULL,
+		0x642CB25F82C7295FULL,
+		0xAE6E94E19BCED0F6ULL,
+		0x926CA93BCFCED9FCULL,
+		0xE459F78FEFD31D34ULL,
+		0xFCEFDF53FE963E3EULL,
+		0x67AA3643E8C1F4FCULL,
+		0x40E793DEFD526D0CULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x9BC71B435767F9F1ULL,
+		0xEEB11F5507F75C85ULL,
+		0xA64F2B75C1C819E0ULL,
+		0x893756B6DDA3F028ULL,
+		0xCA6D5DB204278380ULL,
+		0xE7AF20773CB02908ULL,
+		0xFB7F000F2C2201B5ULL,
+		0xE5D45F84DD7CFB3CULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xF83F8D094914E740ULL,
+		0x9D17E7CF42F6F2E1ULL,
+		0x1689753FD9C4D3A2ULL,
+		0x0E0F17E5ABD9CE9EULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 375\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 375 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -375;
+	} else {
+		printf("Test Case 375 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x442525041DC45591ULL,
+		0x5AE7D95CF4D8434FULL,
+		0x9AA1D3F5FF97ED1AULL,
+		0xEE661C686D28AE7FULL,
+		0x123B4D67AC6B96E3ULL,
+		0x46F6C7FE31046171ULL,
+		0x1ED8A3E275ADA60FULL,
+		0x370C3AC6A005CA50ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xCEACEE62817A52E1ULL,
+		0x641EC8549A034616ULL,
+		0x59921AC88E91C350ULL,
+		0xD5663B7B1FEA697BULL,
+		0x9150457FE5B4CA1EULL,
+		0x03487595ECE5B5ECULL,
+		0x9CDABA10245C19D1ULL,
+		0xE170AA24481EF4EEULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x985B63091B6C6425ULL,
+		0x02A94C82776272E3ULL,
+		0x8CC06E658320FB08ULL,
+		0x4E1759065981F17DULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 376\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 376 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -376;
+	} else {
+		printf("Test Case 376 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x9DE5463623145656ULL,
+		0xD4DE379AFD88F171ULL,
+		0x6BEA600DF8AFF96EULL,
+		0x0F88638585E1D356ULL,
+		0xC044F961084F2AB1ULL,
+		0x3E4963542F9BF1D7ULL,
+		0x16ADEDC86E75E982ULL,
+		0x3582FC36D5004DA2ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xE6E6EF178C0D321AULL,
+		0x573C00D03C4AEB69ULL,
+		0xC24EE0D062CD1374ULL,
+		0x5469CA9C1954EF85ULL,
+		0x2C064ABEC3CAE8C6ULL,
+		0x885CE8EB75391B9FULL,
+		0xA494A742F74F641EULL,
+		0x1EB5A997B9345CDAULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xB84C4334C2A8ED90ULL,
+		0x7EBC62566BE9D26DULL,
+		0x995BF70D459AB2C7ULL,
+		0x1D98DC878CD2A16BULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 377\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 377 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -377;
+	} else {
+		printf("Test Case 377 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xEB20FED9404D2618ULL,
+		0x246E8B7220934284ULL,
+		0xEF49C2C87C76CE16ULL,
+		0x6803A727994620C6ULL,
+		0xD08D6D333E8EF857ULL,
+		0x1C83D110C38C05CCULL,
+		0x5A320A8BF3E4DBF5ULL,
+		0x2D1274FEF94A301BULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xE7B61F2A5AF551C1ULL,
+		0xBC487F99025C3327ULL,
+		0xF8E80B0949C50073ULL,
+		0xED7B0D5DC74508A3ULL,
+		0x578F010B503FFAD2ULL,
+		0xF11DBC2FEA0BBAE5ULL,
+		0xB208FF88D3D75459ULL,
+		0xF4DDB23FB88EC031ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xF92EED9C4511718EULL,
+		0xD94D253967422DB8ULL,
+		0xEC795A35F4B3EEAAULL,
+		0x525D822D6DD3B4D1ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 378\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 378 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -378;
+	} else {
+		printf("Test Case 378 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x4543D1A8F5AF6B5AULL,
+		0x9AF08AE33A7960CCULL,
+		0xA93F2676703AF999ULL,
+		0x2866304F618277FCULL,
+		0xB7867FDCF42C1086ULL,
+		0xB102C5EC1EB762D0ULL,
+		0x3BBE89525D86FDB0ULL,
+		0x97FE300DE2EDEBA7ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x55D0A1D47D57564EULL,
+		0xE106031902883948ULL,
+		0xA1646CA355F19AE7ULL,
+		0x366E46A6104F01CAULL,
+		0x0D4C73220C611E3AULL,
+		0x87850428D6577E11ULL,
+		0xE46D0D13E01110F8ULL,
+		0x6FD9429BA44D26C7ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x34111392E0780D25ULL,
+		0xE2954AC6F62D1BF7ULL,
+		0xFDF32B19B9CA8207ULL,
+		0x6773289E9D10AF58ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 379\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 379 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -379;
+	} else {
+		printf("Test Case 379 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x005FF8063CD1B177ULL,
+		0x8A07D94F165F1D94ULL,
+		0x65649C0248C366C7ULL,
+		0x60D151AEAAB4CFF4ULL,
+		0x71B2E98ED03E6C98ULL,
+		0x57E1989C13838218ULL,
+		0x13518AFA6D8F6461ULL,
+		0x9F760D0DE8D1CCC2ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x9E7D4BDA18ED149BULL,
+		0x7A282E833457B689ULL,
+		0xB979B9B5404F2DA2ULL,
+		0xB763096B2EA56D55ULL,
+		0xF1BD1980A8D3F913ULL,
+		0x27C193349F2BCD6EULL,
+		0x1F1EC3A0E645584DULL,
+		0x0A50FC003270F437ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x605F8E45FDB1C5CBULL,
+		0x34A07827270C3833ULL,
+		0xEB7479971D720424ULL,
+		0x4CEED04C8E6F873EULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 380\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 380 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -380;
+	} else {
+		printf("Test Case 380 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xFA12400B8C239A79ULL,
+		0xF988747FDD56338EULL,
+		0x2AA521F6C43D0799ULL,
+		0x793F6863960B910AULL,
+		0x1F7C4591338789D0ULL,
+		0xF797153B9660898DULL,
+		0xACB5341A99FD99A9ULL,
+		0x327A29F1EDFD8D31ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x29282BC79124B6E3ULL,
+		0x7057CEDA647EC38CULL,
+		0xA4603356F20E45E0ULL,
+		0xF982A85599EB6819ULL,
+		0x0B83981F6E48CB4DULL,
+		0x44EE2A72D510572EULL,
+		0x0F16CA584085940AULL,
+		0x12FAEBE4752A44C7ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xC7D3D327424F2BA0ULL,
+		0x0E437F722ABEEA1FULL,
+		0xEBC8A17919FF976EULL,
+		0x2C9FF60DEB7CE8C3ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 381\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 381 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -381;
+	} else {
+		printf("Test Case 381 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x393FC26BBEC29BE4ULL,
+		0x39F2C647DA85EE29ULL,
+		0x07F0DE4B0A4585BDULL,
+		0x83CDB73A2EAE5342ULL,
+		0xD17DA6ED437BA463ULL,
+		0x0F2E4B903A399F6FULL,
+		0xEEE23049215087E3ULL,
+		0x8DF47131E1E07FB5ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xE2DEE1874DC93BE2ULL,
+		0x8A71D48EF1CEB2E3ULL,
+		0x6E27C15FE625ADEBULL,
+		0x2A406E200A5C5BB2ULL,
+		0x9C4AE4BB058DC493ULL,
+		0xCB4267A05A1AA144ULL,
+		0x651B9C1FC9DD2D59ULL,
+		0xC3699B80B4C43854ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x3BE9B459A24897B2ULL,
+		0xC484C7542D50F5AFULL,
+		0x0D431B0E1F3F4831ULL,
+		0x6A290166D684900AULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 382\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 382 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -382;
+	} else {
+		printf("Test Case 382 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xD26948C6F780B7A8ULL,
+		0xB7534D0BCD292FC5ULL,
+		0x71BC5C27B2400F02ULL,
+		0x306B29109303EF5FULL,
+		0xFD68CB64FA58936CULL,
+		0x055D4D0CB98B1BB6ULL,
+		0x955CAAD67FAAB296ULL,
+		0x53CCE59B77DAC40AULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x3CD6727680F1EBE7ULL,
+		0x363CB4BBEAF2CD90ULL,
+		0x8B86AC0EFFB960CBULL,
+		0x77FEE93C5EBB4F93ULL,
+		0xE5C47B9D44166E19ULL,
+		0xC8F913EAF9383F1EULL,
+		0x3B68785E2749A84BULL,
+		0x7EB4E40C1AB95789ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x17F6ADF584605509ULL,
+		0x77F713526E8320C9ULL,
+		0x40752DF5D0EE353CULL,
+		0x59FC7B1C073EBAFFULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 383\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 383 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -383;
+	} else {
+		printf("Test Case 383 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x38AE1E5F6DB022C8ULL,
+		0x7F973692444026ADULL,
+		0x6D18F3729635BD32ULL,
+		0x5BDE601C8A936620ULL,
+		0x3331566BA4035865ULL,
+		0xA5C6658A7047F821ULL,
+		0x73DA8B2B5EA208CBULL,
+		0x27F01E78F0A8B932ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x5FDCAA4B22398117ULL,
+		0x112190480B8E5579ULL,
+		0xB75B0D6DC4F80FFAULL,
+		0xD33A2087453A4D88ULL,
+		0x9699C1EF82521746ULL,
+		0x3A711332B608FD68ULL,
+		0x06FEAF095D6FE029ULL,
+		0x7C2FB10966F9908FULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x17517E814BC64A5DULL,
+		0x5D1FDF4FDE0B089BULL,
+		0xDE609310FEAFB554ULL,
+		0x07347E23B55920D9ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 384\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 384 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -384;
+	} else {
+		printf("Test Case 384 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x6EF69F19EDB26737ULL,
+		0x6DCC4351535595F7ULL,
+		0x20C95A59E30ACBA5ULL,
+		0xA01DDA5021D4BEEFULL,
+		0x1207C9E442172282ULL,
+		0xA7BD91C8827722B3ULL,
+		0xE7247EECD88BED8FULL,
+		0x5B285AECAD200AC7ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x570D289994E458E6ULL,
+		0xC33955FB25FB67F7ULL,
+		0x2654EE141B8177FEULL,
+		0xB3831FBDF542042EULL,
+		0xD25D4C996434AB57ULL,
+		0x616FCB4A7B7EE159ULL,
+		0xD479BF710E82428EULL,
+		0x53DDB2AA0A378649ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x8B380F9D486BBED9ULL,
+		0x1A1E640B3633E13FULL,
+		0xBFCCD8A5C4F8B5D7ULL,
+		0x01AFB4765B166577ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 385\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 385 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -385;
+	} else {
+		printf("Test Case 385 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xEECA19BBA98841EFULL,
+		0x9E4F6F7966684AE2ULL,
+		0xA9A492C97A13A03FULL,
+		0x7541DA7C5EEE638CULL,
+		0x734C4623991452EBULL,
+		0x0796B4DF14C40C12ULL,
+		0xB357F729083DA91FULL,
+		0x1418BE2308B6F19AULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xF35C388315805FC6ULL,
+		0x5149C8EFE136B13DULL,
+		0x0DA6A98CEB570D9BULL,
+		0xF384553C36C4F477ULL,
+		0x1A2AC30F76DE2D5AULL,
+		0xCDFDC620A4C6D89FULL,
+		0x5699AF908D63CA54ULL,
+		0x40973FE9887878AAULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x36675635A8117492ULL,
+		0xD9B916CE24C73CC4ULL,
+		0x603C89DECB13A4A8ULL,
+		0x66F641C9316F62C3ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 386\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 386 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -386;
+	} else {
+		printf("Test Case 386 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xB064B1806E3CC965ULL,
+		0x36F8EEAFC04C2219ULL,
+		0xEC76CB7CDF51D791ULL,
+		0x8D74000B9F8E92D2ULL,
+		0x8674E49B578252A9ULL,
+		0x0961F8F609642585ULL,
+		0xC49B386592458382ULL,
+		0x8B2BC0EFC3F22631ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x9D3644F3A19E110BULL,
+		0x852AC75F577AB544ULL,
+		0x517012B9E00F35F7ULL,
+		0x465072D4D61D4CBBULL,
+		0x68522822733883F7ULL,
+		0xD19D103031E61563ULL,
+		0x72A9E91584DD3FC8ULL,
+		0x2608D86A3CD4A3F1ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x8C56667EAF936900ULL,
+		0xF908B4AE6587D1E5ULL,
+		0xC4D87EA4FCBCAF17ULL,
+		0x4A521108D7D29BA3ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 387\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 387 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -387;
+	} else {
+		printf("Test Case 387 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x7DFD83D55584E02FULL,
+		0xF00C1777DFAA869BULL,
+		0x0CDF7CB3BF86A19AULL,
+		0x2C31BD1F43C40731ULL,
+		0x0A48EFD0E57C3381ULL,
+		0x2DCC06F564B53222ULL,
+		0x2E87390D45D20DA9ULL,
+		0x7751BAA4497EB8C8ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x3756413E3D36F426ULL,
+		0x6EB1C4606AB4429DULL,
+		0x0CEF560D9793EDE2ULL,
+		0x754CD6936B7C5814ULL,
+		0xFA112B7DFF61E233ULL,
+		0x04B4257BA918A4D5ULL,
+		0x783234EA770DAD5AULL,
+		0xEB5997336C076428ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xAEEE66E54035FAF1ULL,
+		0x9AE5CB294E333D48ULL,
+		0x108EC3D0D918FF78ULL,
+		0x7DBA294CB7FE3ED2ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 388\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 388 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -388;
+	} else {
+		printf("Test Case 388 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x5766E8173FA159B9ULL,
+		0x84A2B7D8389A7546ULL,
+		0x4FCE943E9D686F2EULL,
+		0xDDE018B6C2C59300ULL,
+		0x64C58B9736559C93ULL,
+		0x66C8F7CA0BAC74A3ULL,
+		0xEACF88A3DC590BBDULL,
+		0x7F70CC1EF9D8960EULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xDB7225100820CCAEULL,
+		0x759E934269132A5FULL,
+		0x1FA0B1C18F768E71ULL,
+		0xE583BEC0FB2D42D2ULL,
+		0x8F5CA98B931C0AB9ULL,
+		0xEF2B01FE675FC19BULL,
+		0xFEB6229A76DFDF27ULL,
+		0x61F3AC780E57598EULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x298650C1720C33FFULL,
+		0xD076A0D032E9DE10ULL,
+		0x3BF307E21DEE7EECULL,
+		0x58EF0CBCBCC74B2BULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 389\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 389 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -389;
+	} else {
+		printf("Test Case 389 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x4AD1A83EF5085435ULL,
+		0x808B0EDB79895C20ULL,
+		0xA6DCB7621C77CE3EULL,
+		0x8D4FE8FDA3CF4303ULL,
+		0x76318E2B1D030570ULL,
+		0x82592A7B609986BFULL,
+		0x1AAF390044093A26ULL,
+		0x5618EDFF68662B57ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x0B12243458C7CB78ULL,
+		0xE3A57CE85CD64DEBULL,
+		0x4FC86C8EAA6DD7ACULL,
+		0xC99D3FE7AC7DFE6FULL,
+		0xE6500EF366FB3021ULL,
+		0x03D7824F8854D24FULL,
+		0xBA84A3BA6E7D41B9ULL,
+		0x62E29AF4DCE3F5E7ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x9B38664FA16A3218ULL,
+		0x6424887536E5D6C4ULL,
+		0x9D66733124D0D6D2ULL,
+		0x5DC2FCA6ACA5331CULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 390\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 390 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -390;
+	} else {
+		printf("Test Case 390 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xE62A909FE0067B35ULL,
+		0xCA98C42633735F33ULL,
+		0x598714ABEC5641D4ULL,
+		0x773467C8F9916025ULL,
+		0x90B9A204A23DC41AULL,
+		0xCCFA13F8B6ABC47AULL,
+		0xDF5D2B5871F3B7FEULL,
+		0x8046109A562388CAULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x4390E5079C1A56D8ULL,
+		0x06A1FED5E2609981ULL,
+		0x6C162756E1E1F8B7ULL,
+		0x88E471E4D0490B00ULL,
+		0x5DE1337765DBED9DULL,
+		0xC15B2831B6E74CA1ULL,
+		0xCAB97C28E8592C5FULL,
+		0xEC8ED5405FE76B9CULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x2EBA148F3A71F878ULL,
+		0x7D8DC4DA483C8FF0ULL,
+		0xFDBCEE63776502B9ULL,
+		0x5B82C53EB634A9FBULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 391\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 391 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -391;
+	} else {
+		printf("Test Case 391 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x14980033B59E42C8ULL,
+		0xB23CD18D1698C0CCULL,
+		0xDBA3ED5B74652013ULL,
+		0xF90489C29E1C1411ULL,
+		0x3EC56060F73493F0ULL,
+		0x053562B182182C58ULL,
+		0xA2EC2F550380CD81ULL,
+		0xB0407C3CB9790C8DULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x239C0B99A76C0C0EULL,
+		0x685F182222537827ULL,
+		0x371189C014A7F2F9ULL,
+		0x70E8A5C3A5421522ULL,
+		0xDDCE8DF6CA3FF81FULL,
+		0xFD19B29EBA78F330ULL,
+		0xF21290E03D8010D5ULL,
+		0x690466E11D2D3B40ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x559F305CBA815962ULL,
+		0x7DF9DC3495E7C47DULL,
+		0xE4DFE8F0C3D92E7DULL,
+		0x1B070F982C1B1051ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 392\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 392 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -392;
+	} else {
+		printf("Test Case 392 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x1976B0FC327D9BCBULL,
+		0x34EB9934C21185F2ULL,
+		0x751B05092EA7686FULL,
+		0x332CAF378934CBA6ULL,
+		0x0DCDEB8A7B82298CULL,
+		0xED4B4F15B4FD993FULL,
+		0xD99A2A5976DC0914ULL,
+		0x248AE6222542ED19ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x41A66EF0A632BDE2ULL,
+		0x634516333F83DB80ULL,
+		0x08F292F667491DE9ULL,
+		0xB1F3B953950257E8ULL,
+		0x28934B800F837949ULL,
+		0x9729BCF24E90FAD2ULL,
+		0x856FE7D6D0952902ULL,
+		0xC7527B76406E00A2ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xDE84039794190425ULL,
+		0x9AA23442B6AD2E9BULL,
+		0xEA6E517775E38D3EULL,
+		0x5798CB67EBCD8D74ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 393\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 393 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -393;
+	} else {
+		printf("Test Case 393 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x2A5D5CAE3F58B131ULL,
+		0x67C0C66E41F0B790ULL,
+		0x5A92632B06F467F4ULL,
+		0xB457C68C6A1976ADULL,
+		0xC420C680D8133EEEULL,
+		0xB2FD1BE8FAB9FB71ULL,
+		0x268791AEBAFC0184ULL,
+		0xA5D0E58976048FBFULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xD3F50A0E97BD7E94ULL,
+		0xA1D84B58E7850E27ULL,
+		0x45E1306C7FEF7F78ULL,
+		0x575EBB431699182AULL,
+		0x9FBA1ADFF34AD93BULL,
+		0xA5C4B56746004FBDULL,
+		0x3C44FE6E1DB2BF87ULL,
+		0x64DCF9DC60B87103ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xBDA5CC819D5A4CABULL,
+		0xBC47B2562DFB2625ULL,
+		0xDA930E55DFE4B40BULL,
+		0x012E06FA7CCCEE67ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 394\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 394 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -394;
+	} else {
+		printf("Test Case 394 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xD4B16B542B2BD865ULL,
+		0xA28978EC00745FC9ULL,
+		0xC9CB30A3A7230D91ULL,
+		0x691D5538F663B051ULL,
+		0x179D0835FA744B84ULL,
+		0x595DC1DEE85965CBULL,
+		0x7CF6BF8A4BDE8194ULL,
+		0x1218092B7085EBD6ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x098B7EC0B81B72A5ULL,
+		0xCC283CDE24B110EEULL,
+		0xCA82880331B41A21ULL,
+		0xA52863F006B14491ULL,
+		0x357FE045D3DF483CULL,
+		0xDD0BBB5299DFB656ULL,
+		0x54A18B9A9FCFA069ULL,
+		0xD4DA647908BC89F2ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x5B79DA392D2EDE0FULL,
+		0x4A8E34E181D35A35ULL,
+		0xFBEE5E33FFA45FBEULL,
+		0x5B1B63C45796F39DULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 395\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 395 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -395;
+	} else {
+		printf("Test Case 395 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x11743BF6C8E1F333ULL,
+		0xC2737EFE982D42CEULL,
+		0xECD57755AD1CF9DFULL,
+		0x624180D4FCDBA657ULL,
+		0xBEB05E372C26D491ULL,
+		0xA90282A57C0D7BAEULL,
+		0x6F3306B09D4BB2E7ULL,
+		0x773ADFA5B3CB42FFULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x5272FF2D0474726AULL,
+		0x3549845FEB213455ULL,
+		0x5C0502C43F703CABULL,
+		0xB93CEA7BDC8C65BCULL,
+		0xF546901017BC8B7EULL,
+		0xE843C8A1D75BE0DCULL,
+		0x0CBDDF92106042B5ULL,
+		0xA852D101C11F2758ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xA4B5D696CC34586BULL,
+		0x297997291F69099CULL,
+		0x2E34431A589F6497ULL,
+		0x5F76C2AF25DB5B74ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 396\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 396 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -396;
+	} else {
+		printf("Test Case 396 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x13961003D90469A1ULL,
+		0xAA0597D552A71AABULL,
+		0xBDB2B88F261EEBECULL,
+		0xFC2D9732656B6CA9ULL,
+		0x457FED87942AD6C0ULL,
+		0x9F17D853A8F16CA5ULL,
+		0xB1768E4F2A08E7D6ULL,
+		0xBC77BFFC3EFA0B87ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xBB8592FFC38C9C49ULL,
+		0xC014E5099C97A628ULL,
+		0x6D07925D96C8BB4FULL,
+		0x2E3025087A5FEDC5ULL,
+		0xD97D4531AF07697CULL,
+		0x4DAFDD3BD168DEC2ULL,
+		0x50F4064AC89A2A82ULL,
+		0x118575B03FB8DE09ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x607579C418BA094CULL,
+		0xFF5FF855B454841EULL,
+		0xA40B56D805C64B20ULL,
+		0x2DF47971CEB83FA6ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 397\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 397 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -397;
+	} else {
+		printf("Test Case 397 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x30F1BB3BD8B6B995ULL,
+		0x293315B0D3214B48ULL,
+		0xA69FBA712602D6CCULL,
+		0xBF496274E4FD747EULL,
+		0xBAFA5C45566F706CULL,
+		0x157F709C0792A3D5ULL,
+		0x488D5D337CC5B01EULL,
+		0xA037D19E45B6B62FULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x4E492D796078D8EDULL,
+		0x0CDA45E3E1D6BE58ULL,
+		0x780EEDD410995B99ULL,
+		0x5A4354900655F643ULL,
+		0x150820E71BCFEBB7ULL,
+		0x33194C4CFAE670B2ULL,
+		0x1B331E1332B3263DULL,
+		0x8BA321A5635876C8ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x849D5DBF2BEB93F8ULL,
+		0xB7823388D2DA243AULL,
+		0xE9F62B681429F294ULL,
+		0x73182CD678A4E78BULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 398\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 398 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -398;
+	} else {
+		printf("Test Case 398 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xACD133242C4937C4ULL,
+		0x7928F2E883145243ULL,
+		0x888CE4ACDC462CF9ULL,
+		0xC717CADEF4135D91ULL,
+		0xFB031CDD9809F9C9ULL,
+		0x53031383CAEE479CULL,
+		0x069E2ADA6E643B05ULL,
+		0x740DEACAA6454AD2ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x1C135C5F96FA2F51ULL,
+		0xEB676DFE5280C8EBULL,
+		0xBBB28DFAEB5A0FC5ULL,
+		0x80D82B2494C63200ULL,
+		0x8F8035A7919F775BULL,
+		0x3EBDEF77A0330E47ULL,
+		0xD85D2D4202057493ULL,
+		0x76C6A3540E8B7A5BULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x862C28C9891E64B4ULL,
+		0x9004DEB8885E0C06ULL,
+		0xAA7FFB5206FD9222ULL,
+		0x5ED43B54E4E21D1BULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 399\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 399 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -399;
+	} else {
+		printf("Test Case 399 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xD406648DC5B8CF21ULL,
+		0x7EF45A71239F994AULL,
+		0xEBF1D4BD141DF5DAULL,
+		0x5A27F51C5929C994ULL,
+		0x4B2A27737DA4CC11ULL,
+		0x3E85FD239548AF85ULL,
+		0x7597DDF0A1344E0EULL,
+		0x937B90858FFBD8BAULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xFB92194954F7E2CCULL,
+		0x21C6F79DCC41DC5EULL,
+		0x5389EF8F33A3921EULL,
+		0x25A976C0C1438CA4ULL,
+		0xBF92FB4FB38A59C6ULL,
+		0xDFB532665DCF23B3ULL,
+		0xD298C23E1C96A4DAULL,
+		0x36C8A409FFC5CDBEULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x90E4D89470ADE578ULL,
+		0x702B7AE993687E06ULL,
+		0xCA4601AD8FE1815CULL,
+		0x770D98B2FFEBDE4AULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 400\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 400 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -400;
+	} else {
+		printf("Test Case 400 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xE08741116EDA8CBDULL,
+		0x3095F6B35B3F7183ULL,
+		0xBE50C2C0A6266317ULL,
+		0x9412EBAB63237445ULL,
+		0x17C9406C3F037FB9ULL,
+		0xC4BE06599D25747DULL,
+		0x5E086A92DEAB34E5ULL,
+		0x4FAFA6B35F7603A7ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x9844786B5434B759ULL,
+		0x9E21232CC35861BFULL,
+		0x41F7C6C6275A153EULL,
+		0xED48598672A1316BULL,
+		0xF18DB15F280BCECFULL,
+		0xC2ADDF590D07BD38ULL,
+		0xF55EC485C56D55D2ULL,
+		0x8CFFFED5D7B84497ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xF51A0497836A16B7ULL,
+		0xE0DA9D9BFC5043E1ULL,
+		0x0587A1EC3DFB6AAAULL,
+		0x0CDD7D0716AC9F24ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 401\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 401 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -401;
+	} else {
+		printf("Test Case 401 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xA65EF6BB299DDB80ULL,
+		0x1151044AD307FEEAULL,
+		0xD9C6F93E2B658C4AULL,
+		0xB47642F5EF8D75F5ULL,
+		0xD12947AB88E1DC34ULL,
+		0xE9D9897818B7EAA3ULL,
+		0x8B220EE7F23352FBULL,
+		0x02A313A688877485ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xBCED8202D7DD3E6EULL,
+		0x4F4F3A3920D3757FULL,
+		0x757871DA2F4D4755ULL,
+		0xD059DD6E51421CC8ULL,
+		0x565E6A0947DC0982ULL,
+		0x303AAE32D45F3809ULL,
+		0xA0227C9EDDD3DDEEULL,
+		0xA5E11FCFEC4242FDULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x238E5ACDF89DDFDBULL,
+		0x4F965659D75F0C59ULL,
+		0x463E3E3D0243A4FEULL,
+		0x28E69762D090B35AULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 402\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 402 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -402;
+	} else {
+		printf("Test Case 402 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xAAE346BAD697303FULL,
+		0x403E17D6197493C1ULL,
+		0x23F7ED66B5E3992DULL,
+		0xCC174E5AD2CBC538ULL,
+		0xE843F7D9041E5511ULL,
+		0x6C118559A208552CULL,
+		0xBD8F5FD43F256410ULL,
+		0x52A0F4CFC0DD780BULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x4051FDCE7EE117FEULL,
+		0xA2B64F0CAC2E001BULL,
+		0x505E4C81415E57B5ULL,
+		0xE3671F1574C162C1ULL,
+		0x57846C2FFE795B81ULL,
+		0xD137CDADB221D201ULL,
+		0x4A23C10E19B960C8ULL,
+		0x4FED0093198A9E11ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xE70004032E3323A1ULL,
+		0x99D90C4F097E0C1DULL,
+		0xF593324F028DBE18ULL,
+		0x4F6670463456BDA3ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 403\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 403 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -403;
+	} else {
+		printf("Test Case 403 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x9CA3AA3334D3371EULL,
+		0x00DCA4FC26EA38AFULL,
+		0xFDD12E95FD486260ULL,
+		0xC7CBBCF0B49F7F5EULL,
+		0x0BB0F2A35F49971CULL,
+		0x21F689C7BFF9B5D9ULL,
+		0xD22C0F83B2407FDAULL,
+		0x4417E6BC557DE801ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x1EA75EC8C594F825ULL,
+		0xFA77470D88CB9642ULL,
+		0x0421FFC8A0A905C1ULL,
+		0x828DD3D4FDE0F3D6ULL,
+		0x1332AA401EAF1145ULL,
+		0x1F4E34B1379DD6B0ULL,
+		0x7A99A539E771D529ULL,
+		0xF3974F6E4FF72777ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x60BB0A26062E1907ULL,
+		0x6B61FF46DBC1C282ULL,
+		0xF96AF5C1774CB2E4ULL,
+		0x38545EB088BF2011ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 404\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 404 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -404;
+	} else {
+		printf("Test Case 404 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x77FF7B1CE6AB34B9ULL,
+		0xA82358BF30837762ULL,
+		0x9B47186EA45478DBULL,
+		0x107C96FE2FF82DA5ULL,
+		0x5B16908E86EA0FEBULL,
+		0xE6FF355F6C5ADB78ULL,
+		0xA187AC7BB22277CDULL,
+		0x3CAD01CBA8A4B984ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x65011EF76078664AULL,
+		0x3D28C96D4C65A336ULL,
+		0xC36CA12D02894A19ULL,
+		0xEAE5A398AFDC12FDULL,
+		0xC4F27FF267112E22ULL,
+		0x89688BDFF76469C4ULL,
+		0xD5684F4A0DB3637EULL,
+		0xB9180004D22640D1ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x5C58D35240644F60ULL,
+		0x4F57B83D40B2B4D4ULL,
+		0x24824CA00A48328AULL,
+		0x2DB536E956E20532ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 405\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 405 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -405;
+	} else {
+		printf("Test Case 405 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x41F2B393050FDBFFULL,
+		0xD1B417D5B710CD97ULL,
+		0x50A2BE84421E91ECULL,
+		0xDB1FF950DD426F15ULL,
+		0xDEB1466EA708CCCFULL,
+		0xF20B56CFC78C4597ULL,
+		0xE562996C23B72F22ULL,
+		0x2DA5AF49C6FBD01BULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x2CBCB4A0FFAA1E1BULL,
+		0xBD73E4D1C355D2D4ULL,
+		0x0A643D43AF8030CBULL,
+		0x8384935FE40FFF46ULL,
+		0xB6415C4FA3667D85ULL,
+		0xE7C9DD87E2BC3223ULL,
+		0x34FCE41B061FE3A1ULL,
+		0xCBD6D6185D1EFA84ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x15D2BF8C8F7D7F63ULL,
+		0x99F833AFEA9DDE01ULL,
+		0x75576B4AF7139648ULL,
+		0x5C4FA346AFFA2453ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 406\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 406 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -406;
+	} else {
+		printf("Test Case 406 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x68E2170C00B4926EULL,
+		0x4F0016751661387EULL,
+		0xCB1987BC08009CF7ULL,
+		0x4DBFC06E4353E1F1ULL,
+		0xB414BAD63B8A2171ULL,
+		0x32AD4D6CCD23A27FULL,
+		0x71A624959F23A56EULL,
+		0xB98F6307381E3938ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x7E0D157672ACEFA2ULL,
+		0x82CAACBEB3E50551ULL,
+		0xC693A50AFBC112D6ULL,
+		0x76FD66EF0135D521ULL,
+		0x1E4A4F2175D7C039ULL,
+		0x1DCC6979ABA3E748ULL,
+		0x71BF7824CEF78209ULL,
+		0xF7E79B736AAE45D1ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x26E0FE6AE6820FB3ULL,
+		0xE5973FCD5B71FD6DULL,
+		0x00C37B6FF2CCCB21ULL,
+		0x15A9F96FC0BC2E1AULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 407\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 407 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -407;
+	} else {
+		printf("Test Case 407 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xA21E2F9912C9CC9FULL,
+		0x0A77A55CEF9B0CBBULL,
+		0x4E6E903BBDB2640EULL,
+		0xE1CCC4D8CEA60996ULL,
+		0x1C76FD50B87415F5ULL,
+		0x9A818AD5D505FC45ULL,
+		0x96ACA14B38236765ULL,
+		0x63E051965011ACC0ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x4E3EB70CF8E79907ULL,
+		0x9597BE0BA9F53D14ULL,
+		0xF5A924D22FBD927AULL,
+		0xB1866CC32A35BD07ULL,
+		0x23670E3EB2CC1ADBULL,
+		0x8C457149DC1A3EEEULL,
+		0x27C5FFB461D19D09ULL,
+		0xC63E1BD54755E746ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x4C3CF538F0D1774DULL,
+		0x91CBB21838A3EA90ULL,
+		0xCF0167CD5E18DB3DULL,
+		0x165A52BCF04F9CBAULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 408\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 408 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -408;
+	} else {
+		printf("Test Case 408 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x947A3DE3775E9CE3ULL,
+		0xFF2A04B2768BAE1AULL,
+		0xB1977C025A216FB9ULL,
+		0x1F3B5EABEB974462ULL,
+		0x1591B654C74FAEB2ULL,
+		0xE60202C4B0FB0685ULL,
+		0xE0CD883988A53293ULL,
+		0x7BF039F0B9169300ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xEA1BDD83DE8F3300ULL,
+		0xC19362E5EED776CEULL,
+		0xF90D5FB9218CFF70ULL,
+		0xE548F8CC86B45159ULL,
+		0x099714B83E29E31DULL,
+		0x724C0D3D9D56521BULL,
+		0x683A8B7E1A747B5FULL,
+		0x6485B8168F18C186ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x71925D9BF46BA260ULL,
+		0x6A9913D97226FF09ULL,
+		0x9E5BA01B93CFA212ULL,
+		0x33C1AC41A0900B36ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 409\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 409 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -409;
+	} else {
+		printf("Test Case 409 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x6559AD1DCB889C45ULL,
+		0x915967DE7BA47F57ULL,
+		0x58E1E055691814FAULL,
+		0x2E716EC692CAC5ABULL,
+		0x680A526CE486BEC9ULL,
+		0x717BECDBCD20A3CAULL,
+		0x693B46069677CA19ULL,
+		0x7EBB18ED7A5605A7ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x9A024BC2232D49B6ULL,
+		0xDE7812F8C57B5F30ULL,
+		0x4BE4A6890EFD8AC9ULL,
+		0x26C86813872F5A28ULL,
+		0x4E1AEC9FDD62A45BULL,
+		0x95C5216687E327D7ULL,
+		0x8C4596F0B949D81BULL,
+		0xCEC6CD31A56B1D76ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xA4E07DCAB7B73D1BULL,
+		0x5003884DFD49863CULL,
+		0xD975370B2EEC75DFULL,
+		0x25EC4494A679E2C3ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 410\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 410 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -410;
+	} else {
+		printf("Test Case 410 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xD386985E0FB3F25BULL,
+		0x67ED073FFA92AF32ULL,
+		0xB580C77CAE7E8C6DULL,
+		0x26EA6374020C0DAFULL,
+		0x7BE76D45CA7890B8ULL,
+		0xF27507370622EC30ULL,
+		0x2A16C299A9875CEDULL,
+		0xBBE3D6EC0753CF9FULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x2749CEB946E29833ULL,
+		0x44EC067E9FEC3B0AULL,
+		0x022F1DF9EA3717BCULL,
+		0x520443343DBD6DFEULL,
+		0x649BE667697D0737ULL,
+		0x2445010F9AADCC6BULL,
+		0xD1D2BFC3EE35EF76ULL,
+		0xAF7555CB7CE8D807ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x2172CEA72E27C387ULL,
+		0xBE21EA9B4E092B6AULL,
+		0xCD6A153C925DB479ULL,
+		0x2D4D4B14502F6028ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 411\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 411 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -411;
+	} else {
+		printf("Test Case 411 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xBABD7BF50512E6E4ULL,
+		0x77EB4A48902DFBDAULL,
+		0x75EC6480EC569EF4ULL,
+		0xC1CDA0F5F0514E1FULL,
+		0x3E18FBC3B9234CF5ULL,
+		0x119ABDE4D2EE14B6ULL,
+		0xEF9E454CDB232AF8ULL,
+		0xEEAE2B0D5A5F0C27ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x2FC11F661E2305CBULL,
+		0x2C5D606949AE0245ULL,
+		0x91326D1F175FBF87ULL,
+		0x5EC91FBFE83C059FULL,
+		0x921D12C492945D6FULL,
+		0xE180D85E188114E2ULL,
+		0xE46D2F626CE8762BULL,
+		0x174336755E005CCCULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x1260F26EA02773BDULL,
+		0x6F65FBDEF2ADF301ULL,
+		0x8E03382E31ADB5BCULL,
+		0x5CE4CFC57E235003ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 412\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 412 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -412;
+	} else {
+		printf("Test Case 412 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x5157923D429284F1ULL,
+		0x25F77D1C785F5AEDULL,
+		0x8AA606E7CA53E99EULL,
+		0xB3FACDC838B48EC2ULL,
+		0x71E2B84FD8D58002ULL,
+		0xAB11289A8A3AB8CCULL,
+		0x99808341B4086B8FULL,
+		0xBF584EAA7CDFADE2ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xC512FA17F0401B78ULL,
+		0xBCD80DA310957F03ULL,
+		0xAE1B57526E04DF09ULL,
+		0x5973B18218CE7C32ULL,
+		0x340E7C6939E3FF2FULL,
+		0x7FD1E4BC2DAF56BEULL,
+		0x9BD368E762F984A6ULL,
+		0xB48F1E78ED3EA404ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xB9C57C60EA2B8904ULL,
+		0xD483827B247A6A06ULL,
+		0x843C98FD64855130ULL,
+		0x746443A171CD8983ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 413\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 413 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -413;
+	} else {
+		printf("Test Case 413 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x673ACB275B687C47ULL,
+		0x9E24D002CCFC7A8CULL,
+		0xA916F8650E880E55ULL,
+		0x7EA27EA292A7861FULL,
+		0xB25CDFEC295ACDF4ULL,
+		0x1B06B8AE4B328A46ULL,
+		0x0174CCBC085390B8ULL,
+		0x496F706AAE04D7BAULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xBA9C963B3B7F5056ULL,
+		0x183E8623F592C9A7ULL,
+		0x2056B71968D350A0ULL,
+		0xEAFF48558D0B7531ULL,
+		0x4F2E3C09F1235A8FULL,
+		0x2FC8E7CF50DC11AAULL,
+		0xF0B457B69763E5B9ULL,
+		0x2B9FC88B1E74F348ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x658A888078244D87ULL,
+		0x71134AF8003F981BULL,
+		0x0551A01A69481F8CULL,
+		0x0076217C54F7F9B7ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 414\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 414 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -414;
+	} else {
+		printf("Test Case 414 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x4384B3FA7A90EC3EULL,
+		0x4012C20FA8C4FE51ULL,
+		0xA359051C24028EC6ULL,
+		0x01AFE5AC1A8DA8BFULL,
+		0x51F1CE1339273FE4ULL,
+		0x534F88767078F7F4ULL,
+		0x96CB2951A57830CAULL,
+		0x393BE7669D25D25BULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x1B361D2B337CDF2AULL,
+		0x16F23A87C903C49FULL,
+		0x92B5527DF24E2620ULL,
+		0x18289453BB9C68ABULL,
+		0x1C020B9C47857454ULL,
+		0xA2734C274C1BCBDFULL,
+		0x71E3569FC0E63029ULL,
+		0x80AEE12D50A7CACDULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x29E57477251842D2ULL,
+		0x69D17B474595C4D8ULL,
+		0x8B0CF9061F608080ULL,
+		0x4E763DD9B9A65F2DULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 415\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 415 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -415;
+	} else {
+		printf("Test Case 415 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x5A7DB74B3362C305ULL,
+		0x1EBBE2E1903E7EDAULL,
+		0xDEB0A89B8551E20BULL,
+		0xFB66D1A9B4817942ULL,
+		0x9B55271E4111B38AULL,
+		0x26D969880B117BF0ULL,
+		0x8C3632B0A84FAF74ULL,
+		0x0C0D44492513FF83ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xEE10D4094A604428ULL,
+		0x63F780E2304A75FDULL,
+		0x52016A8BC802C634ULL,
+		0x70CE370CF4B397F1ULL,
+		0xFF6F3D6A36AB7375ULL,
+		0x608D0257C6046A54ULL,
+		0x11B75F7F305F9A0AULL,
+		0x62E01BAF1F60130FULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x908D93FB74300020ULL,
+		0x2A1BB3299FE4A5F5ULL,
+		0xBB8297678AF2498AULL,
+		0x274CA1799882FA9BULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 416\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 416 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -416;
+	} else {
+		printf("Test Case 416 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x1F75911242008F36ULL,
+		0x48E3EEA176BE971EULL,
+		0xDFE82E248AE2C234ULL,
+		0xBA2E8C295B726316ULL,
+		0x1CE762256899D935ULL,
+		0xD3709666EA8F7998ULL,
+		0xFCAD9E9A9B2D5A5EULL,
+		0x8BB2E6B418851A0CULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x7CE4DBCB4B3AF4C5ULL,
+		0xB4088790909DD19AULL,
+		0xA7984421CC0F3763ULL,
+		0xA8A8992ECA280DF6ULL,
+		0x36CDDE41FDF27BF8ULL,
+		0x22ECF0A6E318660FULL,
+		0x80D8253820D5C1EDULL,
+		0x2DBE54D6D3975DB2ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xCA5A4908CB9D7393ULL,
+		0xC866019201CDABD5ULL,
+		0x99FFEEA0E7D42BB0ULL,
+		0x03D399D2CC944A8EULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 417\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 417 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -417;
+	} else {
+		printf("Test Case 417 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x07395FB4ED0B0916ULL,
+		0xDD1FF1A6EE892641ULL,
+		0x48F50DC08C5CA383ULL,
+		0x852A211AB4CB47BFULL,
+		0x4422CEA8832D9145ULL,
+		0x7210FAE346992EE4ULL,
+		0xBBD9F1C114063A5BULL,
+		0x024B08BCA4AA372FULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xF3273F086D785B4AULL,
+		0x7BE437CF0E35A548ULL,
+		0xAB50832F615EBDBBULL,
+		0xB0F66B601A8188A8ULL,
+		0x330B3D004EAC6FDEULL,
+		0x507A3C3829CA7BEFULL,
+		0x28C72190804BB7ADULL,
+		0x69ABD226BA538D2EULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x9D91BFA44ABDA0B6ULL,
+		0x5D9C073E27021158ULL,
+		0x726F71C718AD4BA1ULL,
+		0x7BD5CFFB6326FB52ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 418\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 418 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -418;
+	} else {
+		printf("Test Case 418 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x0BC29B2823155A1FULL,
+		0x8E6BBA73FF078384ULL,
+		0xEDDA837F4D895233ULL,
+		0x900C657C02C91609ULL,
+		0x5F07136606EA97EBULL,
+		0xA17DF46BE400B8A3ULL,
+		0x4F82061852BECD49ULL,
+		0xAD9C79B02A7AF52EULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xF919A5601DA3E54CULL,
+		0x9238CBE36DFD583FULL,
+		0x0F7D899EA5842FDEULL,
+		0x17B98A02EAD3E540ULL,
+		0x6BDF75CC090B1D8DULL,
+		0xE9D9951474541990ULL,
+		0xFEC781D1AF4BF89BULL,
+		0xCB902D043BC10023ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x2A8A5AA3B49D9E2FULL,
+		0x3E99158B24A9C814ULL,
+		0xDA0C9C5CEB10B41EULL,
+		0x06263CFE878F9051ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 419\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 419 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -419;
+	} else {
+		printf("Test Case 419 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x5C53FA7FA60D656CULL,
+		0x009C66894CBCF335ULL,
+		0x65FE6BB64AB01032ULL,
+		0xA90782D999498566ULL,
+		0x17EB2F7514B743F6ULL,
+		0xA253929CAC400823ULL,
+		0xF3B96E4BE93D147DULL,
+		0x3295616D5A330CCFULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x63D94885ADC2AB80ULL,
+		0x24BC2E882F5DB260ULL,
+		0x97283CA37905F6B8ULL,
+		0xDC96A298CE95AAEEULL,
+		0xA149B6C9149ABEBDULL,
+		0x07F8D5879AE9C75FULL,
+		0x624786B09A8BF809ULL,
+		0x8FC6FBC3BEA25A4CULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x94729B81FC867E3BULL,
+		0xC5584921B02CDDD8ULL,
+		0x65BE90207FF452C8ULL,
+		0x7713F76DE22E59FFULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 420\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 420 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -420;
+	} else {
+		printf("Test Case 420 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x6392D75B18A77B87ULL,
+		0x7CE8969A9731688CULL,
+		0x7E59454DEF82DBDDULL,
+		0xD514CB947CA5ECC8ULL,
+		0xD39A752C4C689FEDULL,
+		0x6F43BB3F3DB2E51FULL,
+		0x6F7D12E084AA0F71ULL,
+		0xB3CC0F6C9824DB5AULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xD46D04F571E0F60FULL,
+		0xD31E788E2C1539F2ULL,
+		0xAC94A824810B5BF0ULL,
+		0x6290AC368B38385FULL,
+		0x4C9392906EFA4502ULL,
+		0xDDF5DB4199ED19DFULL,
+		0x6BA1486E006C100EULL,
+		0x5DAB16878950066EULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x9A2B758885280648ULL,
+		0x3B595DB2BA785A2DULL,
+		0x6464AA290FAB688EULL,
+		0x3B69115E25054F71ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 421\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 421 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -421;
+	} else {
+		printf("Test Case 421 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x9240CB69EF6B3FD4ULL,
+		0x01C2A060935DDF87ULL,
+		0xFC441E74D88C5733ULL,
+		0xE56C5AAE0E007937ULL,
+		0x856D4C484906B08DULL,
+		0x739729CC1217BD5CULL,
+		0x32E282E47F921F09ULL,
+		0xC2501A04B145F326ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xF582E7BC0A60B8FAULL,
+		0xFD3803D12180B6E4ULL,
+		0xD9AE58F14E866B03ULL,
+		0x63942DDD853ED51BULL,
+		0x40FB0125DA0EF6F7ULL,
+		0x05BE503F621F70B0ULL,
+		0xEB624B1F0F38BAC9ULL,
+		0xE2DDAD0423DDF0F6ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xC5B50ACA5DD01273ULL,
+		0x52BAE77190B88A34ULL,
+		0xBF9E0CD2374ACDBFULL,
+		0x2CD45AE58631F720ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 422\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 422 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -422;
+	} else {
+		printf("Test Case 422 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x50A94E0F591A0B85ULL,
+		0x6E2D8F277E4DA505ULL,
+		0x5D60AE35DA2A4BDCULL,
+		0x7728495A4FB11445ULL,
+		0x1D14796A9211F6D4ULL,
+		0xFF33D398737F775FULL,
+		0x8A222B45A2127445ULL,
+		0x2EEC1B4905B065AFULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xC8F3B931A0919BD4ULL,
+		0xD19200CD70BCCC89ULL,
+		0x4C1E2ADD4647FBE5ULL,
+		0xA8FF2FECB3F032E2ULL,
+		0x46A38AEFFE2FDD2EULL,
+		0x7A4CCC2080E92758ULL,
+		0x8BCDD20981E4AA05ULL,
+		0x903853FA6C1AB6EEULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x5C78FB0FAC183C1BULL,
+		0x56E6AA280FE0B97FULL,
+		0xD1C7C2455AAE558AULL,
+		0x5CD8AF1867F8D208ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 423\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 423 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -423;
+	} else {
+		printf("Test Case 423 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xB5362AEB6266977BULL,
+		0x1CA183E299E228EEULL,
+		0xA492390BDE6F6E34ULL,
+		0x25D38E4686578C3EULL,
+		0x3ADBE317CEEA5C22ULL,
+		0xCA361AA478DE28EDULL,
+		0x478CE81DA17B0004ULL,
+		0x09AE9CB7C0436BAFULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x09812625A835F544ULL,
+		0xA77996B2915E5494ULL,
+		0x963DF7DF3EA859C7ULL,
+		0xE073CA5D49A93C81ULL,
+		0x4B6B8158BC74E476ULL,
+		0x1B681EBCADFAF343ULL,
+		0x47434F8F64EA0C45ULL,
+		0x13F6E70FA4806E4DULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x3663872277A06560ULL,
+		0x67BB5198263DCB94ULL,
+		0x1940E6499D4B42E0ULL,
+		0x3EA4BADD5B9FEC49ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 424\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 424 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -424;
+	} else {
+		printf("Test Case 424 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x29DC92F7C63DFA9AULL,
+		0x90A66AA9DDD4F756ULL,
+		0x042540EF0FD268F5ULL,
+		0xB53A9AE0E2C88FCAULL,
+		0x0B74671E0CF8DF6DULL,
+		0x1F2802CD6A950F77ULL,
+		0xBB1E3FA92588EFCAULL,
+		0x1306FBC51749315DULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xD3D9BB53067603D4ULL,
+		0xDE109AACEC329BB7ULL,
+		0x91884A8C85ED5EECULL,
+		0x336C6FB8C82B6C7EULL,
+		0xA8528326DCFF83ECULL,
+		0x6F9EA5B51B78C5E5ULL,
+		0x08B91F68A7889073ULL,
+		0x8D3AF8498980D056ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x0D0AAE55DECB8940ULL,
+		0xC0F9A198AFD54733ULL,
+		0xED9FBFF53DF330E6ULL,
+		0x5E16AF7F265B8A6FULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 425\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 425 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -425;
+	} else {
+		printf("Test Case 425 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x52D1664EBD4DCFBCULL,
+		0x948F12AC07816D2AULL,
+		0xA8369163911903BAULL,
+		0x8A38C9380B6B7A25ULL,
+		0x60A42AD47D189F29ULL,
+		0xD81C58C521CD8676ULL,
+		0x52CA6679ED4A0267ULL,
+		0xA30B5D8C6C98796DULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x3AA6C3238A7C7CFDULL,
+		0xF8735BCA3E3912C3ULL,
+		0xE4F5EBAFBDF13267ULL,
+		0xFB30BE33BBD09D10ULL,
+		0x5028BBECE83BAF66ULL,
+		0x2EDC29E2219676AAULL,
+		0x7A11B91740BB5E6BULL,
+		0x90A23BECB71AA85FULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x8A7D198B4B9CE9FDULL,
+		0xBBA2AC93D174B2B1ULL,
+		0xEEAA6259705428D3ULL,
+		0x4AA308B94047E522ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 426\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 426 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -426;
+	} else {
+		printf("Test Case 426 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x739E3BA92171FB4FULL,
+		0x00AED35798567EF3ULL,
+		0x341F5EABD45CEEE2ULL,
+		0x9BE89BC29DF4A87BULL,
+		0x2F12262079254419ULL,
+		0xDC51C4152CBB9433ULL,
+		0x9E5EA2D087635CFBULL,
+		0x1EE5319455705C91ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xF0F41DD9C2732436ULL,
+		0xB656051D2CB9300FULL,
+		0x87D1A89C617E61FCULL,
+		0xBE9277E08B0073F2ULL,
+		0xAEBBC22E6027984FULL,
+		0x3E0079ED10E17AFFULL,
+		0x25F205FB099833C4ULL,
+		0xA08ABDDF185BAF58ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x8F7CF3BF14A65430ULL,
+		0xCA69D02E8DFD0C88ULL,
+		0x8C6CFDC01F06AB26ULL,
+		0x1EC350C92405EB10ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 427\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 427 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -427;
+	} else {
+		printf("Test Case 427 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x124082809E90EB04ULL,
+		0x87E1009516799CD2ULL,
+		0x42EC33F76D70343FULL,
+		0x5A7320DC1954526DULL,
+		0xAA12A591DA942384ULL,
+		0x41B5236461BD8EDBULL,
+		0xBDDBEFC547599A7EULL,
+		0xB637DB05F30548CAULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x606A85DC29E71278ULL,
+		0xA7F613521248B3F8ULL,
+		0xE9BA63532FF07EA8ULL,
+		0xA68130AB2300917BULL,
+		0x19A3856488703485ULL,
+		0xC24B1FBA0C8D2E5AULL,
+		0x27DD19B1DA0ABAFAULL,
+		0xBACBB436A39B4315ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x2254C35EA5FF5240ULL,
+		0xC9A7788BA95F3C15ULL,
+		0x9D0597867734E31BULL,
+		0x05FFB2F6C01099E5ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 428\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 428 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -428;
+	} else {
+		printf("Test Case 428 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xED6A10549A9233A9ULL,
+		0xFE5EF199FFD29719ULL,
+		0x2DB5200E3235FA40ULL,
+		0xB4586AC4862B84D5ULL,
+		0x18EDC2E22422B643ULL,
+		0xCCC90AD6FE333D2EULL,
+		0xC7A3E91119DC7FDCULL,
+		0x398A8555163758B6ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x5E6D40FAD13650F4ULL,
+		0x2CD39B08B9DCC523ULL,
+		0x4541BB18DCDB2F9CULL,
+		0xFCC2A92F73C3130BULL,
+		0x4F695A064BE7949DULL,
+		0x53219737FD27263AULL,
+		0x2DFA225092635EEEULL,
+		0xDE3C863F2AAC7DD3ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x78A45FFBE222DDA3ULL,
+		0xE066802B6DC13A26ULL,
+		0xB7A6E5897155AE0AULL,
+		0x45299ED60904EF92ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 429\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 429 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -429;
+	} else {
+		printf("Test Case 429 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xC5BB67D8ED26F9E6ULL,
+		0x20038CF8873F2A06ULL,
+		0xA5B7A38398E8EF6EULL,
+		0x466B458D7BEE278EULL,
+		0x1B91AB9AC0C39291ULL,
+		0x4F9D0AD32E9FF8FCULL,
+		0x44DC3CE800A929FCULL,
+		0x0F1EEA1DFC4D594EULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x72B3806D40B99735ULL,
+		0x147A99976FB66034ULL,
+		0x2E2641F0F29312EEULL,
+		0xC18557CFEE9BDEA1ULL,
+		0x5C6F13D9CF40DED4ULL,
+		0x9ADA8B1CC2281545ULL,
+		0xB53528833E8820A2ULL,
+		0xC257BEECAA0A013BULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xB22A6E0F85D40CAAULL,
+		0xE067E875315496F2ULL,
+		0xCA5E6887773D3FD0ULL,
+		0x6A76570FC3515BAEULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 430\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 430 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -430;
+	} else {
+		printf("Test Case 430 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x2BC2B520B50946CDULL,
+		0xBFEB5AC08B5F2FC1ULL,
+		0xCA08891CE2783848ULL,
+		0x15D38A6FD69ED7F7ULL,
+		0x090B6A89E37DA710ULL,
+		0xB7A4B4CCA0BE2E92ULL,
+		0x2587316533FDE945ULL,
+		0x33EDEA3811DB96D4ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xD8DC0369648E1EF0ULL,
+		0x4701117082B77928ULL,
+		0xA23EC189020144F8ULL,
+		0x6F84F19202C6561EULL,
+		0xBA47313CE387749AULL,
+		0xA8F4B607156CCB5BULL,
+		0x3EFCA3930DC9722CULL,
+		0x9DBC56B80559EDAAULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x040733254F06A2EEULL,
+		0xA70A1AA2B6BC70A8ULL,
+		0x605AD4C58C40A108ULL,
+		0x71AA7DDFAF179E11ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 431\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 431 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -431;
+	} else {
+		printf("Test Case 431 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xC696775FD0D6C5A1ULL,
+		0xDB3434F0A287236CULL,
+		0x17FCBE149E8BEF4BULL,
+		0xA1FA0F1A13463A5EULL,
+		0x0E67D849F2E403F7ULL,
+		0x291D51951C8FCD12ULL,
+		0xC71985FBE15EEAE8ULL,
+		0xB6EB613102BF0073ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x7582B712338213F3ULL,
+		0x05A5AE25407D6D6BULL,
+		0x2E29F286D24BB890ULL,
+		0xF6FAB4F2D38F7199ULL,
+		0x7A43C80C318C1D56ULL,
+		0x85CAB7A72DA1FCA4ULL,
+		0x980DFC5BB0356AA6ULL,
+		0x923F03E3ADB02DC9ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x4E6E29785060EE52ULL,
+		0x13D1601CD956A645ULL,
+		0xE58939551869407AULL,
+		0x1C9533A1DFEA0E07ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 432\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 432 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -432;
+	} else {
+		printf("Test Case 432 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x870EF2AF91D6285AULL,
+		0x30D07BD6A5EC333FULL,
+		0x7DFBBBBD0673F80CULL,
+		0xA90D80D45FE38618ULL,
+		0x4D94457900E1DB63ULL,
+		0x5E425DF353E252EAULL,
+		0x7AA8AFCA101C607AULL,
+		0xDCC93E09DE106162ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x3C9005762EC7084EULL,
+		0xC8C0E220C2497ED9ULL,
+		0x102830D5FF95937FULL,
+		0xDD9C212DBEFA3A6DULL,
+		0x8C9BFC071DBFD080ULL,
+		0xA9835F5EF348DADAULL,
+		0x69FA366CCA88E374ULL,
+		0x8CB6C26C81EF9F76ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xEF59D4211A1CBF73ULL,
+		0x3C6963BC3A6A86BCULL,
+		0xE7B98EBF5AC2F365ULL,
+		0x2E2FB9024DC614B5ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 433\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 433 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -433;
+	} else {
+		printf("Test Case 433 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x8B03CDF87C40C1CDULL,
+		0xB828881ADC1461D7ULL,
+		0x7C800576DC160ECDULL,
+		0x2C34725B27315B45ULL,
+		0x2B28170BA57A1D93ULL,
+		0x3C348D2DB8BC1D00ULL,
+		0x4803377EC2A1B908ULL,
+		0x8DF0D6DB552F1E7CULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x36BDE31BAF7F4E9CULL,
+		0x923CD70F1793AF45ULL,
+		0x564729F73DB51DA5ULL,
+		0x0144A86411508FFFULL,
+		0x7DE996749DDDAFA1ULL,
+		0x2B33360995BEBA39ULL,
+		0xA70FE90D283C7D3EULL,
+		0x93A4F4B860B0079CULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x0B8D0147EDF9C4F7ULL,
+		0xAC1EA068F61D5C10ULL,
+		0x0A56805C8967D126ULL,
+		0x52335B2760BE3078ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 434\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 434 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -434;
+	} else {
+		printf("Test Case 434 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xFD0778A0D0924CD0ULL,
+		0xA759E4EFEBBA0907ULL,
+		0xD5AE9E01E4A1E519ULL,
+		0xE38FE81A7A5E97DFULL,
+		0x0B587B8B9A522696ULL,
+		0xD3FCF09F6C29469EULL,
+		0xC165709FC91801E0ULL,
+		0x2077B11B761B0F8CULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x0F3A9AA6F1F85927ULL,
+		0x802AAC64301CACA1ULL,
+		0x905021CFA845958CULL,
+		0x00B600573EFB1EA9ULL,
+		0xE70084A8F6EF61EAULL,
+		0x61A6B583402F61D6ULL,
+		0x9CDDE0ED2D15CDD7ULL,
+		0xED16B0657A15C288ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x52DB839E1F4320D0ULL,
+		0x1FFBFEBA42B551F6ULL,
+		0xB17DD0B564B008F4ULL,
+		0x034002C6A42CE7D3ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 435\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 435 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -435;
+	} else {
+		printf("Test Case 435 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xC94D3C970659F21FULL,
+		0x24266B1EA4508F16ULL,
+		0x6D9BA6ECDA288241ULL,
+		0xD100BD6B477172C4ULL,
+		0x3389045EAF3958FCULL,
+		0xAAB07BA9F68E3F02ULL,
+		0x8771E99C1E77FF04ULL,
+		0x8F8B7812CFEC6E54ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xC579F034FCCFE824ULL,
+		0x49C6278E45656062ULL,
+		0x6385B9D0E579C219ULL,
+		0x226C4031D6830904ULL,
+		0x8ADF35585B309E43ULL,
+		0x36D1E5935C2EFCC9ULL,
+		0xB47693380E33D6C8ULL,
+		0x9281D85AC944C782ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x0D08075282D5C171ULL,
+		0x0D6A8AEB490F031DULL,
+		0x5B64BFF65ECCB921ULL,
+		0x3E02328A6DD12CE5ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 436\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 436 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -436;
+	} else {
+		printf("Test Case 436 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x4AF7D25BCAC44566ULL,
+		0x82A97835996EE622ULL,
+		0xB8B3B212CB9BD63AULL,
+		0x72B8D6B8DC7EAB65ULL,
+		0xB8CFFD2B43950F72ULL,
+		0x1538E24AE2A5E0B9ULL,
+		0xF1930E5492231FB8ULL,
+		0x30A9A9D6C2639F79ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x0EF46698E1897349ULL,
+		0x838AC2B3680908E8ULL,
+		0x6F68D4053DE64106ULL,
+		0x31C34E34DE6BBF3BULL,
+		0x520AEBED29B547C4ULL,
+		0x1A1A75E69073DC08ULL,
+		0x15E60EF45E7B444EULL,
+		0x32BED3EC4B3432F0ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x7D43FAFAC07275DEULL,
+		0x45A2CC6664D28F8FULL,
+		0xE4F8C65538A026EFULL,
+		0x71D14951AF1D08A0ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 437\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 437 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -437;
+	} else {
+		printf("Test Case 437 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x3C19E69DF10EE82DULL,
+		0x2537493487E2F69AULL,
+		0x38AA1171DE2C8066ULL,
+		0x552916E60D152091ULL,
+		0x47515B431DE281CEULL,
+		0xFC02F399642D8B83ULL,
+		0x94439EF0B3C299ABULL,
+		0x108CA93D2755B09FULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x68EB67FAB26FF93AULL,
+		0x80D126461A5A74E1ULL,
+		0x7C28145B8C14BF56ULL,
+		0x9BC01DE00FD58B73ULL,
+		0x028E5E1DDA5C5402ULL,
+		0x641B400E7F0516A8ULL,
+		0x43481843DCA58B31ULL,
+		0x59A99F26354FADC2ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x0820122B4489B986ULL,
+		0x30CAC98C7189DA45ULL,
+		0xC1D7FABE4067E742ULL,
+		0x5F1C786DEA2401F7ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 438\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 438 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -438;
+	} else {
+		printf("Test Case 438 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xE620F19D5B84EB97ULL,
+		0x9279DB95608B6703ULL,
+		0x56FE59C1E1855EB2ULL,
+		0x9872E59B68F3A6F7ULL,
+		0xD2D2DC707742A82FULL,
+		0x88E984902474A148ULL,
+		0x4E014A18A1A63489ULL,
+		0x81BC982E71E7305BULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x3C9D7B763545E250ULL,
+		0xFB38D05B445B9203ULL,
+		0x0C6337BF2D5A5D49ULL,
+		0x96EC1E148EB07CACULL,
+		0xBDFB175DAF374646ULL,
+		0x35CB5297BD797B16ULL,
+		0x0B6A48F701A676E7ULL,
+		0x6A402043BDAA7F5BULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xC18AB6F0D7EF924FULL,
+		0xEDBC76196577806FULL,
+		0x2D054D0074212780ULL,
+		0x7E00945D9B457055ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 439\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 439 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -439;
+	} else {
+		printf("Test Case 439 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xD259A32821AD46CAULL,
+		0x16DD34EDF900433FULL,
+		0x69D4BC542288AF3AULL,
+		0x0C6F36CFAC165B79ULL,
+		0xDC11DA1FAF194488ULL,
+		0x71E9F5FDE7D5C51EULL,
+		0xD68DE50A529A70A3ULL,
+		0xB1A49F431F572D2FULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x5605608ED5297B7CULL,
+		0x7A3C95677D30EFEEULL,
+		0x9903C9BBD9CA858DULL,
+		0x96E6D29898CB4843ULL,
+		0x75CD4159AC929AD7ULL,
+		0x1B3CF2CD976B2F6EULL,
+		0x0F34EFAC72E5FF8EULL,
+		0x8D886F062297FCDDULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xAA82EFFDAC80FC3FULL,
+		0x7A4F18B26BA18B80ULL,
+		0x68055E877D86F2D7ULL,
+		0x51B78D4497AC3F7FULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 440\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 440 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -440;
+	} else {
+		printf("Test Case 440 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x00883B94E5B5F408ULL,
+		0xD12B3BCE7EBBE88BULL,
+		0xB031A69F06E61A08ULL,
+		0x0553EF8B2BA30778ULL,
+		0xFB6B4FC890CB46F7ULL,
+		0x325115130BF980B6ULL,
+		0xDFCFCF08E60679CAULL,
+		0x5C4AC87C6F404046ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xBEBF8D303135028FULL,
+		0xBE2D3E40E92A4EACULL,
+		0xE17B772DFB8EB9A5ULL,
+		0xF7389A29E920703BULL,
+		0xD34AE29C46202AEEULL,
+		0x7DB58E8D2E88840AULL,
+		0x5DECCF1F3E3FD4AFULL,
+		0xBC6E1D9B3BBAD62AULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x3698E2F7C9E71882ULL,
+		0xE213F56C74571B6CULL,
+		0x16682C1FF2D3E259ULL,
+		0x48DCB2CEE8505778ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 441\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 441 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -441;
+	} else {
+		printf("Test Case 441 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x2B6B6B28D549ADF2ULL,
+		0xBB3B42EB09C01CE7ULL,
+		0x7A9842659C367321ULL,
+		0x1613A48FBC97B480ULL,
+		0x919634F6420F57A4ULL,
+		0xB4B5106C1ECCABE2ULL,
+		0x4B7A46437287D996ULL,
+		0x22E0B07679418960ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xBDF510F53A3ACA1AULL,
+		0x15ADDE507BEF91E2ULL,
+		0x64EC72092F2E621CULL,
+		0x39794CEB070D56ACULL,
+		0xC7712042C39123E8ULL,
+		0xD6CB828A960F139AULL,
+		0x828F73DFA02D158CULL,
+		0xB1DE9A54BFACB6F8ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x6EF76CD861CA8E8FULL,
+		0x96387414D9F525ACULL,
+		0xE8870B2DA6812A7CULL,
+		0x22E9A0A641A1993BULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 442\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 442 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -442;
+	} else {
+		printf("Test Case 442 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x7B9D56707680ABF5ULL,
+		0xA5CD32C09877BF29ULL,
+		0x69E7B6F458B47084ULL,
+		0x68A656F0A32249BFULL,
+		0x41DA7D16E13139A5ULL,
+		0x76E436B5C7E50802ULL,
+		0xB4190153E62BF5CBULL,
+		0x3B091C633816CCB3ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xFE7D95B2D084437BULL,
+		0x60032A00E61C45DBULL,
+		0xE984D54F287E3FEBULL,
+		0x803D5DCD95544AFAULL,
+		0xE810294DC77A2E7FULL,
+		0x9B432EF208ED76C5ULL,
+		0x0EF008618C563585ULL,
+		0xE50373E0ED99A92FULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xD128309777280C55ULL,
+		0xDFB12FCE0B1B0842ULL,
+		0x0477D59E85F0BAF7ULL,
+		0x2D3FFC7A1C614475ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 443\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 443 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -443;
+	} else {
+		printf("Test Case 443 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xEE84339A4E38DB80ULL,
+		0xF00E8CEB37167789ULL,
+		0xD747AF549ED51A7BULL,
+		0x04542DF534309CF3ULL,
+		0x30B30441FDD60A0AULL,
+		0xCC355BE5604FC7B6ULL,
+		0x71734BF3293696F3ULL,
+		0x85129ABE690FF03EULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xAFE1CCC81FF08CC5ULL,
+		0x717DD7FD3C50ADA8ULL,
+		0x92D6E4AA59187F59ULL,
+		0x0A63C347DC51325BULL,
+		0x2CC2A8B1A13550FAULL,
+		0x48EED18F2699FDE8ULL,
+		0xA8219CD2E1449609ULL,
+		0x45D073C093BDBC44ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xD44FFE3FEE23C871ULL,
+		0xFB093DBA8BC1BE75ULL,
+		0x2690C974F3A8BDF1ULL,
+		0x5DC2345B021321ACULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 444\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 444 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -444;
+	} else {
+		printf("Test Case 444 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xA4E9559ADD01B25FULL,
+		0xC9871C04C90326DEULL,
+		0x84FF912E74BEFA43ULL,
+		0x4900BE4DDDC13E78ULL,
+		0xA7CD077AD565321BULL,
+		0x0FB7489A1A979BE9ULL,
+		0xFE90D9B7D4D975CBULL,
+		0xC3A2B94DCF74F307ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x64FF26906A47248CULL,
+		0x7349F2C4E62A4E93ULL,
+		0xCB10E10CE384945FULL,
+		0x857611B0AE8A358BULL,
+		0xB3979768DA5739FAULL,
+		0x2FF1CDFA35A43198ULL,
+		0xA09EF5E2C4849373ULL,
+		0x93C1AF594447A33EULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x7FD8D1B5B6CD63B0ULL,
+		0x8D8D5CFBDEFAA04FULL,
+		0xABD681C1FDD3FEEFULL,
+		0x5EF226E9D7F0E0D0ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 445\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 445 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -445;
+	} else {
+		printf("Test Case 445 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x86487EE5FBD13020ULL,
+		0x4FB5D19F977D6BF8ULL,
+		0x1D72588FC51E349BULL,
+		0xFA38CAE9B6AC8F1FULL,
+		0x055446700FB961E3ULL,
+		0x8C9C00BA9E01C06DULL,
+		0x8A758C4495965AA8ULL,
+		0xDD7AB6F77F03C788ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x9BB0CA74110F1FFCULL,
+		0xE37CE764FD5EB3A8ULL,
+		0x7AC29BA6FAAC5F65ULL,
+		0xB34116AECAE2CEB1ULL,
+		0x3E52FA5A6C514041ULL,
+		0xFBD35067D6E497D6ULL,
+		0x6BFA3B108D2D280BULL,
+		0xA56FFD00E2A8D519ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x74C8FFA82C370F73ULL,
+		0xEA0316842872BEB1ULL,
+		0x28FDCAA20A0F5872ULL,
+		0x188F4ED62149BCECULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 446\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 446 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -446;
+	} else {
+		printf("Test Case 446 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xC4EC94DAD02117D7ULL,
+		0xAFE8114A8646FA4FULL,
+		0x0EDC1AD12B9B01ECULL,
+		0x1B7A70E56898C317ULL,
+		0xB71DF318550327A1ULL,
+		0x6F32D19A3CF9EDD5ULL,
+		0xD9134F880F0BE95AULL,
+		0x1AD02CE19C29D933ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x2840BD4C731E5E2FULL,
+		0xAA5CDE99C54D6B8FULL,
+		0x0D1100B3BBEDCE1BULL,
+		0x6F071FA73B1ADB47ULL,
+		0x03975D87EBB5F7DCULL,
+		0xD5BBFC0026BBD202ULL,
+		0x0E3E46B7076B6420ULL,
+		0x4E1B89B87030E603ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x42A60AFDFE77CFB6ULL,
+		0xCD2EE7900E31B02DULL,
+		0x1D6A69249180FA5DULL,
+		0x0F43895AB472010EULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 447\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 447 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -447;
+	} else {
+		printf("Test Case 447 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xE6441B952C4D0D58ULL,
+		0xE8CF4DB553984C15ULL,
+		0x23E22A8900D27A5CULL,
+		0x7D6DDEAF6431FACDULL,
+		0x8AFBC5D2D9493C47ULL,
+		0xCDFFDECF9CF41676ULL,
+		0xC35D8EEF4B5B2F2EULL,
+		0x7649E35650303480ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x922A322A93B18810ULL,
+		0xEE3EDF6B6096A1CCULL,
+		0x315D0A978E3F6C61ULL,
+		0xCB659AFA1C6541BBULL,
+		0x3A56387ECF865FF7ULL,
+		0x35B4421ECCF8A462ULL,
+		0xD25579600492F21FULL,
+		0x1E10E2B84687A81AULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x4CACE3E40B883B03ULL,
+		0x95C9B088D254994DULL,
+		0xB9B85335F44C1E4BULL,
+		0x4A7E5B2AB6D19033ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 448\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 448 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -448;
+	} else {
+		printf("Test Case 448 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x876BD9B459D21DE0ULL,
+		0x8341C9EC073D2318ULL,
+		0x98CFE39919E1A2AEULL,
+		0x1CFB5C6914AF07C1ULL,
+		0x28DA61EA9B9C7E83ULL,
+		0x88E9C5A642C62D85ULL,
+		0x7F86D40CFBA0736CULL,
+		0x02C5AD119820FAD8ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xFBE3A92517DD02F8ULL,
+		0x9F79D2E0D5EAA681ULL,
+		0x081839ACF0FDFF40ULL,
+		0x7B587B58345D59E7ULL,
+		0xDC39384577D428B1ULL,
+		0x76B2EFCBC427676FULL,
+		0xAC2C9B7CC07862AFULL,
+		0x9F926867F08A8B77ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xEB745F1291B1D484ULL,
+		0x97EBB579FCE3E3BFULL,
+		0xF01C0F54F0D61F7EULL,
+		0x5B3F123FC0A63639ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 449\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 449 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -449;
+	} else {
+		printf("Test Case 449 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x535631239EC37FA5ULL,
+		0x359CE9DEFB61C6FFULL,
+		0x2B44D5EF71084DA9ULL,
+		0x962F74A011F910D3ULL,
+		0x315F2E0748280C66ULL,
+		0x2FE088D83786AA24ULL,
+		0x16D1B09A99AE6D25ULL,
+		0xEC4BD61D30E60900ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x0D7E02E2BEF1FD48ULL,
+		0xE9CD78C273BF2D1AULL,
+		0x9CEF3E4FE52EAB29ULL,
+		0xF48B96F1A2836CA4ULL,
+		0x57A67458916CBA99ULL,
+		0xE4C0B8CCBBD476E5ULL,
+		0xC6D0A49B4ECF48B1ULL,
+		0xC3FD71462B723416ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x9743BE2FFF9FA79CULL,
+		0x728852D0E4163539ULL,
+		0x6E7D5F84A8F90B9CULL,
+		0x1D46D5993EA73ED0ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 450\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 450 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -450;
+	} else {
+		printf("Test Case 450 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xF0E696BBEE44AA2AULL,
+		0x162473BBEC2008B9ULL,
+		0x9C13AA96FBF7D68CULL,
+		0x72D0BB8717AAFCFBULL,
+		0xF8BCC8D0ABCF76E0ULL,
+		0xA6F824A783404EADULL,
+		0x8A7BE30CF2E66BC2ULL,
+		0x78D09F4021960DA6ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x3F78E44C604B8509ULL,
+		0xA6B88BEA1602476DULL,
+		0x3E18B3BD475DF3D2ULL,
+		0x932103F02F965FBCULL,
+		0x44B0DD3B53F49843ULL,
+		0x3BD8C797348B1594ULL,
+		0x05EC951278EC9FADULL,
+		0x1953C345C169556BULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x6B32AA9A98763283ULL,
+		0x5613B83D85043B1DULL,
+		0x0B408A07CFAE2DE7ULL,
+		0x0C385EC12EB7F615ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 451\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 451 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -451;
+	} else {
+		printf("Test Case 451 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x93945FF4A999004CULL,
+		0x23CE4B6DD8BE0774ULL,
+		0x1E10ED2771590839ULL,
+		0x73F24B034C5128D7ULL,
+		0x568F4304E85B4449ULL,
+		0x4B0FBE143BFF2991ULL,
+		0x5E6680C74E6A1176ULL,
+		0xF17E863C6629984BULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x0189DC9A47AEC74EULL,
+		0xAA6F59076BAAD03EULL,
+		0xE54BFEBBE25510D2ULL,
+		0x310DECD90117EB91ULL,
+		0xBB38C227F9C7C3B7ULL,
+		0x3ECBDAEA1F0AFF97ULL,
+		0x6C52E05F6CE3A005ULL,
+		0xC1959B41CD5CC845ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xA0E1A425CBCF4FB4ULL,
+		0x4B72AAA6B9517243ULL,
+		0x27AEBDD708F8CE2EULL,
+		0x5F773F5CF9A01E27ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 452\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 452 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -452;
+	} else {
+		printf("Test Case 452 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x91B6D4EE4F0F0AE6ULL,
+		0xDF45CBC8090230A8ULL,
+		0x987BE359DD316794ULL,
+		0x6510AEAFED33E29BULL,
+		0x7EAF1B522895D226ULL,
+		0xBA2784A651241731ULL,
+		0x99DAAA1428675FB5ULL,
+		0xB3A1290BC5F8C74AULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x62F20A5489D5E279ULL,
+		0x8CBE54744942C4F1ULL,
+		0x29FE2F84D22015F2ULL,
+		0xD3278B68FBAE5D32ULL,
+		0xC672688BACEB25C5ULL,
+		0xFE1BC803EA7B49F0ULL,
+		0xDAA47C9DFB960414ULL,
+		0x3D52C6757FE59730ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x87C75410208EC159ULL,
+		0x3C45776EFCCDE352ULL,
+		0xD088735FB224EB7EULL,
+		0x218BC595585EA93BULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 453\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 453 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -453;
+	} else {
+		printf("Test Case 453 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x0C74E6F7BAA3D51CULL,
+		0x6E545467FBEE2629ULL,
+		0xECA4EDE2FB041C93ULL,
+		0x13B52B45CDE2A5DBULL,
+		0x76370BDEC643ADF1ULL,
+		0x068EB1D3E7D715A5ULL,
+		0xFB97BFD6D0CCEE42ULL,
+		0x24E5E2DB455B5221ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xDA548918C820B074ULL,
+		0xD260B42895C550B1ULL,
+		0xC7C87F8A59EA795AULL,
+		0x5893230C930724F3ULL,
+		0x6E2905C1D425AA59ULL,
+		0x8FD74BDEB55E8648ULL,
+		0x587E4436FA44F210ULL,
+		0xDA9315B2FF6B6BB7ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x6435462AE2F7A923ULL,
+		0x3B2CC2A4E40E1D46ULL,
+		0x5AA4C81279491290ULL,
+		0x436C7C339C77B4BCULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 454\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 454 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -454;
+	} else {
+		printf("Test Case 454 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x0FF8556BD996B2A0ULL,
+		0x1568999F7C7A0FDEULL,
+		0xFE308A34BF978E85ULL,
+		0x4FB426A42450622FULL,
+		0x229306CB8ED7D239ULL,
+		0xF61825133E6CE01AULL,
+		0x36D5F3B83CD17F35ULL,
+		0x4FF842CBA3411DB9ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x60EFBE7F5757C8C6ULL,
+		0xEFEDDDA285081E04ULL,
+		0x16A59C859C3D8FEAULL,
+		0x65FFA388A4C4E180ULL,
+		0x728253127AA6B137ULL,
+		0x9923B25256A32100ULL,
+		0x1C7DF754F4D4FFFEULL,
+		0x99105B341FD7997EULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xD18344658189CE84ULL,
+		0xF1C3C49F5F644FA9ULL,
+		0xD09A646BD2D4E0D1ULL,
+		0x1020E39901352175ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 455\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 455 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -455;
+	} else {
+		printf("Test Case 455 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x4E717E7A230E284AULL,
+		0x34925F9A66816EEAULL,
+		0x71C789F4E10AA9BDULL,
+		0xDAAD02B3F9820EC0ULL,
+		0xDC7A309509DEC0A3ULL,
+		0xE23CDB49B66F7E56ULL,
+		0x29AFCC3F14C5CDF6ULL,
+		0x9520D3AEC7E71498ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x5A339620C53C2351ULL,
+		0xCD0A266AFF71EEBAULL,
+		0xE633F8CA9BC2A7FBULL,
+		0xDFC7EBCC49C5528DULL,
+		0x2BAE635A085C4178ULL,
+		0xABD41B604FF544F1ULL,
+		0x4694C8732E7491CEULL,
+		0x84FEBEDBE76CB10BULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x327E5F1B9730E5A7ULL,
+		0x7B14B5D49D340548ULL,
+		0x4196216E7556EFB9ULL,
+		0x5FF42E3501E7831CULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 456\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 456 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -456;
+	} else {
+		printf("Test Case 456 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x2161DBB10057EBB0ULL,
+		0xF360AB7B706CC3B9ULL,
+		0xD1D60042D8BD21F6ULL,
+		0x387F6429DB7BB70CULL,
+		0x1477E8BA30A2D561ULL,
+		0x19B9C5EAADBA1BF5ULL,
+		0xE09677F75E077157ULL,
+		0x3FD8370F8E5DBFD6ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x2578EA1F9A1CF6EDULL,
+		0x67EEC9B9D8CB9208ULL,
+		0x789F1E717FF5652DULL,
+		0x6F0AE77BC8FF4D11ULL,
+		0x3E12778DEC3082F3ULL,
+		0x3D79BFF1368B1134ULL,
+		0x5B14C2F0028211A8ULL,
+		0x1EFF2B643F764867ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xCEF7BE238F3331C2ULL,
+		0x3CF2C4C9489CCA50ULL,
+		0x2A77C0E8EE93F0BEULL,
+		0x29AC381BC8D82489ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 457\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 457 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -457;
+	} else {
+		printf("Test Case 457 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xA69A1397399080E2ULL,
+		0x2038E35CA1462318ULL,
+		0x150E0678A7E4F293ULL,
+		0x7173156EE2CA1708ULL,
+		0x83322529D8B3B961ULL,
+		0xB2247FDF4ED88D48ULL,
+		0xEEFC54835C36E1FAULL,
+		0xD3C495F8DE987A50ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x6A51C887AA4CAA4BULL,
+		0xD7FD0F4DA711E2BCULL,
+		0x60B194641BD0D6D9ULL,
+		0xA1AE181864C74E3FULL,
+		0x1104E43B386D220BULL,
+		0x1F95BD2B1A0DDA6EULL,
+		0x12B2828BC396343EULL,
+		0x70FBDF217F34BACCULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x2EFFEE7B59BE4F6FULL,
+		0x096CBACED04ACCC9ULL,
+		0x67519CD533EDE5B7ULL,
+		0x7990214EA6D13681ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 458\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 458 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -458;
+	} else {
+		printf("Test Case 458 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xD7F9F4057639D2C6ULL,
+		0x3CF12BD953477683ULL,
+		0x566B9E08A3D3153FULL,
+		0x35A73A4A03DB177FULL,
+		0x61624CF621A08353ULL,
+		0xD8FE87EED6A494E4ULL,
+		0x4B31E4B3292E85F3ULL,
+		0x241971B3BF418AAEULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x68EED885D6170484ULL,
+		0xD1610078B6CB8EB5ULL,
+		0x6F34F427EE539C3CULL,
+		0xB915356C0FE59F8FULL,
+		0x63AF158A752548EDULL,
+		0x709C27EAB2A27931ULL,
+		0xABC8AE13566E1966ULL,
+		0xAFB7EF020E79C7D3ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x17A5557B3A6D7635ULL,
+		0xEA2A6BFDF4CC0460ULL,
+		0x90D4C599FE0F95FFULL,
+		0x430B6B3E319C6463ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 459\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 459 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -459;
+	} else {
+		printf("Test Case 459 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x05137FCE0786F4A4ULL,
+		0xF8B0F67F019996B6ULL,
+		0xF87652C4477E9F28ULL,
+		0x39BC5A8E7D96F0ACULL,
+		0xDFA6932D65CF7AA1ULL,
+		0x3C8A4B7A75FED015ULL,
+		0xD2DBD1F22F1F414EULL,
+		0x2096C27B5B6F568FULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x7A9BAF0924E1F501ULL,
+		0xAC00AA946887F900ULL,
+		0xEF250FA0D33332E4ULL,
+		0x366B598B1CC892C6ULL,
+		0xDFED504FC4083DB9ULL,
+		0x79BFD53CED6449FBULL,
+		0x1623EBE4BC4B96B8ULL,
+		0x7B7E93CF3ECDCE01ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x7FF7BDAAE6380812ULL,
+		0x36BDD90CE0018591ULL,
+		0x0C9D69227FB6BE7FULL,
+		0x04E7EE8FA0C8A316ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 460\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 460 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -460;
+	} else {
+		printf("Test Case 460 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x770643B25D3689F6ULL,
+		0xA88DC3B4DA24278DULL,
+		0x923825A5ED98D0BCULL,
+		0x03C8B3DAA5896CA3ULL,
+		0xAEB492DA366F74BEULL,
+		0x5571F9E4EAE070A9ULL,
+		0x77816CD292FA47DFULL,
+		0x03EDEB93D101BD70ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x00DC49CBD8CE7B79ULL,
+		0x12AAA5C024F37D8CULL,
+		0x0592257F54F54158ULL,
+		0xF3BB4CD40A0EE73FULL,
+		0x36C0BAA35AEF544AULL,
+		0x621CDDC5A0D3F3FCULL,
+		0xC14DC99DE6B6DDA1ULL,
+		0x5D4349D2226BD81FULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x445C120B196CDD8EULL,
+		0xB4854A99B30B2BC1ULL,
+		0x985039F82AA55496ULL,
+		0x4D6169C685BA8F5FULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 461\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 461 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -461;
+	} else {
+		printf("Test Case 461 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xCDBD118753296C6EULL,
+		0xD06904BDA12B8A01ULL,
+		0x3B22193653D03B78ULL,
+		0xF95657B32176EDCBULL,
+		0x1B5C07E9F8F566CAULL,
+		0x1C35FCCB67EA6E66ULL,
+		0xC7C4F6399F41DD01ULL,
+		0x793BD56CF10F5707ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x9DD59386B1F3A6B3ULL,
+		0xF13DDA4839789E72ULL,
+		0xDEC390C4D99F4725ULL,
+		0x938554B02A970B99ULL,
+		0x6450119857DAE26AULL,
+		0x96195C78238EE692ULL,
+		0xF1FA91446991F6BCULL,
+		0x28C2A7D6128711ABULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x5BAE0E1E8B256DC3ULL,
+		0xC76AF6D18D4914FCULL,
+		0x186984D7724D227EULL,
+		0x57CDC767FF1A2DD3ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 462\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 462 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -462;
+	} else {
+		printf("Test Case 462 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x415170B880EFF96FULL,
+		0xD68472D26791FD94ULL,
+		0x53501D89BB5FA86FULL,
+		0x6515CF2AD4E6A9E6ULL,
+		0xA9999D3990481D3AULL,
+		0x0A49EF0E80CE98BAULL,
+		0x37047221B52D7A6EULL,
+		0x9F3D5FC613176A53ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xF568E154DBBBD867ULL,
+		0xD3B21CDCC5287291ULL,
+		0x5E24D3D0F71B7168ULL,
+		0x13F4E289F385D2F0ULL,
+		0xCB79D4B0B4F1510CULL,
+		0x8F180376BEF77FF4ULL,
+		0x6CDD8445587148F3ULL,
+		0x6B2D7C0D5B8B060AULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x44A053B43416710CULL,
+		0x4C3B4E7C68573861ULL,
+		0xF6F2986E88338F35ULL,
+		0x0B7CBA0C2037B9C3ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 463\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 463 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -463;
+	} else {
+		printf("Test Case 463 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x7459E998C3CF83F4ULL,
+		0xD09C8ECD329DCB5BULL,
+		0x67153500AEE7BD9FULL,
+		0xBCC75C3AB313DB01ULL,
+		0x194E6C2691A8D494ULL,
+		0xD32EAEAE2F856D0DULL,
+		0xCDB1122B6FACCCE8ULL,
+		0xA96D3E8BE77CE601ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x81B6C6AAD35F381CULL,
+		0x10F2FEE09988B0E9ULL,
+		0xC6295134BCBB3027ULL,
+		0x5290681C0F5DA4D3ULL,
+		0x548820E320539F46ULL,
+		0xA7FEF877D41611C7ULL,
+		0x8B756AA6A1A9D2E3ULL,
+		0x90A95A2555BC7D1BULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x28124EF0C3163604ULL,
+		0x28BE9BFE2B9CA6CDULL,
+		0x75C6C182869DAA3DULL,
+		0x174ADB584645C85BULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 464\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 464 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -464;
+	} else {
+		printf("Test Case 464 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x4D70DE6386802382ULL,
+		0x9105D118AA2CF4DBULL,
+		0x709130399685D33DULL,
+		0x0F83F3B49CB51800ULL,
+		0x94A9DDE14DD15980ULL,
+		0xF99DF4831C6539E1ULL,
+		0x740A732BC171DF52ULL,
+		0x507685C95DC6C9B3ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xAFF23D90FE08D78CULL,
+		0x8AE900C5696A46EAULL,
+		0x1DCD65185916BF7FULL,
+		0xB992BB46C6179D8DULL,
+		0xC8D6CF8D4112D6DEULL,
+		0x2F8A9C1D1BC5620CULL,
+		0xC1A9C5EA1730269AULL,
+		0x006111952A3F6D9CULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xDED2C14C6CBEB1A4ULL,
+		0x04FBEF77587CB786ULL,
+		0xCD1D82E083307F2CULL,
+		0x3920782D7CB525D1ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 465\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 465 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -465;
+	} else {
+		printf("Test Case 465 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xCE5CCD29516CC030ULL,
+		0xD3996F80701BFC04ULL,
+		0x020BE9DD26EA1A03ULL,
+		0xC26B00F27716B99FULL,
+		0x3AD871C83E838F55ULL,
+		0xF7ABB63893B0A046ULL,
+		0x76395393F56E0082ULL,
+		0xF2537703C4A55E15ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xBF3A479636D02432ULL,
+		0x1B8727AC444C8DB7ULL,
+		0xF3A99F3555CB82FFULL,
+		0x54723384551836BBULL,
+		0xFE5E9F1D4572D150ULL,
+		0x3A2E8A63EBEC8430ULL,
+		0x20988EE32985CAE6ULL,
+		0x99DEE6B7D474FBF3ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x0937CAF41318D2BDULL,
+		0xD8A6C96512EB9974ULL,
+		0xC43F7CE615968C48ULL,
+		0x0F4638B3C92D13FBULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 466\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 466 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -466;
+	} else {
+		printf("Test Case 466 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x0D678A33345A5210ULL,
+		0xCB700FE9887F483EULL,
+		0xBC849371BBF68C4CULL,
+		0x028A048D80F273DCULL,
+		0xCC40580FBBF8615FULL,
+		0xD19699CA950D19DCULL,
+		0x9385B54C2E2DC1D3ULL,
+		0xE369C1B621F759F3ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x4142B5F4026F2094ULL,
+		0xE41AE00BAD183B5BULL,
+		0x7E8F5D227BFE8228ULL,
+		0x9017572E69BB0600ULL,
+		0x60EAE5AB317647CBULL,
+		0xFF8404EFD4852EA1ULL,
+		0xA6DABF1BE7658D71ULL,
+		0x25845BB52D07DB39ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xBAD3CF2BC13B0189ULL,
+		0x161748566F93F7B4ULL,
+		0x5F55C179C1AFD0A9ULL,
+		0x227FD18372C43D75ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 467\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 467 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -467;
+	} else {
+		printf("Test Case 467 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x059B1129731904B3ULL,
+		0x77CA5D3EF77F2EF4ULL,
+		0x477E8B0AE498D435ULL,
+		0x6A1B179EA9DAEA79ULL,
+		0x424F9EB5F56CEA8CULL,
+		0x755DA466E15CD006ULL,
+		0x0CF20C797FA15D25ULL,
+		0x273BDF2CE34CEBF5ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xC7FA3C65B6C7B934ULL,
+		0x926B8E3B6E72496AULL,
+		0x4CC30B3C387BCDB7ULL,
+		0xBDB79B73CD8F9F2BULL,
+		0x51EAA25C9FC7964DULL,
+		0xC21435B68EC2C544ULL,
+		0x21CD89D31C0F59EFULL,
+		0x5B01108BB3F38227ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xEC9E4A0672DBCB96ULL,
+		0x82453D2FCBEA7E52ULL,
+		0xE226E48173C98076ULL,
+		0x7D1E2817E390FFDEULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 468\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 468 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -468;
+	} else {
+		printf("Test Case 468 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x5BCD06026BAEA8C2ULL,
+		0x8532C59741152C91ULL,
+		0x26213DBBF3C36B4DULL,
+		0x25A4B80E12A46749ULL,
+		0x9EB47088FB64DE42ULL,
+		0x7662B53EE871C640ULL,
+		0x03858CDE76A0AC24ULL,
+		0xAF308D1E4C995AA8ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x3B4B650CCF9A9B55ULL,
+		0xE607C37BE9E18F46ULL,
+		0xC832F47F6F008D2CULL,
+		0x4917A078327DFF84ULL,
+		0x00DD03A9E977CD48ULL,
+		0x9A417062CCC29FB8ULL,
+		0x0B61827528CE44E1ULL,
+		0x28EC3299F04807E2ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x8E7BCA124544956EULL,
+		0x4C1B3AC773335592ULL,
+		0x3347D4DE11FE320DULL,
+		0x4AB2873B9438B127ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 469\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 469 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -469;
+	} else {
+		printf("Test Case 469 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x9AFDF60F2B7F3F32ULL,
+		0x3D988783B587F8D6ULL,
+		0x26414EE233A1BDBEULL,
+		0xC1241C59E3982BF5ULL,
+		0x491AA69111377188ULL,
+		0xD3F5E0D4FA60D509ULL,
+		0xED1279617B888AEAULL,
+		0x9ADCA0C66314CC8CULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x5F232CC6393AD126ULL,
+		0x1871F5A48F7B6C4EULL,
+		0xB15B77458CBF5D68ULL,
+		0x9AA53587D2AE23C2ULL,
+		0xCCB5020B622FBA6DULL,
+		0x6346339CCA016371ULL,
+		0xD3D4369DFE805D87ULL,
+		0xA03D09E4F5CAD531ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xB2F13520ED699BE8ULL,
+		0xDF3A483654376904ULL,
+		0x3423C0A136191D18ULL,
+		0x5A2F4C4849E4BFB8ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 470\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 470 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -470;
+	} else {
+		printf("Test Case 470 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xDB331E1234B8565CULL,
+		0xEF4058953A582872ULL,
+		0x43451C08672B9F99ULL,
+		0xFCDD1787B4004876ULL,
+		0xBCA1793652227B86ULL,
+		0x4C8BC697B29E9615ULL,
+		0xA13D907BC5882963ULL,
+		0x8DB5BCB2FD2323E5ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xD3605222787D6690ULL,
+		0xB0AA9316086F5284ULL,
+		0x98C27D9ABF7361C3ULL,
+		0xB0C66C9EE86963B0ULL,
+		0x9CF49F47EE97F988ULL,
+		0x8EDF8C939D474D0BULL,
+		0x5D02A322FDC9C1D5ULL,
+		0x85EFB9E0B3244DF9ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xBB7B255282CA3BA6ULL,
+		0x6626621A5CDDAD6EULL,
+		0xCB41D99B4DFB9CE0ULL,
+		0x737B161FC76AA5D7ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 471\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 471 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -471;
+	} else {
+		printf("Test Case 471 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xE9EE026547B78BEAULL,
+		0x596664D17B3BBC0FULL,
+		0x88287CB0BCD28CF6ULL,
+		0xA232843A7B50EA09ULL,
+		0x04977762D388A382ULL,
+		0xFB88118141CD8BC2ULL,
+		0x14BD02DEFEFD1F58ULL,
+		0x446D1BC789EBA145ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x72683665F3012A68ULL,
+		0x2723A8E3886DBCCAULL,
+		0xCCBB03FC0D268646ULL,
+		0x1B36633649213302ULL,
+		0xC281C114B836D25AULL,
+		0xE1803D2C6F727229ULL,
+		0x8F9BE44899D9857FULL,
+		0x69740D444C325EC2ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x46BEDB9762DB6CB4ULL,
+		0x0F6C40852C53CBDFULL,
+		0x7E580307B2F4DCEAULL,
+		0x07F4487F5BAF9666ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 472\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 472 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -472;
+	} else {
+		printf("Test Case 472 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xE091E96EFD60FBACULL,
+		0x9D30BF1A8A65A930ULL,
+		0x6D709EF246D0747EULL,
+		0xBE78A698FC1F26B8ULL,
+		0x1B6597FD3E627AC5ULL,
+		0xAF797F5AD5FFBF95ULL,
+		0x214858DCF902BC6DULL,
+		0x03B8ADEDB0377E46ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x093B80D2824364F8ULL,
+		0xC81E1E284788D445ULL,
+		0x98EA2C4647300231ULL,
+		0x15CFB1C7696FC4C2ULL,
+		0xF0759DC8BFF1E683ULL,
+		0xDBAD72D656917704ULL,
+		0xA38C4A5358F6CFA7ULL,
+		0x84B8BD97E489E5F2ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x36F58C673FD395C1ULL,
+		0x455C7C9D2D3B9A52ULL,
+		0x7E709B19C16597AAULL,
+		0x02A6A18DCE73FE5AULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 473\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 473 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -473;
+	} else {
+		printf("Test Case 473 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x6DBE1F61E6B9A1EDULL,
+		0x75353DDB74FAB1A6ULL,
+		0x8030C6B46095AA73ULL,
+		0x835DCC878AB1CD0DULL,
+		0x593DA0A987CA2247ULL,
+		0x92C00D11F03471BEULL,
+		0xE13197A522F762F6ULL,
+		0xDF6FAEA156126C20ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xD77A5C30FCD355DAULL,
+		0x7A0CB63CA4D68F7BULL,
+		0x2DE99773BBD968C7ULL,
+		0xC21435945F4F7173ULL,
+		0x489F39C92115F433ULL,
+		0x611ECB9102A3AFC0ULL,
+		0xF03DC57B0E3CF511ULL,
+		0xD6B7DE05B87550C9ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x0DC7088028A52331ULL,
+		0x591840C213A0EDE1ULL,
+		0x1678617FB86891B1ULL,
+		0x0C928E0C90B46A82ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 474\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 474 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -474;
+	} else {
+		printf("Test Case 474 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xF05F7705FF9BBE20ULL,
+		0x539314EA525E812FULL,
+		0xF5034673D17574CDULL,
+		0xA214F7D941FA9009ULL,
+		0xA1A48F7B9FD1F678ULL,
+		0x29C1794B276ECA4EULL,
+		0x697D3D8B081144C7ULL,
+		0x748E4FEA305C02D7ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xA35410D622361DF2ULL,
+		0xFF8FBE59C0083776ULL,
+		0x3494BACAE20F6BD3ULL,
+		0x25119E87B13918E3ULL,
+		0x909EA580BB81A0A0ULL,
+		0x09FE466011776569ULL,
+		0x1EA10BAC9880662CULL,
+		0xBCD47D56325A9E1FULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xD3EC216DC1525CAFULL,
+		0x0AFCE575D50F43B9ULL,
+		0xDD1DF2AD7EE71400ULL,
+		0x42989B4944F66A81ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 475\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 475 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -475;
+	} else {
+		printf("Test Case 475 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x5AA5DC0821DAB5C9ULL,
+		0x17BF97835E0C535CULL,
+		0xBDDA8EDCD42D94D9ULL,
+		0x1FA4082353E1E634ULL,
+		0x29D85659E3DFA115ULL,
+		0xCABF7E94E3FC015BULL,
+		0xE94E632ED5B97B20ULL,
+		0x08100F1A2419421BULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x7C7A848894BACDECULL,
+		0x59E061670C57739FULL,
+		0xAC882A75C8756E18ULL,
+		0xC9FBB876B4E76F58ULL,
+		0xFF4CD0457CD26654ULL,
+		0x7B0EBA741D55E0E3ULL,
+		0x29418DF11E785769ULL,
+		0xFBB0008B058B57ACULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x2EE13E86D9169B05ULL,
+		0x921C52F9CE5DB16DULL,
+		0x933A0B903F6373F6ULL,
+		0x2BEA78EB280B4372ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 476\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 476 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -476;
+	} else {
+		printf("Test Case 476 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x795E2E737FFD9EB2ULL,
+		0x3E346641A874BF57ULL,
+		0x3E232C28AF776EC6ULL,
+		0x4D6176783C1C20B7ULL,
+		0xEB2A821227CA52C4ULL,
+		0x73F621BCAE46035FULL,
+		0x5537B181492A348EULL,
+		0x721BEE4D596C40DFULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x70BA68CAB3C15F8DULL,
+		0xC7BADBB341216259ULL,
+		0xAE77CA194DE79063ULL,
+		0x0855CAB4950E1EE2ULL,
+		0x8702911FCA6B323BULL,
+		0x8BE9E6A7BEEA40BFULL,
+		0x0E22090214D44E8DULL,
+		0x67BA0FA5F29C272EULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xE69189A2A85B13B4ULL,
+		0xE84A4FA9EEF240CCULL,
+		0x1CE264F126500284ULL,
+		0x4F92B89CE9F1D225ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 477\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 477 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -477;
+	} else {
+		printf("Test Case 477 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xE4E3BD8E6290D705ULL,
+		0x3C711538B92A6B31ULL,
+		0x50750DB7D9D61DC6ULL,
+		0xE3132C9F80D4B2C0ULL,
+		0xCC8A742B1FBB678AULL,
+		0xED0542E2A04CEC44ULL,
+		0x1AAB5B910D9EEAE3ULL,
+		0x7A316460511B45BCULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x2DC3673D8F0AF282ULL,
+		0x8B7E94752B73CB78ULL,
+		0x52BD5AFD631C0A3DULL,
+		0x8BD545B739369769ULL,
+		0x599DBB62399A561BULL,
+		0xC99EDB96C1A2A926ULL,
+		0x891D126BD49E9EEBULL,
+		0x47C5C2DFAF7BE0A9ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xC643C422FC6E7C1AULL,
+		0xF225D6069AFC963EULL,
+		0x98D68E40ECC55A5DULL,
+		0x5337E00045471C18ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 478\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 478 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -478;
+	} else {
+		printf("Test Case 478 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x12B8D5DD3FB0F751ULL,
+		0xDB0E1710CFC0EC32ULL,
+		0xA6A658D3F93E0924ULL,
+		0x19FEB32664F68E61ULL,
+		0x87BDBBBE156DA511ULL,
+		0xF718B198D5C00029ULL,
+		0x8DD06BA3E3E4C1C7ULL,
+		0x7000E24CA68AFD76ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xA9AC837518D69E01ULL,
+		0x9A716A8F235352E1ULL,
+		0x6DA377545DED1FA8ULL,
+		0x8A2562EFF4CDAE28ULL,
+		0x5E2C08F40C6685E0ULL,
+		0x569499BF18EF55ECULL,
+		0x75C714E777C29AAFULL,
+		0xFB109AD810A3A482ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x94ACDC657DE8F765ULL,
+		0x143836D3B366DE64ULL,
+		0xCA65C177A862B724ULL,
+		0x6B83EB84B0801474ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 479\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 479 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -479;
+	} else {
+		printf("Test Case 479 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x394E0F040D1F55FEULL,
+		0x17714A3C77FEFA65ULL,
+		0xE81486562D8CAD14ULL,
+		0x082DB8150089163CULL,
+		0x97C52D9FFDAB641EULL,
+		0x340219413E4917FDULL,
+		0x39D508C6FC50954FULL,
+		0x3AC01A4966684F96ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xFA2C2542C40D7274ULL,
+		0xD4C17035053EC80EULL,
+		0xFF7C08D81BE03978ULL,
+		0x48130162CC4DDBE1ULL,
+		0x218E02FBEDC71076ULL,
+		0x960CA50C1DEEBCDAULL,
+		0xE1A8071B71E149B4ULL,
+		0x1B4BA96D7F61F651ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xCB523E1BA4F64F12ULL,
+		0xB51F19EA4029B999ULL,
+		0xFF46BCF49E31AC8EULL,
+		0x6B6377567F2C7A7FULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 480\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 480 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -480;
+	} else {
+		printf("Test Case 480 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xEC54719DE65AD791ULL,
+		0xC5CA3A43AC0DBF8FULL,
+		0xA1E74E769A3CC105ULL,
+		0xE8C9E01511349046ULL,
+		0xDAC591BDE32CE13AULL,
+		0xA8205ABB8923FC39ULL,
+		0xCB0F433B324FE25BULL,
+		0x4040EF09551C666EULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x7FE052F02948D986ULL,
+		0xC397F98487A5FC49ULL,
+		0x0BA8B3EF4F81D938ULL,
+		0x5DDCE0FDCAD30231ULL,
+		0x57172DABAC9D2F78ULL,
+		0xBBA33BB62A4D83E1ULL,
+		0xF220A20B57752DD7ULL,
+		0x5E0635B856E6BE37ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xF856F961D666603FULL,
+		0x1CC4DB8B383DA069ULL,
+		0xC9AA87A1C731B362ULL,
+		0x1FA4811D02588639ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 481\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 481 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -481;
+	} else {
+		printf("Test Case 481 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x8977C8D6C304DA45ULL,
+		0x668470464FDFFFD5ULL,
+		0xE39060C2510C04A2ULL,
+		0x851D7F1935CA545DULL,
+		0x8693EAABBD87A45DULL,
+		0x2D1F18A78D773D7EULL,
+		0x88E52BA9A3BF95E0ULL,
+		0x62D1E7DD64EC903AULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x13A0E4109AF4881FULL,
+		0xFD05C5629C1FFFFEULL,
+		0x67B445360A749E39ULL,
+		0xD02933CE2BFB8CFAULL,
+		0x7CDC779EFDB2F3A5ULL,
+		0x2C8992F926ADD8EFULL,
+		0x561BE679EB3EFC98ULL,
+		0xC15052159F6AFF81ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xE711F8AAA1A28B4FULL,
+		0x7FB082C6F5A4ED12ULL,
+		0x05BC60A1A9AE2718ULL,
+		0x2E3086F25B0A42E1ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 482\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 482 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -482;
+	} else {
+		printf("Test Case 482 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x79BAF9CA64667A9AULL,
+		0x1EB435C5261496B7ULL,
+		0x3DE098EFD50C7CC7ULL,
+		0x4543029A61E73166ULL,
+		0x461A7B2EA780B7B4ULL,
+		0x979C0AB23C8BE9F9ULL,
+		0x6B16465CA7D8E6E0ULL,
+		0x0DA7F56486DF3A26ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x29CD0AD98A2BA030ULL,
+		0x2CB7F435730C7428ULL,
+		0x334FD6FB214CC1AEULL,
+		0xBF73E36FAD4B8508ULL,
+		0x9B9B3BB81C3FDB6BULL,
+		0xC0FB97566AD7E4CFULL,
+		0x6B3B325EC75AEA6AULL,
+		0xB83DE85DA08432FEULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x9ED15A8985DB8964ULL,
+		0xCDCD6130D3C0E6BEULL,
+		0x0515B9A406733496ULL,
+		0x338D0E30E61EBC4EULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 483\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 483 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -483;
+	} else {
+		printf("Test Case 483 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xD80F2B48AC4BCE10ULL,
+		0x453A7FC75DD1B434ULL,
+		0xEE6CE91AEFB8435CULL,
+		0x3D25003219527DC4ULL,
+		0xF978E646E0475111ULL,
+		0xC59B421D6A167761ULL,
+		0xA818FEBBD949C33EULL,
+		0xCC2A1C5F23E9AB7CULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xA8DBD2D3A97F5085ULL,
+		0xCA114AFE702AB564ULL,
+		0x22608C5F02EDC711ULL,
+		0x48BFDC0610C60346ULL,
+		0xA29565311AEEDED3ULL,
+		0xC2A8860CFC902BF7ULL,
+		0x7054F9B8E58596EAULL,
+		0xCF3CD8B9CE4FCA24ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x14F881B04DED7299ULL,
+		0xEB311F392F963099ULL,
+		0x13251B2C1BE910C2ULL,
+		0x7F9D2EB6BD63ED97ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 484\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 484 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -484;
+	} else {
+		printf("Test Case 484 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x6910D6DCFEC5F244ULL,
+		0x1D6205AD3593B7D0ULL,
+		0xED1C7D71AA4527D2ULL,
+		0x440CA83444580923ULL,
+		0xA394C067F10FE27CULL,
+		0x326628D68D1B2122ULL,
+		0xF208FAD5BAC12630ULL,
+		0xAF4090A1B48B484EULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xF7E69C821E5DDD3AULL,
+		0x03444144D6316E1AULL,
+		0xD61CB28ED821DB2AULL,
+		0xE0D8F7F6075CE200ULL,
+		0xD92910F2AF86078CULL,
+		0x60830AF1CDDEE55CULL,
+		0x2470BF85F28613EAULL,
+		0x581A1DC007480828ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x7D2645C29ADE9672ULL,
+		0x41D4345CC2532911ULL,
+		0x9B9898BA8AE80305ULL,
+		0x52E8BDBDF4F6ACE5ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 485\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 485 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -485;
+	} else {
+		printf("Test Case 485 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x35D9741A3889CB6BULL,
+		0x0E4BA4E01000E381ULL,
+		0x126197E41A2153D4ULL,
+		0x20A98B0EBE83393FULL,
+		0x5442CDE9D7593469ULL,
+		0x80FE61F626EE13DFULL,
+		0x1A26B86EC9F8FA0DULL,
+		0x181A913B2077D423ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xD4A0A9E53481D9C2ULL,
+		0xB23E3CEA10385CD1ULL,
+		0xDF8A3C27CD5F0528ULL,
+		0x712B7B09247ABB93ULL,
+		0x1FBBDA335F5BFEECULL,
+		0x3CD1ADA8E3B2B2D4ULL,
+		0x7AF5842D23EF9612ULL,
+		0xA8241C91011B29EAULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x2D40F74AD39DDEF3ULL,
+		0x7AB02B6DFA98EE59ULL,
+		0xD4251D7AF22725F7ULL,
+		0x4E13614641C9C212ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 486\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 486 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -486;
+	} else {
+		printf("Test Case 486 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x3BAD5646BBFF1CBBULL,
+		0x7A27139BB9BE87B5ULL,
+		0x377FA8BB05B9A139ULL,
+		0xF9470D241D254CB5ULL,
+		0x18F9FDE0E7F7BF26ULL,
+		0x860988A2A63B1ADEULL,
+		0xF276D0CE39B6915CULL,
+		0xC8CB29131172D93EULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x2F0FBC9AC8565808ULL,
+		0x0F2F52F5DA84333EULL,
+		0x12328C0A171C4624ULL,
+		0xE494EDC7FFDD6D37ULL,
+		0x025A7D458AB8DB3AULL,
+		0x9B26BDE8F0144AF2ULL,
+		0xB1A6629264FBB00DULL,
+		0xD7947E62B5C6AB46ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x684AB0BBCAFE995CULL,
+		0x48A1D836E8FD3182ULL,
+		0xC43D7992825ACCCCULL,
+		0x62CF7589B8D6B257ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 487\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 487 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -487;
+	} else {
+		printf("Test Case 487 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x96BDD8DD66BB64D2ULL,
+		0xF568AF801BFC7450ULL,
+		0x73FF9B1ED8B6F1A3ULL,
+		0x3B425C8417F4D143ULL,
+		0x02D8DAC7AD64CA8CULL,
+		0x66805627160864B5ULL,
+		0x561C085BAF332410ULL,
+		0xB7B7673872670A86ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x21A1D02B915214DDULL,
+		0xDD83D763010599F5ULL,
+		0x974864CBD8331894ULL,
+		0x16F86EA2CEA30EF3ULL,
+		0xFED4E41E4B6C3445ULL,
+		0x564BFD4253A94BFAULL,
+		0xAA6A66AFD3A2E759ULL,
+		0xD1E181A244F8B6C0ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x0DB2A5D6604F9DE7ULL,
+		0x7FAA0A11F51485F8ULL,
+		0x591535D597ECDC3BULL,
+		0x420A022C07B231A7ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 488\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 488 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -488;
+	} else {
+		printf("Test Case 488 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xA7E4C021A1FDA3DAULL,
+		0x930A69792ACBE976ULL,
+		0xF8854F4E0F1D63FCULL,
+		0xC812BC2FF62D757BULL,
+		0xA1AED2490783BD89ULL,
+		0x0B994F7AD251FD33ULL,
+		0x2AF2A02E3EBDD8FFULL,
+		0x2E3EA07FC984C019ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x9DF20966509FD9EFULL,
+		0xE7411A595B8161F2ULL,
+		0xF5185DBFD64BFF1AULL,
+		0xE1564F53ED060623ULL,
+		0xE9DD8DFBD5FC260FULL,
+		0x8156A698B9FBEBEEULL,
+		0xB390728DE2438D22ULL,
+		0x338E28497ADBF815ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x5302DA30AB7E45E1ULL,
+		0x31AE60AF6C1117B7ULL,
+		0xBBFFB75BF2F8A79EULL,
+		0x1CEE44EBB6351FDBULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 489\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 489 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -489;
+	} else {
+		printf("Test Case 489 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xD7E6FB232DD6F1C4ULL,
+		0xB6FAC0DEF66CCA06ULL,
+		0x1F443E5E3C46F4B5ULL,
+		0xCF5547EB33AFFE94ULL,
+		0xEEDBE611F2FB7A3AULL,
+		0x7C164CCB3BECAC9EULL,
+		0x3B1379B74F67B50CULL,
+		0x7A4D75F5B7E2CA98ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x5BC22713D470C86AULL,
+		0x8FDD83ED1A0EB06CULL,
+		0x5D51108443498254ULL,
+		0xCA195835A270BA95ULL,
+		0xACD2F4B738427AB7ULL,
+		0x7BE1EEDC3DA36441ULL,
+		0x7A7AB2BBB9BD3762ULL,
+		0x66177FBE01F1E872ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x4978A78710DC173EULL,
+		0x2EE32E6B9B3ED772ULL,
+		0x58A0B732304C199DULL,
+		0x053E7BFA9300D599ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 490\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 490 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -490;
+	} else {
+		printf("Test Case 490 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x48D1702D53EF3396ULL,
+		0x0FA2B16CB6582C13ULL,
+		0xA5189B1A9A13ABD3ULL,
+		0xB0C5499CB137BE1AULL,
+		0x942FFF36B778BFE2ULL,
+		0xC1F8AFED06E19051ULL,
+		0xCE9822DA9719BF6FULL,
+		0x3C6916B504AABADCULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x4CFC7199C328FDF8ULL,
+		0x57CE4E487E39299FULL,
+		0x22081B8B6CA1E010ULL,
+		0x4509C558C2DF3316ULL,
+		0x502E92E4497DC932ULL,
+		0xDE6EB3091021A550ULL,
+		0x8F909B6813E796D5ULL,
+		0x33AAD57CD336E74CULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x140B12CFE406D3F7ULL,
+		0x7E4FECFAD89BE4A4ULL,
+		0xDE2E9A8EA6E3D29AULL,
+		0x37F9329B4589F26DULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 491\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 491 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -491;
+	} else {
+		printf("Test Case 491 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x047723824F0FFED1ULL,
+		0xE63002770DC2851AULL,
+		0x344377812326BDF1ULL,
+		0x22B94E06B40541C9ULL,
+		0x865E50181CC60194ULL,
+		0xC2D35F4F1DCDEDE2ULL,
+		0x03E155FB3F0FB85FULL,
+		0x9C7C70E5B6C86631ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x52B3FC54FD38413CULL,
+		0x48558ADD96281219ULL,
+		0x634E5713E60FB3AFULL,
+		0xE69D9B6B2F1B4F50ULL,
+		0x5EE6DCD25410C6D6ULL,
+		0x6E298AF8634D5C51ULL,
+		0xF192A6E31CE42846ULL,
+		0x82A0609E4E2D371BULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x8D7E43891CBE763BULL,
+		0x2F0FFC7926B00E8CULL,
+		0x88A31E024F8E6E05ULL,
+		0x12C61D350BF2EF99ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 492\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 492 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -492;
+	} else {
+		printf("Test Case 492 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xC4D513DCCFEFB465ULL,
+		0x643488FAF5C60960ULL,
+		0x772111456323799AULL,
+		0x97293CA0C9316264ULL,
+		0xE17C62D933C9CF6DULL,
+		0xB07BF0A525EDD048ULL,
+		0x9BA4E6E5743F0DE7ULL,
+		0x77DE2965EC3BED92ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xAC03503BAA3097ECULL,
+		0x85A63920476AE665ULL,
+		0x80E5123FE32B2E12ULL,
+		0xD6889A0EB3AEDEA6ULL,
+		0x42891D7F1ED23BCBULL,
+		0xB17D95C997611E0BULL,
+		0x6510C6AE63B69FCDULL,
+		0xB1F2EB2B6E802901ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xB0EE0F00427F052FULL,
+		0xB84FCC71D73D9820ULL,
+		0x1038C731F438A363ULL,
+		0x218BDF40BF61B14CULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 493\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 493 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -493;
+	} else {
+		printf("Test Case 493 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x7D0EA1015F3C1561ULL,
+		0xA41F941B70F2A672ULL,
+		0x4BB1206603FC635FULL,
+		0xFDDBA9D382A69E3AULL,
+		0x0041111122C341A3ULL,
+		0x943328515892EC73ULL,
+		0x50B1785F2E4784BCULL,
+		0x0635FA96C2D80442ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x98C1DD8E6E8716FBULL,
+		0xB7C0C3A564CB8394ULL,
+		0xA48C5147AA404C90ULL,
+		0x2FFDC1DA1985B8B8ULL,
+		0xE7609ADBAD84B4EEULL,
+		0x02C84A879B302773ULL,
+		0x9897B2FB57D98ECFULL,
+		0xA5A2226D6DD9B973ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x959E4F6257FDDDDAULL,
+		0x823BBC6828D060BBULL,
+		0xFAF81BF02E0E9812ULL,
+		0x23CFFE1C06E00030ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 494\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 494 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -494;
+	} else {
+		printf("Test Case 494 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xBFCFF77EC4C19643ULL,
+		0x2C288BDE24183B95ULL,
+		0x5C49F6ABB8BED16AULL,
+		0x36CBC85519A80F91ULL,
+		0xC84DCE7E4A799C6CULL,
+		0x743DDDDCBB707B47ULL,
+		0xF032C176321C84BDULL,
+		0x1719190575AA431CULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xD11C15F707C32475ULL,
+		0x70875D8832C99651ULL,
+		0x3FF45E2F969CC5B1ULL,
+		0x799951C6EB23ADAEULL,
+		0x2BF9973E7B708D5BULL,
+		0x8574642DA461C8D9ULL,
+		0xB5AAB2B45D6B4846ULL,
+		0x1E3D90DFCE934D32ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x233415007856AE1BULL,
+		0x2D893E535D7D21AFULL,
+		0xCC87C941B4710560ULL,
+		0x2DC8AC24FBECE2A7ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 495\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 495 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -495;
+	} else {
+		printf("Test Case 495 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xDC3308374D1FA270ULL,
+		0x7953CFFAD054DF80ULL,
+		0xFF38457AA36A6120ULL,
+		0xD4EE31B0615D90E8ULL,
+		0x85CAF7D9C5F38711ULL,
+		0xAA5D760CEE50EA24ULL,
+		0xA7E2AFF1ED999F9DULL,
+		0x7F7A7968F71256ABULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xD9490B46B7434319ULL,
+		0xE1E833FF500FFA15ULL,
+		0xBBB1222606C40332ULL,
+		0x6079B28D9576290DULL,
+		0xC549FC9ED61B3D13ULL,
+		0x9D47C30AD0A8F885ULL,
+		0x8064EFCBED48BAF1ULL,
+		0xDCAE4667B9834108ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x960F47B02FF7590AULL,
+		0x88A42E4BE732C2FBULL,
+		0x2031A8F8A8A84F77ULL,
+		0x1EC41151EF249E13ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 496\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 496 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -496;
+	} else {
+		printf("Test Case 496 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xF8D89094B7FBA5ACULL,
+		0x435EBA22C0FC54FBULL,
+		0xBCD658713954514DULL,
+		0xE3449E2CE0CA3942ULL,
+		0xF9C64F85C9004660ULL,
+		0x3728D7DB0384A3B1ULL,
+		0x4D1729EDBD30D72EULL,
+		0xE7AA65E63C84B243ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x6E2C77DF89BFBAC7ULL,
+		0x107DA070F176D329ULL,
+		0x2BF63D61EC153BFAULL,
+		0x980D1DB7CD1FF8F9ULL,
+		0xFF3BFA2CB20BBDDFULL,
+		0x540674646A7E5174ULL,
+		0x02556A881149198CULL,
+		0xC688100F42D264E6ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xBB34C3EE96882EC9ULL,
+		0xE9FBDD4C8675B6DFULL,
+		0xA9A28426D1A53B5AULL,
+		0x36503E5E2421BC22ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 497\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 497 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -497;
+	} else {
+		printf("Test Case 497 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xE2C9596E168FFBA9ULL,
+		0x0082C7F9ED702EB2ULL,
+		0x74FFCC61C74E352AULL,
+		0x9E51BBBDD18FB08FULL,
+		0x019A5A5FA3ED2D65ULL,
+		0xEAA48C73C80BAA5EULL,
+		0x002CDCD05EA85C81ULL,
+		0x784920EC78FCF4F2ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0xE297497B8537F101ULL,
+		0x63F063F260024586ULL,
+		0x0E78FE6869731CC7ULL,
+		0xCAE8DC6E2D857E36ULL,
+		0x59237B05EBE0D099ULL,
+		0x17F0EF8E0C7D51E3ULL,
+		0xB77606A68DB19428ULL,
+		0x092BD17C4ECA2C4FULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x01D73743E32DD350ULL,
+		0xE33BAE21648F0B61ULL,
+		0x31AA982E627CD5B7ULL,
+		0x51C2A9F5E793FA70ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 498\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 498 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -498;
+	} else {
+		printf("Test Case 498 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xBB8FA871C8B64EE7ULL,
+		0x299F77DCC74BBFC4ULL,
+		0x41D83B5110AE48E3ULL,
+		0x930E1B8EFC73BD54ULL,
+		0x3D104AEEB602256EULL,
+		0x1CD237FEF402EC6CULL,
+		0x34D3CA3920DD4DBAULL,
+		0x393C1ECF707E24EAULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x75FB41B0229B28CEULL,
+		0x5214D145567148DFULL,
+		0x95299C56A6C7ABA0ULL,
+		0x1FD2A82B39BB9B60ULL,
+		0x90FB001637EFDF8CULL,
+		0xC2D957C00C934EC1ULL,
+		0x6BF7A1307DF78EC6ULL,
+		0x3F30298182FA72B9ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xD0BD82E45CD18592ULL,
+		0x327BEFEDCB6BDE3AULL,
+		0x7D5CB6429800F562ULL,
+		0x1101DCF504449531ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 499\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 499 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -499;
+	} else {
+		printf("Test Case 499 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0xF6100DF48B3130A6ULL,
+		0x53BA39F9CCC9B0C6ULL,
+		0x7B39376F42324826ULL,
+		0xD38C74BB2CFC4AFBULL,
+		0x294C4FEBF2581157ULL,
+		0x7410057DCA666A74ULL,
+		0xA64F442434B63453ULL,
+		0xF666AEFBD7197362ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x50B3FCBF423B008FULL,
+		0x73F1679058329E0FULL,
+		0x371F45F47439F4F2ULL,
+		0x803CD326CC3E3ADCULL,
+		0xEC911A11AB395F07ULL,
+		0x6AE834E88CE4B80CULL,
+		0x7D70A012B93D3227ULL,
+		0x8D17B88FC3EC47E8ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0xA9260F9BD784AA44ULL,
+		0x3BB1C89095D78E0AULL,
+		0x55264C1321EEA5BDULL,
+		0x7508359F39728441ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 500\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 500 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -500;
+	} else {
+		printf("Test Case 500 PASSED\n");
+	}
+	printf("---\n\n");
+	k1 = (curve25519_key_t){.key64 = {
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	k2 = (curve25519_key_t){.key64 = {
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	k3 = (curve25519_key_t){.key64 = {
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL,
+		0x0000000000000000ULL
+	}};
+	printf("Test Case 201\n");
+	printf("k1:\n");
+	curve25519_key_printf(&k1, COMPLETE);
+	printf("k2:\n");
+	curve25519_key_printf(&k2, COMPLETE);
+	printf("Expected: \n");
+	curve25519_key_printf(&k3, COMPLETE);
+	curve25519_key_sub_modulo_inplace(&k1, &k2);
+	res = curve25519_key_cmp(&k1, &k3);
+	if (res) {
+		printf("Test Case 201 FAILED\n");
+		curve25519_key_printf(&k1, COMPLETE);
+		curve25519_key_printf(&k2, COMPLETE);
+		return -1;
+	} else {
+		printf("Test Case 201 PASSED\n");
+	}
+	printf("---\n\n");
+	return 0;
+}

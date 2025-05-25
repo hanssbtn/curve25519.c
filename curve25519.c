@@ -4,6 +4,36 @@ int32_t curve25519_proj_to_affine(const curve25519_proj_point_t *const p1, curve
 	return curve25519_key_divmod(&p1->X, &p1->Z, out);
 }
 
+int32_t curve25519_cmp_eq(curve25519_proj_point_t *const restrict XZ1, curve25519_proj_point_t *const restrict XZ2) {
+	__m256i key1 = _mm256_loadu_epi64(XZ1->X.key64 + 4), key2 = _mm256_loadu_epi64(XZ2->X.key64 + 4);
+	__mmask8 lt_mask = _mm256_cmplt_epu64_mask(key1, key2);
+	__mmask8 gt_mask = _mm256_cmpgt_epu64_mask(key1, key2);
+	if ((lt_mask - gt_mask)) {
+		return -1;
+	}
+	key1 = _mm256_loadu_epi64(XZ1->X.key64);
+	key2 = _mm256_loadu_epi64(XZ2->X.key64);
+	lt_mask = _mm256_cmplt_epu64_mask(key1, key2);
+	gt_mask = _mm256_cmpgt_epu64_mask(key1, key2);
+	if ((lt_mask - gt_mask)) {
+		return -1;
+	}
+	key1 = _mm256_loadu_epi64(XZ1->Z.key64 + 4), key2 = _mm256_loadu_epi64(XZ2->Z.key64 + 4);
+	lt_mask = _mm256_cmplt_epu64_mask(key1, key2);
+	gt_mask = _mm256_cmpgt_epu64_mask(key1, key2);
+	if ((lt_mask - gt_mask)) {
+		return -1;
+	}
+	key1 = _mm256_loadu_epi64(XZ1->Z.key64);
+	key2 = _mm256_loadu_epi64(XZ2->Z.key64);
+	lt_mask = _mm256_cmplt_epu64_mask(key1, key2);
+	gt_mask = _mm256_cmpgt_epu64_mask(key1, key2);
+	if ((lt_mask - gt_mask)) {
+		return -1;
+	}
+	return 0;
+}
+
 void curve25519_cswap(
 	curve25519_proj_point_t *const restrict XZ2, 
 	curve25519_proj_point_t *const restrict XZ3,

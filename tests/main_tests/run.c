@@ -2,7 +2,7 @@
 #include "../tests.h"
 
 int main(void) {
-	printf("Running ladder tests\n");
+	printf("Running main tests\n");
 	// if (curve25519_pub_key_init_test()) {
 	// 	fprintf(stderr, "Failed public key generation test\n");
 	// 	return -1;

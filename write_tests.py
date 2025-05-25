@@ -1,8 +1,36 @@
 import random
+from typing import Callable
+import dataclasses
 
 TEST_COUNT = 500
 BITMASK = 2 ** 64 - 1
 M = (2 ** 255) - 19
+A = 486662
+A24 = 121665
+
+def format_num(n: int, indent: int = 2) -> str:
+	return ",".join([f"\n{"".join(["\t" for i in range(indent)])}0x{(n >> (l * 64)) & BITMASK:016X}ULL" for l in range(8)])
+
+def sqrt_25519(n):
+	global M
+	n_rem = n % M
+	if pow(n_rem, (M - 1) // 2, M) != 1:
+		return None, None
+	v = pow(2 * n_rem, (M - 5)//8, M)
+	# print("v: ", v)
+	i = ((2 * n_rem) * (v ** 2)) % M
+	# print("i: ", i)
+	r1 = (n_rem * v * (i - 1)) % M
+	r2 = M - r1
+	# print("root: ", root)
+	return r1, r2
+
+@dataclasses.dataclass
+class Point:
+	def __init__(self: "Point", x: int, y: int) -> "Point":
+		self.x = x
+		self.y = y
+G_base = Point(9, 14781619447589544791020593568409986887264606134616475288964881837755586237401)
 
 def modular_inverse(a, modulus):
 	t, newt = 0, 1
@@ -53,7 +81,7 @@ def write_cmp_test():
 		f.write(f"\tcurve25519_key_t k1 = {{.key64 = {{\n\t\t0x{(n) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 1)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 2)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 3)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 4)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 5)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 6)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 7)) & BITMASK:016X}ULL\n\t}}}};\n")
 		f.write(f"\tcurve25519_key_t k2 = {{.key64 = {{\n\t\t0x{(m) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 1)) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 2)) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 3)) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 4)) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 5)) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 6)) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 7)) & BITMASK:016X}ULL\n\t}}}};\n")
 		f.write(f"\tint t = {t};\n")
-		f.write(f'\tprintf("Test Case {i+1}\\n");\n\tprintf("k1:\\n");\n\tcurve25519_key_printf(&k1, COMPLETE);\n\tprintf("k2:\\n");\n\tcurve25519_key_printf(&k2, COMPLETE);\n\tprintf("Expected: {r}\\n");\n\tint32_t res = curve25519_key_cmp(&k1, &k2);\n\tif ((res > 0 && t <= 0) || (res < 0 && t >= 0) || (res == 0 && t != 0)) {{\n\t	printf("Test Case {i+1} FAILED\\n");\n\t\tcurve25519_key_printf(&k1, COMPLETE);\n\t\tcurve25519_key_printf(&k2, COMPLETE);\n\t	return -1;\n\t}} else {{\n\t	printf("Test Case {i+1} PASSED\\n");\n\t}}\n\tprintf("---\\n\\n");\n')
+		f.write(f'\tprintf("Test Case {i+1}\\n");\n\tprintf("k1:\\n");\n\tcurve25519_key_printf(&k1, COMPLETE);\n\tprintf("Expected: {r}\\n");\n\tint32_t res = curve25519_key_cmp(&k1, &k2);\n\tif ((res > 0 && t <= 0) || (res < 0 && t >= 0) || (res == 0 && t != 0)) {{\n\t	printf("Test Case {i+1} FAILED\\n");\n\t\tcurve25519_key_printf(&k1, COMPLETE);\n\t\tcurve25519_key_printf(&k2, COMPLETE);\n\t	return -1;\n\t}} else {{\n\t	printf("Test Case {i+1} PASSED\\n");\n\t}}\n\tprintf("---\\n\\n");\n')
 		for i in range(1, TEST_COUNT):
 			n = random.getrandbits(512)
 			m = random.getrandbits(512)
@@ -1056,41 +1084,398 @@ def write_divmod_test():
 		f.write("\treturn 0;\n")
 		f.write("}")	
 
+def write_cswap_test():
+	global M
+	n = random.getrandbits(512)
+	swap = random.getrandbits(1)
+	q = random.getrandbits(512)
+	i = 0
+	with open("tests/ladder_tests/cswap_test.c", "w") as f:
+		f.write("#include \"../../curve25519.h\"\n")
+		f.write("#include \"../tests.h\"\n\nint32_t curve25519_cswap_test(void) {\n")
+		f.write('\tprintf("Conditional Key Swap Test\\n");\n')
+		f.write(f"\tbool swap = {swap};\n")
+		f.write(f"\tcurve25519_proj_point_t k1 = {{.X = {{.key64 = {{\n\t\t0x{(n) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 1)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 2)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 3)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 4)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 5)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 6)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 7)) & BITMASK:016X}ULL\n\t}}}},\n\t .Z = {{.key64 = {{\n\t\t0x{(q) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 1)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 2)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 3)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 4)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 5)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 6)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 7)) & BITMASK:016X}ULL\n\t}}}}}};\n")
+		if swap:
+			f.write(f"\tcurve25519_proj_point_t k2 = {{.X = {{.key64 = {{\n\t\t0x{(q) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 1)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 2)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 3)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 4)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 5)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 6)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 7)) & BITMASK:016X}ULL\n\t}}}},\n\t .Z = {{.key64 = {{\n\t\t0x{(n) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 1)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 2)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 3)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 4)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 5)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 6)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 7)) & BITMASK:016X}ULL\n\t}}}}}};\n")
+			f.write(f"\tcurve25519_proj_point_t k3 = {{.X = {{.key64 = {{\n\t\t0x{(q) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 1)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 2)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 3)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 4)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 5)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 6)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 7)) & BITMASK:016X}ULL\n\t}}}},\n\t .Z = {{.key64 = {{\n\t\t0x{(n) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 1)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 2)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 3)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 4)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 5)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 6)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 7)) & BITMASK:016X}ULL\n\t}}}}}};\n")
+			f.write(f"\tcurve25519_proj_point_t k4 = {{.X = {{.key64 = {{\n\t\t0x{(n) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 1)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 2)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 3)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 4)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 5)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 6)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 7)) & BITMASK:016X}ULL\n\t}}}},\n\t .Z = {{.key64 = {{\n\t\t0x{(q) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 1)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 2)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 3)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 4)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 5)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 6)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 7)) & BITMASK:016X}ULL\n\t}}}}}};\n")
+		else:
+			f.write(f"\tcurve25519_proj_point_t k2 = {{.X = {{.key64 = {{\n\t\t0x{(q) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 1)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 2)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 3)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 4)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 5)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 6)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 7)) & BITMASK:016X}ULL\n\t}}}},\n\t .Z = {{.key64 = {{\n\t\t0x{(n) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 1)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 2)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 3)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 4)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 5)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 6)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 7)) & BITMASK:016X}ULL\n\t}}}}}};\n")
+			f.write(f"\tcurve25519_proj_point_t k3 = {{.X = {{.key64 = {{\n\t\t0x{(n) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 1)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 2)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 3)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 4)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 5)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 6)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 7)) & BITMASK:016X}ULL\n\t}}}},\n\t .Z = \n\t{{.key64 = {{\n\t\t0x{(q) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 1)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 2)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 3)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 4)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 5)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 6)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 7)) & BITMASK:016X}ULL\n\t}}}}}};\n")
+			f.write(f"\tcurve25519_proj_point_t k4 = {{.X = {{.key64 = {{\n\t\t0x{(q) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 1)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 2)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 3)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 4)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 5)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 6)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 7)) & BITMASK:016X}ULL\n\t}}}},\n\t .Z = {{.key64 = {{\n\t\t0x{(n) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 1)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 2)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 3)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 4)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 5)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 6)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 7)) & BITMASK:016X}ULL\n\t}}}}}};\n")
+		f.write(f'\tprintf("Test Case {i+1}\\n");\n\tprintf("k1.X:\\n");\n\tcurve25519_key_printf(&k1.X, COMPLETE);\n\tprintf("k1.Z:\\n");\n\tcurve25519_key_printf(&k1.Z, COMPLETE);\n\tprintf("k2.X:\\n");\n\tcurve25519_key_printf(&k2.X, COMPLETE);\n\tprintf("k2.Z:\\n");\n\tcurve25519_key_printf(&k2.Z, COMPLETE);\n\tprintf("Expected:\\n");\n\tcurve25519_cswap(&k1, &k2, swap);\n\tprintf("k3.X:\\n");\n\tcurve25519_key_printf(&k3.X, COMPLETE);\n\tprintf("k3.Z:\\n");\n\tcurve25519_key_printf(&k3.Z, COMPLETE);\n\tprintf("k4.X:\\n");\n\tcurve25519_key_printf(&k4.X, COMPLETE);\n\tprintf("k4.Z:\\n");\n\tcurve25519_key_printf(&k4.Z, COMPLETE);\n\tint32_t res = curve25519_cmp_eq(&k1, &k3) | curve25519_cmp_eq(&k2, &k4);\n\tif (res) {{\n\t	printf("Test Case {i+1} FAILED\\n");\n\t\tprintf("k1.X:\\n");\n\t\tcurve25519_key_printf(&k1.X, COMPLETE);\n\t\tprintf("k1.Z:\\n");\n\t\tcurve25519_key_printf(&k1.Z, COMPLETE);\n\t\tprintf("k2.X:\\n");\n\t\tcurve25519_key_printf(&k2.X, COMPLETE);\n\t\tprintf("k2.Z:\\n");\n\t\tcurve25519_key_printf(&k2.Z, COMPLETE);\n\t	return -{i+1};\n\t}} else {{\n\t	printf("Test Case {i+1} PASSED\\n");\n\t}}\n\tprintf("---\\n\\n");\n')
+		for i in range(TEST_COUNT):
+			n = random.getrandbits(512)
+			swap = random.getrandbits(1)
+			q = random.getrandbits(512)
+			f.write(f"\tswap = {swap};\n")
+			f.write(f"\tk1 = (curve25519_proj_point_t){{.X = {{.key64 = {{\n\t\t0x{(n) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 1)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 2)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 3)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 4)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 5)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 6)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 7)) & BITMASK:016X}ULL\n\t}}}},\n\t .Z = {{.key64 = {{\n\t\t0x{(q) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 1)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 2)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 3)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 4)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 5)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 6)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 7)) & BITMASK:016X}ULL\n\t}}}}}};\n")
+			f.write(f"\tk2 = (curve25519_proj_point_t){{.X = {{.key64 = {{\n\t\t0x{(q) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 1)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 2)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 3)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 4)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 5)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 6)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 7)) & BITMASK:016X}ULL\n\t}}}},\n\t .Z = {{.key64 = {{\n\t\t0x{(n) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 1)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 2)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 3)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 4)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 5)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 6)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 7)) & BITMASK:016X}ULL\n\t}}}}}};\n")
+			if swap:
+				f.write(f"\tk3 = (curve25519_proj_point_t){{.X = {{.key64 = {{\n\t\t0x{(q) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 1)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 2)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 3)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 4)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 5)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 6)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 7)) & BITMASK:016X}ULL\n\t}}}},\n\t .Z = {{.key64 = {{\n\t\t0x{(n) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 1)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 2)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 3)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 4)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 5)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 6)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 7)) & BITMASK:016X}ULL\n\t}}}}}};\n")
+				f.write(f"\tk4 = (curve25519_proj_point_t){{.X = {{.key64 = {{\n\t\t0x{(n) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 1)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 2)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 3)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 4)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 5)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 6)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 7)) & BITMASK:016X}ULL\n\t}}}},\n\t .Z = {{.key64 = {{\n\t\t0x{(q) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 1)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 2)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 3)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 4)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 5)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 6)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 7)) & BITMASK:016X}ULL\n\t}}}}}};\n")
+			else:
+				f.write(f"\tk3 = (curve25519_proj_point_t){{.X = {{.key64 = {{\n\t\t0x{(n) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 1)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 2)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 3)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 4)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 5)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 6)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 7)) & BITMASK:016X}ULL\n\t}}}},\n\t .Z = {{.key64 = {{\n\t\t0x{(q) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 1)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 2)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 3)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 4)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 5)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 6)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 7)) & BITMASK:016X}ULL\n\t}}}}}};\n")
+				f.write(f"\tk4 = (curve25519_proj_point_t){{.X = {{.key64 = {{\n\t\t0x{(q) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 1)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 2)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 3)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 4)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 5)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 6)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 7)) & BITMASK:016X}ULL\n\t}}}},\n\t .Z = {{.key64 = {{\n\t\t0x{(n) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 1)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 2)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 3)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 4)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 5)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 6)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 7)) & BITMASK:016X}ULL\n\t}}}}}};\n")
+			f.write(f'\tprintf("Test Case {i+1}\\n");\n\tprintf("k1.X:\\n");\n\tcurve25519_key_printf(&k1.X, COMPLETE);\n\tprintf("k1.Z:\\n");\n\tcurve25519_key_printf(&k1.Z, COMPLETE);\n\tprintf("k2.X:\\n");\n\tcurve25519_key_printf(&k2.X, COMPLETE);\n\tprintf("k2.Z:\\n");\n\tcurve25519_key_printf(&k2.Z, COMPLETE);\n\t\n\tprintf("Expected:\\n");\n\tcurve25519_cswap(&k1, &k2, swap);\n\tprintf("k3.X:\\n");\n\tcurve25519_key_printf(&k3.X, COMPLETE);\n\tprintf("k3.Z:\\n");\n\tcurve25519_key_printf(&k3.Z, COMPLETE);\n\tprintf("k4.X:\\n");\n\tcurve25519_key_printf(&k4.X, COMPLETE);\n\tcurve25519_key_printf(&k4.Z, COMPLETE);\n\tres = curve25519_cmp_eq(&k1, &k3) | curve25519_cmp_eq(&k2, &k4);\n\tif (res) {{\n\t	printf("Test Case {i+1} FAILED\\n");\n\t\tprintf("k1.Z:\\n");\n\t\tcurve25519_key_printf(&k1.Z, COMPLETE);\n\t\tprintf("k2.X:\\n");\n\t\tcurve25519_key_printf(&k2.X, COMPLETE);\n\t\tprintf("k2.Z:\\n");\n\t\tcurve25519_key_printf(&k2.Z, COMPLETE);\n\t	return -{i+1};\n\t}} else {{\n\t	printf("Test Case {i+1} PASSED\\n");\n\t}}\n\tprintf("---\\n\\n");\n')
+		f.write("\treturn 0;\n")
+		f.write("}")
+
+def add_point(p1: Point | None, p2: Point | None) -> Point | None:
+	if p1 is None:
+		return Point(p2.x, p2.y)
+	if p2 is None:
+		return Point(p1.x, p1.y)
+	global A
+	global M
+	if (p1.x == p2.x):
+		if (p1.y + p2.y) % M == 0:
+			return None
+		if (p1.y == p2.y):
+			return double_point(p1)
+		
+	# y ^ 2 = x ^ 3 + 486662 * x ^ 2 + x mod 2 ^ 255 - 19
+	# y = x * m + b mod 2 ^ 255 - 19
+	# (x * m + b) ^ 2 = x ^ 3 + 486662 * x ^ 2 + x mod 2 ^ 255 - 19
+	# (x * m + b) ^ 2 = x ^ 3 + 486662 * x ^ 2 + x mod 2 ^ 255 - 19
+	# x ^ 3 - ((m * x) ^ 2 + b ^ 2 + 2 * x * m * b) + 486662 * x ^ 2 + x = 0 mod 2 ^ 255 - 19
+	# x ^ 3 + (486662 - m ^ 2) * x ^ 2 + (1 - 2 * m * b) * x - b ^ 2 =  0 mod 2 ^ 255 - 19
+	# - (x1 + x2 + x3) = 486662 - m ^ 2 mod 2 ^ 255 - 19
+	# x1 + x2 + x3 = m ^ 2 - 486662 mod 2 ^ 255 - 19
+	# x3 = m ^ 2 - 486662 - x2 - x1 mod 2 ^ 255 - 19
+	# (y - y1) * (x - x1) ^ (- 1) = m mod 2 ^ 255 - 19
+	# y = m * (x - x1) + y1 mod 2 ^ 255 - 19
+	# y = -y3, x = x3
+	# -y3 = m * (x3 - x1) + y1 mod 2 ^ 255 - 19
+	# y3 = - m * (x3 - x1) - y1 mod 2 ^ 255 - 19
+	# y3 = m * (x1 - x3) - y1 mod 2 ^ 255 - 19
+	dx = (p2.x - p1.x) % M
+	if dx == 0:
+		raise ValueError("Delta X is zero, points are likely inverses or identical (edge case not handled).")
+	dy = (p2.y - p1.y) % M
+	
+	m =  (dy * modular_inverse(dx, M)) % M
+	m2 = (m * m) % M
+	x3 = (m2 - p2.x - p1.x - A) % M
+	return Point(x3, (m * (p1.x - x3) - p1.y) % M)
+
+def double_point(p1: Point | None) -> Point | None:
+	if p1 is None or p1.y == 0:
+		return None
+	global A
+	global M
+	# y ^ 2 = x ^ 3 + A * x ^ 2 + x mod 2 ^ 255 - 19
+	# 2 * y dy = 3 * x ^ 2 + 973324 * x + 1  mod 2 ^ 255 - 19
+	# dy / dx = (3 * x ^ 2 + 973324 * x + 1) * (2 * y) ^ (-1) mod 2 ^ 255 - 19
+	m = (((3 * p1.x * p1.x + A * 2 * p1.x + 1) % M) * modular_inverse(2 * p1.y, M)) % M
+	m2 = (m * m) % M
+	x3 = (m2 - A - 2 * p1.x) % M
+	return Point(x3, (m * (p1.x - x3) - p1.y) % M)
+		
+def scalar_multiply(P: Point | None, n: int) -> Point | None:
+	"""
+	Performs scalar multiplication k*P using double-and-add.
+	This is NOT the Montgomery Ladder and is NOT constant-time.
+	For testing purposes only.
+	"""
+	if P is None or n == 0:
+		return None # n*O = O, 0*P = O
+
+	result = None # Represents the point at infinity initially
+	current_point = P
+
+	# Iterate through bits of n (from LSB to MSB)
+	# print("n: ", n)
+	while n > 0:
+		if n & 1: # If the current bit is 1
+			result = add_point(result, current_point)
+		current_point = double_point(current_point)
+		n >>= 1 # Move to the next bit
+	return result
+
+def is_on_curve(p: Point) -> bool:
+	global A
+	if p is None: # Point at infinity is considered on the curve
+		return True
+		
+	# y^2 = x^3 + Ax^2 + x mod M
+	lhs = ((p.y % M) * (p.y % M)) % M
+	rhs = (p.x * p.x * p.x + A * p.x * p.x + p.x) % M
+	# print("lhs: ", lhs)
+	# print("rhs: ", rhs)
+	# print(lhs - rhs)
+	return lhs == rhs
+
+import math
+
+def generate_clamped() -> int:
+	n = random.getrandbits(256).to_bytes(32, 'little')
+	k_clamped_bytes = bytearray(n)
+
+	# Clear lowest 3 bits
+	k_clamped_bytes[0] &= 0xF8
+
+	# Clear highest bit (bit 255)
+	k_clamped_bytes[31] &= 0x7F
+
+	# Set second highest bit (bit 254)
+	k_clamped_bytes[31] |= 0x40
+	n = int.from_bytes(k_clamped_bytes, 'little')
+	assert n >= 2 ** 254 and n < (2 ** 255) - 19 and n & 7 == 0 and n & 2 ** 255 == 0 and n & 2 ** 254 > 0
+	return n
+
+def cswap(X2: int, Z2: int, X3: int, Z3: int, swap: bool) -> tuple[int, int, int, int]:
+	mask = (2 ** 256 - 1) * swap
+	T1 = mask & (X2 ^ X3)
+	T2 = mask & (Z2 ^ Z3)
+	X3 = T1 ^ X3 # X2 or 0
+	X2 = T1 ^ X2 # X3 or 0
+	Z3 = T2 ^ Z3 # X2 or 0
+	Z2 = T2 ^ Z2 # X3 or 0
+	return (X2, Z2, X3, Z3)
+	
+def step(X1: int, X2: int, Z2: int, X3: int, Z3: int) -> tuple[int, int, int, int]:
+	global M
+	global A
+	global A24
+	# Steps taken from https://eprint.iacr.org/2020/956.pdf 
+	# Step 2: T1 <- X2 + Z2
+	T1 = (X2 + Z2) % M
+	# Step 6: T5 <- T1 ^ 2
+	T1T1 = (T1 * T1) % M
+	# Step 3: T2 <- X2 − Z2
+	T2 = (X2 - Z2) % M
+	# Step 7: T6 <- T2 ^ 2
+	T2T = (T2 * T2) % M
+	# Step 16: T5 <- T5 − T6
+	T5 = (T1T1 - T2T) % M 
+	# Step 4: T3 <- X3 + Z3
+	T3 = (X3 + Z3) % M
+	# Step 5: T4 <- X3 - Z3
+	T4 = (X3 - Z3) % M
+	# Step 9: T1 <- T1 · T4
+	T1T4 = (T4 * T1) % M
+	# Step 8: T2 <- T2 · T3
+	T2T3 = (T3 * T2) % M
+	# Step 10: T1 <- T1 + T2
+	# Step 12: X3 <- T1 ^ 2
+	X3 = (((T1T4 + T2T3) % M) ** 2) % M
+	# Step 11: T2 <- T1 − T2
+	# Step 13: T2 <- T2 ^ 2
+	# Step 14: Z3 <- T2 · X1
+	Z3 = (X1 * (((T1T4 - T2T3) % M) ** 2)) % M
+	# Step 15: X2 <- T5 · T6
+	X2 = (T1T1 * T2T) % M
+	# Step 17: T1 <- ((A + 2)/4) · T5
+	# Step 18: T6 <- T6 + T1
+	# Step 19: Z2 <- T5 · T6
+	Z2 = (T5 * ((T1T1 + (A24 * T5) % M) % M)) % M
+		
+	return (X2, Z2, X3, Z3)
+
+def ladder(G: Point | None, n: int) -> Point | None:
+	if not G:
+		return None
+	X1, X2, Z2, X3, Z3 = G.x, 1, 0, G.x, 1
+	prev_bit = 0
+	# R0 = Point(0,0)
+	# R1 = Point(G.x, G.y)
+	for i in reversed(range(255)):
+		bit = (n >> i) & 1
+		# if bit == 0:
+		# 	R1 = add_point(R0, R1)
+		# 	R0 = double_point(R0)
+		# else:
+		# 	R0 = add_point(R0, R1)
+		# 	R1 = double_point(R1)
+		swap = bit ^ prev_bit
+		prev_bit = bit
+		X2, Z2, X3, Z3 = cswap(X2, Z2, X3, Z3, swap)
+		X2, Z2, X3, Z3 = step(X1, X2, Z2, X3, Z3)
+		assert X2 < M and Z2 < M and X3 < M and Z3 < M
+	return (X2 * modular_inverse(Z2, M)) % M
+
+def write_ladder_step_test():
+	global M
+	global A
+	global G_base
+	assert is_on_curve(G_base), "Base point G is not on the curve!"
+	i = 0
+	n = (random.getrandbits(256) & ~((2 ** 255) | 7)) | (2 ** 254)
+	assert n < 2 ** 255 and n >= 2 ** 254	
+	X1, X2, Z2, X3, Z3 = n, 1, 0, n, 1
+	assert is_on_curve(G_base), "Base Point G is not on the curve!"
+	steps = random.randint(1, 64)
+	X2n, Z2n, X3n, Z3n = X2, Z2, X3, Z3
+	for s in range(steps):
+		X2n, Z2n, X3n, Z3n = step(X1, X2n, Z2n, X3n, Z3n)
+	X1str = format_num(X1)
+	X2str = format_num(X2, 3)
+	Z2str = format_num(Z2, 3)
+	X3str = format_num(X3, 3)
+	Z3str = format_num(Z3, 3)
+	X3nstr = format_num(X3n, 3)
+	Z3nstr = format_num(Z3n, 3)
+	with open("tests/ladder_tests/ladder_step_test.c", "w") as f:
+		f.write("#include \"../../curve25519.h\"\n")
+		f.write("#include \"../tests.h\"\n\nint32_t curve25519_ladder_step_test(void) {\n")
+		f.write('\tprintf("Montgomery Ladder Step Test\\n");\n')
+		f.write(f'\tint steps = {steps};\n')
+		f.write(f'\tcurve25519_key_t X1 = {{.key64 = {{{X1str}\n\t\t}}\n\t}};\n')
+		f.write(f'\tcurve25519_proj_point_t XZ2 = {{\n\t\t.X = {{.key64 = {{{X2str}}}\n\t\t}},\n\t\t.Z = {{.key64 = {{{Z2str}}}\n\t\t}}\n\t}};\n')
+		f.write(f'\tcurve25519_proj_point_t XZ3 = {{\n\t\t.X = {{.key64 = {{{X3str}}}\n\t\t}},\n\t\t.Z = {{.key64 = {{{Z3str}}}\n\t\t}}\n\t}};\n')
+		f.write(f'\tcurve25519_proj_point_t XZ3n = {{\n\t\t.X = {{.key64 = {{{X3nstr}}}\n\t\t}},\n\t\t.Z = {{.key64 = {{{Z3nstr}}}\n\t\t}}\n\t}};\n')
+		f.write(f'\tprintf("Test Case {i + 1}\\n");\n')
+		f.write(f'\tprintf("X1:\\n");\n')
+		f.write(f'\tcurve25519_key_printf(&X1, COMPLETE);\n')
+		f.write(f'\tprintf("XZ3.X:\\n");\n')
+		f.write(f'\tcurve25519_key_printf(&XZ3.X, COMPLETE);\n')
+		f.write(f'\tprintf("Expected:\\n");\n')
+		f.write(f'\tprintf("XZ3n.X:\\n");\n')
+		f.write(f'\tcurve25519_key_printf(&XZ3n.X, COMPLETE);\n')
+		f.write(f'\tprintf("XZ3n.Z:\\n");\n')
+		f.write(f'\tcurve25519_key_printf(&XZ3n.Z, COMPLETE);\n')
+		f.write('\tfor (int i = 0; i < steps; ++i) ')
+		f.write(f'curve25519_ladder_step(&XZ2, &XZ3, &X1);\n')
+		f.write(f'\tint res = curve25519_key_cmp(&XZ3.X, &XZ3n.X) | curve25519_key_cmp(&XZ3.Z, &XZ3n.Z);\n')
+		f.write('\tif (res) {\n')
+		f.write(f'\t\tprintf("Test Case {i + 1} FAILED\\n");\n')
+		f.write(f'\t\tprintf("XZ3.X:\\n");\n')
+		f.write('\t\tcurve25519_key_printf(&XZ3.X, COMPLETE);\n')
+		f.write(f'\t\tprintf("XZ3.Z:\\n");\n')
+		f.write('\t\tcurve25519_key_printf(&XZ3.Z, COMPLETE);\n')
+		f.write('\t} else {\n')
+		f.write(f'\t\tprintf("Test Case {i + 1} PASSED\\n");\n')
+		f.write("\t}\n\n")
+		for i in range(TEST_COUNT):
+			n = (random.getrandbits(256) & ~((2 ** 255) | 7)) | (2 ** 254)
+			assert n < 2 ** 255 and n >= 2 ** 254	
+			X1, X3, Z3 = n, n, 1
+			assert is_on_curve(G_base), "Base Point G is not on the curve!"
+			steps = random.randint(1, 64)
+			X2n, Z2n, X3n, Z3n = X2, Z2, X3, Z3
+			for s in range(steps):
+				X2n, Z2n, X3n, Z3n = step(X1, X2n, Z2n, X3n, Z3n)
+			X1str = format_num(X1)
+			X3str = format_num(X3, 3)
+			Z3str = format_num(Z3, 3)
+			X3nstr = format_num(X3n, 3)
+			Z3nstr = format_num(Z3n, 3)
+			f.write(f'\tsteps = {steps};\n')
+			f.write(f'\tX1 = (curve25519_key_t){{.key64 = {{{X1str}\n\t\t}}\n\t}};\n')
+			f.write(f'\tXZ2 = (curve25519_proj_point_t){{\n\t\t.X = {{.key64 = {{{X2str}}}\n\t\t}},\n\t\t.Z = {{.key64 = {{{Z2str}}}\n\t\t}}\n\t}};\n')
+			f.write(f'\tXZ3 = (curve25519_proj_point_t){{\n\t\t.X = {{.key64 = {{{X3str}}}\n\t\t}},\n\t\t.Z = {{.key64 = {{{Z3str}}}\n\t\t}}\n\t}};\n')
+			f.write(f'\tXZ3n = (curve25519_proj_point_t){{\n\t\t.X = {{.key64 = {{{X3nstr}}}\n\t\t}},\n\t\t.Z = {{.key64 = {{{Z3nstr}}}\n\t\t}}\n\t}};\n')
+			f.write(f'\tprintf("Test Case {i + 1}\\n");\n')
+			f.write(f'\tprintf("X1:\\n");\n')
+			f.write(f'\tcurve25519_key_printf(&X1, COMPLETE);\n')
+			f.write(f'\tprintf("XZ3.X:\\n");\n')
+			f.write(f'\tcurve25519_key_printf(&XZ3.X, COMPLETE);\n')
+			f.write(f'\tprintf("Expected:\\n");\n')
+			f.write(f'\tprintf("XZ3n.X:\\n");\n')
+			f.write(f'\tcurve25519_key_printf(&XZ3n.X, COMPLETE);\n')
+			f.write(f'\tprintf("XZ3n.Z:\\n");\n')
+			f.write(f'\tcurve25519_key_printf(&XZ3n.Z, COMPLETE);\n')
+			f.write('\tfor (int i = 0; i < steps; ++i) ')
+			f.write(f'curve25519_ladder_step(&XZ2, &XZ3, &X1);\n')
+			f.write(f'\tres = curve25519_key_cmp(&XZ3.X, &XZ3n.X) | curve25519_key_cmp(&XZ3.Z, &XZ3n.Z);\n')
+			f.write('\tif (res) {\n')
+			f.write(f'\t\tprintf("Test Case {i + 1} FAILED\\n");\n')
+			f.write(f'\t\tprintf("XZ3.X:\\n");\n')
+			f.write('\t\tcurve25519_key_printf(&XZ3.X, COMPLETE);\n')
+			f.write(f'\t\tprintf("XZ3.Z:\\n");\n')
+			f.write('\t\tcurve25519_key_printf(&XZ3.Z, COMPLETE);\n')
+			f.write(f'\t\treturn -{i + 1};\n')
+			f.write('\t} else {\n')
+			f.write(f'\t\tprintf("Test Case {i + 1} PASSED\\n");\n')
+			f.write("\t}\n\n")
+			
+		f.write("\treturn 0;\n")
+		f.write("}")
+
+def write_ladder_test():
+	global M
+	global A
+	global G_base
+	assert is_on_curve(G_base), "Base point G is not on the curve!"
+	i = 0
+	n = (random.getrandbits(256) & ~((2 ** 255) | 7)) | (2 ** 254)
+	assert n < 2 ** 255 and n >= 2 ** 254	
+	n = generate_clamped()
+	G = scalar_multiply(G_base, n)
+	assert is_on_curve(G), "Point G is not on the curve!"
+	GL = ladder(G_base, n)
+	assert GL == G.x, "Point GL does not result in the same point as G"
+	with open("tests/ladder_tests/ladder_test.c", "w") as f:
+		f.write("#include \"../../curve25519.h\"\n")
+		f.write("#include \"../tests.h\"\n\nint32_t curve25519_ladder_test(void) {\n")
+		f.write('\tprintf("Montgomery Ladder Test\\n");\n')
+		
+		f.write("\treturn 0;\n")
+		f.write("}")
+
+def write_pub_key_init_test():
+	global M
+	global A
+	global G_base
+	assert is_on_curve(G_base), "Base point G is not on the curve!"
+	i = 0
+	n = (random.getrandbits(256) & ~((2 ** 255) | 7)) | (2 ** 254)
+	assert n < 2 ** 255 and n >= 2 ** 254	
+	n = generate_clamped()
+	G = scalar_multiply(G_base, n)
+	assert is_on_curve(G), "Point G is not on the curve!"
+	GL = ladder(G_base, n)
+	assert GL == G.x, "Point GL does not result in the same point as G"
+	with open("tests/main_tests/pub_key_init_test.c", "w") as f:
+		f.write("#include \"../../curve25519.h\"\n")
+		f.write("#include \"../tests.h\"\n\nint32_t curve25519_pub_key_init_test(void) {\n")
+		f.write('\tprintf("Public Key Generation Test\\n");\n')
+
+		f.write("\treturn 0;\n")
+		f.write("}")
+		
+
+
 def main():
-	write_init_test()
-	write_cmp_test()
-	write_cmp_high_test()
-	write_cmp_low_test()
-	write_modulo_test()
-	write_add_modulo_test()
-	write_add_modulo_self_test()
-	write_add_modulo_inplace_test()
-	write_add_test()
-	write_add_self_test()
-	write_add_self_modulo_test()
-	write_add_inplace_test()
-	write_sub_test()
-	write_sub_inplace_test()
-	write_sub_modulo_test()
-	write_sub_modulo_inplace_test()
-	write_double_test()
-	write_double_inplace_test()
-	write_double_modulo_test()
-	write_double_modulo_inplace_test()
-	write_lshift_test()
-	write_rshift_test()
-	write_lshift_inplace_test()
-	write_rshift_inplace_test()
-	write_and_test()
-	write_xor_test()
-	write_log2_test()
-	write_mul_test()
-	write_mul_modulo_test()
-	write_mul_inplace_test()
-	write_mul_modulo_inplace_test()
-	write_div_test()
-	write_inv_test()
-	write_divmod_test()
+	# write_init_test()
+	# write_cmp_test()
+	# write_cmp_high_test()
+	# write_cmp_low_test()
+	# write_modulo_test()
+	# write_add_modulo_test()
+	# write_add_modulo_self_test()
+	# write_add_modulo_inplace_test()
+	# write_add_test()
+	# write_add_self_test()
+	# write_add_self_modulo_test()
+	# write_add_inplace_test()
+	# write_sub_test()
+	# write_sub_inplace_test()
+	# write_sub_modulo_test()
+	# write_sub_modulo_inplace_test()
+	# write_double_test()
+	# write_double_inplace_test()
+	# write_double_modulo_test()
+	# write_double_modulo_inplace_test()
+	# write_lshift_test()
+	# write_rshift_test()
+	# write_lshift_inplace_test()
+	# write_rshift_inplace_test()
+	# write_and_test()
+	# write_xor_test()
+	# write_log2_test()
+	# write_mul_test()
+	# write_mul_modulo_test()
+	# write_mul_inplace_test()
+	# write_mul_modulo_inplace_test()
+	# write_div_test()
+	# write_inv_test()
+	# write_divmod_test()
+	# write_cswap_test()
+	write_ladder_step_test()
+	write_pub_key_init_test()
 
 if __name__ == "__main__":
 	main()
