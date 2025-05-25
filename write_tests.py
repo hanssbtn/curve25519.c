@@ -1105,7 +1105,7 @@ def write_cswap_test():
 			f.write(f"\tcurve25519_proj_point_t k3 = {{.X = {{.key64 = {{\n\t\t0x{(n) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 1)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 2)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 3)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 4)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 5)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 6)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 7)) & BITMASK:016X}ULL\n\t}}}},\n\t .Z = \n\t{{.key64 = {{\n\t\t0x{(q) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 1)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 2)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 3)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 4)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 5)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 6)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 7)) & BITMASK:016X}ULL\n\t}}}}}};\n")
 			f.write(f"\tcurve25519_proj_point_t k4 = {{.X = {{.key64 = {{\n\t\t0x{(q) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 1)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 2)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 3)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 4)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 5)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 6)) & BITMASK:016X}ULL,\n\t\t0x{(q >> (64 * 7)) & BITMASK:016X}ULL\n\t}}}},\n\t .Z = {{.key64 = {{\n\t\t0x{(n) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 1)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 2)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 3)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 4)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 5)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 6)) & BITMASK:016X}ULL,\n\t\t0x{(n >> (64 * 7)) & BITMASK:016X}ULL\n\t}}}}}};\n")
 		f.write(f'\tprintf("Test Case {i+1}\\n");\n\tprintf("k1.X:\\n");\n\tcurve25519_key_printf(&k1.X, COMPLETE);\n\tprintf("k1.Z:\\n");\n\tcurve25519_key_printf(&k1.Z, COMPLETE);\n\tprintf("k2.X:\\n");\n\tcurve25519_key_printf(&k2.X, COMPLETE);\n\tprintf("k2.Z:\\n");\n\tcurve25519_key_printf(&k2.Z, COMPLETE);\n\tprintf("Expected:\\n");\n\tcurve25519_cswap(&k1, &k2, swap);\n\tprintf("k3.X:\\n");\n\tcurve25519_key_printf(&k3.X, COMPLETE);\n\tprintf("k3.Z:\\n");\n\tcurve25519_key_printf(&k3.Z, COMPLETE);\n\tprintf("k4.X:\\n");\n\tcurve25519_key_printf(&k4.X, COMPLETE);\n\tprintf("k4.Z:\\n");\n\tcurve25519_key_printf(&k4.Z, COMPLETE);\n\tint32_t res = curve25519_cmp_eq(&k1, &k3) | curve25519_cmp_eq(&k2, &k4);\n\tif (res) {{\n\t	printf("Test Case {i+1} FAILED\\n");\n\t\tprintf("k1.X:\\n");\n\t\tcurve25519_key_printf(&k1.X, COMPLETE);\n\t\tprintf("k1.Z:\\n");\n\t\tcurve25519_key_printf(&k1.Z, COMPLETE);\n\t\tprintf("k2.X:\\n");\n\t\tcurve25519_key_printf(&k2.X, COMPLETE);\n\t\tprintf("k2.Z:\\n");\n\t\tcurve25519_key_printf(&k2.Z, COMPLETE);\n\t	return -{i+1};\n\t}} else {{\n\t	printf("Test Case {i+1} PASSED\\n");\n\t}}\n\tprintf("---\\n\\n");\n')
-		for i in range(TEST_COUNT):
+		for i in range(1, TEST_COUNT):
 			n = random.getrandbits(512)
 			swap = random.getrandbits(1)
 			q = random.getrandbits(512)
@@ -1183,7 +1183,7 @@ def scalar_multiply(P: Point | None, n: int) -> Point | None:
 		return None # n*O = O, 0*P = O
 
 	result = None # Represents the point at infinity initially
-	current_point = P
+	current_point = Point(P.x, P.y)
 
 	# Iterate through bits of n (from LSB to MSB)
 	# print("n: ", n)
@@ -1328,7 +1328,7 @@ def write_proj_to_affine_test():
 		f.write('\t} else {\n')
 		f.write(f'\t\tprintf("Test Case {i + 1} PASSED\\n");\n')
 		f.write('\t}\n\n')
-		for i in range(TEST_COUNT):
+		for i in range(1, TEST_COUNT):
 			f.write(f'\tn = (curve25519_key_t){{\n\t\t.key64 = {{{format_num(n, 3, 8)}\n\t\t}}\n\t}};\n')
 			f.write(f'\tm = (curve25519_key_t){{\n\t\t.key64 = {{{format_num(m, 3, 8)}\n\t\t}}\n\t}};\n')
 			f.write(f'\tq = (curve25519_key_t){{\n\t\t.key64 = {{{format_num(r, 3, 8)}\n\t\t}}\n\t}};\n')
@@ -1402,7 +1402,7 @@ def write_ladder_step_test():
 		f.write('\t} else {\n')
 		f.write(f'\t\tprintf("Test Case {i + 1} PASSED\\n");\n')
 		f.write("\t}\n\n")
-		for i in range(TEST_COUNT):
+		for i in range(1, TEST_COUNT):
 			n = (random.getrandbits(256) & ~((2 ** 255) | 7)) | (2 ** 254)
 			assert n < 2 ** 255 and n >= 2 ** 254	
 			X1, X3, Z3 = n, n, 1
@@ -1459,21 +1459,21 @@ def write_ladder_test():
 	G = scalar_multiply(G_base, n)
 	assert is_on_curve(G), "Point G is not on the curve!"
 	GL = ladder(G_base, n)
-	nstr = format_num(n, indent=3, length=8)
+	nstr = format_num(n, 4, 4)
 	assert GL == G.x, "Point GL does not result in the same point as G"
 	with open("tests/ladder_tests/ladder_test.c", "w") as f:
 		f.write("#include \"../../curve25519.h\"\n")
 		f.write("#include \"../tests.h\"\n\nint32_t curve25519_ladder_test(void) {\n")
 		f.write('\tprintf("Montgomery Ladder Test\\n");\n')
 		f.write(f'\tcurve25519_key_t n = {{\n\t\t.key64 = {{{nstr}\n\t\t}}\n\t}};\n')
-		f.write(f'\tcurve25519_key_t nBASE = {{\n\t\t.key64 = {{{format_num(GL, 3, 8)}\n\t\t}}\n\t}};\n')
+		f.write(f'\tcurve25519_key_t nBASE = {{\n\t\t.key64 = {{{format_num(GL, 3, 4)}\n\t\t}}\n\t}};\n')
 		f.write('\tcurve25519_key_t r = { .key64 = { } };\n')
 		f.write(f'\tprintf("Test Case {i + 1}\\n");\n')
 		f.write('\tprintf("n:\\n");\n')
 		f.write(f'\tcurve25519_key_printf(&n, COMPLETE);\n')
-		f.write('\tprintf("nBASE:\\n");\n')
+		f.write('\tprintf("Expected:\\n");\n')
 		f.write(f'\tcurve25519_key_printf(&nBASE, COMPLETE);\n')
-		f.write(f'\tcurve25519_ladder(BASE, &n, &r);\n')
+		f.write(f'\tcurve25519_ladder(&n, BASE, &r);\n')
 		f.write(f'\tint res = curve25519_key_cmp(&nBASE, &r);\n')
 		f.write('\tif (res) {\n')
 		f.write(f'\t\tprintf("Test Case {i + 1} FAILED\\n");\n')
@@ -1483,15 +1483,22 @@ def write_ladder_test():
 		f.write('\t} else {\n')
 		f.write(f'\t\tprintf("Test Case {i + 1} PASSED\\n");\n')
 		f.write('\t}\n\n')
-		for i in range(TEST_COUNT):
+		for i in range(1, TEST_COUNT):
+			n = (random.getrandbits(256) & ~((2 ** 255) | 7)) | (2 ** 254)
+			assert n < 2 ** 255 and n >= 2 ** 254	
+			G = scalar_multiply(G_base, n)
+			assert is_on_curve(G), "Point G is not on the curve!"
+			GL = ladder(G_base, n)
+			nstr = format_num(n, 3, 4)
+			assert GL == G.x, "Point GL does not result in the same point as G"
 			f.write(f'\tn = (curve25519_key_t){{\n\t\t.key64 = {{{nstr}\n\t\t}}\n\t}};\n')
-			f.write(f'\tnBASE = (curve25519_key_t){{\n\t\t.key64 = {{{format_num(GL, 3, 8)}\n\t\t}}\n\t}};\n')
+			f.write(f'\tnBASE = (curve25519_key_t){{\n\t\t.key64 = {{{format_num(GL, 3, 4)}\n\t\t}}\n\t}};\n')
 			f.write(f'\tprintf("Test Case {i + 1}\\n");\n')
 			f.write('\tprintf("n:\\n");\n')
 			f.write(f'\tcurve25519_key_printf(&n, COMPLETE);\n')
-			f.write('\tprintf("nBASE:\\n");\n')
+			f.write('\tprintf("Expected:\\n");\n')
 			f.write(f'\tcurve25519_key_printf(&nBASE, COMPLETE);\n')
-			f.write(f'\tcurve25519_ladder(BASE, &n, &r);\n')
+			f.write(f'\tcurve25519_ladder(&n, BASE, &r);\n')
 			f.write(f'\tres = curve25519_key_cmp(&nBASE, &r);\n')
 			f.write('\tif (res) {\n')
 			f.write(f'\t\tprintf("Test Case {i + 1} FAILED\\n");\n')
@@ -1507,66 +1514,226 @@ def write_ladder_test():
 def write_pub_key_init_test():
 	global M
 	global A
-	global G_base
-	assert is_on_curve(G_base), "Base point G is not on the curve!"
 	i = 0
 	n = (random.getrandbits(256) & ~((2 ** 255) | 7)) | (2 ** 254)
-	assert n < 2 ** 255 and n >= 2 ** 254	
+	assert n < 2 ** 255 and n >= 2 ** 254
+	b = (random.getrandbits(256) & ~((2 ** 255) | 7)) | (2 ** 254)
+	r1, _ = sqrt_25519(b ** 3 + A * b ** 2 + b)
+	while r1 is None:
+		b = (random.getrandbits(256) & ~((2 ** 255) | 7)) | (2 ** 254)
+		r1, _ = sqrt_25519(b ** 3 + A * b ** 2 + b)
+	base = Point(b, r1)
 	n = generate_clamped()
-	G = scalar_multiply(G_base, n)
+	G = scalar_multiply(base, n)
 	assert is_on_curve(G), "Point G is not on the curve!"
-	GL = ladder(G_base, n)
+	GL = ladder(base, n)
 	assert GL == G.x, "Point GL does not result in the same point as G"
 	with open("tests/main_tests/pub_key_init_test.c", "w") as f:
 		f.write("#include \"../../curve25519.h\"\n")
 		f.write("#include \"../tests.h\"\n\nint32_t curve25519_pub_key_init_test(void) {\n")
 		f.write('\tprintf("Public Key Generation Test\\n");\n')
-
+		f.write(f'\tcurve25519_key_t n = {{\n\t\t.key64 = {{{format_num(n, 3, 4)}\n\t\t}}\n\t}};\n')
+		f.write(f'\tcurve25519_key_t base = {{\n\t\t.key64 = {{{format_num(base.x, 3, 4)}\n\t\t}}\n\t}};\n')
+		f.write(f'\tcurve25519_key_t nbase = {{\n\t\t.key64 = {{{format_num(GL, 3, 4)}\n\t\t}}\n\t}};\n')
+		f.write('\tcurve25519_key_t r = { .key64 = { } };\n')
+		f.write(f'\tprintf("Test Case {i + 1}\\n");\n')
+		f.write('\tprintf("n:\\n");\n')
+		f.write(f'\tcurve25519_key_printf(&n, COMPLETE);\n')
+		f.write('\tprintf("base:\\n");\n')
+		f.write(f'\tcurve25519_key_printf(&base, COMPLETE);\n')
+		f.write('\tprintf("Expected:\\n");\n')
+		f.write(f'\tcurve25519_key_printf(&nbase, COMPLETE);\n')
+		f.write(f'\tcurve25519_pub_key_init(&n, &base, &r);\n')
+		f.write(f'\tint res = curve25519_key_cmp(&nbase, &r);\n')
+		f.write('\tif (res) {\n')
+		f.write(f'\t\tprintf("Test Case {i + 1} FAILED\\n");\n')
+		f.write("\t\tprintf(\"r:\\n\");\n")
+		f.write("\t\tcurve25519_key_printf(&r, COMPLETE);\n")
+		f.write(f"\t\treturn -{i + 1};\n")
+		f.write('\t} else {\n')
+		f.write(f'\t\tprintf("Test Case {i + 1} PASSED\\n");\n')
+		f.write('\t}\n\n')
+		for i in range(1, TEST_COUNT):
+			n = (random.getrandbits(256) & ~((2 ** 255) | 7)) | (2 ** 254)
+			assert n < 2 ** 255 and n >= 2 ** 254
+			b = (random.getrandbits(256) & ~((2 ** 255) | 7)) | (2 ** 254)
+			r1, _ = sqrt_25519(b ** 3 + A * b ** 2 + b)
+			while r1 is None:
+				b = (random.getrandbits(256) & ~((2 ** 255) | 7)) | (2 ** 254)
+				r1, _ = sqrt_25519(b ** 3 + A * b ** 2 + b)
+			base = Point(b, r1)
+			n = generate_clamped()
+			G = scalar_multiply(base, n)
+			assert is_on_curve(G), "Point G is not on the curve!"
+			GL = ladder(base, n)
+			assert GL == G.x, "Point GL does not result in the same point as G"
+			f.write(f'\tn = (curve25519_key_t){{\n\t\t.key64 = {{{format_num(n, 3, 4)}\n\t\t}}\n\t}};\n')
+			f.write(f'\tbase = (curve25519_key_t){{\n\t\t.key64 = {{{format_num(base.x, 3, 4)}\n\t\t}}\n\t}};\n')
+			f.write(f'\tnbase = (curve25519_key_t){{\n\t\t.key64 = {{{format_num(GL, 3, 4)}\n\t\t}}\n\t}};\n')
+			f.write(f'\tprintf("Test Case {i + 1}\\n");\n')
+			f.write('\tprintf("n:\\n");\n')
+			f.write(f'\tcurve25519_key_printf(&n, COMPLETE);\n')
+			f.write('\tprintf("base:\\n");\n')
+			f.write(f'\tcurve25519_key_printf(&base, COMPLETE);\n')
+			f.write('\tprintf("Expected:\\n");\n')
+			f.write(f'\tcurve25519_key_printf(&nbase, COMPLETE);\n')
+			f.write(f'\tcurve25519_pub_key_init(&n, &base, &r);\n')
+			f.write(f'\tres = curve25519_key_cmp(&nbase, &r);\n')
+			f.write('\tif (res) {\n')
+			f.write(f'\t\tprintf("Test Case {i + 1} FAILED\\n");\n')
+			f.write("\t\tprintf(\"r:\\n\");\n")
+			f.write("\t\tcurve25519_key_printf(&r, COMPLETE);\n")
+			f.write(f"\t\treturn -{i + 1};\n")
+			f.write('\t} else {\n')
+			f.write(f'\t\tprintf("Test Case {i + 1} PASSED\\n");\n')
+			f.write('\t}\n\n')
 		f.write("\treturn 0;\n")
 		f.write("}")
-		
 
+def write_generate_shared_key_test():
+	global M
+	global A
+	global G_base
+	i = 0
+	n = (random.getrandbits(256) & ~((2 ** 255) | 7)) | (2 ** 254)
+	assert n < 2 ** 255 and n >= 2 ** 254
+	Gn = scalar_multiply(G_base, n)
+	assert is_on_curve(Gn), "Point G is not on the curve!"
+	GLn = ladder(G_base, n)
+	assert GLn == Gn.x, "Point GL does not result in the same point as G"
+	m = (random.getrandbits(256) & ~((2 ** 255) | 7)) | (2 ** 254)
+	assert m < 2 ** 255 and m >= 2 ** 254
+	Gm = scalar_multiply(G_base, m)
+	assert is_on_curve(Gm), "Point G is not on the curve!"
+	GLm = ladder(G_base, m)
+	assert GLm == Gm.x, "Point GL does not result in the same point as G"
+	sharedm = ladder(Gn, m)
+	sharedn = ladder(Gm, n)
+	assert sharedm == sharedn
+	with open("tests/main_tests/shared_key_gen_test.c", "w") as f:
+		f.write("#include \"../../curve25519.h\"\n")
+		f.write("#include \"../tests.h\"\n\nint32_t curve25519_shared_key_gen_test(void) {\n")
+		f.write('\tprintf("Public Key Generation Test\\n");\n')
+		f.write(f'\tcurve25519_key_t priv_key1 = {{\n\t\t.key64 = {{{format_num(n, 3, 4)}\n\t\t}}\n\t}};\n')
+		f.write(f'\tcurve25519_key_t pub_key1 = {{\n\t\t.key64 = {{{format_num(GLm, 3, 4)}\n\t\t}}\n\t}};\n')
+		f.write(f'\tcurve25519_key_t priv_key2 = {{\n\t\t.key64 = {{{format_num(m, 3, 4)}\n\t\t}}\n\t}};\n')
+		f.write(f'\tcurve25519_key_t pub_key2 = {{\n\t\t.key64 = {{{format_num(GLn, 3, 4)}\n\t\t}}\n\t}};\n')
+		f.write(f'\tcurve25519_key_t shared_key = {{\n\t\t.key64 = {{{format_num(sharedn, 3, 4)}\n\t\t}}\n\t}};\n')
+		f.write('\tcurve25519_key_t r1 = { .key64 = { } };\n')
+		f.write('\tcurve25519_key_t r2 = { .key64 = { } };\n')
+		f.write(f'\tprintf("Test Case {i + 1}\\n");\n')
+		f.write('\tprintf("priv_key1:\\n");\n')
+		f.write(f'\tcurve25519_key_printf(&priv_key1, COMPLETE);\n')
+		f.write('\tprintf("pub_key1:\\n");\n')
+		f.write(f'\tcurve25519_key_printf(&pub_key1, COMPLETE);\n')
+		f.write('\tprintf("priv_key2:\\n");\n')
+		f.write(f'\tcurve25519_key_printf(&priv_key2, COMPLETE);\n')
+		f.write('\tprintf("pub_key2:\\n");\n')
+		f.write(f'\tcurve25519_key_printf(&pub_key2, COMPLETE);\n')
+		f.write('\tprintf("Expected:\\n");\n')
+		f.write(f'\tcurve25519_key_printf(&shared_key, COMPLETE);\n')
+		f.write(f'\tcurve25519_shared_key_gen(&priv_key1, &pub_key1, &r1);\n')
+		f.write(f'\tcurve25519_shared_key_gen(&priv_key2, &pub_key2, &r2);\n')
+		f.write(f'\tint res = curve25519_key_cmp(&shared_key, &r1) | curve25519_key_cmp(&shared_key, &r2);\n')
+		f.write('\tif (res) {\n')
+		f.write(f'\t\tprintf("Test Case {i + 1} FAILED\\n");\n')
+		f.write("\t\tprintf(\"r1:\\n\");\n")
+		f.write("\t\tcurve25519_key_printf(&r1, COMPLETE);\n")
+		f.write("\t\tprintf(\"r2:\\n\");\n")
+		f.write("\t\tcurve25519_key_printf(&r2, COMPLETE);\n")
+		f.write(f"\t\treturn -{i + 1};\n")
+		f.write('\t} else {\n')
+		f.write(f'\t\tprintf("Test Case {i + 1} PASSED\\n");\n')
+		f.write('\t}\n\n')
+		for i in range(1, TEST_COUNT):
+			n = (random.getrandbits(256) & ~((2 ** 255) | 7)) | (2 ** 254)
+			assert n < 2 ** 255 and n >= 2 ** 254
+			Gn = scalar_multiply(G_base, n)
+			assert is_on_curve(Gn), "Point G is not on the curve!"
+			GLn = ladder(G_base, n)
+			assert GLn == Gn.x, "Point GL does not result in the same point as G"
+			m = (random.getrandbits(256) & ~((2 ** 255) | 7)) | (2 ** 254)
+			assert m < 2 ** 255 and m >= 2 ** 254
+			Gm = scalar_multiply(G_base, m)
+			assert is_on_curve(Gm), "Point G is not on the curve!"
+			GLm = ladder(G_base, m)
+			assert GLm == Gm.x, "Point GL does not result in the same point as G"
+			sharedm = ladder(Gn, m)
+			sharedn = ladder(Gm, n)
+			assert sharedm == sharedn
+			f.write(f'\tpriv_key1 = (curve25519_key_t){{\n\t\t.key64 = {{{format_num(n, 3, 4)}\n\t\t}}\n\t}};\n')
+			f.write(f'\tpub_key1 = (curve25519_key_t){{\n\t\t.key64 = {{{format_num(GLm, 3, 4)}\n\t\t}}\n\t}};\n')
+			f.write(f'\tpriv_key2 = (curve25519_key_t){{\n\t\t.key64 = {{{format_num(m, 3, 4)}\n\t\t}}\n\t}};\n')
+			f.write(f'\tpub_key2 = (curve25519_key_t){{\n\t\t.key64 = {{{format_num(GLn, 3, 4)}\n\t\t}}\n\t}};\n')
+			f.write(f'\tshared_key = (curve25519_key_t){{\n\t\t.key64 = {{{format_num(sharedn, 3, 4)}\n\t\t}}\n\t}};\n')
+			f.write(f'\tprintf("Test Case {i + 1}\\n");\n')
+			f.write('\tprintf("priv_key1:\\n");\n')
+			f.write(f'\tcurve25519_key_printf(&priv_key1, COMPLETE);\n')
+			f.write('\tprintf("pub_key1:\\n");\n')
+			f.write(f'\tcurve25519_key_printf(&pub_key1, COMPLETE);\n')
+			f.write('\tprintf("priv_key2:\\n");\n')
+			f.write(f'\tcurve25519_key_printf(&priv_key2, COMPLETE);\n')
+			f.write('\tprintf("pub_key2:\\n");\n')
+			f.write(f'\tcurve25519_key_printf(&pub_key2, COMPLETE);\n')
+			f.write('\tprintf("Expected:\\n");\n')
+			f.write(f'\tcurve25519_key_printf(&shared_key, COMPLETE);\n')
+			f.write(f'\tcurve25519_shared_key_gen(&priv_key1, &pub_key1, &r1);\n')
+			f.write(f'\tcurve25519_shared_key_gen(&priv_key2, &pub_key2, &r2);\n')
+			f.write(f'\tres = curve25519_key_cmp(&shared_key, &r1) | curve25519_key_cmp(&shared_key, &r2);\n')
+			f.write('\tif (res) {\n')
+			f.write(f'\t\tprintf("Test Case {i + 1} FAILED\\n");\n')
+			f.write("\t\tprintf(\"r1:\\n\");\n")
+			f.write("\t\tcurve25519_key_printf(&r1, COMPLETE);\n")
+			f.write("\t\tprintf(\"r2:\\n\");\n")
+			f.write("\t\tcurve25519_key_printf(&r2, COMPLETE);\n")
+			f.write(f"\t\treturn -{i + 1};\n")
+			f.write('\t} else {\n')
+			f.write(f'\t\tprintf("Test Case {i + 1} PASSED\\n");\n')
+			f.write('\t}\n\n')
+		f.write("\treturn 0;\n")
+		f.write("}")
 
 def main():
-	# write_init_test()
-	# write_cmp_test()
-	# write_cmp_high_test()
-	# write_cmp_low_test()
-	# write_modulo_test()
-	# write_add_modulo_test()
-	# write_add_modulo_self_test()
-	# write_add_modulo_inplace_test()
-	# write_add_test()
-	# write_add_self_test()
-	# write_add_self_modulo_test()
-	# write_add_inplace_test()
-	# write_sub_test()
-	# write_sub_inplace_test()
-	# write_sub_modulo_test()
-	# write_sub_modulo_inplace_test()
-	# write_double_test()
-	# write_double_inplace_test()
-	# write_double_modulo_test()
-	# write_double_modulo_inplace_test()
-	# write_lshift_test()
-	# write_rshift_test()
-	# write_lshift_inplace_test()
-	# write_rshift_inplace_test()
-	# write_and_test()
-	# write_xor_test()
-	# write_log2_test()
-	# write_mul_test()
-	# write_mul_modulo_test()
-	# write_mul_inplace_test()
-	# write_mul_modulo_inplace_test()
-	# write_div_test()
-	# write_inv_test()
-	# write_divmod_test()
-	# write_cswap_test()
+	write_init_test()
+	write_cmp_test()
+	write_cmp_high_test()
+	write_cmp_low_test()
+	write_modulo_test()
+	write_add_modulo_test()
+	write_add_modulo_self_test()
+	write_add_modulo_inplace_test()
+	write_add_test()
+	write_add_self_test()
+	write_add_self_modulo_test()
+	write_add_inplace_test()
+	write_sub_test()
+	write_sub_inplace_test()
+	write_sub_modulo_test()
+	write_sub_modulo_inplace_test()
+	write_double_test()
+	write_double_inplace_test()
+	write_double_modulo_test()
+	write_double_modulo_inplace_test()
+	write_lshift_test()
+	write_rshift_test()
+	write_lshift_inplace_test()
+	write_rshift_inplace_test()
+	write_and_test()
+	write_xor_test()
+	write_log2_test()
+	write_mul_test()
+	write_mul_modulo_test()
+	write_mul_inplace_test()
+	write_mul_modulo_inplace_test()
+	write_div_test()
+	write_inv_test()
+	write_divmod_test()
+	write_cswap_test()
 	write_proj_to_affine_test()
 	write_ladder_step_test()
 	write_ladder_test()
-	# write_pub_key_init_test()
+	write_pub_key_init_test()
+	write_generate_shared_key_test()
 
 if __name__ == "__main__":
 	main()

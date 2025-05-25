@@ -122,7 +122,7 @@ int32_t curve25519_ladder_step(
 	return 0;
 }
 
-int32_t curve25519_ladder(const curve25519_key_t *const restrict Xp, const curve25519_key_t *const restrict n, curve25519_key_t *const restrict nXp) {
+int32_t curve25519_ladder(const curve25519_key_t *const restrict n, const curve25519_key_t *const restrict Xp,  curve25519_key_t *const restrict nXp) {
 	curve25519_proj_point_t XZ2 = {.X = {.key8 = {1}}}, XZ3;
 	curve25519_key_copy(&XZ3.X, Xp);
 	XZ3.Z = (curve25519_key_t){.key8 = {1}};
@@ -139,11 +139,9 @@ int32_t curve25519_ladder(const curve25519_key_t *const restrict Xp, const curve
 }
 
 int32_t curve25519_pub_key_init(const curve25519_key_t *const restrict priv_key, const curve25519_key_t *const restrict pt, curve25519_key_t *const restrict r) {
-	return curve25519_ladder(pt, priv_key, r);
+	return curve25519_ladder(priv_key, pt, r);
 }
 
-#define curve25519_base_mul(priv_key, r) curve25519_ladder(BASE, priv_key, r)
-
-int32_t curve25519_generate_shared_key(const curve25519_key_t *const restrict priv_key, const curve25519_key_t *const restrict pub_key, curve25519_key_t *const restrict shared_key) {
+int32_t curve25519_shared_key_gen(const curve25519_key_t *const restrict priv_key, const curve25519_key_t *const restrict pub_key, curve25519_key_t *const restrict shared_key) {
 	return curve25519_ladder(priv_key, pub_key, shared_key);
 }

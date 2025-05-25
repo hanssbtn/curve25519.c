@@ -15,10 +15,10 @@ int main(void) {
 		fprintf(stderr, "Failed ladder step test\n");
 		return -1;
 	}
-	// if (curve25519_ladder_test()) {
-	// 	fprintf(stderr, "Failed ladder test\n");
-	// 	return -1;
-	// }
+	if (curve25519_ladder_test()) {
+		fprintf(stderr, "Failed ladder test\n");
+		return -1;
+	}
 	printf("DONE\n");
 	return 0;
 }
