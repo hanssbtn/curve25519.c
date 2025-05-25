@@ -3,6 +3,10 @@
 
 int main(void) {
 	printf("Running ladder tests\n");
+	if (curve25519_proj_to_affine_test()) {
+		fprintf(stderr, "Failed affine project test\n");
+		return -1;
+	}
 	if (curve25519_cswap_test()) {
 		fprintf(stderr, "Failed conditional swap test\n");
 		return -1;

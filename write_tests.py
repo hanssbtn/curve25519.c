@@ -8,8 +8,8 @@ M = (2 ** 255) - 19
 A = 486662
 A24 = 121665
 
-def format_num(n: int, indent: int = 2) -> str:
-	return ",".join([f"\n{"".join(["\t" for i in range(indent)])}0x{(n >> (l * 64)) & BITMASK:016X}ULL" for l in range(8)])
+def format_num(n: int, indent: int = 2, length = 8) -> str:
+	return ",".join([f"\n{"".join(["\t" for i in range(indent)])}0x{(n >> (l * 64)) & BITMASK:016X}ULL" for l in range(length)])
 
 def sqrt_25519(n):
 	global M
@@ -441,7 +441,7 @@ def write_sub_modulo_test():
 			f.write(f"\tk2 = (curve25519_key_t){{.key64 = {{\n\t\t0x{(m) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 1)) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 2)) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 3)) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 4)) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 5)) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 6)) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 7)) & BITMASK:016X}ULL\n\t}}}};\n")
 			f.write(f"\tk3 = (curve25519_key_t){{.key64 = {{\n\t\t0x{(r) & BITMASK:016X}ULL,\n\t\t0x{(r >> (64 * 1)) & BITMASK:016X}ULL,\n\t\t0x{(r >> (64 * 2)) & BITMASK:016X}ULL,\n\t\t0x{(r >> (64 * 3)) & BITMASK:016X}ULL,\n\t\t0x{(r >> (64 * 4)) & BITMASK:016X}ULL,\n\t\t0x{(r >> (64 * 5)) & BITMASK:016X}ULL,\n\t\t0x{(r >> (64 * 6)) & BITMASK:016X}ULL,\n\t\t0x{(r >> (64 * 7)) & BITMASK:016X}ULL\n\t}}}};\n")
 			f.write(f'\tprintf("Test Case {i+1}\\n");\n\tprintf("k1:\\n");\n\tcurve25519_key_printf(&k1, COMPLETE);\n\tprintf("k2:\\n");\n\tcurve25519_key_printf(&k2, COMPLETE);\n\tprintf("Expected: \\n");\n\tcurve25519_key_printf(&k3, COMPLETE);\n\tcurve25519_key_sub_modulo(&k1, &k2, &r);\n\tres = curve25519_key_cmp(&r, &k3);\n\tprintf("Result:\\n");\n\tcurve25519_key_printf(&r, COMPLETE);\n\tif (res) {{\n\t	printf("Test Case {i+1} FAILED\\n");\n\t\tcurve25519_key_printf(&k1, COMPLETE);\n\t\tcurve25519_key_printf(&k2, COMPLETE);\n\t	return -{i+1};\n\t}} else {{\n\t	printf("Test Case {i+1} PASSED\\n");\n\t}}\n\tprintf("---\\n\\n");\n')
-		i = 200
+		i = TEST_COUNT
 		n = 0
 		m = 0
 		r = 0
@@ -473,7 +473,7 @@ def write_sub_modulo_inplace_test():
 			f.write(f"\tk2 = (curve25519_key_t){{.key64 = {{\n\t\t0x{(m) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 1)) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 2)) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 3)) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 4)) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 5)) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 6)) & BITMASK:016X}ULL,\n\t\t0x{(m >> (64 * 7)) & BITMASK:016X}ULL\n\t}}}};\n")
 			f.write(f"\tk3 = (curve25519_key_t){{.key64 = {{\n\t\t0x{(r) & BITMASK:016X}ULL,\n\t\t0x{(r >> (64 * 1)) & BITMASK:016X}ULL,\n\t\t0x{(r >> (64 * 2)) & BITMASK:016X}ULL,\n\t\t0x{(r >> (64 * 3)) & BITMASK:016X}ULL,\n\t\t0x{(r >> (64 * 4)) & BITMASK:016X}ULL,\n\t\t0x{(r >> (64 * 5)) & BITMASK:016X}ULL,\n\t\t0x{(r >> (64 * 6)) & BITMASK:016X}ULL,\n\t\t0x{(r >> (64 * 7)) & BITMASK:016X}ULL\n\t}}}};\n")
 			f.write(f'\tprintf("Test Case {i+1}\\n");\n\tprintf("k1:\\n");\n\tcurve25519_key_printf(&k1, COMPLETE);\n\tprintf("k2:\\n");\n\tcurve25519_key_printf(&k2, COMPLETE);\n\tprintf("Expected: \\n");\n\tcurve25519_key_printf(&k3, COMPLETE);\n\tcurve25519_key_sub_modulo_inplace(&k1, &k2);\n\tres = curve25519_key_cmp(&k1, &k3);\n\tif (res) {{\n\t	printf("Test Case {i+1} FAILED\\n");\n\t\tcurve25519_key_printf(&k1, COMPLETE);\n\t\tcurve25519_key_printf(&k2, COMPLETE);\n\t	return -{i+1};\n\t}} else {{\n\t	printf("Test Case {i+1} PASSED\\n");\n\t}}\n\tprintf("---\\n\\n");\n')
-		i = 200
+		i = TEST_COUNT
 		n = 0
 		m = 0
 		r = 0
@@ -1296,11 +1296,65 @@ def ladder(G: Point | None, n: int) -> Point | None:
 		assert X2 < M and Z2 < M and X3 < M and Z3 < M
 	return (X2 * modular_inverse(Z2, M)) % M
 
+def write_proj_to_affine_test():
+	global M
+	i = 0
+	n = (random.getrandbits(256) & ~((2 ** 255) | 7)) | (2 ** 254)
+	assert n < 2 ** 255 and n >= 2 ** 254	
+	m = (random.getrandbits(256) & ~((2 ** 255) | 7)) | (2 ** 254)
+	m_inv = modular_inverse(m, M)
+	r = (m_inv * n) % M
+	with open("tests/ladder_tests/proj_to_affine_test.c", "w") as f:
+		f.write("#include \"../../curve25519.h\"\n")
+		f.write("#include \"../tests.h\"\n\nint32_t curve25519_proj_to_affine_test(void) {\n")
+		f.write('\tprintf("Affine Projection Test\\n");\n')
+		f.write(f'\tcurve25519_key_t n = {{\n\t\t.key64 = {{{format_num(n, 3, 8)}\n\t\t}}\n\t}};\n')
+		f.write(f'\tcurve25519_key_t m = {{\n\t\t.key64 = {{{format_num(m, 3, 8)}\n\t\t}}\n\t}};\n')
+		f.write(f'\tcurve25519_key_t q = {{\n\t\t.key64 = {{{format_num(r, 3, 8)}\n\t\t}}\n\t}};\n')
+		f.write('\tcurve25519_key_t r = { };\n')
+		f.write(f"\tprintf(\"Test Case {i + 1}\\n\");\n")
+		f.write("\tprintf(\"n:\\n\");\n")
+		f.write(f"\tcurve25519_key_printf(&n, COMPLETE);\n")
+		f.write("\tprintf(\"m:\\n\");\n")
+		f.write(f"\tcurve25519_key_printf(&m, COMPLETE);\n")
+		f.write("\tprintf(\"q:\\n\");\n")
+		f.write(f"\tcurve25519_key_printf(&q, COMPLETE);\n")
+		f.write(f"\tcurve25519_key_divmod(&n, &m, &r);\n")
+		f.write('\tint res = curve25519_key_cmp(&r, &q);\n')
+		f.write('\tif (res) {\n')
+		f.write(f'\t\tprintf("Test Case {i + 1} FAILED\\n");\n')
+		f.write(f'\t\tcurve25519_key_printf(&r, COMPLETE);\n')
+		f.write(f'\t\treturn -{i + 1};\n')
+		f.write('\t} else {\n')
+		f.write(f'\t\tprintf("Test Case {i + 1} PASSED\\n");\n')
+		f.write('\t}\n\n')
+		for i in range(TEST_COUNT):
+			f.write(f'\tn = (curve25519_key_t){{\n\t\t.key64 = {{{format_num(n, 3, 8)}\n\t\t}}\n\t}};\n')
+			f.write(f'\tm = (curve25519_key_t){{\n\t\t.key64 = {{{format_num(m, 3, 8)}\n\t\t}}\n\t}};\n')
+			f.write(f'\tq = (curve25519_key_t){{\n\t\t.key64 = {{{format_num(r, 3, 8)}\n\t\t}}\n\t}};\n')
+			f.write(f"\tprintf(\"Test Case {i + 1}\\n\");\n")
+			f.write("\tprintf(\"n:\\n\");\n")
+			f.write(f"\tcurve25519_key_printf(&n, COMPLETE);\n")
+			f.write("\tprintf(\"m:\\n\");\n")
+			f.write(f"\tcurve25519_key_printf(&m, COMPLETE);\n")
+			f.write("\tprintf(\"q:\\n\");\n")
+			f.write(f"\tcurve25519_key_printf(&q, COMPLETE);\n")
+			f.write(f"\tcurve25519_key_divmod(&n, &m, &r);\n")
+			f.write('\tres = curve25519_key_cmp(&r, &q);\n')
+			f.write('\tif (res) {\n')
+			f.write(f'\t\tprintf("Test Case {i + 1} FAILED\\n");\n')
+			f.write(f'\t\tcurve25519_key_printf(&r, COMPLETE);\n')
+			f.write(f'\t\treturn -{i + 1};\n')
+			f.write('\t} else {\n')
+			f.write(f'\t\tprintf("Test Case {i + 1} PASSED\\n");\n')
+			f.write('\t}\n\n')
+		f.write("\treturn 0;\n")
+		f.write("}")
+
 def write_ladder_step_test():
 	global M
 	global A
 	global G_base
-	assert is_on_curve(G_base), "Base point G is not on the curve!"
 	i = 0
 	n = (random.getrandbits(256) & ~((2 ** 255) | 7)) | (2 ** 254)
 	assert n < 2 ** 255 and n >= 2 ** 254	
@@ -1310,13 +1364,13 @@ def write_ladder_step_test():
 	X2n, Z2n, X3n, Z3n = X2, Z2, X3, Z3
 	for s in range(steps):
 		X2n, Z2n, X3n, Z3n = step(X1, X2n, Z2n, X3n, Z3n)
-	X1str = format_num(X1)
-	X2str = format_num(X2, 3)
-	Z2str = format_num(Z2, 3)
-	X3str = format_num(X3, 3)
-	Z3str = format_num(Z3, 3)
-	X3nstr = format_num(X3n, 3)
-	Z3nstr = format_num(Z3n, 3)
+	X1str = format_num(X1, length=4)
+	X2str = format_num(X2, 3, 4)
+	Z2str = format_num(Z2, 3, 4)
+	X3str = format_num(X3, 3, 4)
+	Z3str = format_num(Z3, 3, 4)
+	X3nstr = format_num(X3n, 3, 4)
+	Z3nstr = format_num(Z3n, 3, 4)
 	with open("tests/ladder_tests/ladder_step_test.c", "w") as f:
 		f.write("#include \"../../curve25519.h\"\n")
 		f.write("#include \"../tests.h\"\n\nint32_t curve25519_ladder_step_test(void) {\n")
@@ -1357,11 +1411,11 @@ def write_ladder_step_test():
 			X2n, Z2n, X3n, Z3n = X2, Z2, X3, Z3
 			for s in range(steps):
 				X2n, Z2n, X3n, Z3n = step(X1, X2n, Z2n, X3n, Z3n)
-			X1str = format_num(X1)
-			X3str = format_num(X3, 3)
-			Z3str = format_num(Z3, 3)
-			X3nstr = format_num(X3n, 3)
-			Z3nstr = format_num(Z3n, 3)
+			X1str = format_num(X1, length=4)
+			X3str = format_num(X3, 3, 4)
+			Z3str = format_num(Z3, 3, 4)
+			X3nstr = format_num(X3n, 3, 4)
+			Z3nstr = format_num(Z3n, 3, 4)
 			f.write(f'\tsteps = {steps};\n')
 			f.write(f'\tX1 = (curve25519_key_t){{.key64 = {{{X1str}\n\t\t}}\n\t}};\n')
 			f.write(f'\tXZ2 = (curve25519_proj_point_t){{\n\t\t.X = {{.key64 = {{{X2str}}}\n\t\t}},\n\t\t.Z = {{.key64 = {{{Z2str}}}\n\t\t}}\n\t}};\n')
@@ -1402,16 +1456,51 @@ def write_ladder_test():
 	i = 0
 	n = (random.getrandbits(256) & ~((2 ** 255) | 7)) | (2 ** 254)
 	assert n < 2 ** 255 and n >= 2 ** 254	
-	n = generate_clamped()
 	G = scalar_multiply(G_base, n)
 	assert is_on_curve(G), "Point G is not on the curve!"
 	GL = ladder(G_base, n)
+	nstr = format_num(n, indent=3, length=8)
 	assert GL == G.x, "Point GL does not result in the same point as G"
 	with open("tests/ladder_tests/ladder_test.c", "w") as f:
 		f.write("#include \"../../curve25519.h\"\n")
 		f.write("#include \"../tests.h\"\n\nint32_t curve25519_ladder_test(void) {\n")
 		f.write('\tprintf("Montgomery Ladder Test\\n");\n')
-		
+		f.write(f'\tcurve25519_key_t n = {{\n\t\t.key64 = {{{nstr}\n\t\t}}\n\t}};\n')
+		f.write(f'\tcurve25519_key_t nBASE = {{\n\t\t.key64 = {{{format_num(GL, 3, 8)}\n\t\t}}\n\t}};\n')
+		f.write('\tcurve25519_key_t r = { .key64 = { } };\n')
+		f.write(f'\tprintf("Test Case {i + 1}\\n");\n')
+		f.write('\tprintf("n:\\n");\n')
+		f.write(f'\tcurve25519_key_printf(&n, COMPLETE);\n')
+		f.write('\tprintf("nBASE:\\n");\n')
+		f.write(f'\tcurve25519_key_printf(&nBASE, COMPLETE);\n')
+		f.write(f'\tcurve25519_ladder(BASE, &n, &r);\n')
+		f.write(f'\tint res = curve25519_key_cmp(&nBASE, &r);\n')
+		f.write('\tif (res) {\n')
+		f.write(f'\t\tprintf("Test Case {i + 1} FAILED\\n");\n')
+		f.write("\t\tprintf(\"r:\\n\");\n")
+		f.write("\t\tcurve25519_key_printf(&r, COMPLETE);\n")
+		f.write(f"\t\treturn -{i + 1};\n")
+		f.write('\t} else {\n')
+		f.write(f'\t\tprintf("Test Case {i + 1} PASSED\\n");\n')
+		f.write('\t}\n\n')
+		for i in range(TEST_COUNT):
+			f.write(f'\tn = (curve25519_key_t){{\n\t\t.key64 = {{{nstr}\n\t\t}}\n\t}};\n')
+			f.write(f'\tnBASE = (curve25519_key_t){{\n\t\t.key64 = {{{format_num(GL, 3, 8)}\n\t\t}}\n\t}};\n')
+			f.write(f'\tprintf("Test Case {i + 1}\\n");\n')
+			f.write('\tprintf("n:\\n");\n')
+			f.write(f'\tcurve25519_key_printf(&n, COMPLETE);\n')
+			f.write('\tprintf("nBASE:\\n");\n')
+			f.write(f'\tcurve25519_key_printf(&nBASE, COMPLETE);\n')
+			f.write(f'\tcurve25519_ladder(BASE, &n, &r);\n')
+			f.write(f'\tres = curve25519_key_cmp(&nBASE, &r);\n')
+			f.write('\tif (res) {\n')
+			f.write(f'\t\tprintf("Test Case {i + 1} FAILED\\n");\n')
+			f.write("\t\tprintf(\"r:\\n\");\n")
+			f.write("\t\tcurve25519_key_printf(&r, COMPLETE);\n")
+			f.write(f"\t\treturn -{i + 1};\n")
+			f.write('\t} else {\n')
+			f.write(f'\t\tprintf("Test Case {i + 1} PASSED\\n");\n')
+			f.write('\t}\n\n')
 		f.write("\treturn 0;\n")
 		f.write("}")
 
@@ -1474,8 +1563,10 @@ def main():
 	# write_inv_test()
 	# write_divmod_test()
 	# write_cswap_test()
+	write_proj_to_affine_test()
 	write_ladder_step_test()
-	write_pub_key_init_test()
+	write_ladder_test()
+	# write_pub_key_init_test()
 
 if __name__ == "__main__":
 	main()

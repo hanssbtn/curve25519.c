@@ -128,7 +128,7 @@ int32_t curve25519_ladder(const curve25519_key_t *const restrict Xp, const curve
 	XZ3.Z = (curve25519_key_t){.key8 = {1}};
 	bool prev_bit = 0;
 
-	for (int64_t idx = 255; idx >= 0; --idx) {
+	for (int64_t idx = 254; idx >= 0; --idx) {
 		bool bit = n->key64[idx / 64] & (1ULL << (idx & 63));
 		bool b = bit ^ prev_bit;
 		prev_bit = bit;
@@ -139,10 +139,10 @@ int32_t curve25519_ladder(const curve25519_key_t *const restrict Xp, const curve
 }
 
 int32_t curve25519_pub_key_init(const curve25519_key_t *const restrict priv_key, const curve25519_key_t *const restrict pt, curve25519_key_t *const restrict r) {
-	return curve25519_ladder(priv_key, pt, r);
+	return curve25519_ladder(pt, priv_key, r);
 }
 
-#define curve25519_base_mul(priv_key, r) curve25519_ladder(priv_key, BASE, r)
+#define curve25519_base_mul(priv_key, r) curve25519_ladder(BASE, priv_key, r)
 
 int32_t curve25519_generate_shared_key(const curve25519_key_t *const restrict priv_key, const curve25519_key_t *const restrict pub_key, curve25519_key_t *const restrict shared_key) {
 	return curve25519_ladder(priv_key, pub_key, shared_key);

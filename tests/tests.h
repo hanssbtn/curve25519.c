@@ -36,6 +36,7 @@ int32_t curve25519_key_div_test(void);
 int32_t curve25519_key_inv_test(void);
 int32_t curve25519_key_divmod_test(void);
 int32_t curve25519_cswap_test(void);
+int32_t curve25519_proj_to_affine_test(void);
 int32_t curve25519_ladder_step_test(void);
 int32_t curve25519_ladder_test(void);
 int32_t curve25519_pub_key_init_test(void);

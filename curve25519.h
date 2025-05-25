@@ -19,6 +19,7 @@ static const curve25519_key_t *const BASE = &__BASE;
 static const curve25519_key_t __A24 = {.key64 = {121665}};
 static const curve25519_key_t *const A24 = &__A24;
 
+int32_t curve25519_proj_to_affine(const curve25519_proj_point_t *const p1, curve25519_key_t *const out);
 void curve25519_cswap(curve25519_proj_point_t *const restrict XZ2, curve25519_proj_point_t *const restrict XZ3, bool bit);
 int32_t curve25519_cmp_eq(curve25519_proj_point_t *const restrict XZ2, curve25519_proj_point_t *const restrict XZ3);
 int32_t curve25519_ladder_step(curve25519_proj_point_t *const restrict XZ2, curve25519_proj_point_t *const restrict XZ3, const curve25519_key_t *const restrict X1);
