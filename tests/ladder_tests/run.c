@@ -1,4 +1,3 @@
-#include "../../curve25519.h"
 #include "../tests.h"
 
 int main(void) {

@@ -1,4 +1,4 @@
-#include "curve25519_key.h"
+#include "./include/curve25519_key.h"
 
 const curve25519_key_t __c25519 = {
 	.key64 = {

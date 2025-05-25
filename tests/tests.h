@@ -1,7 +1,8 @@
 #pragma once
 #ifndef CURVE25519_TESTS_H__
 #define CURVE25519_TESTS_H__
-#include "../curve25519_key.h"
+#include "../include/curve25519_key.h"
+#include "../include/curve25519.h"
 
 int32_t curve25519_priv_key_init_test(void);
 int32_t curve25519_key_cmp_low_test(void);
@@ -41,6 +42,5 @@ int32_t curve25519_ladder_step_test(void);
 int32_t curve25519_ladder_test(void);
 int32_t curve25519_pub_key_init_test(void);
 int32_t curve25519_shared_key_gen_test(void);
-int32_t curve25519_share_secret_test(void);
 
 #endif // CURVE25519_TESTS_H__

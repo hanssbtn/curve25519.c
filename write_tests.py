@@ -1091,7 +1091,6 @@ def write_cswap_test():
 	q = random.getrandbits(512)
 	i = 0
 	with open("tests/ladder_tests/cswap_test.c", "w") as f:
-		f.write("#include \"../../curve25519.h\"\n")
 		f.write("#include \"../tests.h\"\n\nint32_t curve25519_cswap_test(void) {\n")
 		f.write('\tprintf("Conditional Key Swap Test\\n");\n')
 		f.write(f"\tbool swap = {swap};\n")
@@ -1305,7 +1304,6 @@ def write_proj_to_affine_test():
 	m_inv = modular_inverse(m, M)
 	r = (m_inv * n) % M
 	with open("tests/ladder_tests/proj_to_affine_test.c", "w") as f:
-		f.write("#include \"../../curve25519.h\"\n")
 		f.write("#include \"../tests.h\"\n\nint32_t curve25519_proj_to_affine_test(void) {\n")
 		f.write('\tprintf("Affine Projection Test\\n");\n')
 		f.write(f'\tcurve25519_key_t n = {{\n\t\t.key64 = {{{format_num(n, 3, 8)}\n\t\t}}\n\t}};\n')
@@ -1372,7 +1370,6 @@ def write_ladder_step_test():
 	X3nstr = format_num(X3n, 3, 4)
 	Z3nstr = format_num(Z3n, 3, 4)
 	with open("tests/ladder_tests/ladder_step_test.c", "w") as f:
-		f.write("#include \"../../curve25519.h\"\n")
 		f.write("#include \"../tests.h\"\n\nint32_t curve25519_ladder_step_test(void) {\n")
 		f.write('\tprintf("Montgomery Ladder Step Test\\n");\n')
 		f.write(f'\tint steps = {steps};\n')
@@ -1462,7 +1459,6 @@ def write_ladder_test():
 	nstr = format_num(n, 4, 4)
 	assert GL == G.x, "Point GL does not result in the same point as G"
 	with open("tests/ladder_tests/ladder_test.c", "w") as f:
-		f.write("#include \"../../curve25519.h\"\n")
 		f.write("#include \"../tests.h\"\n\nint32_t curve25519_ladder_test(void) {\n")
 		f.write('\tprintf("Montgomery Ladder Test\\n");\n')
 		f.write(f'\tcurve25519_key_t n = {{\n\t\t.key64 = {{{nstr}\n\t\t}}\n\t}};\n')
@@ -1529,7 +1525,6 @@ def write_pub_key_init_test():
 	GL = ladder(base, n)
 	assert GL == G.x, "Point GL does not result in the same point as G"
 	with open("tests/main_tests/pub_key_init_test.c", "w") as f:
-		f.write("#include \"../../curve25519.h\"\n")
 		f.write("#include \"../tests.h\"\n\nint32_t curve25519_pub_key_init_test(void) {\n")
 		f.write('\tprintf("Public Key Generation Test\\n");\n')
 		f.write(f'\tcurve25519_key_t n = {{\n\t\t.key64 = {{{format_num(n, 3, 4)}\n\t\t}}\n\t}};\n')
@@ -1611,7 +1606,6 @@ def write_generate_shared_key_test():
 	sharedn = ladder(Gm, n)
 	assert sharedm == sharedn
 	with open("tests/main_tests/shared_key_gen_test.c", "w") as f:
-		f.write("#include \"../../curve25519.h\"\n")
 		f.write("#include \"../tests.h\"\n\nint32_t curve25519_shared_key_gen_test(void) {\n")
 		f.write('\tprintf("Public Key Generation Test\\n");\n')
 		f.write(f'\tcurve25519_key_t priv_key1 = {{\n\t\t.key64 = {{{format_num(n, 3, 4)}\n\t\t}}\n\t}};\n')

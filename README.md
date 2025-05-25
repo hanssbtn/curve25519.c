@@ -1,0 +1,2 @@
+# curve25519.c
+This is an implementation of Curve25519 algorithm implemented using C99 compiled with GCC 15.1.0 on Windows 10 x86-64. This library is meant as a personal exercise to learn how cryptographic algorithms work. This library is meant only for personal use, and is not designed for a professional setting.

@@ -1,4 +1,3 @@
-#include "../../curve25519.h"
 #include "../tests.h"
 
 int main(void) {
@@ -11,10 +10,6 @@ int main(void) {
 		fprintf(stderr, "Failed shared key generation test\n");
 		return -1;
 	}
-	// if (curve25519_share_secret_test()) {
-	// 	fprintf(stderr, "Failed secret sharing test\n");
-	// 	return -1;
-	// }
 	printf("DONE\n");
 	return 0;
 }

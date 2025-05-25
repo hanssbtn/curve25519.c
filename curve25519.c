@@ -1,4 +1,4 @@
-#include "curve25519.h" // Assuming this header includes curve25519_key_t and your other functions
+#include "./include/curve25519.h" // Assuming this header includes curve25519_key_t and your other functions
 
 int32_t curve25519_proj_to_affine(const curve25519_proj_point_t *const p1, curve25519_key_t *const out) {
 	return curve25519_key_divmod(&p1->X, &p1->Z, out);
