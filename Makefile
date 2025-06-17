@@ -1,24 +1,15 @@
-# Explicitly set the shell for make to use (important for MSYS/MinGW environments)
-# This helps ensure GNU utilities like 'find' are used instead of Windows built-ins.
-SHELL = sh
-
-# Define the C compiler
 CC = gcc
 
-# Define compiler flags
 CFLAGS = -Wall -Wextra -mavx512f -mavx512dq -mavx512vl -I -fPIC.
 
 LIBDIR = lib
 
-# Define linker flags
 LDFLAGS = -lbcrypt
 
-# Define the directory for object files
 OBJDIR = objs
 
 VPATH = . tests
 
-# Common source files (assumed to be in the root directory)
 COMMON_SRCS = curve25519_key.c curve25519.c
 COMMON_OBJS = $(addprefix $(OBJDIR)/, $(notdir $(COMMON_SRCS:.c=.o)))
 
@@ -31,12 +22,9 @@ endif
 STATIC_LIB = $(addprefix $(LIBDIR)/, $(STATIC_LIB_NAME))
 SHARED_LIB = $(addprefix $(LIBDIR)/, $(SHARED_LIB_NAME))
 
-# Find all run.c files in test subdirectories to determine executable groups
 TEST_RUN_FILES = $(wildcard tests/*/run.c)
-# Extract the pure directory names (e.g., add_test, init_test) to be used as executable names
 TEST_EXEC_NAMES = $(patsubst tests/%/run.c,%,$(TEST_RUN_FILES))
 
-# All executables that will be built
 TARGET_EXECS = $(TEST_EXEC_NAMES)
 
 # Initialize ALL_TEST_SPECIFIC_OBJS to ensure it's empty before appending
@@ -50,30 +38,14 @@ ALL_TEST_SPECIFIC_OBJS =
 # $(info TARGET_EXECS is: $(TARGET_EXECS))
 # -------------------
 
-# --- Target and rules for building libraries ---
 libraries: $(LIBDIR) $(STATIC_LIB) $(SHARED_LIB)
 
-# Default target: builds all test executables
-# Default target: builds all test executables
 all: main_process $(OBJDIR) $(TARGET_EXECS) $(STATIC_LIB) $(SHARED_LIB)
 
-# Define the *expected* test files. This list should be exhaustive,
-# regardless of whether they exist yet.
-# You might need to define this list manually, or generate it
-# based on a known structure.
-# Example: If you expect 'tests/module1/test1.c' and 'tests/module2/test2.c'
 EXPECTED_TEST_FILES := \
     tests/add_tests/add_test.c \
     tests/add_tests/add_modulo_test.c \
     tests/add_tests/add_modulo_inplace_test.c 
-# Add all your actual test files here
-
-# (Optional, for example) Let's assume you have an environment variable
-# or a specific configuration for where your 'tests' directory is.
-# If tests are always relative to the Makefile, you don't strictly need TARGET_DIR for this check.
-# TARGET_DIR := tests
-
-# $(info EXPECTED_TEST_FILES is: $(EXPECTED_TEST_FILES))
 
 main_process: | check
 	@echo "Starting main process..."
