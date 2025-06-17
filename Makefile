@@ -25,9 +25,6 @@ COMMON_OBJS = $(addprefix $(OBJDIR)/, $(notdir $(COMMON_SRCS:.c=.o)))
 STATIC_LIB_NAME = libcurve25519.a
 ifeq ($(OS),Windows_NT)
     SHARED_LIB_NAME = libcurve25519.dll
-    # For linking, Windows uses .dll, Linux uses .so. Adjust as needed.
-    # The -l:libname.dll syntax is common for MinGW.
-    # For runtime, you still need to ensure .dlls are in PATH or same dir.
 else
     SHARED_LIB_NAME = libcurve25519.so
 endif
